@@ -1,0 +1,51 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+a:link {
+    color: #0000ff;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #0000ff;
+    text-decoration: none;
+}
+
+a:hover, a:active, a:focus {
+    color: #999999;
+    text-decoration: none;
+}
+
+.left_menu {
+    -moz-user-select: none; /*火狐*/
+    -webkit-user-select: none; /*webkit浏览器*/
+    -ms-user-select: none; /*IE10*/
+    -khtml-user-select: none; /*早期浏览器*/
+    user-select: none;
+    width: 200px;
+    height: auto;
+    background-color: #008800;
+}
+
+.left_menu_item {
+    border: 1px;
+    border-style: solid;
+    border-color: #232323;
+    background-color: #4288ce;
+    width: 200px;
+    height: 30px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.left_menu_item:hover, .left_menu_item:active, .left_menu_item:focus {
+    background-color: #ff80ff;
+}
+
+.ui_screen {
+    width: 1280px;
+    height: 720px;
+    background: #000000;
+}
