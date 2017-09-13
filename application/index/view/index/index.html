@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <title>测试页</title>
     <link rel="stylesheet" type="text/css" href="./static/css/ui.css">
+    <script type="text/javascript" src="./static/js/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="./static/js/uiscreen.js"></script>
 </head>
 <body>
-<div class="left_menu">
-    <div class="left_menu_item"><a href="#">配置界面</a></div>
-    <div class="left_menu_item"><a href="#">配置界面</a></div>
+<div id="menu" class="left_menu">
+    <div  class="left_menu_item"><a href="javascript:loadJSON();">加载JSON</a></div>
+    <div class="left_menu_item"><a href="javascript:showJSON();">加载JSON</a></div>
+    <div id="content">JSON内容</div>
 </div>
-<div class="ui_root"></div>
 </body>
 </html>
