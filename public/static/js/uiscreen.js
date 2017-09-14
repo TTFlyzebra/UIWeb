@@ -9,6 +9,13 @@ function loadJSON() {
     });
 }
 
+var i = 0;
+
 function showJSON() {
-    document.getElementById("content").innerHTML = "result";
+    document.getElementById("content" + i).innerHTML = "<div id=" + "'newItem" + (i+1) + "'" + " class=\"left_menu_item\"><a href=\"javascript:showJSON();\">加载JSON</a></div>\n" +
+        "    <div id=\"content" + (i+1) + "\"" + ">JSON内容</div>";
+    document.getElementById("newItem" + (i+1)).addEventListener('click', function () {
+        i++;
+        showJSON();
+    }, false);
 }
