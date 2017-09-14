@@ -45,7 +45,34 @@ a:hover, a:active, a:focus {
 }
 
 .ui_screen {
+    position: relative;
     width: 1280px;
     height: 720px;
+    overflow: scroll;
     background: #000000;
+}
+
+.ui_cell{
+    position: absolute;
+    left: 100px;
+    top:100px;
+    width: 100px;
+    height:100px;
+    background: #660066;
+}
+
+.ui_cell1{
+    position: absolute;
+    left: 150px;
+    top:100px;
+    width: 100px;
+    height:100px;
+    background: #ff80ff;
+}
+
+.ui_cell_text{
+    position: relative;
+    left: 0px;
+    top:80px;
+    color: #00FF00;
 }
