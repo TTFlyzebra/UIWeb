@@ -44,33 +44,44 @@ a:hover, a:active, a:focus {
     background-color: #ff80ff;
 }
 
-.ui_screen {
+.flyscreen {
     position: relative;
+    float: left;
     width: 1280px;
     height: 720px;
     overflow: scroll;
-    background: #000000;
+    background: #f0ffff;
 }
 
-.ui_cell{
+.flycell{
     position: absolute;
     left: 100px;
     top:100px;
     width: 100px;
     height:100px;
-    background: #660066;
+    background: #f8f8f8;
 }
 
-.ui_cell1{
+.flycelllist{
+    position: relative;
+    float: left;
+    width: 600px;
+    height: 720px;
+    overflow: auto;
+    background: #f0ffff;
+}
+
+
+.basecell{
     position: absolute;
-    left: 150px;
+    left: 100px;
     top:100px;
     width: 100px;
     height:100px;
-    background: #ff80ff;
+    background: #f0f8f8;
 }
 
-.ui_cell_text{
+.flycell_text{
     position: relative;
     left: 0px;
     top:80px;
