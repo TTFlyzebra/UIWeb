@@ -222,8 +222,8 @@ EOF;
                 $message = 'File at "%s" could not be parsed as PHP, it may be binary or corrupted';
             }
             $error = error_get_last();
-            if (isset($error['message'])) {
-                $message .= PHP_EOL . 'The following message may be helpful:' . PHP_EOL . $error['message'];
+            if (isset($error['screenmsg'])) {
+                $message .= PHP_EOL . 'The following screenmsg may be helpful:' . PHP_EOL . $error['screenmsg'];
             }
             throw new \RuntimeException(sprintf($message, $path));
         }

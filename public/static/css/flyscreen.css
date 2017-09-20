@@ -53,37 +53,40 @@ a:hover, a:active, a:focus {
     background: #f0ffff;
 }
 
-.flycell{
+.flyscreenmsg {
+    float: right;
+}
+
+.flyscreencell {
     position: absolute;
     left: 100px;
-    top:100px;
+    top: 100px;
     width: 100px;
-    height:100px;
+    height: 200px;
     background: #f8f8f8;
 }
 
-.flycelllist{
+.flybasecells {
     position: relative;
     float: left;
     width: 600px;
     height: 720px;
-    overflow: auto;
+    overflow: scroll;
     background: #f0ffff;
 }
 
-
-.basecell{
+.flybasecell {
     position: absolute;
     left: 100px;
-    top:100px;
+    top: 100px;
     width: 100px;
-    height:100px;
+    height: 100px;
     background: #f0f8f8;
 }
 
-.flycell_text{
+.flycelltext {
     position: relative;
     left: 0px;
-    top:80px;
+    top: 80px;
     color: #00FF00;
 }

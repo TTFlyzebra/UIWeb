@@ -73,7 +73,7 @@ abstract class Pipes
     {
         $lastError = error_get_last();
 
-        return isset($lastError['message']) && false !== stripos($lastError['message'], 'interrupted system call');
+        return isset($lastError['screenmsg']) && false !== stripos($lastError['screenmsg'], 'interrupted system call');
     }
 
     protected function unblock()

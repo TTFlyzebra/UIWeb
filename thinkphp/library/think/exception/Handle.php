@@ -40,16 +40,16 @@ class Handle
                 $data = [
                     'file'    => $exception->getFile(),
                     'line'    => $exception->getLine(),
-                    'message' => $this->getMessage($exception),
+                    'screenmsg' => $this->getMessage($exception),
                     'code'    => $this->getCode($exception),
                 ];
-                $log = "[{$data['code']}]{$data['message']}[{$data['file']}:{$data['line']}]";
+                $log = "[{$data['code']}]{$data['screenmsg']}[{$data['file']}:{$data['line']}]";
             } else {
                 $data = [
                     'code'    => $this->getCode($exception),
-                    'message' => $this->getMessage($exception),
+                    'screenmsg' => $this->getMessage($exception),
                 ];
-                $log = "[{$data['code']}]{$data['message']}";
+                $log = "[{$data['code']}]{$data['screenmsg']}";
             }
 
             Log::record($log, 'error');
@@ -121,7 +121,7 @@ class Handle
                 'name'    => get_class($exception),
                 'file'    => $exception->getFile(),
                 'line'    => $exception->getLine(),
-                'message' => $this->getMessage($exception),
+                'screenmsg' => $this->getMessage($exception),
                 'trace'   => $exception->getTrace(),
                 'code'    => $this->getCode($exception),
                 'source'  => $this->getSourceCode($exception),
@@ -141,12 +141,12 @@ class Handle
             // 部署模式仅显示 Code 和 Message
             $data = [
                 'code'    => $this->getCode($exception),
-                'message' => $this->getMessage($exception),
+                'screenmsg' => $this->getMessage($exception),
             ];
 
             if (!Config::get('show_error_msg')) {
                 // 不显示详细错误信息
-                $data['message'] = Config::get('error_message');
+                $data['screenmsg'] = Config::get('error_message');
             }
         }
 
