@@ -1,3 +1,18 @@
+//记录选定的要改变位置的ll对象
+var selectCell = null;
+//记录拖动中的要添加的对象
+var moveCell = null;
+//布局屏幕
+var screen = document.getElementsByClassName("flyscreen")[0];
+//
+var basecells = document.getElementsByClassName("flybasecells")[0];
+//消息显示框
+var screenmsg = document.getElementsByClassName("flyscreenmsg")[0];
+//枚举所有布局屏幕中的子对象并添加相应处理事件
+var fcells = screen.getElementsByClassName("flyscreencell");
+//枚举所有添加的类型对象并添加相应处理事件
+var bcells = basecells.getElementsByClassName("flybasecell");
+
 /**
  * 将以"px"字符串结尾的字符串转换成int整数
  * @param _px 以"px"结尾的字符串
@@ -18,27 +33,24 @@ function pastePX(_px) {
     return _px + "px";
 }
 
-//记录选定的要改变位置的ll对象
-var selectCell = null;
-//记录拖动中的要添加的对象
-var moveCell = null;
-//布局屏幕
-var screen = document.getElementsByClassName("flyscreen")[0];
-//
-var basecells = document.getElementsByClassName("flybasecells")[0];
-//消息显示框
-var screenmsg = document.getElementsByClassName("flyscreenmsg")[0];
+screen.addEventListener("mousemove", function (event) {
+    if (selectCell !== null) {
+        var x = event.clientX - selectCell.offsetWidth / 2;
+        var y = event.clientY - selectCell.offsetHeight / 2;
+        selectCell.style.left = pastePX(x);
+        selectCell.style.top = pastePX(y);
+        if (screenmsg !== null) {
+            screenmsg.innerHTML = x + " " + y;
+        }
+    }
+}, false);
 
-//枚举所有布局屏幕中的子对象并添加相应处理事件
-var fcells = screen.getElementsByClassName("flyscreencell");
 for (i = 0; i < fcells.length; i++) {
     fcells[i].addEventListener("mousedown", function (event) {
         selectCell = this;
     }, false);
 }
 
-//枚举所有添加的类型对象并添加相应处理事件
-var bcells = basecells.getElementsByClassName("flybasecell");
 for (i = 0; i < bcells.length; i++) {
     bcells[i].addEventListener("mousedown", function (event) {
         moveCell = this.cloneNode(true);
@@ -80,14 +92,8 @@ document.body.addEventListener("mousemove", function (event) {
     }
 }, false);
 
-screen.addEventListener("mousemove", function (event) {
-    if (selectCell !== null) {
-        var x = event.clientX - selectCell.offsetWidth / 2;
-        var y = event.clientY - selectCell.offsetHeight / 2;
-        selectCell.style.left = pastePX(x);
-        selectCell.style.top = pastePX(y);
-        if (screenmsg !== null) {
-            screenmsg.innerHTML = x + " " + y;
-        }
-    }
+document.body.addEventListener("dblclick", function (event) {
+    var cell = document.body.getElementsByClassName("flybasecell")[0];
+    var img = cell.getElementsByTagName("img")[0];
+    alert(window.location.host+img.attributes["src"].nodeValue);
 }, false);
