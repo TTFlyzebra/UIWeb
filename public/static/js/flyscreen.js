@@ -103,22 +103,23 @@ document.body.addEventListener("mousemove", function (event) {
     }
 }, false);
 
-document.body.addEventListener("dblclick", function (event) {
-    var cell = document.body.getElementsByClassName("flybasecell")[0];
-    var img = cell.getElementsByTagName("img")[0];
-    alert(window.location.host + img.attributes["src"].nodeValue);
-}, false);
+/**
+ * 禁用浏览器默认的开始拖动效果
+ * @returns {boolean}
+ */
+function ondragstart() {
+    return false;
+}
 
 function createCellDiv(cell) {
     var div = document.createElement("img");
     div.style.position= "absolute";
-    div.style.background = "#007F00";
     div.style.left = pastePX(cell.x*1280/1920);
-    div.style.top = pastePX(cell.y*1280/1920);
+    div.style.top = pastePX(cell.y*1280/1920-cell.imageMarginTop);
     div.style.width = pastePX(cell.width*1280/1920);
-    div.style.height = pastePX(cell.height*1280/1920);
+    div.style.height = pastePX(cell.height*1280/1920+cell.imageMarginTop);
     div.src = cell.imgUrl;
-    div.ondragstart="return false;";
+    div.ondragstart = ondragstart;
     div.addEventListener("mousedown", function (event) {
         selectCell = this;
     }, false);
