@@ -4,14 +4,19 @@ var selectCell = null;
 var moveCell = null;
 //布局屏幕
 var screen = document.getElementsByClassName("flyscreen")[0];
-//
+//定义Item列表
 var basecells = document.getElementsByClassName("flybasecells")[0];
 //消息显示框
 var screenmsg = document.getElementsByClassName("flyscreenmsg")[0];
 //枚举所有布局屏幕中的子对象并添加相应处理事件
-var fcells = screen.getElementsByClassName("flyscreencell");
+if (screen !== null&&screen!==undefined) {
+    var fcells = screen.getElementsByClassName("flyscreencell");
+}
+
 //枚举所有添加的类型对象并添加相应处理事件
-var bcells = basecells.getElementsByClassName("flybasecell");
+if (basecells !== null&&basecells!==undefined) {
+    var bcells = basecells.getElementsByClassName("flybasecell");
+}
 
 /**
  * 将以"px"字符串结尾的字符串转换成int整数
@@ -33,28 +38,34 @@ function pastePX(_px) {
     return _px + "px";
 }
 
-screen.addEventListener("mousemove", function (event) {
-    if (selectCell !== null) {
-        var x = event.clientX - selectCell.offsetWidth / 2;
-        var y = event.clientY - selectCell.offsetHeight / 2;
-        selectCell.style.left = pastePX(x);
-        selectCell.style.top = pastePX(y);
-        if (screenmsg !== null) {
-            screenmsg.innerHTML = x + " " + y;
+if (screen !== null&&screen!==undefined) {
+    screen.addEventListener("mousemove", function (event) {
+        if (selectCell !== null) {
+            var x = event.clientX - selectCell.offsetWidth / 2;
+            var y = event.clientY - selectCell.offsetHeight / 2;
+            selectCell.style.left = pastePX(x);
+            selectCell.style.top = pastePX(y);
+            if (screenmsg !== null) {
+                screenmsg.innerHTML = x + " " + y;
+            }
         }
-    }
-}, false);
-
-for (i = 0; i < fcells.length; i++) {
-    fcells[i].addEventListener("mousedown", function (event) {
-        selectCell = this;
     }, false);
 }
 
-for (i = 0; i < bcells.length; i++) {
-    bcells[i].addEventListener("mousedown", function (event) {
-        moveCell = this.cloneNode(true);
-    }, false);
+if (fcells !== null&&fcells!==undefined) {
+    for (i = 0; i < fcells.length; i++) {
+        fcells[i].addEventListener("mousedown", function (event) {
+            selectCell = this;
+        }, false);
+    }
+}
+
+if (bcells !== null&&bcells!==undefined) {
+    for (i = 0; i < bcells.length; i++) {
+        bcells[i].addEventListener("mousedown", function (event) {
+            moveCell = this.cloneNode(true);
+        }, false);
+    }
 }
 
 document.body.addEventListener("mouseup", function (event) {
@@ -95,5 +106,34 @@ document.body.addEventListener("mousemove", function (event) {
 document.body.addEventListener("dblclick", function (event) {
     var cell = document.body.getElementsByClassName("flybasecell")[0];
     var img = cell.getElementsByTagName("img")[0];
-    alert(window.location.host+img.attributes["src"].nodeValue);
+    alert(window.location.host + img.attributes["src"].nodeValue);
 }, false);
+
+function createCellDiv(cell) {
+    var div = document.createElement("img");
+    div.style.position= "absolute";
+    div.style.background = "#007F00";
+    div.style.left = pastePX(cell.x*1280/1920);
+    div.style.top = pastePX(cell.y*1280/1920);
+    div.style.width = pastePX(cell.width*1280/1920);
+    div.style.height = pastePX(cell.height*1280/1920);
+    div.src = cell.imgUrl;
+    div.ondragstart="return false;";
+    div.addEventListener("mousedown", function (event) {
+        selectCell = this;
+    }, false);
+    return div;
+}
+
+$.ajax({
+    url: "/MyWeb/UI/index.php/api/test",
+    type: "get",
+    data: "",
+    dataType: 'html',
+    success: function (result) {
+        var data = JSON.parse(result);
+        for(i=0;i<data.cellList.length;i++){
+            screen.appendChild(createCellDiv(data.cellList[i]));
+        }
+    }
+});

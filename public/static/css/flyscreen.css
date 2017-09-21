@@ -49,8 +49,8 @@ a:hover, a:active, a:focus {
     float: left;
     width: 1280px;
     height: 720px;
-    overflow: scroll;
-    background: #f0ffff;
+    overflow: auto;
+    background: #000000;
 }
 
 .flyscreenmsg {
@@ -62,8 +62,8 @@ a:hover, a:active, a:focus {
     left: 100px;
     top: 100px;
     width: 100px;
-    height: 200px;
-    background: #f8f8f8;
+    height: 100px;
+    background: #ff0000;
 }
 
 .flybasecells {
