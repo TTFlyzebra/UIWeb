@@ -12,8 +12,11 @@ class Celltype extends Controller
         $data = $_POST;
         $data['ip'] = request()->ip();
         $data['userid'] = (int)$_POST['userid'];
-        dump($_POST);
-        dump($data);
         Db::name("celltype")->insert($data);
+    }
+
+    public function show(){
+        $celltypes = Db::name("celltype")->select();
+        echo json_encode($celltypes);
     }
 }
