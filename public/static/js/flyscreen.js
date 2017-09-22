@@ -115,9 +115,9 @@ function createCellDiv(cell) {
     var div = document.createElement("img");
     div.style.position= "absolute";
     div.style.left = pastePX(cell.x*1280/1920);
-    div.style.top = pastePX(cell.y*1280/1920-cell.imageMarginTop);
+    div.style.top = pastePX(cell.y*1280/1920);
     div.style.width = pastePX(cell.width*1280/1920);
-    div.style.height = pastePX(cell.height*1280/1920+cell.imageMarginTop);
+    div.style.height = pastePX(cell.height*1280/1920);
     div.src = cell.imgUrl;
     div.ondragstart = ondragstart;
     div.addEventListener("mousedown", function (event) {
