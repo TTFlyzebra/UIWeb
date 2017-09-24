@@ -1,7 +1,12 @@
 <?php
 namespace app\admin\controller;
 
-class Test
-{
+use think\Controller;
 
+class Test extends Controller
+{
+    public function index()
+    {
+        return $this->fetch();
+    }
 }
