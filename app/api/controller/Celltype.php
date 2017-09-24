@@ -20,11 +20,6 @@ class Celltype extends Controller
             $sumitem = $db->count();
             $cell['celltype'] = $sumitem+1;
             $result = $db->insert($cell);
-            if($result>0){
-                $this->success("success");
-            }else{
-                $this->error("error");
-            }
         } elseif ($request->isGet()) {
             $db = Db::name("celltype");
             $resultdata['total'] = $db->count();
