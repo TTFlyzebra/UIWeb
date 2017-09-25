@@ -108,7 +108,6 @@ input[type=file].file-loading, .file-loading input[type=file] {
     border: 1px solid #ebccd1;
     border-radius: 4px;
     padding: 15px;
-    display: none;
 }
 
 .file-error-message pre, .file-error-message ul {
