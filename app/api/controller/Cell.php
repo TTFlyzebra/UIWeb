@@ -3,6 +3,7 @@
 namespace app\api\controller;
 
 use think\Controller;
+use think\Db;
 use think\Request;
 
 class Cell extends Controller
@@ -11,15 +12,16 @@ class Cell extends Controller
     {
         $request = Request::instance();
         if ($request->isPost()) {
+            dump($_POST);
             $cell = $_POST;
             $cell['ip'] = request()->ip();
-            $cell['userid'] = (int)$_POST['userid'];
-            $db =  Db::name("celltype");
-            $sumitem = $db->count();
-            $cell['celltype'] = $sumitem+1;
+            if($request->has('userid','post')){
+                $cell['userid'] = (int)$_POST['userid'];
+            }
+            $db =  Db::name("cell");
             $result = $db->insert($cell);
         } elseif ($request->isGet()) {
-            $db = Db::name("celltype");
+            $db = Db::name("cell");
             $resultdata['total'] = $db->count();
             $db->order('celltype desc');
             if($request->has('limit','get')&&$request->has('offset','get')){

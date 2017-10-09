@@ -1,12 +1,8 @@
 //POST提交数据
 function postform() {
-    if ($('#celltypename').val() === "") {
-        $('#celltypename').focus();
-        return
-    }
     $.ajax({
         type: "post",
-        url: celltypeurl,
+        url: cellurl,
         data: $('#celltypeform').serialize(),
         error: function (request) {
             alert("向服务器提交数据失败了!\n" +
@@ -40,7 +36,7 @@ var TableInit = function () {
     //初始化Table
     oTableInit.Init = function () {
         $('#celltypetable').bootstrapTable({
-            url: celltypeurl,     //请求后台的URL（*）
+            url: cellurl,     //请求后台的URL（*）
             method: 'get',                      //请求方式（*）
             dataType: 'json',
             toolbar: '#toolbar',                //工具按钮用哪个容器
