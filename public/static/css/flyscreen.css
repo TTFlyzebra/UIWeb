@@ -55,6 +55,7 @@ a:hover, a:active, a:focus {
 
 .flyscreenmsg {
     float: right;
+    color: white;
 }
 
 .flyscreencell {

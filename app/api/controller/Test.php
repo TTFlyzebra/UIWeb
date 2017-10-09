@@ -7,7 +7,7 @@ class Test
     public function index()
     {
         $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, 'http://192.168.1.88/MyWeb/fly/API/cell?tabId=10');
+        curl_setopt($curl, CURLOPT_URL, 'http://192.168.1.43:9020/api/ui-operation/api/v/launcher_cell.json?tabId=165&token=');
         curl_setopt($curl, CURLOPT_HEADER, FALSE);    //表示需要response header
         curl_setopt($curl, CURLOPT_NOBODY, FALSE); //表
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);

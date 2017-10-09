@@ -12,7 +12,6 @@ class Celltype extends Controller
     {
         $request = Request::instance();
         if ($request->isPost()) {
-            dump($_POST);
             $cell = $_POST;
             $cell['ip'] = request()->ip();
             $cell['userid'] = (int)$_POST['userid'];
