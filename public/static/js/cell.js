@@ -62,40 +62,38 @@ var TableInit = function () {
             minimumCountColumns: 2,             //最少允许的列数
             clickToSelect: true,                //是否启用点击选中行
 //                height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
-            uniqueId: "celltypename",             //每一行的唯一标识，一般为主键列
+            uniqueId: "cellId",             //每一行的唯一标识，一般为主键列
             showToggle: false,                   //是否显示详细视图和列表视图的切换按钮
             cardView: false,                    //是否显示详细视图
             detailView: false,                  //是否显示父子表
             columns: [{
                 checkbox: true
             }, {
-                field: 'celltype',
-                title: '类型标识'
+                field: 'type',
+                title: '类型'
             }, {
-                field: 'celltypename',
-                title: '类型名称'
+                field: '',
+                title: '名称'
             }, {
-                field: 'imgurl',
-                title: '设计原图',
+                field: 'width',
+                title: '宽度'
+            }, {
+                field: 'height',
+                title: '高度'
+            }, {
+                field: 'imageurl1',
+                title: '图片一',
                 align: 'center',
                 formatter: function (value, row, index) {
                     return '<img  width="auto" height="56px" src="' + value + '">';
                 }
             }, {
-                field: 'extend1name',
-                title: '新增字段1'
-            }, {
-                field: 'extend2name',
-                title: '新增字段2'
-            }, {
-                field: 'extend3name',
-                title: '新增字段3'
-            }, {
-                field: 'extend4name',
-                title: '新增字段4'
-            }, {
-                field: 'edittime',
-                title: '修改时间'
+                field: 'imageurl2',
+                title: '图片二',
+                align: 'center',
+                formatter: function (value, row, index) {
+                    return '<img  width="auto" height="56px" src="' + value + '">';
+                }
             }]
         });
     };
@@ -137,7 +135,7 @@ $("#upfileimg1").fileinput({
     })
     //异步上传返回结果处理
     .on("fileuploaded", function (event, data, previewId, index) {
-        $('#imgurl').val(data.response.savaName);
+        $('#imageurl1').val(data.response.savaName);
     })
     .on('fileloaded', function (event, file, previewId, index, reader) {
         // alert("fileloaded");
@@ -183,7 +181,7 @@ $("#upfileimg2").fileinput({
     })
     //异步上传返回结果处理
     .on("fileuploaded", function (event, data, previewId, index) {
-        $('#imgurl').val(data.response.savaName);
+        $('#imageurl2').val(data.response.savaName);
     })
     .on('fileloaded', function (event, file, previewId, index, reader) {
         // alert("fileloaded");
