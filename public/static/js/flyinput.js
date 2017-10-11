@@ -9,7 +9,7 @@ $.fn.flyinput = function (option) {
      */
     if (option.showimage === true) {
         this.css("display", "none");
-        this.after('<img  width=' + option.imagew + ' height=' + option.imageh + ' onclick="F_Open_dialog()" src="/MyWeb/UI/public/uploads/2d/aabc960f1fca0996937cc634c0e0d4.png">');
+        this.after('<img  id="simg" width=' + option.imagew + ' height=' + option.imageh + ' onclick="F_Open_dialog()" src="/MyWeb/UI/public/uploads/2d/aabc960f1fca0996937cc634c0e0d4.png">');
     }
     /**
      * 自动上传
@@ -32,7 +32,9 @@ $.fn.flyinput = function (option) {
                  */
                 processData: false,
                 success: function (data) {
-                    alert(JSON.stringify(data));
+                    var result = JSON.parse(data);
+                    alert(result.saveName);
+                    $('#simg').attr('src',result.saveName);
                 },
                 error: function () {
                     alert("上传失败！");

@@ -14,7 +14,7 @@ class Imagefile
             //	成功上传后	获取上传信息
             $imgurl = DS . 'public' . DS . 'uploads' . DS . $info->getSaveName();
             $size = getimagesize("." . $imgurl);
-            $result['savaName'] = url($imgurl);
+            $result['saveName'] = url($imgurl);
             $result['width'] = $size[0];
             $result['height'] = $size[1];
             echo json_encode($result);
