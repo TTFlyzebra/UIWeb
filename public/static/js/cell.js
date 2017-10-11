@@ -69,10 +69,13 @@ var TableInit = function () {
             columns: [{
                 checkbox: true
             }, {
-                field: 'type',
+                field: 'cellId',
+                title: 'ID'
+            }, {
+                field: 'celltypeId',
                 title: '类型'
             }, {
-                field: '',
+                field: 'name',
                 title: '名称'
             }, {
                 field: 'width',
@@ -85,14 +88,14 @@ var TableInit = function () {
                 title: '图片一',
                 align: 'center',
                 formatter: function (value, row, index) {
-                    return '<img  width="auto" height="56px" src="' + value + '">';
+                    return '<img  width="auto" height="32px" src="' + value + '">';
                 }
             }, {
                 field: 'imageurl2',
                 title: '图片二',
                 align: 'center',
                 formatter: function (value, row, index) {
-                    return '<img  width="auto" height="56px" src="' + value + '">';
+                    return '<img  width="auto" height="32px" src="' + value + '">';
                 }
             }]
         });
@@ -136,6 +139,8 @@ $("#upfileimg1").fileinput({
     //异步上传返回结果处理
     .on("fileuploaded", function (event, data, previewId, index) {
         $('#imageurl1').val(data.response.savaName);
+        $('#width').val(data.response.width);
+        $('#height').val(data.response.height);
     })
     .on('fileloaded', function (event, file, previewId, index, reader) {
         // alert("fileloaded");

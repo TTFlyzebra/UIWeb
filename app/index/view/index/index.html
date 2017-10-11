@@ -5,11 +5,18 @@
     <title>测试页</title>
     <link rel="stylesheet" type="text/css" href="_CSS_/flyscreen.css">
     <script type="text/javascript" src="_JS_/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="_JS_/flyinput.js"></script>
 </head>
 <body>
-<div class="flyscreen">
-    <div class="flyscreenmsg"></div>
-</div>
-<script type="text/javascript" src="_JS_/flyscreen.js"></script>
+<input type="file" id="flyinput" name="upfileimg">
+<script type="text/javascript">
+    $('#flyinput').flyinput({
+        url:"{:url('/api/imagefile')}",
+        autoup:true,
+        showimage:true,
+        imagew:"100px",
+        imageh:"100px"
+    });
+</script>
 </body>
 </html>
