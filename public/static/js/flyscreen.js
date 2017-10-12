@@ -5,16 +5,16 @@ var moveCell = null;
 //布局屏幕
 var screen = document.getElementsByClassName("flyscreen")[0];
 //定义Item列表
-var basecells = document.getElementsByClassName("flybasecells")[0];
+var basecells = document.getElementsByClassName("flycelllist")[0];
 //消息显示框
 var screenmsg = document.getElementsByClassName("flyscreenmsg")[0];
 //枚举所有布局屏幕中的子对象并添加相应处理事件
-if (screen !== null&&screen!==undefined) {
+if (screen !== null && screen !== undefined) {
     var fcells = screen.getElementsByClassName("flyscreencell");
 }
 
 //枚举所有添加的类型对象并添加相应处理事件
-if (basecells !== null&&basecells!==undefined) {
+if (basecells !== null && basecells !== undefined) {
     var bcells = basecells.getElementsByClassName("flybasecell");
 }
 
@@ -38,7 +38,7 @@ function pastePX(_px) {
     return _px + "px";
 }
 
-if (screen !== null&&screen!==undefined) {
+if (screen !== null && screen !== undefined) {
     screen.addEventListener("mousemove", function (event) {
         if (selectCell !== null) {
             var x = event.clientX - selectCell.offsetWidth / 2;
@@ -52,7 +52,7 @@ if (screen !== null&&screen!==undefined) {
     }, false);
 }
 
-if (fcells !== null&&fcells!==undefined) {
+if (fcells !== null && fcells !== undefined) {
     for (i = 0; i < fcells.length; i++) {
         fcells[i].addEventListener("mousedown", function (event) {
             selectCell = this;
@@ -60,7 +60,7 @@ if (fcells !== null&&fcells!==undefined) {
     }
 }
 
-if (bcells !== null&&bcells!==undefined) {
+if (bcells !== null && bcells !== undefined) {
     for (i = 0; i < bcells.length; i++) {
         bcells[i].addEventListener("mousedown", function (event) {
             moveCell = this.cloneNode(true);
@@ -113,11 +113,11 @@ function ondragstart() {
 
 function createCellDiv(cell) {
     var div = document.createElement("img");
-    div.style.position= "absolute";
-    div.style.left = pastePX(cell.x*1280/1920);
-    div.style.top = pastePX(cell.y*1280/1920);
-    div.style.width = pastePX(cell.width*1280/1920);
-    div.style.height = pastePX(cell.height*1280/1920);
+    div.style.position = "absolute";
+    div.style.left = pastePX(cell.x * 1280 / 1920);
+    div.style.top = pastePX(cell.y * 1280 / 1920);
+    div.style.width = pastePX(cell.width * 1280 / 1920);
+    div.style.height = pastePX(cell.height * 1280 / 1920);
     div.src = cell.imgUrl;
     div.ondragstart = ondragstart;
     div.addEventListener("mousedown", function (event) {
@@ -126,15 +126,15 @@ function createCellDiv(cell) {
     return div;
 }
 
-$.ajax({
-    url: "/MyWeb/UI/index.php/api/test",
-    type: "get",
-    data: "",
-    dataType: 'html',
-    success: function (result) {
-        var data = JSON.parse(result);
-        for(i=0;i<data.cellList.length;i++){
-            screen.appendChild(createCellDiv(data.cellList[i]));
-        }
-    }
-});
+// $.ajax({
+//     url: "/MyWeb/UI/api/test",
+//     type: "get",
+//     data: "",
+//     dataType: 'html',
+//     success: function (result) {
+//         var data = JSON.parse(result);
+//         for (i = 0; i < data.cellList.length; i++) {
+//             screen.appendChild(createCellDiv(data.cellList[i]));
+//         }
+//     }
+// });
