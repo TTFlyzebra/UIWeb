@@ -16,6 +16,14 @@ function postform() {
             $('#celltypetable').bootstrapTable('refresh');
             //重置表单
             $('#celltypeform')[0].reset();
+
+            //置空上传图片
+            $('#myModal').find("img").each(function (i) {
+                $(this).attr('src', "");
+            });
+
+            $('#imageurl1').val("");
+            $('#imageurl2').val("");
         }
     });
 }
@@ -104,96 +112,28 @@ var TableInit = function () {
     return oTableInit;
 };
 
-//bootstrap-input脚本
-$("#upfileimg1").fileinput({
-    language: 'zh',
-    uploadUrl: upimageurl,
-    allowedFileExtensions: ['jpg', 'png', 'gif'],
-    overwriteInitial: true,
-    uploadAsync: true,          //默认异步上传
-    showUpload: false,          //是否显示上传按钮
-    showRemove: false,          //显示移除按钮
-    showPreview: true,          //是否显示预览
-    showClose:false,            //是否显示关闭按钮
-    showCaption: false,         //是否显示标题
-    dropZoneEnabled: true,      //是否显示拖拽区域
-    maxImageWidth: 1280,        //图片的最大宽度
-    maxImageHeight: 720,        //图片的最大高度
-    resizeImage: false,
-    resizePreference: 'width',
-    minFileCount: 1,
-    maxFileCount: 1,
-    autoReplace:true,
-    maxFileSize: 10*1024,
-    enctype: 'multipart/form-data',
-    validateInitialCount: true,
-    showBrowse: false,
-    browseOnZoneClick: true,
-    removeFromPreviewOnError:false,
-    errorCloseButton:"",
-})
-//选择文件后处理事件
-    .on("filebatchselected", function (event, files) {
-        $(this).fileinput("upload");
-    })
-    //异步上传返回结果处理
-    .on("fileuploaded", function (event, data, previewId, index) {
-        $('#imageurl1').val(data.response.savaName);
-        $('#width').val(data.response.width);
-        $('#height').val(data.response.height);
-    })
-    .on('fileloaded', function (event, file, previewId, index, reader) {
-        // alert("fileloaded");
-    })
-    .on('fileuploaderror',function (event,data,msg) {
-        // $(this).fileinput('clear').fileinput("destory").fileinput("cancle");
-    })
-    .on("filebatchuploadsuccess", function (event, data, previewId, index) {
-        // alert("filebatchuploadsuccess");
-    });
+$('#imageinput1').flyinput({
+    url: upimageurl,
+    autoup: true,
+    showPreview: true,
+    width: "360px",
+    height: "300px",
+    background: "#EFEFEF"
+}).bind("success", function (e, data) {
+    var result = JSON.parse(data);
+    $('#imageurl1').val(result.saveName);
+    $('#width').val(result.width);
+    $('#height').val(result.height);
+});
 
-//bootstrap-input脚本
-$("#upfileimg2").fileinput({
-    language: 'zh',
-    uploadUrl: upimageurl,
-    allowedFileExtensions: ['jpg', 'png', 'gif'],
-    overwriteInitial: true,
-    uploadAsync: true,          //默认异步上传
-    showUpload: false,          //是否显示上传按钮
-    showRemove: false,          //显示移除按钮
-    showPreview: true,          //是否显示预览
-    showClose:false,            //是否显示关闭按钮
-    showCaption: false,         //是否显示标题
-    dropZoneEnabled: true,      //是否显示拖拽区域
-    maxImageWidth: 1280,        //图片的最大宽度
-    maxImageHeight: 720,        //图片的最大高度
-    resizeImage: false,
-    resizePreference: 'width',
-    minFileCount: 1,
-    maxFileCount: 1,
-    autoReplace:true,
-    maxFileSize: 10*1024,
-    enctype: 'multipart/form-data',
-    validateInitialCount: true,
-    showBrowse: false,
-    browseOnZoneClick: true,
-    removeFromPreviewOnError:false,
-    errorCloseButton:"",
-})
-//选择文件后处理事件
-    .on("filebatchselected", function (event, files) {
-        $(this).fileinput("upload");
-    })
-    //异步上传返回结果处理
-    .on("fileuploaded", function (event, data, previewId, index) {
-        $('#imageurl2').val(data.response.savaName);
-    })
-    .on('fileloaded', function (event, file, previewId, index, reader) {
-        // alert("fileloaded");
-    })
-    .on('fileuploaderror',function (event,data,msg) {
-        // $(this).fileinput('clear').fileinput("destory").fileinput("cancle");
-    })
-    .on("filebatchuploadsuccess", function (event, data, previewId, index) {
-        // alert("filebatchuploadsuccess");
-    });
+$('#imageinput2').flyinput({
+    url: upimageurl,
+    autoup: true,
+    showPreview: true,
+    width: "360px",
+    height: "300px",
+    background: "#EFEFEF"
+}).bind("success", function (e, data) {
+    var result = JSON.parse(data);
+    $('#imageurl2').val(result.saveName);
+});

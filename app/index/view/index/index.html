@@ -8,14 +8,19 @@
     <script type="text/javascript" src="_JS_/flyinput.js"></script>
 </head>
 <body>
-<input type="file" id="flyinput" name="upfileimg">
+<input type="file" id="flyinput" name="imagefile">
+<input type="text" id="imgurl" name="imgurl" value="" >
 <script type="text/javascript">
     $('#flyinput').flyinput({
-        url:"{:url('/api/imagefile')}",
-        autoup:true,
-        showimage:true,
-        imagew:"100px",
-        imageh:"100px"
+        url: "{:url('/api/imagefile')}",
+        autoup: true,
+        showPreview: true,
+        width: "800px",
+        height: "300px",
+        background:"#007f00"
+    }).on("success",function (event,data) {
+        var result = JSON.parse(data);
+        $('#imgurl').val(result.saveName);
     });
 </script>
 </body>

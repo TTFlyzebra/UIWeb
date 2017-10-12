@@ -8,8 +8,7 @@
 <script type="text/javascript" src="_JS_/bootstrap.js"></script>
 <script type="text/javascript" src="_JS_/bootstrap-table.js"></script>
 <script type="text/javascript" src="_JS_/bootstrap-table-zh-CN.min.js"></script>
-<script type="text/javascript" src="_JS_/fileinput.js"></script>
-<script type="text/javascript" src="_JS_/fileinput-zh-CN.js"></script>
+<script type="text/javascript" src="_JS_/flyinput.js"></script>
 <body>
 <div id="toolbar" class="btn-group">
     <button id="btn_add" type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">
@@ -74,13 +73,13 @@
                         <tr class="form-group" height="200px">
                             <td>图片一：</td>
                             <td>
-                                <input id="upfileimg1" name="upfileimg" type="file">
-                                <input type="hidden" name="imageurl1" id="imageurl1" value="">
+                                <input type="file" id="imageinput1" name="imagefile">
+                                <input type="hidden" id="imageurl1" name="imageurl1" value="" >
                             </td>
                             <td>图片二：</td>
                             <td>
-                                <input id="upfileimg2" name="upfileimg" type="file">
-                                <input type="hidden" name="imageurl2" id="imageurl2" value="">
+                                <input type="file" id="imageinput2" name="imagefile">
+                                <input type="hidden" id="imageurl2" name="imageurl2" value="" >
                             </td>
                         </tr>
                     </table>

@@ -6,7 +6,7 @@ class Imagefile
 {
     public function index()
     {
-        $file = request()->file('upfileimg');//获取表单上传文件
+        $file = request()->file('imagefile');//获取表单上传文件
         $info = $file->rule('md5')//生成文件名
         ->validate(['size' => 100 * 1024 * 1024, 'ext' => 'jpg,png,gif'])//上传文件检验
         ->move(ROOT_PATH . 'public' . DS . 'uploads');//上传文件保存地址
@@ -17,10 +17,13 @@ class Imagefile
             $result['saveName'] = url($imgurl);
             $result['width'] = $size[0];
             $result['height'] = $size[1];
+            $result['ok'] = 1;
             echo json_encode($result);
         } else {
             //	上传失败获取错误信息
-            echo $file->getError();
+            $result['ok'] = 0;
+            $result['error'] = $file->getError();
+            echo json_encode($result);
         }
     }
 }

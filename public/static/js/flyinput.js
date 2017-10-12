@@ -1,15 +1,23 @@
-function F_Open_dialog() {
-    document.getElementById("flyinput").click();
-}
-
 
 $.fn.flyinput = function (option) {
+    var divimg;
+    var self = this;
     /**
      * 修改样式
      */
-    if (option.showimage === true) {
+    if (option.showPreview === true) {
         this.css("display", "none");
-        this.after('<img  id="simg" width=' + option.imagew + ' height=' + option.imageh + ' onclick="F_Open_dialog()" src="/MyWeb/UI/public/uploads/2d/aabc960f1fca0996937cc634c0e0d4.png">');
+        var divparent = $('<div onclick="Open_File_dialog()" style="text-align:center;overflow:hidden;width:' +
+            option.width + ';height:' + option.height +
+            ';line-height:' + option.height +
+            ';background:' + option.background +
+            '"></div>');
+        divparent.on('click',function () {
+            self.click();
+        });
+        divimg = $('<img style="vertical-align:middle" src="">');
+        divparent.append(divimg);
+        this.after(divparent);
     }
     /**
      * 自动上传
@@ -32,14 +40,59 @@ $.fn.flyinput = function (option) {
                  */
                 processData: false,
                 success: function (data) {
-                    var result = JSON.parse(data);
-                    alert(result.saveName);
-                    $('#simg').attr('src',result.saveName);
+                    self.trigger("success",data);
+                    try {
+                        var result = JSON.parse(data);
+                        if (result.ok === 1) {
+                            divimg.attr('src', result.saveName);
+                            var a = result.width / result.height;
+                            var b = divparent.width() / divparent.height();
+                            if (a > b) {
+                                divimg.css("width", option.width);
+                                divimg.css("height", "auto");
+                            } else {
+                                divimg.css("width", "auto");
+                                divimg.css("height", option.height);
+                            }
+                        } else {
+                            divimg.attr('src', "");
+                            alert(result.error);
+                        }
+                    } catch (e) {
+                        divimg.attr('src', "");
+                        alert(e);
+                    }
                 },
                 error: function () {
-                    alert("上传失败！");
+                    alert("上传图片失败！");
+                    divimg.attr('src', "");
                 }
             });
         });
     }
+
+    this.image = function () {
+        return divimg;
+    };
+    return this;
+}
+
+/**
+ * 将以"px"字符串结尾的字符串转换成int整数
+ * @param _px 以"px"结尾的字符串
+ * @returns 去掉"px"后转换的int整数
+ */
+function trimPX(_px) {
+    if (_px === null || _px === "")
+        return 0;
+    return parseInt(_px.substr(0, _px.lastIndexOf("px")));
+}
+
+/**
+ * 将变量尾部加上px并以字符串形式返回
+ * @param _px 要转换的字符串
+ * @returns 尾部加上px的字符串
+ */
+function pastePX(_px) {
+    return _px + "px";
 }
