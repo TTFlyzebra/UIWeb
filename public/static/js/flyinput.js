@@ -1,4 +1,3 @@
-
 $.fn.flyinput = function (option) {
     var divimg;
     var self = this;

@@ -5,6 +5,7 @@
     <title>测试页</title>
     <link rel="stylesheet" type="text/css" href="_CSS_/flyscreen.css">
     <script type="text/javascript" src="_JS_/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="_JS_/flyscreen.js"></script>
 </head>
 <body>
 <div class="flycenter">
@@ -12,13 +13,18 @@
         <div class="flyscreenmsg"></div>
     </div>
     <div class="flycelllist">
+        {volist name="list" id="cell" key="k"}
         <div class="flybasecell">
-            <img src="_IMG_/default.png" width="100%" ondragstart="return false;" height="100%"/>
+            {if condition="($cell.width/$cell.height>300/240)"}
+            <img style="vertical-align:middle" src="{$cell.imageurl1}" width="300px" ondragstart="return false;"/>
+            {else /}
+            <img style="vertical-align:middle" src="{$cell.imageurl1}" height="240px" ondragstart="return false;"/>
+            {/if}
         </div>
+        {/volist}
     </div>
 </div>
 
-<script type="text/javascript" src="_JS_/flyscreen.js"></script>
 </body>
 </html>
 

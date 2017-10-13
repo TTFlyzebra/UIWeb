@@ -45,9 +45,9 @@ a:hover, a:active, a:focus {
     background-color: #ff80ff;
 }
 
-.flycenter{
+.flycenter {
     margin: 0 auto;
-    width: 1580px;
+    width: 1584px;
     background: lightsteelblue;
 }
 
@@ -57,7 +57,10 @@ a:hover, a:active, a:focus {
     width: 1280px;
     height: 720px;
     overflow: auto;
-    background: #000000;
+    background: black;
+    border: solid;
+    border-width: 1px;
+    border-color: #0f0f0f;
 }
 
 .flyscreenmsg {
@@ -79,17 +82,18 @@ a:hover, a:active, a:focus {
     float: left;
     width: 300px;
     height: 720px;
-    overflow: auto;
-    background: #f0ffff;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .flybasecell {
-    position: absolute;
-    left: 100px;
-    top: 100px;
-    width: 100px;
-    height: 100px;
-    background: #f0f8f8;
+    text-align: center;
+    width: 300px;
+    height: 240px;
+    line-height: 240px;
+    border: solid;
+    border-width: 1px;
+    border-color: #660066;
 }
 
 .flycelltext {
