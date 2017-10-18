@@ -5,26 +5,21 @@
     <title>测试页</title>
     <link rel="stylesheet" type="text/css" href="_CSS_/flyscreen.css">
     <script type="text/javascript" src="_JS_/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+        var testurl = "{:url('/api/test')}";
+        var cellurl = "{:url('/api/cell')}";
+    </script>
     <script type="text/javascript" src="_JS_/flyscreen.js"></script>
 </head>
 <body>
 <div class="flycenter">
-    <div class="flyscreen">
+    <div class="flyscreen" id="flyscreen">
         <div class="flyscreenmsg"></div>
     </div>
-    <div class="flycelllist">
-        {volist name="list" id="cell" key="k"}
-        <div class="flybasecell">
-            {if condition="($cell.width/$cell.height>300/240)"}
-            <img style="vertical-align:middle" src="{$cell.imageurl1}" width="300px" ondragstart="return false;"/>
-            {else /}
-            <img style="vertical-align:middle" src="{$cell.imageurl1}" height="240px" ondragstart="return false;"/>
-            {/if}
-        </div>
-        {/volist}
+    <div class="flycellmenu" id="flycellmenu">
     </div>
 </div>
-
+<input type="button" onclick="getScreenCell('162')" value="获取模板">
 </body>
 </html>
 

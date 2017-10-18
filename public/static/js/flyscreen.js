@@ -1,145 +1,165 @@
-$(function () {
-    //记录选定的要改变位置的ll对象
-    var selectCell = null;
-//记录拖动中的要添加的对象
-    var moveCell = null;
-//布局屏幕
-    var screen = document.getElementsByClassName("flyscreen")[0];
-//定义Item列表
-    var basecells = document.getElementsByClassName("flycelllist")[0];
-//消息显示框
-    var screenmsg = document.getElementsByClassName("flyscreenmsg")[0];
-//枚举所有布局屏幕中的子对象并添加相应处理事件
-    if (screen !== null && screen !== undefined) {
-        var fcells = screen.getElementsByClassName("flyscreencell");
-    }
+var screenArr = [];
+var cellMenuArr = [];
+var moveCell;
 
-//枚举所有添加的类型对象并添加相应处理事件
-    if (basecells !== null && basecells !== undefined) {
-        var bcells = basecells.getElementsByClassName("flybasecell");
-    }
+/**
+ * 将以"px"字符串结尾的字符串转换成int整数
+ * @param _px 以"px"结尾的字符串
+ * @returns 去掉"px"后转换的int整数
+ */
+function trimPX(_px) {
+    if (_px === null || _px === "")
+        return 0;
+    return parseInt(_px.substr(0, _px.lastIndexOf("px")));
+}
 
-    /**
-     * 将以"px"字符串结尾的字符串转换成int整数
-     * @param _px 以"px"结尾的字符串
-     * @returns 去掉"px"后转换的int整数
-     */
-    function trimPX(_px) {
-        if (_px === null || _px === "")
-            return 0;
-        return parseInt(_px.substr(0, _px.lastIndexOf("px")));
-    }
-
-    /**
-     * 将变量尾部加上px并以字符串形式返回
-     * @param _px 要转换的字符串
-     * @returns 尾部加上px的字符串
-     */
-    function pastePX(_px) {
-        return _px + "px";
-    }
-
-    if (screen !== null && screen !== undefined) {
-        screen.addEventListener("mousemove", function (event) {
-            if (selectCell !== null) {
-                var x = event.clientX - selectCell.offsetWidth / 2;
-                var y = event.clientY - selectCell.offsetHeight / 2;
-                selectCell.style.left = pastePX(x);
-                selectCell.style.top = pastePX(y);
-                if (screenmsg !== null) {
-                    screenmsg.innerHTML = x + " " + y;
+/**
+ * @param cell
+ * @returns {*|jQuery|HTMLElement}
+ */
+function cellDiv(cell) {
+    var div = $('<div></div>');
+    switch (cell.type) {
+        case 11:
+            break;
+        default:
+            div.css('position', 'absolute');
+            div.css('width', cell.width * 1280 / 1920 + 'px');
+            div.css('height', cell.height * 1280 / 1920 + 'px');
+            div.css('left', cell.x * 1280 / 1920 + 'px');
+            div.css('top', cell.y * 1280 / 1920 + 'px');
+            div.css('background', '#efefff');
+            //图像
+            var image = $('<img>');
+            image.css('position', 'absolute');
+            image.css('width', cell.width * 1280 / 1920 + 'px');
+            image.css('height', cell.height * 1280 / 1920 + 'px');
+            image.css('left', 0 + 'px');
+            image.css('top', 0 + 'px');
+            image.attr('src', cell.imgUrl);
+            image.attr('ondragstart', 'return false;');
+            div.get(0).append(image.get(0));
+            //文字
+            var text = $('<div></div>');
+            text.css('position', 'absolute');
+            text.css('text-align', 'center');
+            text.css('width', cell.width * 1280 / 1920 + 'px');
+            text.css('font-size', '24px');
+            text.css('top', (cell.height * 1280 / 1920 - 48) + 'px');
+            try {
+                var data = JSON.parse(cell.text);
+                var content = data.CN;
+                if (content !== null) {
+                    content = content.replace('\n', '<br/>');
                 }
+                text.get(0).innerHTML = content;
+            } catch (e) {
+                text.get(0).innerHTML = e;
             }
-        }, false);
+            div.get(0).append(text.get(0));
+            break;
     }
+    div.on('click', function (event) {
+        alert('x=' + event.clientX);
+    });
+    return div.get(0);
+}
 
-    if (fcells !== null && fcells !== undefined) {
-        for (i = 0; i < fcells.length; i++) {
-            fcells[i].addEventListener("mousedown", function (event) {
-                selectCell = this;
-            }, false);
-        }
-    }
+//cell对像
+function Cell(cell) {
+    this.cell = cell;
+    this.cellDiv = cellDiv(cell);
+}
 
-    if (bcells !== null && bcells !== undefined) {
-        for (i = 0; i < bcells.length; i++) {
-            bcells[i].addEventListener("mousedown", function (event) {
-                moveCell = this.cloneNode(true);
-            }, false);
-        }
-    }
-
-    document.body.addEventListener("mouseup", function (event) {
-        selectCell = null;
-        screenmsg.innerHTML = "";
-        if (moveCell !== null) {
-            document.body.removeChild(moveCell);
-            screen.appendChild(moveCell);
-            moveCell.addEventListener("mousedown", function (event) {
-                selectCell = this;
-            }, false);
-            moveCell = null;
-        }
-    }, false);
-
-    document.body.addEventListener("mouseleave", function (event) {
-        selectCell = null;
-        if (moveCell !== null) {
-            document.body.removeChild(moveCell);
-            moveCell = null;
-        }
-        screenmsg.innerHTML = "";
-    }, false);
-
-    document.body.addEventListener("mousemove", function (event) {
-        if (moveCell !== null) {
-            document.body.appendChild(moveCell);
-            var x = event.clientX - moveCell.offsetWidth / 2;
-            var y = event.clientY - moveCell.offsetHeight / 2;
-            moveCell.style.left = pastePX(x);
-            moveCell.style.top = pastePX(y);
-            if (screenmsg !== null) {
-                screenmsg.innerHTML = x + " " + y;
+/**
+ * @param cell
+ * @returns {*|jQuery|HTMLElement}
+ */
+function cellMenuDiv(cell) {
+    var div = $('<div></div>');
+    div.css('text-align', 'center');
+    div.css('width', '300px');
+    div.css('height', 'center');
+    div.css('line-height', '240px');
+    div.css('border', 'solid');
+    div.css('border-width', '1px');
+    div.css('border-color', '#360036');
+    switch (cell.type) {
+        case 11:
+            break;
+        default:
+            var image = $('<img>');
+            image.css('vertical-align', 'middle');
+            image.attr('ondragstart', 'return false;');
+            image.attr('src', cell.imageurl1);
+            if (cell.width / cell.height > 300 / 240) {
+                image.attr('width', '300px');
+                image.attr('height', 'auto');
+            } else {
+                image.attr('width', 'auto');
+                image.attr('height', '240px');
             }
-        }
-    }, false);
-
-    /**
-     * 禁用浏览器默认的开始拖动效果
-     * @returns {boolean}
-     */
-    function ondragstart() {
-        return false;
+            div.get(0).append(image.get(0));
+            break;
     }
+    div.on('click', function (event) {
+        //添加点击事件
+    });
+    return div.get(0);
+}
 
-    function createCellDiv(cell) {
-        var div = document.createElement("img");
-        div.style.position = "absolute";
-        div.style.left = pastePX(cell.x * 1280 / 1920);
-        div.style.top = pastePX(cell.y * 1280 / 1920);
-        div.style.width = pastePX(cell.width * 1280 / 1920);
-        div.style.height = pastePX(cell.height * 1280 / 1920);
-        div.src = cell.imgUrl;
-        div.ondragstart = ondragstart;
-        div.addEventListener("mousedown", function (event) {
-            selectCell = this;
-        }, false);
-        return div;
-    }
+//cellMenu对像
+function CellMenu(cell) {
+    this.cell = cell;
+    this.cellMenuDiv = cellMenuDiv(cell);
+}
 
+
+function getScreenCell(tabId) {
     $.ajax({
-        url: "/MyWeb/UI/api/test",
+        url: testurl,
+        type: "get",
+        data: "tabId=" + tabId,
+        dataType: 'html',
+        success: function (result) {
+            try {
+                var data = JSON.parse(result);
+                screenArr.splice(0, screenArr.length);
+                $('#flyscreen').get(0).innerHTML = "";
+                for (i = 0; i < data.cellList.length; i++) {
+                    screenArr[i] = new Cell(data.cellList[i]);
+                    $('#flyscreen').get(0).append(screenArr[i].cellDiv);
+                }
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    });
+}
+
+function getCellMenu() {
+    $.ajax({
+        url: cellurl,
         type: "get",
         data: "",
         dataType: 'html',
         success: function (result) {
-            var data = JSON.parse(result);
-            for (i = 0; i < data.cellList.length; i++) {
-                screen.appendChild(createCellDiv(data.cellList[i]));
+            try {
+                var data = JSON.parse(result);
+                cellMenuArr.splice(0, cellMenuArr.length);
+                $('#flycellmenu').get(0).innerHTML = "";
+                for (i = 0; i < data.rows.length; i++) {
+                    cellMenuArr[i] = new CellMenu(data.rows[i]);
+                    $('#flycellmenu').get(0).append(cellMenuArr[i].cellMenuDiv);
+                }
+            } catch (e) {
+                alert(e);
+                console.log(e);
             }
         }
     });
+}
 
++$(function () {
+    getCellMenu();
 });
-
-
