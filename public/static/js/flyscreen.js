@@ -77,8 +77,8 @@ function cellDiv(cell) {
             break;
     }
     div.on('mousedown', function (event) {
-        //鼠标点击的绝对位置
         Ev= event || window.event;
+        //鼠标点击的绝对位置
         var mousePos = mouseCoords(event);
         var x = mousePos.x;
         var y = mousePos.y;
