@@ -1,8 +1,10 @@
 var screenCellArr = [];
 var menuCellArr = [];
-var moveCell = null;
-var moveDiv = null;
-var addCell = null;
+var screenMoveDiv = null;
+var screenMoveDivPoint = {};
+var screenMoveCell = null;
+var bodyMoveDiv = null;
+var addMenuCell = null;
 
 /**
  * 将以"px"字符串结尾的字符串转换成int整数
@@ -13,6 +15,17 @@ function trimPX(_px) {
     if (_px === null || _px === "")
         return 0;
     return parseInt(_px.substr(0, _px.lastIndexOf("px")));
+}
+
+//获取鼠标点击区域在Html绝对位置坐标
+function mouseCoords(event){
+    if(event.pageX || event.pageY){
+        return {x:event.pageX, y:event.pageY};
+    }
+    return{
+        x:event.clientX + document.body.scrollLeft - document.body.clientLeft,
+        y:event.clientY + document.body.scrollTop - document.body.clientTop
+    };
 }
 
 
@@ -64,8 +77,23 @@ function cellDiv(cell) {
             break;
     }
     div.on('mousedown', function (event) {
-        moveCell = cell;
-
+        //鼠标点击的绝对位置
+        Ev= event || window.event;
+        var mousePos = mouseCoords(event);
+        var x = mousePos.x;
+        var y = mousePos.y;
+        //获取div在body中的绝对位置
+        var x1 = this.offsetLeft;
+        var y1 = this.offsetTop;
+        //鼠标点击位置相对于div的坐标
+        var x2 = x - x1;
+        var y2 = y - y1;
+        if (addMenuCell === null) {
+            screenMoveCell = cell;
+            screenMoveDiv = div.get(0);
+            screenMoveDivPoint.x = x2;
+            screenMoveDivPoint.y = y2;
+        }
     });
     return div.get(0);
 }
@@ -109,7 +137,7 @@ function cellMenuDiv(cell) {
     }
     div.on('mousedown', function (event) {
         //添加点击事件
-        addCell = cell;
+        addMenuCell = cell;
     });
     return div.get(0);
 }
@@ -176,26 +204,34 @@ function getCellMenu() {
 
 +$(function () {
     getCellMenu();
-    $(document.body).on('mousedown', function (event) {
+    $(document).on('mousedown', function (event) {
         //
     }).on('mousemove', function (event) {
         try {
-            if (addCell !== null) {
-                addCell.imgUrl = addCell.imageurl1;
-                if (moveDiv === null) {
-                    moveDiv = cellDiv(addCell);
-                    this.append(moveDiv);
+            if (addMenuCell !== null) {
+                addMenuCell.imgUrl = addMenuCell.imageurl1;
+                if (bodyMoveDiv === null) {
+                    bodyMoveDiv = cellDiv(addMenuCell);
+                    document.body.appendChild(bodyMoveDiv);
                 }
-                moveDiv.style.left = event.clientX + 'px';
-                moveDiv.style.top = event.clientY + 'px';
+                bodyMoveDiv.style.left = event.clientX + 'px';
+                bodyMoveDiv.style.top = event.clientY + 'px';
             }
         } catch (e) {
-            alert(e);
+            console.log(e);
+        }
+    }).on('mouseleave', function (event) {
+        if (bodyMoveDiv !== null) {
+            document.body.removeChild(bodyMoveDiv);
+            bodyMoveDiv = null;
+        }
+        if (addMenuCell !== null) {
+            addMenuCell = null;
         }
     }).on('mouseup', function (event) {
-        if (moveDiv !== null) {
-            this.removeChild(moveDiv);
-            moveDiv = null;
+        if (bodyMoveDiv !== null) {
+            document.body.removeChild(bodyMoveDiv);
+            bodyMoveDiv = null;
         }
 
         var flyscreen = $('.flyscreen').get(0);
@@ -205,21 +241,20 @@ function getCellMenu() {
         var width = flyscreen.offsetWidth;
         var height = flyscreen.offsetHeight;
 
-        if (event.clientX >= left && event.clientX <= (width+left) && event.clientY >= top && event.clientY <= (height+top)) {
-            if (addCell !== null) {
+        if (event.clientX >= left && event.clientX <= (width + left) && event.clientY >= top && event.clientY <= (height + top)) {
+            if (addMenuCell !== null) {
                 var x = event.clientX - left + flyscreen.scrollLeft;
                 var y = event.clientY - top + flyscreen.scrollTop;
-                addCell.x = x * 1920 / 1280;
-                addCell.y = y * 1920 / 1280;
-                addCell.imgUrl = addCell.imageurl1;
+                addMenuCell.x = x * 1920 / 1280;
+                addMenuCell.y = y * 1920 / 1280;
+                addMenuCell.imgUrl = addMenuCell.imageurl1;
                 var num = screenCellArr.length;
-                screenCellArr[num] = new Cell(addCell);
+                screenCellArr[num] = new Cell(addMenuCell);
                 flyscreen.append(screenCellArr[num].cellDiv);
             }
         }
-
-        if (addCell !== null) {
-            addCell = null;
+        if (addMenuCell !== null) {
+            addMenuCell = null;
         }
     });
 
@@ -228,7 +263,20 @@ function getCellMenu() {
         var top = this.offsetTop;
         var x = event.clientX - left + this.scrollLeft;
         var y = event.clientY - top + this.scrollTop;
+        if (screenMoveCell !== null) {
+            x = x-screenMoveDivPoint.x;
+            y = y-screenMoveDivPoint.y;
+        }
         $('.flyscreenmsg').get(0).innerHTML = x + '-' + y;
+        screenMoveDiv.style.left = x + 'px';
+        screenMoveDiv.style.top = y + 'px';
+
     }).on('mouseup', function (event) {
+        if (screenMoveDiv !== null) {
+            screenMoveDiv = null;
+        }
+        if (screenMoveCell !== null) {
+            screenMoveCell = null;
+        }
     });
 });
