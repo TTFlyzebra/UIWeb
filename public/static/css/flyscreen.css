@@ -63,8 +63,11 @@ a:hover, a:active, a:focus {
 }
 
 .flyscreenmsg {
-    float: right;
-    color: white;
+    text-align: right;
+    position: absolute;
+    height: 30px;
+    width: 1280px;
+    color: red;
 }
 
 .flyscreencell {
