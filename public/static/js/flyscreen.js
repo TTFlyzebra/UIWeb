@@ -1,3 +1,4 @@
+//定义全局变量
 var screenCellArr = [];
 var menuCellArr = [];
 var screenMoveDiv = null;
@@ -18,14 +19,22 @@ function trimPX(_px) {
 }
 
 //获取鼠标点击区域在Html绝对位置坐标
-function mouseCoords(event){
-    if(event.pageX || event.pageY){
-        return {x:event.pageX, y:event.pageY};
+function mouseCoords(event) {
+    if (event.pageX || event.pageY) {
+        return {x: event.pageX, y: event.pageY};
     }
-    return{
-        x:event.clientX + document.body.scrollLeft - document.body.clientLeft,
-        y:event.clientY + document.body.scrollTop - document.body.clientTop
+    return {
+        x: event.clientX + document.body.scrollLeft - document.body.clientLeft,
+        y: event.clientY + document.body.scrollTop - document.body.clientTop
     };
+}
+
+
+function showMSG(message) {
+    var flyscreenmsg = $('.flyscreenmsg').get(0);
+    if (flyscreenmsg) {
+        flyscreenmsg.innerHTML = message;
+    }
 }
 
 
@@ -33,7 +42,7 @@ function mouseCoords(event){
  * @param cell
  * @returns {*|jQuery|HTMLElement}
  */
-function cellDiv(cell) {
+function cellScreenDiv(cell) {
     var div = $('<div></div>');
     switch (cell.type) {
         case 11:
@@ -65,7 +74,7 @@ function cellDiv(cell) {
             try {
                 var data = JSON.parse(cell.text);
                 var content = data.CN;
-                if (content !== null) {
+                if (content) {
                     content = content.replace('\n', '<br/>');
                 }
                 text.get(0).innerHTML = content;
@@ -77,7 +86,7 @@ function cellDiv(cell) {
             break;
     }
     div.on('mousedown', function (event) {
-        Ev= event || window.event;
+        Ev = event || window.event;
         //鼠标点击的绝对位置
         var mousePos = mouseCoords(event);
         var x = mousePos.x;
@@ -98,12 +107,6 @@ function cellDiv(cell) {
     return div.get(0);
 }
 
-//cell对像
-function Cell(cell) {
-    this.cell = cell;
-    this.cellDiv = cellDiv(cell);
-}
-
 /**
  * @param cell
  * @returns {*|jQuery|HTMLElement}
@@ -116,7 +119,7 @@ function cellMenuDiv(cell) {
     div.css('line-height', '240px');
     div.css('border', 'solid');
     div.css('border-width', '1px');
-    div.css('border-color', '#360036');
+    div.css('border-color', '#000000');
     switch (cell.type) {
         case 11:
             break;
@@ -142,37 +145,37 @@ function cellMenuDiv(cell) {
     return div.get(0);
 }
 
-//cellMenu对像
-function CellMenu(cell) {
-    this.cell = cell;
-    this.cellMenuDiv = cellMenuDiv(cell);
-}
-
 /**
  * 根据TabID获取一页的cell数据
  * @param tabId
  */
 function getScreenCell(tabId) {
     var flyscreen = $('.flyscreen').get(0);
-    $.ajax({
-        url: testurl,
-        type: "get",
-        data: "tabId=" + tabId,
-        dataType: 'html',
-        success: function (result) {
-            try {
-                var data = JSON.parse(result);
-                screenCellArr.splice(0, screenCellArr.length);
-                flyscreen.innerHTML = '';
-                for (i = 0; i < data.cellList.length; i++) {
-                    screenCellArr[i] = new Cell(data.cellList[i]);
-                    flyscreen.append(screenCellArr[i].cellDiv);
+    if (flyscreen) {
+        $.ajax({
+            url: testurl,
+            type: "get",
+            data: "tabId=" + tabId,
+            dataType: 'html',
+            success: function (result) {
+                try {
+                    var data = JSON.parse(result);
+                    screenCellArr.splice(0, screenCellArr.length);
+                    flyscreen.innerHTML = '';
+                    for (i = 0; i < data.cellList.length; i++) {
+                        var div = cellScreenDiv(data.cellList[i]);
+                        if (div) {
+                            var num = screenCellArr.length;
+                            screenCellArr[num] = data.cellList[i];
+                            flyscreen.append(div);
+                        }
+                    }
+                } catch (e) {
+                    console.log(e);
                 }
-            } catch (e) {
-                console.log(e);
             }
-        }
-    });
+        });
+    }
 }
 
 /**
@@ -180,38 +183,39 @@ function getScreenCell(tabId) {
  */
 function getCellMenu() {
     var flycellmenu = $('.flycellmenu').get(0);
-    $.ajax({
-        url: cellurl,
-        type: "get",
-        data: "",
-        dataType: 'html',
-        success: function (result) {
-            try {
-                var data = JSON.parse(result);
-                menuCellArr.splice(0, menuCellArr.length);
-                flycellmenu.innerHTML = '';
-                for (i = 0; i < data.rows.length; i++) {
-                    var num = screenCellArr.length;
-                    menuCellArr[num] = new CellMenu(data.rows[i]);
-                    flycellmenu.append(menuCellArr[num].cellMenuDiv);
+    if (flycellmenu) {
+        $.ajax({
+            url: cellurl,
+            type: "get",
+            data: "",
+            dataType: 'html',
+            success: function (result) {
+                try {
+                    var data = JSON.parse(result);
+                    menuCellArr.splice(0, menuCellArr.length);
+                    flycellmenu.innerHTML = '';
+                    for (i = 0; i < data.rows.length; i++) {
+                        var num = screenCellArr.length;
+                        menuCellArr[num] = data.rows[i];
+                        flycellmenu.append(cellMenuDiv(menuCellArr[num]));
+                    }
+                } catch (e) {
+                    console.log(e);
                 }
-            } catch (e) {
-                console.log(e);
             }
-        }
-    });
+        });
+    }
 }
 
-+$(function () {
-    getCellMenu();
+function documentEventInit() {
     $(document).on('mousedown', function (event) {
         //
     }).on('mousemove', function (event) {
         try {
-            if (addMenuCell !== null) {
+            if (addMenuCell) {
                 addMenuCell.imgUrl = addMenuCell.imageurl1;
                 if (bodyMoveDiv === null) {
-                    bodyMoveDiv = cellDiv(addMenuCell);
+                    bodyMoveDiv = cellScreenDiv(addMenuCell);
                     document.body.appendChild(bodyMoveDiv);
                 }
                 bodyMoveDiv.style.left = event.clientX + 'px';
@@ -221,62 +225,82 @@ function getCellMenu() {
             console.log(e);
         }
     }).on('mouseleave', function (event) {
-        if (bodyMoveDiv !== null) {
+        if (bodyMoveDiv) {
             document.body.removeChild(bodyMoveDiv);
             bodyMoveDiv = null;
         }
-        if (addMenuCell !== null) {
+        if (addMenuCell) {
             addMenuCell = null;
         }
     }).on('mouseup', function (event) {
-        if (bodyMoveDiv !== null) {
+        if (bodyMoveDiv) {
             document.body.removeChild(bodyMoveDiv);
             bodyMoveDiv = null;
         }
 
         var flyscreen = $('.flyscreen').get(0);
 
-        var left = flyscreen.offsetLeft;
-        var top = flyscreen.offsetTop;
-        var width = flyscreen.offsetWidth;
-        var height = flyscreen.offsetHeight;
+        if (flyscreen) {
+            var left = flyscreen.offsetLeft;
+            var top = flyscreen.offsetTop;
+            var width = flyscreen.offsetWidth;
+            var height = flyscreen.offsetHeight;
 
-        if (event.clientX >= left && event.clientX <= (width + left) && event.clientY >= top && event.clientY <= (height + top)) {
-            if (addMenuCell !== null) {
-                var x = event.clientX - left + flyscreen.scrollLeft;
-                var y = event.clientY - top + flyscreen.scrollTop;
-                addMenuCell.x = x * 1920 / 1280;
-                addMenuCell.y = y * 1920 / 1280;
-                addMenuCell.imgUrl = addMenuCell.imageurl1;
-                var num = screenCellArr.length;
-                screenCellArr[num] = new Cell(addMenuCell);
-                flyscreen.append(screenCellArr[num].cellDiv);
+            if (event.clientX >= left && event.clientX <= (width + left) && event.clientY >= top && event.clientY <= (height + top)) {
+                if (addMenuCell) {
+                    var x = event.clientX - left + flyscreen.scrollLeft;
+                    var y = event.clientY - top + flyscreen.scrollTop;
+                    addMenuCell.x = x * 1920 / 1280;
+                    addMenuCell.y = y * 1920 / 1280;
+                    addMenuCell.imgUrl = addMenuCell.imageurl1;
+                    var num = screenCellArr.length;
+                    screenCellArr[num] = addMenuCell;
+                    flyscreen.append(cellScreenDiv(screenCellArr[num]));
+                }
             }
         }
-        if (addMenuCell !== null) {
+        if (addMenuCell) {
             addMenuCell = null;
         }
     });
 
-    $('.flyscreen').on('mousemove', function (event) {
-        var left = this.offsetLeft;
-        var top = this.offsetTop;
-        var x = event.clientX - left + this.scrollLeft;
-        var y = event.clientY - top + this.scrollTop;
-        if (screenMoveCell !== null) {
-            x = x-screenMoveDivPoint.x;
-            y = y-screenMoveDivPoint.y;
-        }
-        $('.flyscreenmsg').get(0).innerHTML = x + '-' + y;
-        screenMoveDiv.style.left = x + 'px';
-        screenMoveDiv.style.top = y + 'px';
+}
 
-    }).on('mouseup', function (event) {
-        if (screenMoveDiv !== null) {
-            screenMoveDiv = null;
-        }
-        if (screenMoveCell !== null) {
-            screenMoveCell = null;
-        }
-    });
+function flyscreenClassEventInit() {
+    var flyscreen = $('.flyscreen');
+    if (flyscreen) {
+        flyscreen.on('mousemove', function (event) {
+            var x = event.clientX;
+            var y = event.clientY;
+            if (screenMoveCell) {
+                x = x - screenMoveDivPoint.x;
+                y = y - screenMoveDivPoint.y;
+            }
+            showMSG(x + "--" + y);
+            screenMoveCell.x = x * 1920 / 1280;
+            screenMoveCell.y = y * 1920 / 1280;
+            screenMoveDiv.style.left = x + 'px';
+            screenMoveDiv.style.top = y + 'px';
+        }).on('mouseup', function (event) {
+            if (screenMoveDiv) {
+                screenMoveDiv = null;
+            }
+            if (screenMoveCell) {
+                screenMoveCell = null;
+            }
+        });
+    }
+}
+
+function getCellData() {
+    if (screenCellArr) {
+        alert(JSON.stringify(screenCellArr));
+    }
+}
+
++$(function () {
+    getCellMenu();
+    documentEventInit();
+    flyscreenClassEventInit();
+
 });

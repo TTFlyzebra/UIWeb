@@ -33,14 +33,20 @@ class Cell extends Controller
 
         } elseif ($request->isGet()) {
             $db = Db::name("cell");
-            $resultdata['total'] = $db->count();
             $db->order('cellId desc');
             if($request->has('limit','get')&&$request->has('offset','get')){
                 $db->limit($_GET['offset'],$_GET['limit']);
             }
+            $db->field('userid,ip',true);
             $cells = $db->select();
-            $resultdata['rows'] = $cells;
-            echo json_encode($resultdata);
+            if($request->isAjax()){
+                $resultdata['total'] = $db->count();
+                $resultdata['rows'] = $cells;
+                echo json_encode($resultdata);
+            }else{
+                echo json_encode($cells);
+            }
+
         }
     }
 

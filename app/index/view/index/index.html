@@ -4,24 +4,25 @@
     <meta charset="UTF-8">
     <title>测试页</title>
     <link rel="stylesheet" type="text/css" href="_CSS_/flyscreen.css">
+    <link rel="stylesheet" type="text/css" href="_CSS_/bootstrap.css">
     <script type="text/javascript" src="_JS_/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="_JS_/flyinput.js"></script>
+    <script type="text/javascript">
+        var testurl = "{:url('/api/test')}";
+        var cellurl = "{:url('/api/cell')}";
+    </script>
+    <script type="text/javascript" src="_JS_/flyscreen.js"></script>
+    <script type="text/javascript" src="_JS_/bootstrap.js"></script>
 </head>
 <body>
-<input type="file" id="flyinput" name="imagefile">
-<input type="text" id="imgurl" name="imgurl" value="" >
-<script type="text/javascript">
-    $('#flyinput').flyinput({
-        url: "{:url('/api/imagefile')}",
-        autoup: true,
-        showPreview: true,
-        width: "800px",
-        height: "300px",
-        background:"#007f00"
-    }).on("success",function (event,data) {
-        var result = JSON.parse(data);
-        $('#imgurl').val(result.saveName);
-    });
-</script>
+<div class="flycenter">
+    <div style="text-align: left;background: palevioletred;">
+        <button type="button" onclick="getScreenCell('162')" class="btn btn-primary">加载数据</button>
+        <button type="button" onclick="getCellData()" class="btn btn-primary">保存数据</button>
+    </div>
+    <div class="flyscreen"></div>
+    <div class="flycellmenu"></div>
+    <div class="flyscreenmsg"></div>
+</div>
 </body>
 </html>
+
