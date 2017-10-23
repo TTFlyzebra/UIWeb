@@ -89,7 +89,7 @@ var TableInit = function () {
                 title: '设计原图',
                 align: 'center',
                 formatter: function (value, row, index) {
-                    return '<img  width="auto" height="56px" src="' + value + '">';
+                    return '<img  width="auto" height="50px" src="' + value + '">';
                 }
             }, {
                 field: 'extend1name',

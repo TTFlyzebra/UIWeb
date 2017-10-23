@@ -96,14 +96,14 @@ var TableInit = function () {
                 title: '图片一',
                 align: 'center',
                 formatter: function (value, row, index) {
-                    return '<img  width="auto" height="32px" src="' + value + '">';
+                    return '<img  width="auto" height="50px" src="' + value + '">';
                 }
             }, {
                 field: 'imageurl2',
                 title: '图片二',
                 align: 'center',
                 formatter: function (value, row, index) {
-                    return '<img  width="auto" height="32px" src="' + value + '">';
+                    return '<img  width="auto" height="50px" src="' + value + '">';
                 }
             }]
         });
