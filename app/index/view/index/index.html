@@ -5,41 +5,17 @@
     <title>首页</title>
 </head>
 <link rel="stylesheet" type="text/css" href="_CSS_/bootstrap.css">
-<link rel="stylesheet" type="text/css" href="_CSS_/main.css">
 <script type="text/javascript" src="_JS_/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="_JS_/bootstrap.js"></script>
 <body>
-<div class="header"></div>
-<div class="left-menu">
-    <ul class="nav nav-pills nav-stacked">
-        <li role="presentation" class="active"><a href="{:url('/admin/cell')}" target="mainIframe">首页</a></li>
-        <li role="presentation"><a href="{:url('/admin/celltype')}" target="mainIframe">新闻</a></li>
-        <li role="presentation"><a href="{:url('/admin/uiscreen')}" target="mainIframe">新闻</a></li>
-    </ul>
-</div>
-<div class="content">
-    <iframe name="mainIframe" src="{:url('/admin/celltype')}" frameborder="0"></iframe>
-</div>
+<canvas id="drawing" width="800" height="480" style="border: 1px solid red;">画布</canvas>
 <script type="text/javascript">
-    $(document).ready(function () {
-        $('ul.nav > li').click(function (e) {
-            $('ul.nav > li').removeClass('active');
-            $(this).addClass('active');
-
-        });
-    });
-    //加载页面时执行一次
-    changeMargin();
-    //监听浏览器宽度的改变
-    window.onresize = function(){
-        changeMargin();
-    };
-    function changeMargin(){
-        //获取网页可见区域宽度
-        var height = document.body.clientHeight;
-        $('.left-menu').css('height',(height-55)+'px');
-        $('.content').css('height',(height-55)+'px');
-        $('.iframe').css('height',(height-55)+'px');
+    var drawing = document.getElementById("drawing");
+    if(drawing.getContext){
+        //获取对应的CanvasRenderingContext2D对象(画笔)
+        var context = drawing.getContext("2d");
+        context.fillStyle = "#00FF00";
+        context.fillRect(10,10,100,100);
     }
 </script>
 </body>
