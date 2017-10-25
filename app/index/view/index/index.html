@@ -2,21 +2,68 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>首页</title>
+    <title>标签页</title>
 </head>
 <link rel="stylesheet" type="text/css" href="_CSS_/bootstrap.css">
 <script type="text/javascript" src="_JS_/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="_JS_/bootstrap.js"></script>
 <body>
-<canvas id="drawing" width="800" height="480" style="border: 1px solid red;">画布</canvas>
-<script type="text/javascript">
-    var drawing = document.getElementById("drawing");
-    if(drawing.getContext){
-        //获取对应的CanvasRenderingContext2D对象(画笔)
-        var context = drawing.getContext("2d");
-        context.fillStyle = "#00FF00";
-        context.fillRect(10,10,100,100);
-    }
-</script>
+<ul id="flytab" class="nav nav-tabs">
+    <li class="active"><a href="#home" data-toggle="tab">主控件</a></li>
+    <li><a href="#ios" data-toggle="tab">子控件1</a></li>
+    <li><a href="javascript:void(0)" onclick="addSub()">+</a></li>
+</ul>
+<div class="tab-pane fade in active" id="home">
+    <input type="hidden" name="userid" id="userid" value="{$Think.session.user_id}">
+    <table width="100%" class="tab-content">
+        <tr class="form-group" height="40px">
+            <td>类型：</td>
+            <td><select id="celltypeId" name="celltypeId">
+                {volist name="list" id="celltype" key="k"}
+                <option value="{$celltype.celltypeId}">{$celltype.celltypename}</option>
+                {/volist}
+            </select>
+            </td>
+            <td>检索名称：</td>
+            <td><input id="name" name="name" type="text" value="" placeholder="方便检索"></td>
+        </tr>
+        <tr class="form-group" height="40px">
+            <td>宽度：</td>
+            <td><input id="width" name="width" type="text" value="" placeholder="单位像素"></td>
+            <td>高度：</td>
+            <td><input id="height" name="height" type="text" value="" placeholder="单位像素"></td>
+        </tr>
+        <tr class="form-group" height="40px">
+            <td>文本：</td>
+            <td><input id="text" name="text" type="text" value="" placeholder=""></td>
+            <td>文本位置：</td>
+            <td><input id="textposition" name="textposition" type="text" value="" placeholder=""></td>
+        </tr>
+        <tr class="form-group" height="40px">
+            <td>文本大小：</td>
+            <td><input id="textsize" name="textsize" type="text" value="" placeholder=""></td>
+            <td>文本颜色：</td>
+            <td><input id="textcolor" name="textcolor" type="text" value="" placeholder="格式：#FFFFFFFF">
+            </td>
+        </tr>
+        <tr class="form-group" height="200px">
+            <td>图片一：</td>
+            <td>
+                <input type="file" id="imageinput1" name="imagefile">
+                <input type="hidden" id="imageurl1" name="imageurl1" value="">
+            </td>
+            <td>图片二：</td>
+            <td>
+                <input type="file" id="imageinput2" name="imagefile">
+                <input type="hidden" id="imageurl2" name="imageurl2" value="">
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+    <button type="reset" class="btn btn-default">重置</button>
+    <button type="button" class="btn btn-primary" onclick="postform()">提交</button>
+</div>
 </body>
 </html>

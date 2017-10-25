@@ -117,7 +117,7 @@ $('#imageinput1').flyinput({
     autoup: true,
     showPreview: true,
     width: "360px",
-    height: "300px",
+    height: "240px",
     background: "#EFEFEF"
 }).bind("success", function (e, data) {
     var result = JSON.parse(data);
@@ -131,7 +131,7 @@ $('#imageinput2').flyinput({
     autoup: true,
     showPreview: true,
     width: "360px",
-    height: "300px",
+    height: "240px",
     background: "#EFEFEF"
 }).bind("success", function (e, data) {
     var result = JSON.parse(data);
