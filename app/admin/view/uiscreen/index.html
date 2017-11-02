@@ -9,15 +9,22 @@
     <script type="text/javascript">
         var testurl = "{:url('/api/test')}";
         var cellurl = "{:url('/api/cell')}";
+        var tableId = "{$tableId}";
+        alert(tableId);
     </script>
     <script type="text/javascript" src="_JS_/flyscreen.js"></script>
     <script type="text/javascript" src="_JS_/bootstrap.js"></script>
 </head>
 <body>
 <div class="flycenter">
-    <div style="text-align: left;background: palevioletred;">
+    <div style="text-align: left;">
+        <select class="">
+            {volist name="list" id="table" key="k"}
+            <option value="{$table.tableId}">{$table.tablename}</option>
+            {/volist}
+        </select>
         <button type="button" onclick="getScreenCell('162')" class="btn btn-primary">加载数据</button>
-        <button type="button" onclick="getCellData()" class="btn btn-primary">保存数据</button>
+        <button type="button" onclick="upCellData()" class="btn btn-primary">保存数据</button>
     </div>
     <div class="flyscreen"></div>
     <div class="flycellmenu"></div>
