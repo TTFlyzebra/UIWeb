@@ -91,7 +91,7 @@ var TableInit = function () {
                 field: 'celltypename',
                 title: '类型名称'
             }, {
-                field: 'imgurl',
+                field: 'imageurl',
                 title: '设计原图',
                 align: 'center',
                 formatter: function (value, row, index) {
@@ -128,5 +128,5 @@ $('#imageinput').flyinput({
     background: "#EFEFEF"
 }).on("success", function (event, data) {
     var result = JSON.parse(data);
-    $('#imgurl').val(result.saveName);
+    $('#imageurl').val(result.saveName);
 });

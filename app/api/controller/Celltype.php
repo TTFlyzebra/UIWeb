@@ -15,6 +15,7 @@ class Celltype extends Controller
             $cell = $_POST;
             $cell['ip'] = request()->ip();
             $cell['userid'] = (int)$_POST['userid'];
+            $cell['celltype'] = (int)$_POST['celltype'];
             $db =  Db::name("celltype");
             $result = $db->insert($cell);
         } elseif ($request->isGet()) {
