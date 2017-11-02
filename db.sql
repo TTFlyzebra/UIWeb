@@ -56,17 +56,8 @@ CREATE TABLE `fly_cell` (
   PRIMARY KEY (`cellId`),
   KEY `id` (`cellId`),
   KEY `type` (`celltypeId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `fly_cell`
---
-
-LOCK TABLES `fly_cell` WRITE;
-/*!40000 ALTER TABLE `fly_cell` DISABLE KEYS */;
-/*!40000 ALTER TABLE `fly_cell` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `fly_celltype`
@@ -79,7 +70,7 @@ CREATE TABLE `fly_celltype` (
   `celltypeId` int(11) NOT NULL AUTO_INCREMENT,
   `celltype` int(11) NOT NULL DEFAULT '0',
   `celltypename` varchar(255) NOT NULL,
-  `imgurl` varchar(255) NOT NULL,
+  `imageurl` varchar(255) NOT NULL,
   `extend1name` varchar(255) DEFAULT NULL,
   `extend2name` varchar(255) DEFAULT NULL,
   `extend3name` varchar(255) DEFAULT NULL,
@@ -92,18 +83,8 @@ CREATE TABLE `fly_celltype` (
   PRIMARY KEY (`celltypeId`),
   UNIQUE KEY `celltype` (`celltype`),
   KEY `celltypeId` (`celltypeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `fly_celltype`
---
-
-LOCK TABLES `fly_celltype` WRITE;
-/*!40000 ALTER TABLE `fly_celltype` DISABLE KEYS */;
-INSERT INTO `fly_celltype` VALUES (75,1,'图片文本','/myweb/ui/public/uploads/98/5da12c1afcb2b7bfdc386b7fb2ddbe.png','','','','','可以同时显示图片和文本的控件。','2017-10-24 09:34:19','2017-10-24 09:34:19',0,'0.0.0.0'),(76,2,'视频播放','/myweb/ui/public/uploads/9a/3826de18a58cdd7fcb5c0c42abd2d8.gif','播放地址','播放接口','循环播放','','小视频窗口控件，播放地址指定视频流位置，播放接口指定获取一组视频流的地址(接口数据格式为JSON{name:\"\";url:\"\";msg:\"\";ret:\"\"})。','2017-10-24 09:43:24','2017-10-24 09:43:24',0,'0.0.0.0'),(81,3,'轮播控件','/myweb/ui/public/uploads/39/5335689f562aeadff38c3b743f6960.png','图片列表','','','','','2017-10-24 09:53:11','2017-10-24 09:53:11',0,'0.0.0.0');
-/*!40000 ALTER TABLE `fly_celltype` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `fly_event`
@@ -127,13 +108,41 @@ CREATE TABLE `fly_event` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `fly_event`
+-- Table structure for table `fly_table`
 --
 
-LOCK TABLES `fly_event` WRITE;
-/*!40000 ALTER TABLE `fly_event` DISABLE KEYS */;
-/*!40000 ALTER TABLE `fly_event` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS `fly_table`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `fly_table` (
+  `tableId` int(11) NOT NULL AUTO_INCREMENT,
+  `tablename` varchar(255) NOT NULL,
+  `imageurl` varchar(255) NOT NULL,
+  `remark` text,
+  `createtime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `edittime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `userid` int(11) DEFAULT NULL,
+  `ip` varchar(16) NOT NULL,
+  PRIMARY KEY (`tableId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fly_tablecell`
+--
+
+DROP TABLE IF EXISTS `fly_tablecell`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `fly_tablecell` (
+  `tableId` int(11) NOT NULL,
+  `cellId` int(11) NOT NULL,
+  `x` int(11) NOT NULL,
+  `y` int(11) NOT NULL,
+  `width` int(11) NOT NULL,
+  `height` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `fly_template`
@@ -146,6 +155,7 @@ CREATE TABLE `fly_template` (
   `templateId` int(11) NOT NULL AUTO_INCREMENT,
   `templatename` varchar(64) NOT NULL,
   `templatetype` int(11) NOT NULL,
+  `imageurl` varchar(255) NOT NULL,
   `remark` text,
   `createtime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `edittime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -154,15 +164,6 @@ CREATE TABLE `fly_template` (
   PRIMARY KEY (`templateId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `fly_template`
---
-
-LOCK TABLES `fly_template` WRITE;
-/*!40000 ALTER TABLE `fly_template` DISABLE KEYS */;
-/*!40000 ALTER TABLE `fly_template` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `fly_user`
@@ -185,15 +186,6 @@ CREATE TABLE `fly_user` (
   KEY `userid` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `fly_user`
---
-
-LOCK TABLES `fly_user` WRITE;
-/*!40000 ALTER TABLE `fly_user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `fly_user` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -204,4 +196,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-25 17:42:35
+-- Dump completed on 2017-11-02 15:49:23
