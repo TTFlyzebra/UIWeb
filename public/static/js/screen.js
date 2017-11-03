@@ -153,9 +153,9 @@ function getScreenCell(tabId) {
     var flyscreen = $('.flyscreen').get(0);
     if (flyscreen) {
         $.ajax({
-            url: testurl,
+            url: tablecellurl,
             type: "get",
-            data: "tabId=" + tabId,
+            data: "tableId=" + tabId,
             dataType: 'html',
             success: function (result) {
                 try {

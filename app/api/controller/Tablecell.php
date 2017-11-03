@@ -31,10 +31,16 @@ class Tablecell
                 echo "error thinkPhp";
             }
         } elseif ($request->isGet()) {
-            $user = Tablecell::get(1);
-            dump($user->cells);
             if ($request->has('tableId', 'get')) {
-                echo 'data';
+                $tabledata = Db::name('tablecell')
+                    ->where('tableId', (int)$_GET['tableId'])
+                    ->alias('a')
+                    ->join("fly_cell b", "a.cellId=b.cellId")
+                    ->select();
+                $result['cellList'] = $tabledata;
+                $result['msg'] = '成功';
+                $result['ret'] = 0;
+                echo json_encode($result);
             }
         }
     }
