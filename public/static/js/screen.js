@@ -42,7 +42,7 @@ function showMSG(message) {
  * @param cell
  * @returns {*|jQuery|HTMLElement}
  */
-function cellScreenDiv(cell) {
+function cellScreenDiv(cell,num) {
     var div = $('<div></div>');
     switch (cell.type) {
         case 11:
@@ -83,6 +83,20 @@ function cellScreenDiv(cell) {
                 console.log(e);
             }
             div.get(0).append(text.get(0));
+            //删除按钮
+            var del =  $('<div>X</div>');
+            del.css('position', 'absolute');
+            del.css('left', (cell.width * 1280 / 1920-22)+'px');
+            del.css('top', '2px');
+            del.css('width', '20px');
+            del.css('height', '20px');
+            del.css('background','#FFFFFF');
+
+            del.on("click",function (event) {
+                $('.flyscreen').get(0).removeChild(div.get(0));
+                screenCellArr.splice(num,1);
+            });
+            div.get(0).append(del.get(0));
             break;
     }
     div.on('mousedown', function (event) {
@@ -163,9 +177,9 @@ function getScreenCell(tabId) {
                     screenCellArr.splice(0, screenCellArr.length);
                     flyscreen.innerHTML = '';
                     for (i = 0; i < data.cellList.length; i++) {
-                        var div = cellScreenDiv(data.cellList[i]);
+                        var num = screenCellArr.length;
+                        var div = cellScreenDiv(data.cellList[i],num);
                         if (div) {
-                            var num = screenCellArr.length;
                             screenCellArr[num] = data.cellList[i];
                             flyscreen.append(div);
                         }
