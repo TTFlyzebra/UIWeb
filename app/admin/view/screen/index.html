@@ -9,6 +9,7 @@
     <script type="text/javascript">
         var testurl = "{:url('/api/test')}";
         var cellurl = "{:url('/api/cell')}";
+        var tablecellurl = "{:url('/api/tablecell')}";
         var tableId = "{$tableId}";
     </script>
     <script type="text/javascript" src="_JS_/screen.js"></script>
@@ -22,8 +23,7 @@
             <option value="{$table.tableId}">{$table.tablename}</option>
             {/volist}
         </select>
-        <button style="width: 200px" type="button" onclick="getScreenCell('162')" class="btn btn-primary">加载数据</button>
-        <button style="width: 200px" type="button" onclick="upCellData()" class="btn btn-primary">保存数据</button>
+        <button style="width: 200px" type="button" onclick="upTableData()" class="btn btn-primary">保存数据</button>
     </div>
     <div class="flyscreen"></div>
     <div class="flycellmenu"></div>
@@ -31,6 +31,7 @@
 </div>
 </body>
 <script type="text/javascript">
+    tableId = $('#sel').val();
     $('#sel').change(function () {
         tableId = $('#sel').val();
     });

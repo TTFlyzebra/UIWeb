@@ -275,12 +275,12 @@ function flyscreenClassEventInit() {
             if (screenMoveCell) {
                 x = x - screenMoveDivPoint.x;
                 y = y - screenMoveDivPoint.y;
+                screenMoveCell.x = x * 1920 / 1280;
+                screenMoveCell.y = y * 1920 / 1280;
+                screenMoveDiv.style.left = x + 'px';
+                screenMoveDiv.style.top = y + 'px';
             }
             showMSG(x + "--" + y);
-            screenMoveCell.x = x * 1920 / 1280;
-            screenMoveCell.y = y * 1920 / 1280;
-            screenMoveDiv.style.left = x + 'px';
-            screenMoveDiv.style.top = y + 'px';
         }).on('mouseup', function (event) {
             if (screenMoveDiv) {
                 screenMoveDiv = null;
@@ -292,11 +292,32 @@ function flyscreenClassEventInit() {
     }
 }
 
-function getCellData() {
-    if (screenCellArr) {
-        alert(JSON.stringify(screenCellArr));
+function upTableData() {
+    var tableCellArr = [];
+    for (var i = 0; i < screenCellArr.length; i++) {
+        tableCellArr[i] = {};
+        tableCellArr[i].cellId = screenCellArr[i].cellId;
+        tableCellArr[i].width = screenCellArr[i].width;
+        tableCellArr[i].height = screenCellArr[i].height;
+        tableCellArr[i].x = screenCellArr[i].x;
+        tableCellArr[i].y = screenCellArr[i].y;
     }
+
+    var celljson = JSON.stringify(tableCellArr);
+
+    $.ajax({
+        url: tablecellurl,
+        type: "post",
+        data: "jsondata="+celljson+"&tableId="+tableId,
+        dataType: 'html',
+        error: function (request) {
+            alert("向服务器更新页面数据失败了!");
+        },
+        success: function (result) {
+        }
+    });
 }
+
 
 +$(function () {
     getCellMenu();

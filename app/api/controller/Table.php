@@ -2,11 +2,10 @@
 
 namespace app\api\controller;
 
-use think\Controller;
 use think\Db;
 use think\Request;
 
-class Table extends Controller
+class Table
 {
     public function index()
     {
