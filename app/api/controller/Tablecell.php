@@ -28,7 +28,7 @@ class Tablecell
                     $db->insert($tablecell);
                 }
             } else {
-                echo "error thinkPhp";
+                echo "error thinkPHP";
             }
         } elseif ($request->isGet()) {
             if ($request->has('tableId', 'get')) {

@@ -143,11 +143,11 @@ function cellMenuDiv(cell) {
             image.attr('ondragstart', 'return false;');
             image.attr('src', cell.imageurl1);
             if (cell.width / cell.height > 300 / 240) {
-                image.attr('width', '300px');
+                image.attr('width', cell.width*1280/1920+"px");
                 image.attr('height', 'auto');
             } else {
                 image.attr('width', 'auto');
-                image.attr('height', '240px');
+                image.attr('height', cell.height*1280/1920+"px");
             }
             div.get(0).append(image.get(0));
             break;

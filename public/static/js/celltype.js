@@ -78,7 +78,7 @@ var TableInit = function () {
             minimumCountColumns: 2,             //最少允许的列数
             clickToSelect: true,                //是否启用点击选中行
 //                height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
-            uniqueId: "celltypename",             //每一行的唯一标识，一般为主键列
+            uniqueId: "celltypeId",             //每一行的唯一标识，一般为主键列
             showToggle: false,                   //是否显示详细视图和列表视图的切换按钮
             cardView: false,                    //是否显示详细视图
             detailView: false,                  //是否显示父子表
@@ -87,7 +87,7 @@ var TableInit = function () {
             }, {
                 field: 'celltype',
                 title: '类型标识'
-            }, {
+            },{
                 field: 'celltypename',
                 title: '类型名称'
             }, {
@@ -129,4 +129,14 @@ $('#imageinput').flyinput({
 }).on("success", function (event, data) {
     var result = JSON.parse(data);
     $('#imageurl').val(result.saveName);
+});
+
+
+$('#btn_delete').on("click", function (event) {
+    var a = $('#celltypetable').bootstrapTable('getSelections');
+    if (a.length > 0) {
+        alert(a[0].celltypeId);
+    } else {
+        alert("请选中一行")
+    }
 });
