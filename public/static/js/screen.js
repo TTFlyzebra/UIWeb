@@ -61,7 +61,7 @@ function cellScreenDiv(cell) {
             image.css('height', cell.height * 1280 / 1920 + 'px');
             image.css('left', 0 + 'px');
             image.css('top', 0 + 'px');
-            image.attr('src', cell.imgUrl);
+            image.attr('src', cell.imageurl1);
             image.attr('ondragstart', 'return false;');
             div.get(0).append(image.get(0));
             //文字
