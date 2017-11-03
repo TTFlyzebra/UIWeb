@@ -1,14 +1,10 @@
 //POST提交数据
 function postform() {
-    if ($('#celltypename').val() === "") {
-        $('#celltypename').focus();
+    if ($('#tablename').val() === "") {
+        $('#tablename').focus();
         return
     }
 
-    if ($('#celltype').val() === "") {
-        $('#celltype').focus();
-        return
-    }
     $.ajax({
         type: "post",
         url: tableurl,

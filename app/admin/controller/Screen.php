@@ -6,13 +6,10 @@ use think\Controller;
 use think\Db;
 use think\Request;
 
-class Uiscreen extends Controller
+class Screen extends Controller
 {
     public function index()
     {
-//        $db= Db::name('cell');
-//        $celllist = $db->select();
-//        $this->assign('list',$celllist);
         $db= Db::name('table');
         $tables = $db->select();
         $this->assign('list',$tables);
