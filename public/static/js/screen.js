@@ -269,7 +269,7 @@ function documentEventInit() {
                     addMenuCell.imgUrl = addMenuCell.imageurl1;
                     var num = screenCellArr.length;
                     screenCellArr[num] = addMenuCell;
-                    flyscreen.append(cellScreenDiv(screenCellArr[num]));
+                    flyscreen.append(cellScreenDiv(screenCellArr[num],num));
                 }
             }
         }
