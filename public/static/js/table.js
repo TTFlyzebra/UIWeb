@@ -2,7 +2,7 @@
 function postform() {
     if ($('#tablename').val() === "") {
         $('#tablename').focus();
-        return
+        return;
     }
 
     $.ajax({
@@ -113,4 +113,33 @@ $('#imageinput').flyinput({
 }).on("success", function (event, data) {
     var result = JSON.parse(data);
     $('#imageurl').val(result.saveName);
+});
+
+
+function delTable(tableId) {
+    $.ajax({
+        type: "delete",
+        url: tableurl,
+        contentType: "application/json",
+        data: {
+            tableId: tableId
+        },
+        error: function (request) {
+            alert("向服务器提交数据失败了!\n" +
+                "可能的错误原因：\n" +
+                "1.网络错误。");
+        },
+        success: function (data) {
+            //更新显示列表
+            $('#celltypetable').bootstrapTable('refresh');
+        }
+    });
+}
+
+
+$('#btn_delete').on("click", function (event) {
+    var a = $('#celltypetable').bootstrapTable('getSelections');
+    for (var i = 0; i < a.length; i++) {
+        delTable(a[i].tableId);
+    }
 });

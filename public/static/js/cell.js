@@ -28,16 +28,26 @@ function postform() {
     });
 }
 
-//bootstrap-table脚本
-$(function () {
-    //1.初始化Table
-    var oTable = new TableInit();
-    oTable.Init();
-    //2.初始化Button的点击事件
-    // var oButtonInit = new ButtonInit();
-    // oButtonInit.Init();
 
-});
+function delCell(cellId) {
+    $.ajax({
+        type: "delete",
+        url: cellurl,
+        contentType: "application/json",
+        data: {
+            cellId:cellId
+        },
+        error: function (request) {
+            alert("向服务器提交数据失败了!\n" +
+                "可能的错误原因：\n" +
+                "1.网络错误。");
+        },
+        success: function (data) {
+            //更新显示列表
+            $('#celltypetable').bootstrapTable('refresh');
+        }
+    });
+}
 
 var TableInit = function () {
     var oTableInit = new Object();
@@ -112,28 +122,43 @@ var TableInit = function () {
     return oTableInit;
 };
 
-$('#imageinput1').flyinput({
-    url: upimageurl,
-    autoup: true,
-    showPreview: true,
-    width: "360px",
-    height: "240px",
-    background: "#EFEFEF"
-}).bind("success", function (e, data) {
-    var result = JSON.parse(data);
-    $('#imageurl1').val(result.saveName);
-    $('#width').val(result.width);
-    $('#height').val(result.height);
-});
+function initFileUpdata() {
+    $('#imageinput1').flyinput({
+        url: upimageurl,
+        autoup: true,
+        showPreview: true,
+        width: "360px",
+        height: "240px",
+        background: "#EFEFEF"
+    }).bind("success", function (e, data) {
+        var result = JSON.parse(data);
+        $('#imageurl1').val(result.saveName);
+        $('#width').val(result.width);
+        $('#height').val(result.height);
+    });
 
-$('#imageinput2').flyinput({
-    url: upimageurl,
-    autoup: true,
-    showPreview: true,
-    width: "360px",
-    height: "240px",
-    background: "#EFEFEF"
-}).bind("success", function (e, data) {
-    var result = JSON.parse(data);
-    $('#imageurl2').val(result.saveName);
+    $('#imageinput2').flyinput({
+        url: upimageurl,
+        autoup: true,
+        showPreview: true,
+        width: "360px",
+        height: "240px",
+        background: "#EFEFEF"
+    }).bind("success", function (e, data) {
+        var result = JSON.parse(data);
+        $('#imageurl2').val(result.saveName);
+    });
+}
+
+
++$(function () {
+    var oTable = new TableInit();
+    oTable.Init();
+    initFileUpdata();
+    $('#btn_delete').on("click", function (event) {
+        var a = $('#celltypetable').bootstrapTable('getSelections');
+        for(var i=0;i<a.length;i++){
+            delCell(a[i].cellId);
+        }
+    });
 });

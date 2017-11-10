@@ -10,7 +10,12 @@ class Cell
     public function index()
     {
         $request = Request::instance();
-        if ($request->isPost()) {
+
+        if($request->isDelete()){
+            $delcellId = ($request->only('cellId'))['cellId'];
+            $db =  Db::name("cell");
+            $result = $db->where('cellId',$delcellId)->delete();
+        }elseif ($request->isPost()) {
             $cell['celltypeId'] =(int)$_POST['celltypeId'];
             $cell['name'] = $_POST['name'];
             $cell['width'] = (int)$_POST['width'];

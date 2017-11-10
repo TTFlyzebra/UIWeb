@@ -131,12 +131,30 @@ $('#imageinput').flyinput({
     $('#imageurl').val(result.saveName);
 });
 
+function delCelltype(celltypeId) {
+    $.ajax({
+        type: "delete",
+        url: celltypeurl,
+        contentType: "application/json",
+        data: {
+            celltypeId:celltypeId
+        },
+        error: function (request) {
+            alert("向服务器提交数据失败了!\n" +
+                "可能的错误原因：\n" +
+                "1.网络错误。");
+        },
+        success: function (data) {
+            //更新显示列表
+            $('#celltypetable').bootstrapTable('refresh');
+        }
+    });
+}
+
 
 $('#btn_delete').on("click", function (event) {
     var a = $('#celltypetable').bootstrapTable('getSelections');
-    if (a.length > 0) {
-        alert(a[0].celltypeId);
-    } else {
-        alert("请选中一行")
+    for(var i=0;i<a.length;i++){
+        delCelltype(a[i].celltypeId);
     }
 });

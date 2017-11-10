@@ -10,7 +10,11 @@ class Celltype
     public function index()
     {
         $request = Request::instance();
-        if ($request->isPost()) {
+        if($request->isDelete()){
+            $delcelltypeId = ($request->only('celltypeId'))['celltypeId'];
+            $db =  Db::name("celltype");
+            $result = $db->where('celltypeId',$delcelltypeId)->delete();
+        }elseif ($request->isPost()) {
             $cell = $_POST;
             $cell['ip'] = request()->ip();
             $cell['userid'] = (int)$_POST['userid'];

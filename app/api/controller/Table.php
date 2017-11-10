@@ -10,7 +10,11 @@ class Table
     public function index()
     {
         $request = Request::instance();
-        if ($request->isPost()) {
+        if($request->isDelete()){
+            $deltableId = ($request->only('tableId'))['tableId'];
+            $db =  Db::name("table");
+            $result = $db->where('tableId',$deltableId)->delete();
+        }elseif ($request->isPost()) {
             $cell = $_POST;
             $cell['ip'] = request()->ip();
             $cell['userid'] = (int)$_POST['userid'];
