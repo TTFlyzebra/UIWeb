@@ -90,11 +90,11 @@ var TableInit = function () {
                 field: 'cellId',
                 title: 'ID'
             }, {
-                field: 'celltypeId',
+                field: 'celltypename',
                 title: '类型'
             }, {
                 field: 'name',
-                title: '名称'
+                title: '文本'
             }, {
                 field: 'width',
                 title: '宽度'
@@ -131,10 +131,11 @@ function initFileUpdata() {
         height: "240px",
         background: "#EFEFEF"
     }).bind("success", function (e, data) {
-        var result = JSON.parse(data);
-        $('#imageurl1').val(result.saveName);
-        $('#width').val(result.width);
-        $('#height').val(result.height);
+        var retmsg = JSON.parse(data);
+        $('#imageurl1').val(retmsg.data.saveName);
+        $('#width').val(retmsg.data.width);
+        $('#height').val(retmsg.data.height);
+        alert("width="+retmsg.data.width);
     });
 
     $('#imageinput2').flyinput({
@@ -145,8 +146,8 @@ function initFileUpdata() {
         height: "240px",
         background: "#EFEFEF"
     }).bind("success", function (e, data) {
-        var result = JSON.parse(data);
-        $('#imageurl2').val(result.saveName);
+        var retmsg = JSON.parse(data);
+        $('#imageurl2').val(retmsg.result.saveName);
     });
 }
 

@@ -1,5 +1,5 @@
 //POST提交数据
-function postform() {
+function postcelltype() {
     if ($('#celltypename').val() === "") {
         $('#celltypename').focus();
         return
@@ -21,17 +21,75 @@ function postform() {
                 "3.网络请求失败。");
         },
         success: function (data) {
-            $('#myModal').modal("hide");
+            $('#myModal1').modal("hide");
             //更新显示列表
             $('#celltypetable').bootstrapTable('refresh');
             //重置表单
             $('#celltypeform')[0].reset();
             //置空上传图片
-            $('#myModal').find("img").each(function (i) {
+            $('#myModal1').find("img").each(function (i) {
                 $(this).attr('src', "");
             });
             $('#imgurl').val("");
+        }
+    });
+}
 
+//POST提交数据
+function putcelltype() {
+    if ($('#celltypename').val() === "") {
+        $('#celltypename').focus();
+        return
+    }
+
+    if ($('#celltype').val() === "") {
+        $('#celltype').focus();
+        return
+    }
+    $.ajax({
+        type: "put",
+        url: celltypeurl,
+        data: $('#celltypeform').serialize(),
+        error: function (request) {
+            alert("向服务器提交数据失败了!\n" +
+                "可能的错误原因：\n" +
+                "1.重复的类型标识;\n" +
+                "2.重复的类型名称;\n" +
+                "3.网络请求失败。");
+        },
+        success: function (data) {
+            $('#myModal2').modal("hide");
+            //更新显示列表
+            $('#celltypetable').bootstrapTable('refresh');
+            //重置表单
+            $('#celltypeform2')[0].reset();
+            //置空上传图片
+            $('#myModal2').find("img").each(function (i) {
+                $(this).attr('src', "");
+            });
+            $('#imgurl2').val("");
+
+        }
+    });
+}
+
+
+function delCelltype(celltypeId) {
+    $.ajax({
+        type: "delete",
+        url: celltypeurl,
+        contentType: "application/json",
+        data: {
+            celltypeId:celltypeId
+        },
+        error: function (request) {
+            alert("向服务器提交数据失败了!\n" +
+                "可能的错误原因：\n" +
+                "1.网络错误。");
+        },
+        success: function (data) {
+            //更新显示列表
+            $('#celltypetable').bootstrapTable('refresh');
         }
     });
 }
@@ -119,7 +177,7 @@ var TableInit = function () {
     return oTableInit;
 };
 
-$('#imageinput').flyinput({
+$('#imageinput1').flyinput({
     url: upimageurl,
     autoup: true,
     showPreview: true,
@@ -128,29 +186,38 @@ $('#imageinput').flyinput({
     background: "#EFEFEF"
 }).on("success", function (event, data) {
     var result = JSON.parse(data);
-    $('#imageurl').val(result.saveName);
+    $('#imageurl1').val(result.data.saveName);
 });
 
-function delCelltype(celltypeId) {
-    $.ajax({
-        type: "delete",
-        url: celltypeurl,
-        contentType: "application/json",
-        data: {
-            celltypeId:celltypeId
-        },
-        error: function (request) {
-            alert("向服务器提交数据失败了!\n" +
-                "可能的错误原因：\n" +
-                "1.网络错误。");
-        },
-        success: function (data) {
-            //更新显示列表
-            $('#celltypetable').bootstrapTable('refresh');
-        }
-    });
-}
+$('#imageinput2').flyinput({
+    url: upimageurl,
+    autoup: true,
+    showPreview: true,
+    width: "100%",
+    height: "240px",
+    background: "#EFEFEF"
+}).on("success", function (event, data) {
+    var result = JSON.parse(data);
+    $('#imageurl2').val(result.data.saveName);
+});
 
+$('#btn_add').on("click", function (event) {
+});
+
+
+$('#btn_edit').on("click",function (event) {
+    var a = $('#celltypetable').bootstrapTable('getSelections');
+    if(a.length>0){
+        alert(a[0].celltypeId
+            +","+a[0].celltype
+            +","+a[0].celltypename
+            +","+a[0].imageurl
+            +","+a[0].extend1name
+            +","+a[0].extend2name
+            +","+a[0].extend3name
+            +","+a[0].extend4name);
+    }
+});
 
 $('#btn_delete').on("click", function (event) {
     var a = $('#celltypetable').bootstrapTable('getSelections');

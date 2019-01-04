@@ -132,10 +132,10 @@ return [
 
     // 视图输出字符串内容替换
     'view_replace_str'       => [
-        '_CSS_'=>'/flyme/public/static/css',
-        '_JS_'=>'/flyme/public/static/js',
-        '_IMG_'=>'flyme/public/static/img',
-        '_FT_'=>'/flyme/public/static/fonts'
+        '_CSS_'=>'/uiweb/public/static/css',
+        '_JS_'=>'/uiweb/public/static/js',
+        '_IMG_'=>'/uiweb/public/static/img',
+        '_FT_'=>'/uiweb/public/static/fonts'
     ],
     // 默认跳转页面对应的模板文件
     'dispatch_success_tmpl'  => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',

@@ -10,30 +10,37 @@ class Celltype
     public function index()
     {
         $request = Request::instance();
-        if($request->isDelete()){
+        if ($request->isDelete()) {
             $delcelltypeId = ($request->only('celltypeId'))['celltypeId'];
-            $db =  Db::name("celltype");
-            $result = $db->where('celltypeId',$delcelltypeId)->delete();
-        }elseif ($request->isPost()) {
+            $db = Db::name("celltype");
+            $result = $db->where('celltypeId', $delcelltypeId)->delete();
+        } elseif ($request->isPut()) {
             $cell = $_POST;
             $cell['ip'] = request()->ip();
             $cell['userid'] = (int)$_POST['userid'];
             $cell['celltype'] = (int)$_POST['celltype'];
-            $db =  Db::name("celltype");
+            $db = Db::name("celltype");
+            $result = $db->update($cell);
+        } elseif ($request->isPost()) {
+            $cell = $_POST;
+            $cell['ip'] = request()->ip();
+            $cell['userid'] = (int)$_POST['userid'];
+            $cell['celltype'] = (int)$_POST['celltype'];
+            $db = Db::name("celltype");
             $result = $db->insert($cell);
         } elseif ($request->isGet()) {
             $db = Db::name("celltype");
             $db->order('celltype desc');
-            if($request->has('limit','get')&&$request->has('offset','get')){
-                $db->limit($_GET['offset'],$_GET['limit']);
+            if ($request->has('limit', 'get') && $request->has('offset', 'get')) {
+                $db->limit($_GET['offset'], $_GET['limit']);
             }
-            $db->field('userid,ip',true);
+            $db->field('userid,ip', true);
             $celltypes = $db->select();
-            if($request->isAjax()){
+            if ($request->isAjax()) {
                 $resultdata['total'] = $db->count();
                 $resultdata['rows'] = $celltypes;
                 echo json_encode($resultdata);
-            }else{
+            } else {
                 echo json_encode($celltypes);
             }
         }

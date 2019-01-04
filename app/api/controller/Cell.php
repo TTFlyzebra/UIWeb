@@ -41,8 +41,13 @@ class Cell
             if($request->has('limit','get')&&$request->has('offset','get')){
                 $db->limit($_GET['offset'],$_GET['limit']);
             }
-            $db->field('userid,ip',true);
-            $cells = $db->select();
+//            $db->field('userid,ip',true);
+
+            $cells = $db
+                ->alias('a')
+                ->join("fly_celltype b", "a.celltypeId=b.celltypeId")
+//                ->field('a.userid,a.ip,b.userid,b.ip',true)
+                ->select();
             if($request->isAjax()){
                 $resultdata['total'] = $db->count();
                 $resultdata['rows'] = $cells;

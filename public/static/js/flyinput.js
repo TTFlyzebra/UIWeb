@@ -6,7 +6,7 @@ $.fn.flyinput = function (option) {
      */
     if (option.showPreview === true) {
         this.css("display", "none");
-        var divparent = $('<div onclick="Open_File_dialog()" style="text-align:center;overflow:hidden;width:' +
+        var divparent = $('<div onclick="" style="text-align:center;overflow:hidden;width:' +
             option.width + ';height:' + option.height +
             ';line-height:' + option.height +
             ';background:' + option.background +
@@ -42,9 +42,9 @@ $.fn.flyinput = function (option) {
                     self.trigger("success",data);
                     try {
                         var result = JSON.parse(data);
-                        if (result.ok === 1) {
-                            divimg.attr('src', result.saveName);
-                            var a = result.width / result.height;
+                        if (result.ret === 0) {
+                            divimg.attr('src', result.data.saveName);
+                            var a = result.data.width / result.data.height;
                             var b = divparent.width() / divparent.height();
                             if (a > b) {
                                 divimg.css("width", option.width);
@@ -55,11 +55,11 @@ $.fn.flyinput = function (option) {
                             }
                         } else {
                             divimg.attr('src', "");
-                            alert(result.error);
+                            alert(result.msg+result.data);
                         }
                     } catch (e) {
                         divimg.attr('src', "");
-                        alert(e);
+                        alert("catch error:"+e);
                     }
                 },
                 error: function () {

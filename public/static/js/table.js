@@ -112,7 +112,7 @@ $('#imageinput').flyinput({
     background: "#EFEFEF"
 }).on("success", function (event, data) {
     var result = JSON.parse(data);
-    $('#imageurl').val(result.saveName);
+    $('#imageurl').val(result.data.saveName);
 });
 
 
