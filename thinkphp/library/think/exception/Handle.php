@@ -21,10 +21,15 @@ use think\Response;
 
 class Handle
 {
-
+    protected $render;
     protected $ignoreReport = [
         '\\think\\exception\\HttpException',
     ];
+
+    public function setRender($render)
+    {
+        $this->render = $render;
+    }
 
     /**
      * Report or log an exception.
@@ -40,16 +45,20 @@ class Handle
                 $data = [
                     'file'    => $exception->getFile(),
                     'line'    => $exception->getLine(),
-                    'screenmsg' => $this->getMessage($exception),
+                    'message' => $this->getMessage($exception),
                     'code'    => $this->getCode($exception),
                 ];
-                $log = "[{$data['code']}]{$data['screenmsg']}[{$data['file']}:{$data['line']}]";
+                $log = "[{$data['code']}]{$data['message']}[{$data['file']}:{$data['line']}]";
             } else {
                 $data = [
                     'code'    => $this->getCode($exception),
-                    'screenmsg' => $this->getMessage($exception),
+                    'message' => $this->getMessage($exception),
                 ];
-                $log = "[{$data['code']}]{$data['screenmsg']}";
+                $log = "[{$data['code']}]{$data['message']}";
+            }
+
+            if (Config::get('record_trace')) {
+                $log .= "\r\n" . $exception->getTraceAsString();
             }
 
             Log::record($log, 'error');
@@ -74,6 +83,13 @@ class Handle
      */
     public function render(Exception $e)
     {
+        if ($this->render && $this->render instanceof \Closure) {
+            $result = call_user_func_array($this->render, [$e]);
+            if ($result) {
+                return $result;
+            }
+        }
+
         if ($e instanceof HttpException) {
             return $this->renderHttpException($e);
         } else {
@@ -121,7 +137,7 @@ class Handle
                 'name'    => get_class($exception),
                 'file'    => $exception->getFile(),
                 'line'    => $exception->getLine(),
-                'screenmsg' => $this->getMessage($exception),
+                'message' => $this->getMessage($exception),
                 'trace'   => $exception->getTrace(),
                 'code'    => $this->getCode($exception),
                 'source'  => $this->getSourceCode($exception),
@@ -141,12 +157,12 @@ class Handle
             // 部署模式仅显示 Code 和 Message
             $data = [
                 'code'    => $this->getCode($exception),
-                'screenmsg' => $this->getMessage($exception),
+                'message' => $this->getMessage($exception),
             ];
 
             if (!Config::get('show_error_msg')) {
                 // 不显示详细错误信息
-                $data['screenmsg'] = Config::get('error_message');
+                $data['message'] = Config::get('error_message');
             }
         }
 
@@ -202,10 +218,6 @@ class Handle
         $message = $exception->getMessage();
         if (IS_CLI) {
             return $message;
-        }
-        // 导入语言包
-        if (!Config::get('lang_switch_on')) {
-            Lang::load(THINK_PATH . 'lang' . DS . Lang::detect() . EXT);
         }
 
         if (strpos($message, ':')) {

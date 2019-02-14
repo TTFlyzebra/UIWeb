@@ -13,10 +13,10 @@ namespace think\console\command;
 
 use think\console\Command;
 use think\console\Input;
-use think\console\input\Argument as InputArgument;
-use think\console\input\Definition as InputDefinition;
-use think\console\input\Option as InputOption;
 use think\console\Output;
+use think\console\input\Argument as InputArgument;
+use think\console\input\Option as InputOption;
+use think\console\input\Definition as InputDefinition;
 
 class Lists extends Command
 {
