@@ -135,7 +135,7 @@ function initFileUpdata() {
         $('#imageurl1').val(retmsg.data.saveName);
         $('#width').val(retmsg.data.width);
         $('#height').val(retmsg.data.height);
-        alert("width="+retmsg.data.width);
+        // alert("width="+retmsg.data.width);
     });
 
     $('#imageinput2').flyinput({
