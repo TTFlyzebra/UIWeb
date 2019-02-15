@@ -139,6 +139,10 @@ return [
     'view_replace_str'       => [
         '__PUBLIC__'=>$WEBROOT.'/public',
         '__STATIC__'=>$WEBROOT.'/public/static',
+        '__CSS__'=>$WEBROOT.'/public/static/css',
+        '__JS__'=>$WEBROOT.'/public/static/js',
+        '__IMG__'=>$WEBROOT.'/public/static/img',
+        '__FT__'=>$WEBROOT.'/public/static/fonts',
         '_CSS_'=>$WEBROOT.'/public/static/css',
         '_JS_'=>$WEBROOT.'/public/static/js',
         '_IMG_'=>$WEBROOT.'/public/static/img',

@@ -14,17 +14,18 @@
     <div class="panel-group" id="accordion">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion"
-                       href="#collapse1">
+                <h4 class="panel-title active">
+                    <div data-toggle="collapse" data-parent="#accordion"
+                         href="#collapse1">
                         UI设置
-                    </a>
+                    </div>
                 </h4>
             </div>
             <div id="collapse1" class="panel-collapse collapse in">
                 <div class="panel-body">
                     <ul class="nav nav-pills nav-stacked">
-                        <li class="active" role="presentation"><a href="{:url('/admin/celltype')}" target="mainIframe">控件类型</a></li>
+                        <li class="active" role="presentation"><a href="{:url('/admin/celltype')}" target="mainIframe">控件类型</a>
+                        </li>
                         <li role="presentation"><a href="{:url('/admin/cell')}" target="mainIframe">添加控件</a></li>
                         <li role="presentation"><a href="{:url('/admin/table')}" target="mainIframe">添加页面</a></li>
                         <li role="presentation"><a href="{:url('/admin/screen')}" target="mainIframe">页面管理</a></li>
@@ -35,19 +36,16 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion"
-                       href="#collapse2">
+                    <div data-toggle="collapse" data-parent="#accordion"
+                         href="#collapse2">
                         工厂设置
-                    </a>
+                    </div>
                 </h4>
             </div>
             <div id="collapse2" class="panel-collapse collapse">
                 <div class="panel-body">
                     <ul class="nav nav-pills nav-stacked">
-                        <li class="active" role="presentation"><a href="{:url('/admin/celltype')}" target="mainIframe">控件类型</a></li>
-                        <li role="presentation"><a href="{:url('/admin/cell')}" target="mainIframe">添加控件</a></li>
-                        <li role="presentation"><a href="{:url('/admin/table')}" target="mainIframe">添加页面</a></li>
-                        <li role="presentation"><a href="{:url('/admin/screen')}" target="mainIframe">页面管理</a></li>
+                        <li role="presentation"><a href="{:url('/admin/celltype')}" target="mainIframe">默认设置</a></li>
                     </ul>
                 </div>
             </div>
@@ -58,12 +56,12 @@
     <iframe name="mainIframe" src="{:url('/admin/celltype')}" frameborder="0"></iframe>
 </div>
 <script type="text/javascript">
-    function changeMargin(){
+    function changeMargin() {
         //获取网页可见区域宽度
         var height = document.body.clientHeight;
-        $('.left-menu').css('height',(height-55)+'px');
-        $('.content').css('height',(height-55)+'px');
-        $('.iframe').css('height',(height-55)+'px');
+        $('.left-menu').css('height', (height - 55) + 'px');
+        $('.content').css('height', (height - 55) + 'px');
+        $('.iframe').css('height', (height - 55) + 'px');
     }
 
     $(document).ready(function () {
@@ -71,11 +69,16 @@
             $('ul.nav > li').removeClass('active');
             $(this).addClass('active');
         });
+
+        // $('.panel-heading').click(function (e) {
+        //     $(".panel-heading").attr("style", "color:black");
+        //     $(this).attr("style", "color:blue");
+        // });
     });
     //加载页面时执行一次
     changeMargin();
     //监听浏览器宽度的改变
-    window.onresize = function(){
+    window.onresize = function () {
         changeMargin();
     };
 </script>

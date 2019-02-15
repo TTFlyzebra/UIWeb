@@ -12,9 +12,9 @@
 // [ 应用入口文件 ]
 
 // 定义应用目录
-define('APP_PATH', __DIR__ . '/apps/');
+define('APP_PATH', __DIR__ . '/application/');
 // 开启调试模式
-define('APP_DEBUG', true);
+define('APP_DEBUG', false);
 // 加载框架引导文件
 //define('APP_AUTO_BUILD',true); //开启自动生成
 

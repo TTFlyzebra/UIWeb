@@ -20,13 +20,13 @@ iframe {
     height: 50px;
     border: solid;
     box-sizing: border-box;
-    border-width: 1px;
+    border-width: 0px;
     border-color: #000000;
 }
 
 .left-menu{
     float: left;
-    width: 200px;
+    width: 240px;
     height: 100%;
     border: solid;
     box-sizing: border-box;
@@ -35,7 +35,7 @@ iframe {
 }
 
 .content{
-    margin-left:200px;
+    margin-left:240px;
     height:100%;
     border: solid;
     box-sizing: border-box;
