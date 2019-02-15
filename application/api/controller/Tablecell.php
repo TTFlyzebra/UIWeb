@@ -40,34 +40,9 @@ class Tablecell
                 $result['cellList'] = $tabledata;
                 $result['msg'] = '成功';
                 $result['ret'] = 0;
-                echo data2Xml($result);
+                echo json_encode($result);
             }
         }
-    }
-
-    private static function data2Xml($data, $item = 'item', $id = 'id')
-    {
-
-//        $xml = $attr = '';
-//
-//        foreach ($data as $key => $val)
-//        {
-//            if (is_numeric($key))
-//            {
-//                $id&&$attr = "{$id}=\"{$key}\"";
-//                $key = $item;
-//            }
-//            $xml .= "<{$key} {$attr}>";
-//            if ((is_array($val) || is_object($val))) {
-//                $xml .= self::data2Xml((array)$val, $item, $id);
-//            } else {
-//                $xml .= is_numeric($val) ? $val : self::cdata($val);
-//            }
-//            $xml .= "</{$key}>";
-//        }
-
-        return "abcdefg";
-
     }
 
 }
