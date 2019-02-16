@@ -12,4 +12,11 @@ class Cell extends Controller {
 	    $this->assign('list',$celltypes);
 		return $this->fetch ();
 	}
+
+	public function add(){
+        $db= Db::name('celltype');
+        $celltypes = $db->select();
+        $this->assign('list',$celltypes);
+        return $this->fetch ();
+    }
 }

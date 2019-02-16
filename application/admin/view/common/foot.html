@@ -1,0 +1,30 @@
+</div>
+<script type="text/javascript">
+    function changeMargin() {
+        //获取网页可见区域宽度
+        var height = document.body.clientHeight;
+        $('.left-menu').css('height', (height - 55) + 'px');
+        $('.content').css('height', (height - 55) + 'px');
+        // $('.iframe').css('height', (height - 55) + 'px');
+    }
+
+    $(document).ready(function () {
+        $('ul.nav > li').click(function (e) {
+            $('ul.nav > li').removeClass('active');
+            $(this).addClass('active');
+        });
+
+        // $('.panel-heading').click(function (e) {
+        //     $(".panel-heading").attr("style", "color:black");
+        //     $(this).attr("style", "color:blue");
+        // });
+    });
+    //加载页面时执行一次
+    changeMargin();
+    //监听浏览器宽度的改变
+    window.onresize = function () {
+        changeMargin();
+    };
+</script>
+</body>
+</html>

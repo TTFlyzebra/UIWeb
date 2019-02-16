@@ -9,7 +9,6 @@ class Index extends Controller
 {
     public function index()
     {
-        $celltypes = Db::name("celltype")->select();
-        return $this->fetch();
+        return view();
     }
 }

@@ -137,16 +137,7 @@ return [
 
     // 视图输出字符串内容替换
     'view_replace_str'       => [
-        '__PUBLIC__'=>$WEBROOT.'/public',
-        '__STATIC__'=>$WEBROOT.'/public/static',
-        '__CSS__'=>$WEBROOT.'/public/static/css',
-        '__JS__'=>$WEBROOT.'/public/static/js',
-        '__IMG__'=>$WEBROOT.'/public/static/img',
-        '__FT__'=>$WEBROOT.'/public/static/fonts',
-        '_CSS_'=>$WEBROOT.'/public/static/css',
-        '_JS_'=>$WEBROOT.'/public/static/js',
-        '_IMG_'=>$WEBROOT.'/public/static/img',
-        '_FT_'=>$WEBROOT.'/public/static/fonts'
+        '__RES__'=>$WEBROOT.'/public/res'
     ],
     // 默认跳转页面对应的模板文件
     'dispatch_success_tmpl'  => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',

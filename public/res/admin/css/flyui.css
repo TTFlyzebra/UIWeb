@@ -25,6 +25,7 @@ iframe {
 }
 
 .left-menu{
+    position:absolute;
     float: left;
     width: 240px;
     height: 100%;
