@@ -12,22 +12,19 @@ class Celltype
         $request = Request::instance();
         if ($request->isDelete()) {
             $delcelltypeId = ($request->only('celltypeId'))['celltypeId'];
-            $db = Db::name("celltype");
-            $result = $db->where('celltypeId', $delcelltypeId)->delete();
+            $result = Db::name("celltype")->where('celltypeId', $delcelltypeId)->delete();
         } elseif ($request->isPut()) {
-            $cell = $_POST;
+            $cell = $request->put();
             $cell['ip'] = request()->ip();
-            $cell['userid'] = (int)$_POST['userid'];
-            $cell['celltype'] = (int)$_POST['celltype'];
-            $db = Db::name("celltype");
-            $result = $db->update($cell);
+            $cell['userid'] = (int)$cell['userid'];
+            $cell['celltype'] = (int)$cell['celltype'];
+            $result = Db::name("celltype")->update($cell);
         } elseif ($request->isPost()) {
             $cell = $_POST;
             $cell['ip'] = request()->ip();
             $cell['userid'] = (int)$_POST['userid'];
             $cell['celltype'] = (int)$_POST['celltype'];
-            $db = Db::name("celltype");
-            $result = $db->insert($cell);
+            $result = Db::name("celltype")->insert($cell);
         } elseif ($request->isGet()) {
             $db = Db::name("celltype");
             $db->order('celltype desc');

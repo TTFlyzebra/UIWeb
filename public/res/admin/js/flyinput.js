@@ -15,6 +15,9 @@ $.fn.flyinput = function (option) {
             self.click();
         });
         divimg = $('<img style="vertical-align:middle" src="">');
+        divimg.css("width", "auto");
+        divimg.css("height", option.height);
+        divimg.attr('src', option.image);
         divparent.append(divimg);
         this.after(divparent);
     }
@@ -54,17 +57,17 @@ $.fn.flyinput = function (option) {
                                 divimg.css("height", option.height);
                             }
                         } else {
-                            divimg.attr('src', "");
+                            divimg.attr('src', option.image);
                             alert(result.msg+result.data);
                         }
                     } catch (e) {
-                        divimg.attr('src', "");
+                        divimg.attr('src', option.image);
                         alert("catch error:"+e);
                     }
                 },
                 error: function () {
                     alert("上传图片失败！");
-                    divimg.attr('src', "");
+                    divimg.attr('src', option.image);
                 }
             });
         });
@@ -74,24 +77,4 @@ $.fn.flyinput = function (option) {
         return divimg;
     };
     return this;
-}
-
-/**
- * 将以"px"字符串结尾的字符串转换成int整数
- * @param _px 以"px"结尾的字符串
- * @returns 去掉"px"后转换的int整数
- */
-function trimPX(_px) {
-    if (_px === null || _px === "")
-        return 0;
-    return parseInt(_px.substr(0, _px.lastIndexOf("px")));
-}
-
-/**
- * 将变量尾部加上px并以字符串形式返回
- * @param _px 要转换的字符串
- * @returns 尾部加上px的字符串
- */
-function pastePX(_px) {
-    return _px + "px";
 }
