@@ -15,23 +15,32 @@ class Cell
             $delcellId = ($request->only('cellId'))['cellId'];
             $db =  Db::name("cell");
             $result = $db->where('cellId',$delcellId)->delete();
-        }elseif ($request->isPost()) {
-            $cell['celltypeId'] =(int)$_POST['celltypeId'];
-            $cell['name'] = $_POST['name'];
-            $cell['width'] = (int)$_POST['width'];
-            $cell['height'] = (int)$_POST['height'];
-            $cell['imageurl1'] = $_POST['imageurl1'];
-            $cell['imageurl2'] = $_POST['imageurl2'];
-            $cell['text'] = $_POST['text'];
-            $cell['textsize'] = (int)$_POST['textsize'];
-            $cell['textcolor'] = $_POST['textcolor'];
-            $cell['textposition'] = (int)$_POST['textposition'];
+        } elseif ($request->isPut()) {
+            $cell = $request->put();
+            $cell['celltypeId'] =(int)$cell['celltypeId'];
+            $cell['width'] = (int)$cell['width'];
+            $cell['height'] = (int)$cell['height'];
+            $cell['textSize'] = (int)$cell['textSize'];
+            $cell['textLeft'] = (int)$cell['textLeft'];
+            $cell['textRight'] = (int)$cell['textRight'];
+            $cell['textTop'] = (int)$cell['textTop'];
+            $cell['textBottom'] = (int)$cell['textBottom'];
+            $cell['userid'] = (int)$cell['userid'];
             $cell['ip'] = request()->ip();
-
-            if($request->has('userid','post')){
-                $cell['userid'] = (int)$_POST['userid'];
-            }
-
+            $db =  Db::name("cell");
+            $result = $db->update($cell);
+        }elseif ($request->isPost()) {
+            $cell = $request->post();
+            $cell['celltypeId'] =(int)$cell['celltypeId'];
+            $cell['width'] = (int)$cell['width'];
+            $cell['height'] = (int)$cell['height'];
+            $cell['textSize'] = (int)$cell['textSize'];
+            $cell['textLeft'] = (int)$cell['textLeft'];
+            $cell['textRight'] = (int)$cell['textRight'];
+            $cell['textTop'] = (int)$cell['textTop'];
+            $cell['textBottom'] = (int)$cell['textBottom'];
+            $cell['userid'] = (int)$cell['userid'];
+            $cell['ip'] = request()->ip();
             $db =  Db::name("cell");
             $result = $db->insert($cell);
 

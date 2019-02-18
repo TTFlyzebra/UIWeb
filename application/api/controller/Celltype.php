@@ -20,10 +20,10 @@ class Celltype
             $cell['celltype'] = (int)$cell['celltype'];
             $result = Db::name("celltype")->update($cell);
         } elseif ($request->isPost()) {
-            $cell = $_POST;
+            $cell = $request->post();;
             $cell['ip'] = request()->ip();
-            $cell['userid'] = (int)$_POST['userid'];
-            $cell['celltype'] = (int)$_POST['celltype'];
+            $cell['userid'] = (int)$cell['userid'];
+            $cell['celltype'] = (int)$cell['celltype'];
             $result = Db::name("celltype")->insert($cell);
         } elseif ($request->isGet()) {
             $db = Db::name("celltype");

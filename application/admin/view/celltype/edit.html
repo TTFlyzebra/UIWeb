@@ -67,7 +67,7 @@
 <script type="text/javascript">
     var celltypeurl = "{:url('/api/celltype')}";
     var upimageurl = "{:url('/api/imagefile')}";
-    var defaultImage = $('#imageurl1').val();
+    var imageurl1 = $('#imageurl1').val();
 
     //POST提交数据
     function postcelltype() {
@@ -99,7 +99,7 @@
 
     $('#imageinput1').flyinput({
         url: upimageurl,
-        image: defaultImage,
+        image: imageurl1,
         autoup: true,
         showPreview: true,
         width: "100%",
