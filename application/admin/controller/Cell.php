@@ -31,8 +31,7 @@ class Cell extends Controller {
             $db = Db::name('cell');
             $item = $db->where('cellId', $_GET['id'])->find();
             $this->assign('item', $item);
+            return $this->fetch ();
         }
-
-        return $this->fetch ();
     }
 }

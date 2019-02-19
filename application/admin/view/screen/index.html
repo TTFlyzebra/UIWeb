@@ -2,21 +2,80 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>测试页</title>
-    <link rel="stylesheet" type="text/css" href="__RES__/admin/css/screen.css">
-    <link rel="stylesheet" type="text/css" href="__RES__/admin/css/bootstrap.css">
-    <script type="text/javascript" src="__RES__/admin/js/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="__RES__/admin/js/bootstrap.js"></script>
+    <title>页面编辑</title>
 </head>
+<link rel="stylesheet" type="text/css" href="__RES__/admin/css/bootstrap.css">
+<script type="text/javascript" src="__RES__/admin/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="__RES__/admin/js/bootstrap.js"></script>
+<style type="text/css">
+    body {
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
+
+    a:link {
+        color: #0000ff;
+        text-decoration: none;
+    }
+
+    a:visited {
+        color: #0000ff;
+        text-decoration: none;
+    }
+
+    a:hover, a:active, a:focus {
+        color: #999999;
+        text-decoration: none;
+    }
+
+    .flycenter {
+        margin: 0 auto;
+        width: 1580px;
+        background: lightsteelblue;
+    }
+
+    .flyscreen {
+        position: relative;
+        float: left;
+        width: 1280px;
+        height: 720px;
+        overflow: auto;
+        border: solid;
+        box-sizing: border-box;
+        border-width: 1px;
+        border-color: #000000;
+        background: #1b6d85;
+    }
+
+    .flyscreenmsg {
+        text-align: right;
+        position: absolute;
+        height: 30px;
+        width: 1280px;
+        font-size: 24px;
+        color: #FF00FF;
+    }
+
+    .flycellmenu {
+        position: relative;
+        float: left;
+        width: 360px;
+        height: 720px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        border: solid;
+        box-sizing: border-box;
+        border-width: 1px;
+        border-color: #000000;
+    }
+</style>
 <body>
 <div class="flycenter">
     <div style="text-align: left;">
         <select id="sel" style="width: 200px">
-            <!--{volist name="list" id="page" key="k"}-->
-            <!--<option value="{$page.pageId}">{$page.pagename}</option>-->
-            <!--{/volist}-->
             {volist name="list" id="page" key="k"}
-            {if condition="$pageId eq $page['pageId']"}
+            {if condition="$item['pageId'] eq $page['pageId']"}
             <option value="{$page.pageId}" selected="selected">{$page.pagename}</option>
             {else /}
             <option value="{$page.pageId}">{$page.pagename}</option>
@@ -42,6 +101,14 @@
     var screenMoveCell = null;
     var bodyMoveDiv = null;
     var addMenuCell = null;
+
+    var flycenterwidth = trimPX("{$item.width}px")+360;
+
+    $('.flycenter').css('width', flycenterwidth+'px');
+    $('.flyscreen').css('width', '{$item.width}px');
+    $('.flyscreen').css('height','{$item.height}px');
+    $('.flyscreenmsg').css('width','{$item.width}px');
+    $('.flycellmenu').css('height','{$item.height}px');
 
     /**
      * 将以"px"字符串结尾的字符串转换成int整数
@@ -73,7 +140,6 @@
         }
     }
 
-
     /**
      * @param cell
      * @returns {*|jQuery|HTMLElement}
@@ -85,16 +151,16 @@
                 break;
             default:
                 div.css('position', 'absolute');
-                div.css('width', cell.width * 1280 / 1920 + 'px');
-                div.css('height', cell.height * 1280 / 1920 + 'px');
-                div.css('left', cell.x * 1280 / 1920 + 'px');
-                div.css('top', cell.y * 1280 / 1920 + 'px');
+                div.css('width', cell.width + 'px');
+                div.css('height', cell.height + 'px');
+                div.css('left', cell.x  + 'px');
+                div.css('top', cell.y  + 'px');
                 div.css('background', '#efefff');
                 //图像
                 var image = $('<img>');
                 image.css('position', 'absolute');
-                image.css('width', cell.width * 1280 / 1920 + 'px');
-                image.css('height', cell.height * 1280 / 1920 + 'px');
+                image.css('width', cell.width  + 'px');
+                image.css('height', cell.height  + 'px');
                 image.css('left', 0 + 'px');
                 image.css('top', 0 + 'px');
                 image.attr('src', cell.imageurl1);
@@ -104,9 +170,9 @@
                 var text = $('<div></div>');
                 text.css('position', 'absolute');
                 text.css('text-align', 'center');
-                text.css('width', cell.width * 1280 / 1920 + 'px');
+                text.css('width', cell.width  + 'px');
                 text.css('font-size', '24px');
-                text.css('top', (cell.height * 1280 / 1920 - 48) + 'px');
+                text.css('top', (cell.height  - 48) + 'px');
                 try {
                     var data = JSON.parse(cell.text);
                     var content = data.CN;
@@ -122,11 +188,11 @@
                 //删除按钮
                 var del =  $('<div>X</div>');
                 del.css('position', 'absolute');
-                del.css('left', (cell.width * 1280 / 1920-22)+'px');
+                del.css('left', (cell.width -22)+'px');
                 del.css('top', '2px');
                 del.css('width', '20px');
                 del.css('height', '20px');
-                del.css('background','#FFFFFF');
+                del.css('background','#FAF000');
 
                 del.on("click",function (event) {
                     $('.flyscreen').get(0).removeChild(div.get(0));
@@ -179,11 +245,11 @@
                 image.attr('ondragstart', 'return false;');
                 image.attr('src', cell.imageurl1);
                 if (cell.width / cell.height > 300 / 240) {
-                    image.attr('width', cell.width*1280/1920+"px");
+                    image.attr('width', cell.width+"px");
                     image.attr('height', 'auto');
                 } else {
                     image.attr('width', 'auto');
-                    image.attr('height', cell.height*1280/1920+"px");
+                    image.attr('height', cell.height+"px");
                 }
                 div.get(0).append(image.get(0));
                 break;
@@ -204,7 +270,7 @@
         if (flyscreen) {
             $.ajax({
                 url: pagecellurl,
-                type: "get",
+                type: "GET",
                 data: "pageId=" + tabId,
                 dataType: 'html',
                 success: function (result) {
@@ -236,7 +302,7 @@
         if (flycellmenu) {
             $.ajax({
                 url: cellurl,
-                type: "get",
+                type: "GET",
                 data: "",
                 dataType: 'html',
                 success: function (result) {
@@ -300,8 +366,8 @@
                     if (addMenuCell) {
                         var x = event.clientX - left + flyscreen.scrollLeft;
                         var y = event.clientY - top + flyscreen.scrollTop;
-                        addMenuCell.x = x * 1920 / 1280;
-                        addMenuCell.y = y * 1920 / 1280;
+                        addMenuCell.x = x ;
+                        addMenuCell.y = y ;
                         addMenuCell.imgUrl = addMenuCell.imageurl1;
                         var num = screenCellArr.length;
                         screenCellArr[num] = addMenuCell;
@@ -325,10 +391,13 @@
                 if (screenMoveCell) {
                     x = x - screenMoveDivPoint.x;
                     y = y - screenMoveDivPoint.y;
-                    screenMoveCell.x = x * 1920 / 1280;
-                    screenMoveCell.y = y * 1920 / 1280;
+                    screenMoveCell.x = x ;
+                    screenMoveCell.y = y ;
                     screenMoveDiv.style.left = x + 'px';
                     screenMoveDiv.style.top = y + 'px';
+                }else{
+                    x = x - this.offset().left;
+                    x = x - this.offset().top;
                 }
                 showMSG(x + "--" + y);
             }).on('mouseup', function (event) {
@@ -352,16 +421,14 @@
             pageCellArr[i].x = screenCellArr[i].x;
             pageCellArr[i].y = screenCellArr[i].y;
         }
-
         var celljson = JSON.stringify(pageCellArr);
-
         $.ajax({
             url: pagecellurl,
             type: "post",
             data: "jsondata="+celljson+"&pageId="+pageId,
             dataType: 'html',
             error: function (request) {
-                alert("向服务器更新页面数据失败了!");
+                alert("向服务器提交页面数据更新失败!");
             },
             success: function (result) {
             }
@@ -373,14 +440,13 @@
         getCellMenu();
         documentEventInit();
         flyscreenClassEventInit();
-
     });
 
     pageId = $('#sel').val();
     getScreenCell(pageId);
     $('#sel').change(function () {
         pageId = $('#sel').val();
-        window.location.href = "{:url('/admin/page/screen')}?id="+pageId;
+        window.location.href = "{:url('/admin/screen')}?id="+pageId;
     });
 </script>
 </html>

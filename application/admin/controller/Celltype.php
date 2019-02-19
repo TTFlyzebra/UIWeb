@@ -25,7 +25,7 @@ class Celltype extends Controller
             $db = Db::name('celltype');
             $item = $db->where('celltypeId', $_GET['id'])->find();
             $this->assign('item', $item);
+            return $this->fetch();
         }
-        return $this->fetch();
     }
 }
