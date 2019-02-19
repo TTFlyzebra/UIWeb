@@ -4,7 +4,7 @@ namespace app\index\model;
 
 use think\Model;
 
-class Tablecell extends Model
+class Pagecell extends Model
 {
     public function cells()
     {

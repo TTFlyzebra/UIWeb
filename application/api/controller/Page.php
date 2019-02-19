@@ -5,23 +5,29 @@ namespace app\api\controller;
 use think\Db;
 use think\Request;
 
-class Table
+class Page
 {
     public function index()
     {
         $request = Request::instance();
         if($request->isDelete()){
-            $deltableId = ($request->only('tableId'))['tableId'];
-            $db =  Db::name("table");
-            $result = $db->where('tableId',$deltableId)->delete();
+            $delpageId = ($request->only('pageId'))['pageId'];
+            $db =  Db::name("page");
+            $result = $db->where('pageId',$delpageId)->delete();
+        }elseif ($request->isPut()) {
+            $page = $request->put();
+            $page['ip'] = request()->ip();
+            $page['userid'] = (int)$page['userid'];
+            $db =  Db::name("page");
+            $result = $db->update($page);
         }elseif ($request->isPost()) {
-            $cell = $_POST;
-            $cell['ip'] = request()->ip();
-            $cell['userid'] = (int)$_POST['userid'];
-            $db =  Db::name("table");
-            $result = $db->insert($cell);
+            $page =  $request->post();
+            $page['ip'] = request()->ip();
+            $page['userid'] = (int)$page['userid'];
+            $db =  Db::name("page");
+            $result = $db->insert($page);
         } elseif ($request->isGet()) {
-            $db = Db::name("table");
+            $db = Db::name("page");
             if($request->has('limit','get')&&$request->has('offset','get')){
                 $db->limit($_GET['offset'],$_GET['limit']);
             }

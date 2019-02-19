@@ -11,58 +11,68 @@
 <body>
 
 <form class="form-horizontal" name="celltypeform" id="celltypeform" method="post" role="form"
-      action="{:url('/api/table')}"
+      action="{:url('/api/page')}"
       enctype="multipart/form-data">
     <div class="modal-header">
         <h4 class="modal-title" id="myModalLabel">
-            添加控件类型
+            修改页面
         </h4>
     </div>
     <div class="modal-body">
         <div class="form-group">
-            <label for="tablename" class="col-sm-1 control-label">页面名称</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" name="tablename" id="tablename" value=""
+            <label for="pagename" class="col-sm-1 control-label">页面名称</label>
+            <div class="col-sm-5">
+                <input type="text" class="form-control" name="pagename" id="pagename" value="{$item.pagename}"
                        placeholder="请输入名称">
             </div>
         </div>
         <div class="form-group">
             <label for="imageinput" class="col-sm-1 control-label">背景图片</label>
-            <div class="col-sm-10">
+            <div class="col-sm-5">
                 <input type="file" id="imageinput" name="imagefile">
-                <input type="hidden" id="imageurl" name="imageurl" value="">
+                <input type="hidden" id="imageurl" name="imageurl" value="{$item.imageurl}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">分&nbsp辨&nbsp率&nbsp</label>
+            <div class="col-sm-1">
+                <input id="width" name="width" type="text" class="form-control" value="{$item.width}" placeholder="宽(像素)">
+            </div>
+            <div class="col-sm-1">
+                <input id="height" name="height" type="text" class="form-control" value="{$item.height}" placeholder="高(像素)">
             </div>
         </div>
         <div class="form-group">
             <label for="remark" class="col-sm-1 control-label">备注</label>
-            <div class="col-sm-10">
-                            <textarea class="form-control" name="remark" value="" id="remark"
+            <div class="col-sm-5">
+                            <textarea class="form-control" name="remark" value="{$item.remark}" id="remark"
                                       placeholder="备注"></textarea>
             </div>
         </div>
+        <input type="hidden" name="pageId" id="pageId" value="{$item.pageId}">
         <input type="hidden" name="userid" id="userid" value="{$Think.session.user_id}">
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" onclick="onCancel()">取消</button>
-        <button type="reset" class="btn btn-default">重置</button>
-        <button type="button" class="btn btn-primary" onclick="postform()">提交</button>
+        <button type="button" class="btn btn-primary" onclick="postform()">修改</button>
     </div>
 </form>
 </body>
 </html>
 
 <script type="text/javascript">
-    var tableurl = "{:url('/api/table')}";
+    var pageurl = "{:url('/api/page')}";
     var upimageurl = "{:url('/api/imagefile')}";
+    var imageurl = $('#imageurl').val();
     //POST提交数据
     function postform() {
-        if ($('#tablename').val() === "") {
-            $('#tablename').focus();
+        if ($('#pagename').val() === "") {
+            $('#pagename').focus();
             return;
         }
         $.ajax({
-            type: "post",
-            url: tableurl,
+            type: "PUT",
+            url: pageurl,
             data: $('#celltypeform').serialize(),
             error: function (request) {
                 alert("向服务器提交数据失败了!\n" +
@@ -72,25 +82,26 @@
                     "3.网络请求失败。");
             },
             success: function (data) {
-                window.location.href = "{:url('/admin/table')}";
+                window.location.href = "{:url('/admin/page')}";
             }
         });
     }
 
     $('#imageinput').flyinput({
         url: upimageurl,
+        image: imageurl,
         autoup: true,
         showPreview: true,
         width: "100%",
-        height: "240px",
-        background: "#EFEFEF"
+        height: "300px",
+        background: "#101010"
     }).on("success", function (event, data) {
         var result = JSON.parse(data);
         $('#imageurl').val(result.data.saveName);
     });
 
     function onCancel() {
-        window.location.href="{:url('/admin/table')}";
+        window.location.href="{:url('/admin/page')}";
     }
 
 </script>

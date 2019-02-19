@@ -26,7 +26,7 @@
 </html>
 
 <script type="text/javascript">
-    var tableurl = "{:url('/api/table')}";
+    var pageurl = "{:url('/api/page')}";
 
     $(function () {
         var oTable = new TableInit();
@@ -38,7 +38,7 @@
         //初始化Table
         oTableInit.Init = function () {
             $('#celltypetable').bootstrapTable({
-                url: tableurl,     //请求后台的URL（*）
+                url: pageurl,     //请求后台的URL（*）
                 method: 'get',                      //请求方式（*）
                 dataType: 'json',
                 toolbar: '#toolbar',                //工具按钮用哪个容器
@@ -64,28 +64,49 @@
                 minimumCountColumns: 2,             //最少允许的列数
                 clickToSelect: true,                //是否启用点击选中行
 //                height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
-                uniqueId: "tableId",             //每一行的唯一标识，一般为主键列
+                uniqueId: "pageId",             //每一行的唯一标识，一般为主键列
                 showToggle: false,                   //是否显示详细视图和列表视图的切换按钮
                 cardView: false,                    //是否显示详细视图
                 detailView: false,                  //是否显示父子表
                 columns: [{
                     checkbox: true
                 }, {
-                    field: 'tableId',
-                    title: 'ID'
-                }, {
-                    field: 'tablename',
-                    title: '页面名称'
+                    field: 'pagename',
+                    title: '页面名称',
+                    halign: "center"
                 }, {
                     field: 'imageurl',
-                    title: '设计原图',
+                    title: '背景图片',
+                    halign: "center",
                     align: 'center',
                     formatter: function (value, row, index) {
                         return '<img  width="auto" height="50px" src="' + value + '">';
                     }
                 }, {
+                    field: 'width',
+                    title: '分辨率',
+                    halign: "center",
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        return value + "X" + row.height;
+                    }
+                }, {
+                    field: 'remark',
+                    title: '备注',
+                    halign: "center"
+                }, {
+                    field: 'pageId',
+                    title: '操作',
+                    halign: "center",
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        return '<a  href="{:url(\'/admin/page/screen\')}?id=' + value + '">编辑页面</a>';
+                    }
+                }, {
                     field: 'edittime',
-                    title: '修改时间'
+                    title: '修改时间',
+                    halign: "center",
+                    align: 'center'
                 }]
             });
         };
@@ -94,13 +115,13 @@
     };
 
     $('#btn_add').on("click", function (event) {
-        window.location.href = "{:url('/admin/table/add')}";
+        window.location.href = "{:url('/admin/page/add')}";
     });
 
     $('#btn_edit').on("click", function (event) {
         var a = $('#celltypetable').bootstrapTable('getSelections');
         if (a.length > 0) {
-            window.location.href = "{:url('/admin/table/edit')}?id="+a[0].tableId;
+            window.location.href = "{:url('/admin/page/edit')}?id=" + a[0].pageId;
         }
     });
 
@@ -109,15 +130,15 @@
         for (var i = 0; i < a.length; i++) {
             $.ajax({
                 type: "delete",
-                url: tableurl,
-                contentType: "application/json",
+                url: pageurl,
                 data: {
-                    tableId: a[i].tableId
+                    pageId: a[i].pageId
                 },
                 error: function (request) {
                     alert("向服务器提交数据失败了!\n" +
                         "可能的错误原因：\n" +
-                        "1.网络错误。");
+                        "1.网络错误。",
+                        "2.浏览器不兼容，推荐Chrome。");
                 },
                 success: function (data) {
                     //更新显示列表

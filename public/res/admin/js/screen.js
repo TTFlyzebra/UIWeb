@@ -167,9 +167,9 @@ function getScreenCell(tabId) {
     var flyscreen = $('.flyscreen').get(0);
     if (flyscreen) {
         $.ajax({
-            url: tablecellurl,
+            url: pagecellurl,
             type: "get",
-            data: "tableId=" + tabId,
+            data: "pageId=" + tabId,
             dataType: 'html',
             success: function (result) {
                 try {
@@ -307,22 +307,22 @@ function flyscreenClassEventInit() {
 }
 
 function upTableData() {
-    var tableCellArr = [];
+    var pageCellArr = [];
     for (var i = 0; i < screenCellArr.length; i++) {
-        tableCellArr[i] = {};
-        tableCellArr[i].cellId = screenCellArr[i].cellId;
-        tableCellArr[i].width = screenCellArr[i].width;
-        tableCellArr[i].height = screenCellArr[i].height;
-        tableCellArr[i].x = screenCellArr[i].x;
-        tableCellArr[i].y = screenCellArr[i].y;
+        pageCellArr[i] = {};
+        pageCellArr[i].cellId = screenCellArr[i].cellId;
+        pageCellArr[i].width = screenCellArr[i].width;
+        pageCellArr[i].height = screenCellArr[i].height;
+        pageCellArr[i].x = screenCellArr[i].x;
+        pageCellArr[i].y = screenCellArr[i].y;
     }
 
-    var celljson = JSON.stringify(tableCellArr);
+    var celljson = JSON.stringify(pageCellArr);
 
     $.ajax({
-        url: tablecellurl,
+        url: pagecellurl,
         type: "post",
-        data: "jsondata="+celljson+"&tableId="+tableId,
+        data: "jsondata="+celljson+"&pageId="+pageId,
         dataType: 'html',
         error: function (request) {
             alert("向服务器更新页面数据失败了!");

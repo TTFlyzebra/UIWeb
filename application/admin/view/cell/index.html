@@ -68,22 +68,28 @@
                     checkbox: true
                 }, {
                     field: 'celltypename',
-                    title: '类型'
+                    title: '类型',
+                    halign: "center"
                 }, {
                     field: 'searchName',
-                    title: '检索名称'
+                    title: '检索名称',
+                    halign: "center"
                 }, {
                     field: 'text',
-                    title: '文本'
+                    title: '文本',
+                    halign: "center"
                 }, {
                     field: 'width',
-                    title: '宽度'
-                }, {
-                    field: 'height',
-                    title: '高度'
+                    title: '尺寸',
+                    halign: "center",
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        return value + "X" + row.height;
+                    }
                 }, {
                     field: 'imageurl1',
                     title: '图片一',
+                    halign: "center",
                     align: 'center',
                     formatter: function (value, row, index) {
                         return '<img  width="auto" height="50px" src="' + value + '">';
@@ -91,10 +97,16 @@
                 }, {
                     field: 'imageurl2',
                     title: '图片二',
+                    halign: "center",
                     align: 'center',
                     formatter: function (value, row, index) {
                         return '<img  width="auto" height="50px" src="' + value + '">';
                     }
+                }, {
+                    field: 'edittime',
+                    title: '修改时间',
+                    halign: "center",
+                    align: 'center'
                 }]
             });
         };
