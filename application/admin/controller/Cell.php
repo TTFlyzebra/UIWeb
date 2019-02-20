@@ -15,16 +15,14 @@ class Cell extends Controller {
 	}
 
 	public function add(){
-        $db= Db::name('celltype');
-        $celltypes = $db->select();
-        $this->assign('list',$celltypes);
+        $this->assign('list1',Db::name('celltype')->select());
+        $this->assign('list2',Db::name('theme')->select());
         return $this->fetch ();
     }
 
     public function edit(){
-        $db= Db::name('celltype');
-        $celltypes = $db->select();
-        $this->assign('list',$celltypes);
+        $this->assign('list1',Db::name('celltype')->select());
+        $this->assign('list2',Db::name('theme')->select());
 
         $request = Request::instance();
         if ($request->has('id', 'get')) {

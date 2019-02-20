@@ -13,29 +13,26 @@
 <div class="left-menu">
     <div class="panel-group" id="accordion">
         <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title active">
-                    <div data-toggle="collapse" data-parent="#accordion" href="#collapse1">UI设置</div>
+            <div class="panel-heading mousemove">
+                <h4 class="panel-title">
+                    <div data-toggle="collapse" data-parent="#accordion" href="#collapse1">应用配置</div>
                 </h4>
             </div>
             <div id="collapse1" class="panel-collapse collapse in">
                 <div class="panel-body">
                     <ul class="nav nav-pills nav-stacked">
                         <li class="active" role="presentation"><a href="{:url('/admin/celltype')}" target="mainIframe">控件类型</a></li>
-                        <li role="presentation"><a href="{:url('/admin/cell')}" target="mainIframe">添加控件</a></li>
-                        <li role="presentation"><a href="{:url('/admin/page')}" target="mainIframe">添加页面</a></li>
-                        <li role="presentation"><a href="{:url('/admin/screen')}" target="mainIframe">添加模板</a></li>
+                        <li role="presentation"><a href="{:url('/admin/theme')}" target="mainIframe">项目管理</a></li>
+                        <li role="presentation"><a href="{:url('/admin/cell')}" target="mainIframe">控件管理</a></li>
+                        <li role="presentation"><a href="{:url('/admin/page')}" target="mainIframe">页面管理</a></li>
                     </ul>
                 </div>
             </div>
         </div>
         <div class="panel panel-default">
-            <div class="panel-heading">
+            <div class="panel-heading mousemove">
                 <h4 class="panel-title">
-                    <div data-toggle="collapse" data-parent="#accordion"
-                         href="#collapse2">
-                        工厂设置
-                    </div>
+                    <div data-toggle="collapse" data-parent="#accordion" href="#collapse2">工厂设置</div>
                 </h4>
             </div>
             <div id="collapse2" class="panel-collapse collapse">
@@ -46,10 +43,28 @@
                 </div>
             </div>
         </div>
+        <div class="panel panel-default">
+            <div class="panel-heading mousemove">
+                <h4 class="panel-title">
+                    <div data-toggle="collapse" data-parent="#accordion" href="#collapse3">主页配置</div>
+                </h4>
+            </div>
+            <div id="collapse3" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li role="presentation"><a href="{:url('/admin/celltype')}" target="mainIframe">欢迎页面</a></li>
+                        <li role="presentation"><a href="{:url('/admin/cell')}" target="mainIframe">产品管理</a></li>
+                        <li role="presentation"><a href="{:url('/admin/page')}" target="mainIframe">新闻管理</a></li>
+                        <li role="presentation"><a href="{:url('/admin/theme')}" target="mainIframe">案例管理</a></li>
+                        <li role="presentation"><a href="{:url('/admin/theme')}" target="mainIframe">人才招聘</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <div class="content">
-    <iframe name="mainIframe" src="{:url('/admin/celltype')}" frameborder="0"></iframe>
+    <iframe name="mainIframe" src="{:url('/admin/theme')}" frameborder="0"></iframe>
 </div>
 <script type="text/javascript">
     function changeMargin() {

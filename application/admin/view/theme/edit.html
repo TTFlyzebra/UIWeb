@@ -9,43 +9,18 @@
 <script type="text/javascript" src="__RES__/admin/js/bootstrap-table-zh-CN.min.js"></script>
 <script type="text/javascript" src="__RES__/admin/js/flyinput.js"></script>
 <body>
-
-<form class="form-horizontal" name="celltypeform" id="celltypeform" method="post" role="form"
-      action="{:url('/api/page')}"
+<form class="form-horizontal" name="themeform" id="themeform" method="post" role="form"
+      action="{:url('/api/theme')}"
       enctype="multipart/form-data">
     <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">修改页面</h4>
+        <h4 class="modal-title" id="">修改项目</h4>
     </div>
     <div class="modal-body">
         <div class="form-group">
-            <label class="col-sm-1 control-label">项目关联</label>
-            <div class="col-sm-2">
-                <h4 class="modal-title">
-                    <select id="themeName" name="themeName">
-                        <option value="" selected="selected">所有项目</option>
-                        {volist name="list" id="theme" key="k"}
-                        {if condition="$item['themeName'] eq $theme['themeName']"}
-                        <option value="{$theme.themeName}" selected="selected">{$theme.themeName}</option>
-                        {else /}
-                        <option value="{$theme.themeName}">{$theme.themeName}</option>
-                        {/if}
-                        {/volist}
-                    </select>
-                </h4>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="pageName" class="col-sm-1 control-label">页面名称</label>
+            <label class="col-sm-1 control-label">项目名称</label>
             <div class="col-sm-5">
-                <input type="text" class="form-control" name="pageName" id="pageName" value="{$item.pageName}"
+                <input type="text" class="form-control" name="themeName" id="themeName" value="{$item.themeName}"
                        placeholder="请输入名称">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="imageinput" class="col-sm-1 control-label">背景图片</label>
-            <div class="col-sm-5">
-                <input type="file" id="imageinput" name="imagefile">
-                <input type="hidden" id="imageurl" name="imageurl" value="{$item.imageurl}">
             </div>
         </div>
         <div class="form-group">
@@ -58,37 +33,49 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="remark" class="col-sm-1 control-label">备注</label>
+            <label class="col-sm-1 control-label">背景图片</label>
             <div class="col-sm-5">
-                            <textarea class="form-control" name="remark" value="{$item.remark}" id="remark"
-                                      placeholder="备注"></textarea>
+                <input type="file" id="flyimageup" name="imagefile">
+                <input type="hidden" id="imageurl" name="imageurl" value="{$item.imageurl}">
             </div>
         </div>
-        <input type="hidden" name="pageId" id="pageId" value="{$item.pageId}">
+        <div class="form-group">
+            <label class="col-sm-1 control-label">备注</label>
+            <div class="col-sm-5">
+                            <textarea class="form-control" name="remark" value="" id="remark"
+                                      placeholder="备注">{$item.remark}</textarea>
+            </div>
+        </div>
         <input type="hidden" name="userid" id="userid" value="{$Think.session.user_id}">
+        <input type="hidden" name="themeId" id="themeId" value="{$item.themeId}">
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default" onclick="onCancel()">取消</button>
-        <button type="button" class="btn btn-primary" onclick="postform()">修改</button>
+        <button type="button" class="btn btn-default"  onclick="onCancel()" >取消</button>
+        <button type="button" class="btn btn-primary" onclick="posttheme()">修改</button>
     </div>
 </form>
 </body>
 </html>
 
 <script type="text/javascript">
-    var pageurl = "{:url('/api/page')}";
+    var themeurl = "{:url('/api/theme')}";
     var upimageurl = "{:url('/api/imagefile')}";
     var imageurl = $('#imageurl').val();
     //POST提交数据
-    function postform() {
-        if ($('#pageName').val() === "") {
-            $('#pageName').focus();
-            return;
+    function posttheme() {
+        if ($('#themeName').val() === "") {
+            $('#themeName').focus();
+            return
+        }
+
+        if ($('#theme').val() === "") {
+            $('#theme').focus();
+            return
         }
         $.ajax({
             type: "PUT",
-            url: pageurl,
-            data: $('#celltypeform').serialize(),
+            url: themeurl,
+            data: $('#themeform').serialize(),
             error: function (request) {
                 alert("向服务器提交数据失败了!\n" +
                     "可能的错误原因：\n" +
@@ -97,18 +84,18 @@
                     "3.网络请求失败。");
             },
             success: function (data) {
-                window.location.href = "{:url('/admin/page')}";
+                window.location.href = "{:url('/admin/theme')}";
             }
         });
     }
 
-    $('#imageinput').flyinput({
+    $('#flyimageup').flyinput({
         url: upimageurl,
-        image: imageurl,
+        image:imageurl,
         autoup: true,
         showPreview: true,
         width: "100%",
-        height: "300px",
+        height: "240px",
         background: "#101010"
     }).on("success", function (event, data) {
         var result = JSON.parse(data);
@@ -116,7 +103,7 @@
     });
 
     function onCancel() {
-        window.location.href="{:url('/admin/page')}";
+        window.location.href="{:url('/admin/theme')}";
     }
 
 </script>

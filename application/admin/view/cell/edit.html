@@ -12,22 +12,38 @@
 <form class="form-horizontal" name="celltypeform" id="celltypeform" method="post" role="form"
       action="{:url('/api/cell')}" enctype="multipart/form-data">
     <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">修改控件&nbsp<select id="celltypeId" name="celltypeId">
-            {volist name="list" id="celltype" key="k"}
-                {if condition="$item['celltypeId'] eq $celltype['celltypeId']"}
-                <option value="{$celltype.celltypeId}" selected="selected">{$celltype.celltypename}</option>
-                {else /}
-                <option value="{$celltype.celltypeId}">{$celltype.celltypename}</option>
-                {/if}
-            {/volist}
-        </select></h4>
+        <h4 class="modal-title" id="myModalLabel">修改控件&nbsp</h4>
     </div>
     <div class="modal-body">
         <div class="form-group">
-            <label class="col-sm-1 control-label">检索名称</label>
-            <div class="col-sm-5">
-                <input type="text" class="form-control" name="searchName" id="searchName" value="{$item.searchName}"
-                       placeholder="检索名称">
+            <label class="col-sm-1 control-label">控件类型</label>
+            <div class="col-sm-2">
+                <h4 class="modal-title">
+                    <select id="celltypeId" name="celltypeId">
+                        {volist name="list1" id="celltype" key="k"}
+                        {if condition="$item['celltypeId'] eq $celltype['celltypeId']"}
+                        <option value="{$celltype.celltypeId}" selected="selected">{$celltype.celltypeName}</option>
+                        {else /}
+                        <option value="{$celltype.celltypeId}">{$celltype.celltypeName}</option>
+                        {/if}
+                        {/volist}
+                    </select>
+                </h4>
+            </div>
+            <label class="col-sm-1 control-label">项目关联</label>
+            <div class="col-sm-2">
+                <h4 class="modal-title">
+                    <select id="themeName" name="themeName">
+                        <option value="" selected="selected">所有项目</option>
+                        {volist name="list2" id="theme" key="k"}
+                        {if condition="$item['themeName'] eq $theme['themeName']"}
+                        <option value="{$theme.themeName}" selected="selected">{$theme.themeName}</option>
+                        {else /}
+                        <option value="{$theme.themeName}">{$theme.themeName}</option>
+                        {/if}
+                        {/volist}
+                    </select>
+                </h4>
             </div>
         </div>
         <div class="form-group">
@@ -63,7 +79,7 @@
         <div class="form-group">
             <label class="col-sm-1 control-label">文本内容</label>
             <div class="col-sm-5">
-                <input type="text" class="form-control" name="text" id="text" value="{$item.text}" placeholder="文字显示">
+                <input type="text" class="form-control" name="textTitle" id="textTitle" value="{$item.textTitle}" placeholder="文字显示">
             </div>
         </div>
         <div class="form-group">
@@ -134,7 +150,7 @@
             <label class="col-sm-1 control-label">备注</label>
             <div class="col-sm-5">
                             <textarea class="form-control" name="remark" value="{$item.remark}" id="remark"
-                                      placeholder="备注"></textarea>
+                                      placeholder="备注">{$item.remark}</textarea>
             </div>
         </div>
     </div>

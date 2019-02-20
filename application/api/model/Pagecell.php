@@ -8,6 +8,6 @@ class Pagecell extends Model
 {
     public function cells()
     {
-        return $this->belongsToMany('cell');
+//        return $this->belongsToMany('cell');
     }
 }

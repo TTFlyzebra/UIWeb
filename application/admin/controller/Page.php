@@ -13,11 +13,13 @@ class Page extends Controller {
 
     public function add()
     {
+        $this->assign('list',Db::name('theme')->select());
         return $this->fetch();
     }
 
     public function edit()
     {
+        $this->assign('list',Db::name('theme')->select());
         $request = Request::instance();
         if ($request->has('id', 'get')) {
             $db = Db::name('page');

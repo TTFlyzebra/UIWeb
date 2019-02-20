@@ -19,8 +19,8 @@
         <div class="form-group">
             <label class="col-sm-1 control-label">类别名称</label>
             <div class="col-sm-5">
-                <input type="text" class="form-control" name="celltypename" id="celltypename"
-                       value="{$item.celltypename}"
+                <input type="text" class="form-control" name="celltypeName" id="celltypeName"
+                       value="{$item.celltypeName}"
                        placeholder="请输入名称">
             </div>
         </div>
@@ -71,8 +71,8 @@
 
     //POST提交数据
     function postcelltype() {
-        if ($('#celltypename').val() === "") {
-            $('#celltypename').focus();
+        if ($('#celltypeName').val() === "") {
+            $('#celltypeName').focus();
             return
         }
 

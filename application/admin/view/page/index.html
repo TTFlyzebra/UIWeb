@@ -21,7 +21,7 @@
         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
     </button>
 </div>
-<table id="celltypetable"></table>
+<table id="flytable"></table>
 </body>
 </html>
 
@@ -37,7 +37,7 @@
         var oTableInit = {};
         //初始化Table
         oTableInit.Init = function () {
-            $('#celltypetable').bootstrapTable({
+            $('#flytable').bootstrapTable({
                 url: pageurl,     //请求后台的URL（*）
                 method: 'get',                      //请求方式（*）
                 dataType: 'json',
@@ -71,9 +71,16 @@
                 columns: [{
                     checkbox: true
                 }, {
-                    field: 'pagename',
+                    field: 'pageName',
                     title: '页面名称',
-                    halign: "center"
+                    halign: "center",
+                    formatter: function (value, row, index) {
+                        if(!isTextEmpty(row.themeName)){
+                            return "[" + row.themeName + "]" + value;
+                        }else{
+                            return value;
+                        }
+                    }
                 }, {
                     field: 'imageurl',
                     title: '背景图片',
@@ -119,17 +126,17 @@
     });
 
     $('#btn_edit').on("click", function (event) {
-        var a = $('#celltypetable').bootstrapTable('getSelections');
+        var a = $('#flytable').bootstrapTable('getSelections');
         if (a.length > 0) {
             window.location.href = "{:url('/admin/page/edit')}?id=" + a[0].pageId;
         }
     });
 
     $('#btn_delete').on("click", function (event) {
-        var a = $('#celltypetable').bootstrapTable('getSelections');
+        var a = $('#flytable').bootstrapTable('getSelections');
         for (var i = 0; i < a.length; i++) {
             $.ajax({
-                type: "delete",
+                type: "DELETE",
                 url: pageurl,
                 data: {
                     pageId: a[i].pageId
@@ -142,9 +149,13 @@
                 },
                 success: function (data) {
                     //更新显示列表
-                    $('#celltypetable').bootstrapTable('refresh');
+                    $('#flytable').bootstrapTable('refresh');
                 }
             });
         }
     });
+
+    function isTextEmpty(obj){
+        return typeof obj == "undefined" || obj == null || obj === "";
+    }
 </script>

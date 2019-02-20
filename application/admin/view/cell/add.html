@@ -12,17 +12,30 @@
 <form class="form-horizontal" name="celltypeform" id="celltypeform" method="post" role="form"
       action="{:url('/api/cell')}" enctype="multipart/form-data">
     <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">添加控件&nbsp<select id="celltypeId" name="celltypeId">
-            {volist name="list" id="celltype" key="k"}
-            <option value="{$celltype.celltypeId}">{$celltype.celltypename}</option>
-            {/volist}
-        </select></h4>
+        <h4 class="modal-title">添加控件</h4>
     </div>
     <div class="modal-body">
         <div class="form-group">
-            <label class="col-sm-1 control-label">检索名称</label>
-            <div class="col-sm-5">
-                <input type="text" class="form-control" name="searchName" id="searchName" value="" placeholder="检索名称">
+            <label class="col-sm-1 control-label">控件类型</label>
+            <div class="col-sm-2">
+                <h4 class="modal-title">
+                    <select id="celltypeId" name="celltypeId">
+                        {volist name="list1" id="celltype" key="k"}
+                        <option value="{$celltype.celltypeId}">{$celltype.celltypeName}</option>
+                        {/volist}
+                    </select>
+                </h4>
+            </div>
+            <label class="col-sm-1 control-label">项目关联</label>
+            <div class="col-sm-2">
+                <h4 class="modal-title">
+                    <select id="themeName" name="themeName">
+                        <option value="" selected="selected">所有项目</option>
+                        {volist name="list2" id="theme" key="k"}
+                        <option value="{$theme.themeName}">{$theme.themeName}</option>
+                        {/volist}
+                    </select>
+                </h4>
             </div>
         </div>
         <div class="form-group">
@@ -56,7 +69,7 @@
         <div class="form-group">
             <label class="col-sm-1 control-label">文本内容</label>
             <div class="col-sm-5">
-                <input type="text" class="form-control" name="text" id="text" value="" placeholder="文字显示">
+                <input type="text" class="form-control" name="textTitle" id="textTitle" value="" placeholder="文字显示">
             </div>
         </div>
         <div class="form-group">
@@ -98,7 +111,8 @@
                 <input id="className" class="form-control" name="className" type="text" value="" placeholder="类名">
             </div>
             <div class="col-sm-1">
-                <input id="intentFlag" class="form-control" name="intentFlag" type="text" value="" placeholder="Intent Flag">
+                <input id="intentFlag" class="form-control" name="intentFlag" type="text" value=""
+                       placeholder="Intent Flag">
             </div>
         </div>
         <div class="form-group">

@@ -20,7 +20,7 @@
         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
     </button>
 </div>
-<table id="celltypetable"></table>
+<table id="flytable"></table>
 </body>
 </html>
 
@@ -40,7 +40,7 @@
         var oTableInit = {};
         //初始化Table
         oTableInit.Init = function () {
-            $('#celltypetable').bootstrapTable({
+            $('#flytable').bootstrapTable({
                 url: "{:url('/api/celltype')}",     //请求后台的URL（*）
                 method: 'get',                      //请求方式（*）
                 dataType: 'json',
@@ -79,7 +79,7 @@
                     halign: "center",
                     align: "center"
                 }, {
-                    field: 'celltypename',
+                    field: 'celltypeName',
                     title: '类型名称',
                     halign: "center"
                 }, {
@@ -114,17 +114,17 @@
     });
 
     $('#btn_edit').on("click", function (event) {
-        var a = $('#celltypetable').bootstrapTable('getSelections');
+        var a = $('#flytable').bootstrapTable('getSelections');
         if (a.length > 0) {
             window.location.href = "{:url('/admin/celltype/edit')}?id="+a[0].celltypeId;
         }
     });
 
     $('#btn_delete').on("click", function (event) {
-        var a = $('#celltypetable').bootstrapTable('getSelections');
+        var a = $('#flytable').bootstrapTable('getSelections');
         for (var i = 0; i < a.length; i++) {
             $.ajax({
-                type: "delete",
+                type: "DELETE",
                 url: "{:url('/api/celltype')}",
                 data: {
                     celltypeId: a[i].celltypeId
@@ -136,7 +136,7 @@
                 },
                 success: function (data) {
                     //更新显示列表
-                    $('#celltypetable').bootstrapTable('refresh');
+                    $('#flytable').bootstrapTable('refresh');
                 }
             });
         }

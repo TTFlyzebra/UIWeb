@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2019-02-18 10:07:39
+-- 生成日期： 2019-02-20 09:56:01
 -- 服务器版本： 5.5.62
 -- PHP 版本： 7.3.0
 
@@ -31,12 +31,12 @@ SET time_zone = "+00:00";
 CREATE TABLE `fly_cell` (
   `cellId` int(11) NOT NULL,
   `celltypeId` int(11) NOT NULL,
-  `searchName` varchar(255) DEFAULT NULL,
+  `themeName` varchar(255) DEFAULT NULL,
   `width` int(11) NOT NULL DEFAULT '0',
   `height` int(11) NOT NULL DEFAULT '0',
   `imageurl1` varchar(255) DEFAULT NULL,
   `imageurl2` varchar(255) DEFAULT NULL,
-  `text` varchar(255) DEFAULT NULL,
+  `textTitle` varchar(255) DEFAULT NULL,
   `textSize` int(11) DEFAULT '24',
   `textColor` char(9) DEFAULT '#FFFFFFFF',
   `textAlign` varchar(10) DEFAULT 'CENTER',
@@ -66,13 +66,9 @@ CREATE TABLE `fly_cell` (
 CREATE TABLE `fly_celltype` (
   `celltypeId` int(11) NOT NULL,
   `celltype` int(11) NOT NULL DEFAULT '0',
-  `celltypename` varchar(255) NOT NULL,
+  `celltypeName` varchar(255) NOT NULL,
   `imageurl` varchar(255) NOT NULL,
   `extend` varchar(255) DEFAULT NULL,
-  `extend1name` varchar(255) DEFAULT NULL,
-  `extend2name` varchar(255) DEFAULT NULL,
-  `extend3name` varchar(255) DEFAULT NULL,
-  `extend4name` varchar(255) DEFAULT NULL,
   `remark` text,
   `edittime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `userid` int(11) NOT NULL,
@@ -99,13 +95,16 @@ CREATE TABLE `fly_event` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `fly_table`
+-- 表的结构 `fly_page`
 --
 
-CREATE TABLE `fly_table` (
-  `tableId` int(11) NOT NULL,
-  `tablename` varchar(255) NOT NULL,
+CREATE TABLE `fly_page` (
+  `pageId` int(11) NOT NULL,
+  `pageName` varchar(255) NOT NULL,
+  `themeName` varchar(255) NOT NULL,
   `imageurl` varchar(255) NOT NULL,
+  `width` int(11) NOT NULL,
+  `height` int(11) NOT NULL,
   `remark` text,
   `edittime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `userid` int(11) DEFAULT NULL,
@@ -115,11 +114,11 @@ CREATE TABLE `fly_table` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `fly_tablecell`
+-- 表的结构 `fly_pagecell`
 --
 
-CREATE TABLE `fly_tablecell` (
-  `tableId` int(11) NOT NULL,
+CREATE TABLE `fly_pagecell` (
+  `pageId` int(11) NOT NULL,
   `cellId` int(11) NOT NULL,
   `x` int(11) NOT NULL,
   `y` int(11) NOT NULL,
@@ -131,14 +130,17 @@ CREATE TABLE `fly_tablecell` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `fly_template`
+-- 表的结构 `fly_theme`
 --
 
-CREATE TABLE `fly_template` (
-  `templateId` int(11) NOT NULL,
-  `templatename` varchar(64) NOT NULL,
-  `templatetype` int(11) NOT NULL,
-  `imageurl` varchar(255) NOT NULL,
+CREATE TABLE `fly_theme` (
+  `themeId` int(11) NOT NULL,
+  `themeName` varchar(64) NOT NULL,
+  `themeType` int(11) DEFAULT NULL,
+  `themePages` text,
+  `width` int(11) NOT NULL,
+  `height` int(11) NOT NULL,
+  `imageurl` varchar(255) DEFAULT NULL,
   `remark` text,
   `edittime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `userid` int(11) NOT NULL,
@@ -187,23 +189,27 @@ ALTER TABLE `fly_event`
   ADD PRIMARY KEY (`eventId`);
 
 --
--- 表的索引 `fly_table`
+-- 表的索引 `fly_page`
 --
-ALTER TABLE `fly_table`
-  ADD PRIMARY KEY (`tableId`);
+ALTER TABLE `fly_page`
+  ADD PRIMARY KEY (`pageId`);
 
 --
--- 表的索引 `fly_tablecell`
+-- 表的索引 `fly_pagecell`
 --
-ALTER TABLE `fly_tablecell`
-  ADD KEY `tableId` (`tableId`),
+ALTER TABLE `fly_pagecell`
+  ADD KEY `tableId` (`pageId`),
   ADD KEY `cellId` (`cellId`);
 
 --
--- 表的索引 `fly_template`
+-- 表的索引 `fly_theme`
 --
-ALTER TABLE `fly_template`
-  ADD PRIMARY KEY (`templateId`);
+ALTER TABLE `fly_theme`
+  ADD PRIMARY KEY (`themeId`),
+  ADD UNIQUE KEY `themeId` (`themeId`),
+  ADD UNIQUE KEY `themeName` (`themeName`),
+  ADD KEY `themeId_2` (`themeId`),
+  ADD KEY `themeName_2` (`themeName`);
 
 --
 -- 表的索引 `fly_user`
@@ -236,16 +242,16 @@ ALTER TABLE `fly_event`
   MODIFY `eventId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- 使用表AUTO_INCREMENT `fly_table`
+-- 使用表AUTO_INCREMENT `fly_page`
 --
-ALTER TABLE `fly_table`
-  MODIFY `tableId` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `fly_page`
+  MODIFY `pageId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- 使用表AUTO_INCREMENT `fly_template`
+-- 使用表AUTO_INCREMENT `fly_theme`
 --
-ALTER TABLE `fly_template`
-  MODIFY `templateId` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `fly_theme`
+  MODIFY `themeId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- 使用表AUTO_INCREMENT `fly_user`
