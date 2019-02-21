@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2019-02-20 09:56:01
+-- 生成日期： 2019-02-21 10:15:35
 -- 服务器版本： 5.5.62
 -- PHP 版本： 7.3.0
 
@@ -95,6 +95,25 @@ CREATE TABLE `fly_event` (
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `fly_news`
+--
+
+CREATE TABLE `fly_news` (
+  `newsId` int(11) NOT NULL,
+  `newsTitle` varchar(255) NOT NULL,
+  `newsSort` int(11) NOT NULL DEFAULT '0',
+  `imageurl1` varchar(255) DEFAULT NULL,
+  `imageurl2` varchar(255) DEFAULT NULL,
+  `newsText` text NOT NULL,
+  `remark` text,
+  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `userid` int(11) NOT NULL,
+  `ip` varchar(16) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `fly_page`
 --
 
@@ -125,6 +144,25 @@ CREATE TABLE `fly_pagecell` (
   `width` int(11) NOT NULL,
   `height` int(11) NOT NULL,
   `remark` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `fly_product`
+--
+
+CREATE TABLE `fly_product` (
+  `productId` int(11) NOT NULL,
+  `imageurl` varchar(255) NOT NULL,
+  `productSort` int(11) NOT NULL,
+  `productTitle` varchar(255) NOT NULL,
+  `productDetail` text NOT NULL,
+  `iconurl` varchar(255) NOT NULL,
+  `remark` text,
+  `edittime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `userid` int(11) NOT NULL,
+  `ip` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -163,6 +201,23 @@ CREATE TABLE `fly_user` (
   `ip` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `fly_welcome`
+--
+
+CREATE TABLE `fly_welcome` (
+  `welcomeId` int(11) NOT NULL,
+  `imageurl` varchar(255) NOT NULL,
+  `welcomeTitle` varchar(255) DEFAULT NULL,
+  `welcomeText` text,
+  `welcomeSort` int(11) NOT NULL DEFAULT '0',
+  `userid` int(11) NOT NULL,
+  `edittime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `ip` varchar(16) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- 转储表的索引
 --
@@ -189,6 +244,12 @@ ALTER TABLE `fly_event`
   ADD PRIMARY KEY (`eventId`);
 
 --
+-- 表的索引 `fly_news`
+--
+ALTER TABLE `fly_news`
+  ADD PRIMARY KEY (`newsId`);
+
+--
 -- 表的索引 `fly_page`
 --
 ALTER TABLE `fly_page`
@@ -200,6 +261,12 @@ ALTER TABLE `fly_page`
 ALTER TABLE `fly_pagecell`
   ADD KEY `tableId` (`pageId`),
   ADD KEY `cellId` (`cellId`);
+
+--
+-- 表的索引 `fly_product`
+--
+ALTER TABLE `fly_product`
+  ADD PRIMARY KEY (`productId`);
 
 --
 -- 表的索引 `fly_theme`
@@ -218,6 +285,12 @@ ALTER TABLE `fly_user`
   ADD PRIMARY KEY (`userid`),
   ADD KEY `username` (`username`),
   ADD KEY `userid` (`userid`);
+
+--
+-- 表的索引 `fly_welcome`
+--
+ALTER TABLE `fly_welcome`
+  ADD PRIMARY KEY (`welcomeId`);
 
 --
 -- 在导出的表使用AUTO_INCREMENT
@@ -242,10 +315,22 @@ ALTER TABLE `fly_event`
   MODIFY `eventId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- 使用表AUTO_INCREMENT `fly_news`
+--
+ALTER TABLE `fly_news`
+  MODIFY `newsId` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- 使用表AUTO_INCREMENT `fly_page`
 --
 ALTER TABLE `fly_page`
   MODIFY `pageId` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- 使用表AUTO_INCREMENT `fly_product`
+--
+ALTER TABLE `fly_product`
+  MODIFY `productId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- 使用表AUTO_INCREMENT `fly_theme`
@@ -258,6 +343,12 @@ ALTER TABLE `fly_theme`
 --
 ALTER TABLE `fly_user`
   MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- 使用表AUTO_INCREMENT `fly_welcome`
+--
+ALTER TABLE `fly_welcome`
+  MODIFY `welcomeId` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
