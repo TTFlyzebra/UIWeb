@@ -34,7 +34,7 @@
         //初始化Table
         oTableInit.Init = function () {
             $('#flytable').bootstrapTable({
-                url: "{:url('/api/product')}",     //请求后台的URL（*）
+                url: "{:url('/api/news')}",     //请求后台的URL（*）
                 method: 'get',                      //请求方式（*）
                 dataType: 'json',
                 toolbar: '#toolbar',                //工具按钮用哪个容器
@@ -60,43 +60,43 @@
                 minimumCountColumns: 2,             //最少允许的列数
                 clickToSelect: true,                //是否启用点击选中行
 //                height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
-                uniqueId: "productId",             //每一行的唯一标识，一般为主键列
+                uniqueId: "newsId",             //每一行的唯一标识，一般为主键列
                 showToggle: false,                   //是否显示详细视图和列表视图的切换按钮
                 cardView: false,                    //是否显示详细视图
                 detailView: false,                  //是否显示父子表
                 columns: [{
                     checkbox: true
                 }, {
-                    field: 'productTitle',
-                    title: '产品标题',
+                    field: 'newsTitle',
+                    title: '新闻标题',
                     halign: "center"
                 }, {
-                    field: 'productSort',
-                    title: '展示顺序',
+                    field: 'newsSort',
+                    title: '排列顺序',
                     halign: "center"
                 }, {
-                    field: 'iconurl',
-                    title: '图标',
+                    field: 'imageurl1',
+                    title: '图片1',
                     halign: "center",
                     align: 'center',
                     formatter: function (value, row, index) {
                         return '<img  width="auto" height="50px" src="' + value + '">';
                     }
                 }, {
-                    field: 'imageurl',
-                    title: '图片',
+                    field: 'imageurl2',
+                    title: '图片2',
                     halign: "center",
                     align: 'center',
                     formatter: function (value, row, index) {
                         return '<img  width="auto" height="50px" src="' + value + '">';
                     }
                 }, {
-                    field: 'productDetail',
+                    field: 'newsText',
                     title: '内容',
                     halign: "center"
                 }, {
-                    field: 'edittime',
-                    title: '修改时间',
+                    field: 'createtime',
+                    title: '创建时间',
                     halign: "center",
                     align: 'center'
                 }]
@@ -107,13 +107,13 @@
     };
 
     $('#btn_add').on("click", function (event) {
-        window.location.href = "{:url('/admin/product/add')}";
+        window.location.href = "{:url('/admin/news/add')}";
     });
 
     $('#btn_edit').on("click", function (event) {
         var a = $('#flytable').bootstrapTable('getSelections');
         if (a.length > 0) {
-            window.location.href = "{:url('/admin/product/edit')}?id="+a[0].productId;
+            window.location.href = "{:url('/admin/news/edit')}?id="+a[0].newsId;
         }
     });
 
@@ -122,9 +122,9 @@
         for (var i = 0; i < a.length; i++) {
             $.ajax({
                 type: "DELETE",
-                url: "{:url('/api/product')}",
+                url: "{:url('/api/news')}",
                 data: {
-                    productId: a[i].productId
+                    newsId: a[i].newsId
                 },
                 error: function (request) {
                     alert("删除失败!\n" +
