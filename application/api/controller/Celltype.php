@@ -14,17 +14,13 @@ class Celltype
             $delcelltypeId = ($request->only('celltypeId'))['celltypeId'];
             $result = Db::name("celltype")->where('celltypeId', $delcelltypeId)->delete();
         } elseif ($request->isPut()) {
-            $cell = $request->put();
-            $cell['ip'] = request()->ip();
-            $cell['userid'] = (int)$cell['userid'];
-            $cell['celltype'] = (int)$cell['celltype'];
-            $result = Db::name("celltype")->update($cell);
+            $celltype = $request->put();
+            $celltype['ip'] = request()->ip();
+            $result = Db::name("celltype")->update($celltype);
         } elseif ($request->isPost()) {
-            $cell = $request->post();;
-            $cell['ip'] = request()->ip();
-            $cell['userid'] = (int)$cell['userid'];
-            $cell['celltype'] = (int)$cell['celltype'];
-            $result = Db::name("celltype")->insert($cell);
+            $celltype = $request->post();;
+            $celltype['ip'] = request()->ip();
+            $result = Db::name("celltype")->insert($celltype);
         } elseif ($request->isGet()) {
             $db = Db::name("celltype");
             $db->order('celltype desc');

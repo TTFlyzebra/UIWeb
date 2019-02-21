@@ -17,13 +17,11 @@ class Theme
         }elseif ($request->isPut()) {
             $theme = $request->put();
             $theme['ip'] = request()->ip();
-            $theme['userid'] = (int)$theme['userid'];
             $db =  Db::name("theme");
             $result = $db->update($theme);
         }elseif ($request->isPost()) {
             $theme =  $request->post();
             $theme['ip'] = request()->ip();
-            $theme['userid'] = (int)$theme['userid'];
             $db =  Db::name("theme");
             $result = $db->insert($theme);
         } elseif ($request->isGet()) {

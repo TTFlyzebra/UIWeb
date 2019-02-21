@@ -6,7 +6,7 @@ use think\Controller;
 use think\Db;
 use think\Request;
 
-class Welcome extends Controller
+class Product extends Controller
 {
     public function index()
     {
@@ -22,8 +22,8 @@ class Welcome extends Controller
     {
         $request = Request::instance();
         if ($request->has('id', 'get')) {
-            $db = Db::name('welcome');
-            $item = $db->where('welcomeId', $_GET['id'])->find();
+            $db = Db::name('product');
+            $item = $db->where('productId', $_GET['id'])->find();
             $this->assign('item', $item);
             return $this->fetch();
         }

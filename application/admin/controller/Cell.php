@@ -8,8 +8,7 @@ use think\Request;
 
 class Cell extends Controller {
 	public function index() {
-	    $db= Db::name('celltype');
-	    $celltypes = $db->select();
+	    $celltypes = Db::name('celltype')->select();
 	    $this->assign('list',$celltypes);
 		return $this->fetch ();
 	}
