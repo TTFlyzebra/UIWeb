@@ -34,7 +34,7 @@
         //初始化Table
         oTableInit.Init = function () {
             $('#flytable').bootstrapTable({
-                url: "{:url('/api/news')}",     //请求后台的URL（*）
+                url: "{:url('/api/cases')}",     //请求后台的URL（*）
                 method: 'get',                      //请求方式（*）
                 dataType: 'json',
                 toolbar: '#toolbar',                //工具按钮用哪个容器
@@ -60,46 +60,29 @@
                 minimumCountColumns: 2,             //最少允许的列数
                 clickToSelect: true,                //是否启用点击选中行
 //                height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
-                uniqueId: "newsId",             //每一行的唯一标识，一般为主键列
+                uniqueId: "casesId",             //每一行的唯一标识，一般为主键列
                 showToggle: false,                   //是否显示详细视图和列表视图的切换按钮
                 cardView: false,                    //是否显示详细视图
                 detailView: false,                  //是否显示父子表
                 columns: [{
                     checkbox: true
                 }, {
-                    field: 'newsTitle',
-                    title: '新闻标题',
+                    field: 'casesTitle',
+                    title: '案例标题',
                     halign: "center"
-                }
-                // , {
-                //     field: 'newsSort',
-                //     title: '排列顺序',
-                //     halign: "center"
-                // }
-                , {
-                    field: 'imageurl1',
-                    title: '图片1',
+                } , {
+                    field: 'imageurl',
+                    title: '案例图片',
                     halign: "center",
                     align: 'center',
                     formatter: function (value, row, index) {
                         return '<img  width="auto" height="50px" src="' + value + '">';
                     }
-                }
-                , {
-                    field: 'imageurl2',
-                    title: '图片2',
-                    halign: "center",
-                    align: 'center',
-                    formatter: function (value, row, index) {
-                        return '<img  width="auto" height="50px" src="' + value + '">';
-                    }
-                }
-                // , {
-                //     field: 'newsText',
-                //     title: '内容',
-                //     halign: "center"
-                // }
-                , {
+                }, {
+                    field: 'casesText',
+                    title: '案例描述',
+                    halign: "center"
+                }, {
                     field: 'createtime',
                     title: '创建时间',
                     halign: "center",
@@ -112,13 +95,13 @@
     };
 
     $('#btn_add').on("click", function (event) {
-        window.location.href = "{:url('/admin/news/add')}";
+        window.location.href = "{:url('/admin/cases/add')}";
     });
 
     $('#btn_edit').on("click", function (event) {
         var a = $('#flytable').bootstrapTable('getSelections');
         if (a.length > 0) {
-            window.location.href = "{:url('/admin/news/edit')}?id="+a[0].newsId;
+            window.location.href = "{:url('/admin/cases/edit')}?id="+a[0].casesId;
         }
     });
 
@@ -127,9 +110,9 @@
         for (var i = 0; i < a.length; i++) {
             $.ajax({
                 type: "DELETE",
-                url: "{:url('/api/news')}",
+                url: "{:url('/api/cases')}",
                 data: {
-                    newsId: a[i].newsId
+                    casesId: a[i].casesId
                 },
                 error: function (request) {
                     alert("删除失败!\n" +
