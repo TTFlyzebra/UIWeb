@@ -23,7 +23,7 @@ class News
             $result = Db::name("news")->insert($news);
         } elseif ($request->isGet()) {
             $db = Db::name("news");
-            $db->order('newsSort asc');
+            $db->order('createtime desc');
             if ($request->has('limit', 'get') && $request->has('offset', 'get')) {
                 $db->limit($_GET['offset'], $_GET['limit']);
             }

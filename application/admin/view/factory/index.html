@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+
+    <title>Bootstrap Admin Template </title>
+    <link rel="shortcut icon" href="__RES__/factory/img/favicon.ico">
+    <!-- global stylesheets -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+    <link rel="stylesheet" href="__RES__/factory/css/bootstrap.min.css">
+    <link rel="stylesheet" href="__RES__/factory/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="__RES__/factory/css/font-icon-style.css">
+    <link rel="stylesheet" href="__RES__/factory/css/style.default.css" id="theme-stylesheet">
+    <link rel="stylesheet" href="__RES__/factory/css/message.css">
+
+    <!-- Core stylesheets -->
+    <link rel="stylesheet" href="__RES__/factory/css/pages/gallery.css">
+    <link rel="stylesheet" href="__RES__/factory/css/form.css">
+    <link rel="stylesheet" href="__RES__/factory/css/pages/faq.css">
+    <script type="text/javascript">
+        var postseturl = '{:url("/api/factory/xmlfile")}'
+    </script>
+</head>
+<style>
+    .swich .box {
+        width: 60px;
+        height: 30px;
+        background: #ccc;
+        border-radius: 20px;
+        transition: all .5s ease;
+        right: 12px;
+        margin-right: 30px;
+        float: right;
+    }
+
+    .swich input {
+        display: none;
+    }
+
+    .swich .box span {
+        display: inline-block;
+        height: 30px;
+        width: 30px;
+        border-radius: 15px;
+        background: #fff;
+        transform: translateX(1px);
+        transition: all .5s ease;
+    }
+
+    .swich-on .box {
+        background: #7b4397;
+        transition: all .5s ease;
+    }
+
+    .swich-on .box span {
+        transform: translateX(30px);
+        transition: all .5s ease;
+    }
+
+    .rights {
+        float: right;
+        top: 10px;
+    }
+
+    .Left_right {
+        margin-right: 104px;
+    }
+
+    .top_bottom {
+        margin-right: 96px;
+    }
+
+    .range {
+        float: right;
+        top: 10px;
+        margin-top: 20px;
+
+    }
+
+    .div_color {
+        margin-left: 20px;
+        margin-top: 20px;
+    }
+
+    .div_colors {
+        margin-left: 20px;
+
+    }
+
+    input[type=range] {
+        -webkit-appearance: none;
+        width: 300px;
+        border-radius: 10px; /*这个属性设置使填充进度条时的图形为圆角*/
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+    }
+
+    input[type=range]::-webkit-slider-runnable-track {
+        height: 15px;
+        border-radius: 10px; /*将轨道设为圆角的*/
+        box-shadow: 0 1px 1px #def3f8, inset 0 .125em .125em #0d1112; /*轨道内置阴影效果*/
+    }
+
+    input[type=range]:focus {
+        outline: none;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        height: 25px;
+        width: 25px;
+        margin-top: -5px; /*使滑块超出轨道部分的偏移量相等*/
+        background: #ffffff;
+        border-radius: 50%; /*外观设置为圆形*/
+        border: solid 0.125em rgba(205, 224, 230, 0.5); /*设置边框*/
+        box-shadow: 0 .125em .125em #3b4547; /*添加底部阴影*/
+    }
+
+    .color {
+        margin-right: 20px;
+        margin-bottom: .5rem;
+        font-family: inherit;
+        font-weight: 500;
+        line-height: 1.1;
+        color: inherit;
+
+    }
+
+    .color_value {
+        margin-left: 20px;
+        margin-bottom: .5rem;
+        font-family: inherit;
+        font-weight: 500;
+        line-height: 1.1;
+        color: inherit;
+
+    }
+
+    .color_range {
+        margin-top: 20px;
+    }
+
+</style>
+
+<body>
+
+<!--====================================================
+                     MAIN NAVBAR
+======================================================-->
+<header class="header">
+    <nav class="navbar navbar-expand-lg ">
+        <div class="search-box">
+            <button class="dismiss"><i class="icon-close"></i></button>
+            <form id="searchForm" action="#" role="search">
+                <input type="search" placeholder="Search Now" class="form-control">
+            </form>
+        </div>
+        <div class="container-fluid ">
+            <div class="navbar-holder d-flex align-items-center justify-content-between">
+                <div class="navbar-header">
+                    <a href="index.html" class="navbar-brand">
+                        <div class="brand-text brand-big hidden-lg-down"><img src="__RES__/factory/img/logo-white.png"
+                                                                              alt="Logo"
+                                                                              class="img-fluid"></div>
+                        <div class="brand-text brand-small"><img src="__RES__/factory/img/logo-icon.png" alt="Logo"
+                                                                 class="img-fluid">
+                        </div>
+                    </a>
+                    <a id="toggle-btn" href="#" class="menu-btn active">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+
+<!--====================================================
+                    PAGE CONTENT
+======================================================-->
+<div class="page-content d-flex align-items-stretch">
+    <div class="content-inner  centered">
+        <div class="row">
+            <div class="col-md-12">
+                <!--***** BASIC FORM *****-->
+                <div class="card form" id="form1">
+                    <div class="card-header">
+                        <h3>协议参数设置</h3>
+                    </div>
+                    <br>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <h5>倒车轨迹</h5>
+                            <h8 id="locus_value" class="bBackCarTrack_value">关</h8>
+                        </div>
+                        <div class="col-md-6 ">
+                            <div class="swich" id="locus">
+                                <input id="locus_input" class="bBackCarTrack" type="checkbox" value="" checked=""
+                                       name="locus_input"/>
+                                <div class="box">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <hr>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>倒车雷达</h5>
+                            <h8 id="radar_value" class="bBackCarRadar_value">关</h8>
+                        </div>
+                        <div class="col-md-6 ">
+                            <div class="swich" id="radar">
+                                <input id="radar_input" class="bBackCarRadar" type="checkbox" value="" checked=""
+                                       name="radar_input"/>
+                                <div class="box">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <hr>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>倒车镜像</h5>
+                            <h8 id="Mirror_value">关闭镜像</h8>
+                        </div>
+                        <div class="col-md-6 byBackCarScreen" id="Mirror">
+                            <label class="custom-control custom-checkbox rights Left_right">
+                                <input id="radar_left_right" type="checkbox" class="custom-control-input "
+                                       name="radar_left_right" required>
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">左右镜像</span>
+                            </label>
+                            <label class="custom-control custom-checkbox rights top_bottom">
+                                <input id="radar_top_bottom" type="checkbox" class="custom-control-input"
+                                       name="radar_top_bottom" required>
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">上下镜像</span>
+                            </label>
+                        </div>
+                        <div class="col-sm-12">
+                            <hr>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>协议方控</h5>
+                            <h8 id="protocol_value" class="bBackCarSubline_value">关</h8>
+                        </div>
+                        <div class="col-md-6 ">
+                            <div class="swich" id="protocol">
+                                <input id="protocol_input" class="bBackCarSubline" type="checkbox" value=""
+                                       checked=""
+                                       name="protocol_input"/>
+                                <div class="box">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <hr>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>倒车辅助线</h5>
+                            <h8 id="Auxiliary_value" class="bBackCarIsNeedMute_value">隐藏</h8>
+                        </div>
+                        <div class="col-md-6 ">
+                            <div class="swich" id="Auxiliary">
+                                <input id="Auxiliary_input" class="bCarInfoIcon" type="checkbox" value="" checked=""
+                                       name="Auxiliary_input"/>
+                                <div class="box">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <hr>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>倒车静音</h5>
+                            <h8 id="Mute_value">关</h8>
+                        </div>
+                        <div class="col-md-6 ">
+                            <div class="swich" id="Mute">
+                                <input id="Mute_input" type="checkbox" class="bBackCarIsNeedMute" value=""
+                                       checked="" name="Mute_input"/>
+                                <div class="box">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card form" id="form2">
+                    <div class="card-header">
+                        <h3>显示设置</h3>
+                    </div>
+                    <br>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+
+                            <h5>亮度</h5>
+                            <h8 id="brightness_value" class="byBrightnessDS_vaue">6%</h8>
+
+                        </div>
+                        <div class="col-md-6 ">
+                            <input id="brightness" class="range byBrightnessDS" type="range" value="6">
+                        </div>
+                        <div class="col-sm-12">
+                            <hr>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>色度</h5>
+                            <h8 id="chroma_value" class="byChromaDS_value">0%</h8>
+                        </div>
+                        <div class="col-md-6 ">
+                            <input id="chroma" class="range byChromaDS" type="range" value="0">
+                        </div>
+                        <div class="col-sm-12">
+                            <hr>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>对比度</h5>
+                            <h8 id="contrast_value" class="contrast_value">3%</h8>
+                        </div>
+                        <div class="col-md-6 ">
+                            <input id="contrast" class="range byContrastDS" type="range" value="3">
+                        </div>
+                        <div class="col-sm-12">
+                            <hr>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>后排输入显示</h5>
+                            <h8 id="bRearDisplay_vlaue" class="bRearDisplay_vlaue">关</h8>
+                        </div>
+                        <div class="col-md-6 ">
+                            <div class="swich" id="bRearDisplay">
+                                <input id="bRearDisplay_input" class="bRearDisplay" type="checkbox" value=""
+                                       checked="true"
+                                       name="bRearDisplay_input"/>
+                                <div class="box">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+                <div class="card form" id="form3">
+                    <div class="card-header">
+                        <h3>USB设置</h3>
+                    </div>
+                    <br>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <h5>工作模式</h5>
+                            <h8 id="USB_mode_value">USB2.0</h8>
+                        </div>
+                        <div class="col-md-6 byUsbMode" id="USB_modes">
+
+                            <label class="custom-control custom-checkbox rights  Left_right">
+                                <input id="USB_mode_1.1" type="radio" class="custom-control-input" value="1"
+                                       name="USB_mode">
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">USB1.1</span>
+                            </label>
+                            <label class="custom-control custom-checkbox rights top_bottom">
+                                <input id="USB_mode_2.0" type="radio" class="custom-control-input" value="0"
+                                       name="USB_mode"
+                                       checked>
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">USB2.0</span>
+                            </label>
+                        </div>
+                        <div class="col-sm-12">
+                            <hr>
+                        </div>
+                        <div class="col-md-6 ">
+                            <h5>接口类型</h5>
+                            <h8 id="USB_Types_value">OTG/device</h8>
+                        </div>
+                        <div class="col-md-6 byUsbRate" id="USB_Types">
+                            <label class="custom-control custom-checkbox rights top_bottom">
+                                <input id="USB_Types_OTG" type="radio" class="custom-control-input" name="USB_Types"
+                                       value="1"
+                                       checked>
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">OTG/device</span>
+                            </label>
+                            <label class="custom-control custom-checkbox rights Left_right">
+                                <input id="USB_Types_MTP" type="radio" class="custom-control-input" value="0"
+                                       name="USB_Types">
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">MTP/host</span>
+                            </label>
+                        </div>
+                        <div class="col-sm-12">
+                            <hr>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>音乐设置</h5>
+                            <h8 id="music_value">设置是否插入存储设备自动播放歌曲</h8>
+                        </div>
+                        <div class="col-md-6 ">
+                            <div class="swich" id="music">
+                                <input id="music_input" class="bIsNeedAutoPlayMusic" type="checkbox" value=""
+                                       checked="" name="music_input"/>
+                                <div class="box">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <hr>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>USB0 DVR增强模式</h5>
+                            <h8 id="DVR_Enhanced_mode_value">USB0 DVR增强模式</h8>
+                        </div>
+                        <div class="col-md-6 ">
+                            <div class="swich" id="DVR_Enhanced_mode">
+                                <input id="DVR_Enhanced_mode_input" type="checkbox" class="bUsb0Dvr" value=""
+                                       checked=""
+                                       name="DVR_Enhanced_mode_input"/>
+                                <div class="box">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <hr>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>USB1 DVR增强模式</h5>
+                            <h8 id="DVR_Enhanced_mode_value1">USB1 DVR增强模式</h8>
+                        </div>
+                        <div class="col-md-6 ">
+                            <div class="swich" id="DVR_Enhanced_mode1">
+                                <input id="DVR_Enhanced_mode1_input" class="bUsb1Dvr" type="checkbox" value=""
+                                       checked=""
+                                       name="DVR_Enhanced_mode1_input"/>
+                                <div class="box">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+                <div class="card form" id="form4">
+                    <div class="card-header">
+                        <h3>按键灯设置</h3>
+                    </div>
+                    <br>
+                    <form>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <h5>按键灯常亮</h5>
+                                <h8 id="Button_light_always_on_value">关</h8>
+                            </div>
+                            <div class="col-md-6 ">
+                                <div class="swich" id="Button_light_always_on">
+                                    <input id="Button_light_always_on_input" class="bButtonLight" type="checkbox"
+                                           value="" checked=""
+                                           name="Button_light_always_on_input"/>
+                                    <div class="box">
+                                        <span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <hr>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>是否打印mcuLog</h5>
+                                <h8 id="mcuLog_value">关</h8>
+                            </div>
+                            <div class="col-md-6 ">
+                                <div class="swich" id="mcuLog">
+                                    <input id="mcuLog_input" class="bMcuLog" type="checkbox" value="" checked=""
+                                           name="mcuLog_input"/>
+                                    <div class="box">
+                                        <span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <hr>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>七彩灯设置</h5>
+                                <h8 id="Colorful_lights_value">手动</h8>
+                            </div>
+                            <div class="col-md-6 ">
+                                <div class="swich" id="Colorful_lights">
+                                    <input id="Colorful_lights_input" type="checkbox" class="byButtonLightColor"
+                                           value="" checked=""
+                                           name="Colorful_lights_input"/>
+                                    <div class="box">
+                                        <span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <hr>
+                            </div>
+                            <div class="col-sm-9 colors">
+                                <div class="col-sm-12 div_colors">
+                                    <font class="color">R</font>
+                                    <input id="red" class="color_range byRedColor" type="range" value="2"
+                                           name="range_red">
+                                    <font id="color_R_value" class="color_value">2</font>
+                                </div>
+                                <div class="col-sm-12 div_color">
+                                    <font class="color">G</font>
+                                    <input id="green" class="color_range byGreenColor" type="range" value="3"
+                                           name="range_green">
+                                    <font id="color_G_value" class="color_value">3</font>
+                                </div>
+                                <div class="col-sm-12 div_color">
+                                    <font class="color">B</font>
+                                    <input id="blue" class="color_range byBlueColor" type="range" value="3"
+                                           name="range_blue">
+                                    <font id="color_B_value" class="color_value">3</font>
+                                    <div class="col-sm-12">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 colors">
+                                <div class="col-sm-12">
+                                    <button type="reset" id="button_color_red" class="btn btn-general btn-blue mr-2">
+                                        红色
+                                    </button>
+                                    <button type="reset" id="button_color_green" class="btn btn-general btn-blue mr-2 ">
+                                        绿色
+                                    </button>
+                                    <button type="reset" id="button_color_blue" class="btn btn-general btn-blue mr-2 ">
+                                        蓝色
+                                    </button>
+                                </div>
+                                <div class="col-sm-12">
+                                    <button type="reset" id="button_color_Rose_red"
+                                            class="btn btn-general btn-blue mr-2 ">玫瑰红
+                                    </button>
+                                    <button type="reset" id="button_color_light_green"
+                                            class="btn btn-general btn-blue mr-2 ">浅绿色
+                                    </button>
+                                    <button type="reset" id="button_color_light_blue"
+                                            class="btn btn-general btn-blue mr-2 ">浅蓝色
+                                    </button>
+                                </div>
+                                <div class="col-sm-12">
+                                    <button type="reset" id="button_color_yellow"
+                                            class="btn btn-general btn-blue mr-2 ">黄色
+                                    </button>
+                                    <button type="reset" id="button_color_white" class="btn btn-general btn-blue mr-2 ">
+                                        白色
+                                    </button>
+                                    <button type="reset" id="button_color_orange"
+                                            class="btn btn-general btn-blue mr-2 ">橙色
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="card form" id="form5">
+                    <div class="card-header">
+                        <h3>收音区域设置</h3>
+                    </div>
+                    <br>
+                    <form>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <h5>区域设置</h5>
+                            </div>
+                            <div class="col-sm-12">
+                                <hr>
+                            </div>
+                            <div class="col-sm-12" style="margin-left: 20px;">
+                                <div class="col-sm-12 color_range">
+                                    <label class="custom-control custom-checkbox   top_bottom">
+                                        <input id="Asia" type="radio" checked value="0"
+                                               class="custom-control-input radio" name="Radio">
+                                        <span class="custom-control-indicator"></span>
+                                        <span class="custom-control-description">亚洲：FM：87.5-108MHZ/AM:531-1602KHZ</span>
+                                    </label>
+                                </div>
+                                <div class="col-sm-12"></div>
+                                <div class="col-sm-12 color_range">
+                                    <label class="custom-control custom-checkbox  top_bottom">
+                                        <input id="Europe" type="radio" class="custom-control-input radio" name="Radio"
+                                               value="1">
+                                        <span class="custom-control-indicator"></span>
+                                        <span class="custom-control-description">欧洲：FM：87.5-108MHZ/AM:522-1620HZ</span>
+                                    </label>
+                                </div>
+                                <div class="col-sm-12"></div>
+                                <div class="col-sm-12 color_range">
+                                    <label class="custom-control custom-checkbox  top_bottom">
+                                        <input id="North_America" type="radio" class="custom-control-input radio"
+                                               name="Radio"
+                                               value="2">
+                                        <span class="custom-control-indicator"></span>
+                                        <span class="custom-control-description">北美洲：FM：87.5-108MHZ/AM:522-1620HZ</span>
+                                    </label>
+                                </div>
+                                <div class="col-sm-12"></div>
+                                <div class="col-sm-12 color_range">
+                                    <label class="custom-control custom-checkbox  top_bottom">
+                                        <input id="South_America" type="radio" value="3"
+                                               class="custom-control-input radio" name="Radio"
+                                        >
+                                        <span class="custom-control-indicator"></span>
+                                        <span class="custom-control-description">南美洲：FM：87.5-108MHZ/AM:522-1620HZ</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <hr>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>RDS</h5>
+                                <h8 id="bRadioRDS_vlaue" class="bRadioRDS_vlaue">关</h8>
+                            </div>
+                            <div class="col-md-6 ">
+                                <div class="swich " id="bRadioRDS">
+                                    <input id="bRadioRDS_input" class="bRadioRDS" type="checkbox" value="" checked=""
+                                           name="bRadioRDS_input"/>
+                                    <div class="box">
+                                        <span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <hr>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="card form" id="form6">
+                    <div class="card-header">
+                        <h3>关机时间设置</h3>
+                    </div>
+                    <br>
+                    <form>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <h5>关机时间设置</h5>
+                            </div>
+                            <div class="col-sm-3"></div>
+                            <div class="col-sm-3">
+                                <input id="Shutdown_time" class="Shutdown_time byStandByTime" type="range" value="2"
+                                       name="Shutdown_time">
+                                <font id="Shutdown_time_value" class="color_value">5s</font>
+                            </div>
+                            <div class="col-sm-12">
+                                <hr>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="card form" id="form7">
+                    <div class="card-header">
+                        <h3>开机Logo</h3>
+                    </div>
+                    <br>
+                    <div class="form-group row">
+                        <div class="row logo">
+                        </div>
+                    </div>
+                </div>
+                <div class="card col-md-10" style="position: fixed;margin-left: 8px; top: 93%;">
+                    <div class="panel-body">
+                        <div class="input-group image-preview">
+                            <input placeholder="" type="text" class="form-control image-preview-filename"
+                                   disabled="disabled">
+                            <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default image-preview-clear"
+                                            style="display:none;"> <span class="glyphicon glyphicon-remove"></span> Clear </button>
+                                    <div class="btn btn-default image-preview-input"> <span
+                                            class="glyphicon glyphicon-folder-open"></span> <span
+                                            class="image-preview-input-title">导入配置文件</span>
+                                        <input type="file" id="upfile" accept="text/xml" name="input-file-preview"/>
+
+                                    </div>
+                                    </span>
+                            <span class="input-group-btn" style="margin-left: 20px;">
+                                    <button type="button" class="btn btn-default image-preview-clear"
+                                            style="display:none;">
+                                        <span class="glyphicon glyphicon-remove"></span> Clear </button>
+                                    <div class="btn btn-default image-preview-input" id="sbutton"> <span
+                                            class="glyphicon glyphicon-folder-open"></span>
+                                        <span class="image-preview-input-title">导出配置文件</span>
+
+                                    </div>
+                                    </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="text" id="preview3"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Global Javascript -->
+<script src="__RES__/factory/js/jquery.min.js"></script>
+<script src="__RES__/factory/js/popper/popper.min.js"></script>
+<script src="__RES__/factory/js/tether.min.js"></script>
+<script src="__RES__/factory/js/bootstrap.min.js"></script>
+<script src="__RES__/factory/js/jquery.cookie.js"></script>
+<script src="__RES__/factory/js/jquery.validate.min.js"></script>
+<script src="__RES__/factory/js/chart.min.js"></script>
+<script src="__RES__/factory/js/front.js"></script>
+<script src="__RES__/factory/js/Expansion.js"></script>
+<script src="__RES__/factory/js/message.min.js"></script>
+
+<!--Core Javascript -->
+<script>
+
+    $('#brightness').css('background', 'linear-gradient(to right, #059CFA, white ' + $('#brightness').attr('value') * 12 + '%, white)');
+    $('#chroma').css('background', 'linear-gradient(to right, #059CFA, white ' + $('#chroma').attr('value') * 12 + '%, white)');
+    $('#contrast').css('background', 'linear-gradient(to right, #059CFA, white ' + $('#contrast').attr('value') * 12 + '%, white)');
+    $('#red').css('background', 'linear-gradient(to right, #FF0000, white ' + $('#red').attr('value') * (100 / 255) + '%, white)');
+    $('#green').css('background', 'linear-gradient(to right, #00FF00, white ' + $('#green').attr('value') * (100 / 255) + '%, white)');
+    $('#blue').css('background', 'linear-gradient(to right, #0000FF, white ' + $('#blue').attr('value') * (100 / 255) + '%, white)');
+    $('#Shutdown_time').css('background', 'linear-gradient(to right, #059CFA, white ' + $('#Shutdown_time').attr('value') * (100 / 180) + '%, white)');
+
+    var change = function ($input, values, vs) {
+
+        var value = $input.attr('value');
+        var max = $input.attr('max');
+        if (max == 255) {
+            values.html(value)
+            $("#Colorful_lights_value").css({"color": "rgb(" + $('#red').attr('value') + ", " + $('#green').attr('value') + ", " + $('#blue').attr('value') + ")"})
+        } else if (max == 180) {
+            values.html(value + "s")
+
+        } else {
+            values.html(value + "%")
+        }
+        console.log(vs);
+    }
+
+    $('#brightness').RangeSlider({min: 0, max: 9, step: 1, callback: change}, $("#brightness_value"), "#059CFA", 12);
+    $('#chroma').RangeSlider({min: 0, max: 9, step: 1, callback: change}, $("#chroma_value"), "#059CFA", 12);
+    $('#contrast').RangeSlider({min: 0, max: 9, step: 1, callback: change}, $("#contrast_value"), "#059CFA", 12);
+    $('#red').RangeSlider({min: 0, max: 255, step: 1, callback: change}, $("#color_R_value"), "#FF0000", 255);
+    $('#green').RangeSlider({min: 0, max: 255, step: 2, callback: change}, $("#color_G_value"), "#00FF00", 255);
+    $('#blue').RangeSlider({min: 0, max: 255, step: 1, callback: change}, $("#color_B_value  "), "#0000FF", 255);
+    $('#Shutdown_time').RangeSlider({
+        min: 0,
+        max: 180,
+        step: 1,
+        callback: change
+    }, $("#Shutdown_time_value  "), "#059CFA", 180);
+
+    $(function () {
+
+        var timer, scrollTop, sideDiv = $('#fudong').appendTo('body');
+        $(window).scroll(function () {
+            timer && clearTimeout(timer);
+            scrollTop = $(this).scrollTop();
+            timer = setTimeout(function () {
+                sideDiv.animate({
+                    top: scrollTop + 100 + 'px'
+                }, 600);
+            }, 200);
+        });
+    });
+    initialization();
+    $(function () {
+        var a = "";
+        var c = 5;
+        var img = new Array("img/logo/g-2.jpg", "img/gallery/g-1.jpg", "img/gallery/g-3.jpg", "img/gallery/g-4.jpg", "img/gallery/g-5.jpg", "img/gallery/g-6.jpg")
+        for (var i = 0; i < 97; i++) {
+            if (i == LOGo) {
+                a += '  <div class="col-md-2 col-sm-6 mt-1" id="logo_' + i + '" ><div class="box-5">\n' +
+                    '                                        <img src="__RES__/factory/img/logo/logo' + i + '.png">\n' +
+                    '                                        <div class="box-4-content">\n' +
+                    '                                           \n' +
+                    '                                            <ul class="icon">\n' +
+                    '                                                \n' +
+                    '                                                <li><a href="javascript:void(0)"  onclick="js_method(' + i + ')"><i class="fa fa-link"></i></a></li>\n' +
+                    '                                            </ul>\n' +
+                    '                                        </div>\n' +
+                    '                                    </div>\n' +
+                    '                                </div>';
+            } else {
+                a += '  <div class="col-md-2 col-sm-6 mt-1" id="logo_' + i + '" ><div class="box-4">\n' +
+                    '                                        <img src="__RES__/factory/img/logo/logo' + i + '.png">\n' +
+                    '                                        <div class="box-4-content">\n' +
+                    '                                           \n' +
+                    '                                            <ul class="icon">\n' +
+                    '                                                \n' +
+                    '                                                <li><a href="javascript:void(0)"  onclick="js_method(' + i + ')"><i class="fa fa-link"></i></a></li>\n' +
+                    '                                            </ul>\n' +
+                    '                                        </div>\n' +
+                    '                                    </div>\n' +
+                    '                                </div>';
+            }
+
+        }
+        $(".logo").html(a);
+        var mn = $(".vert-tab");
+        mns = "vert-tab-scrolled";
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > $('header').height()) {
+                mn.addClass(mns);
+            } else {
+                mn.removeClass(mns);
+            }
+        });
+
+        "use strict";
+        $('a.js-scroll-trigger[href*="#"]:not([href="#"])').click(function () {
+            if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+                var target = $(this.hash);
+                target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                if (target.length) {
+                    $('html, body').animate({
+                        scrollTop: (target.offset().top - 22)
+                    }, 700, "easeInOutExpo");
+                    return false;
+                }
+            }
+        });
+
+        $('.collapse').on('show.bs.collapse', function () {
+            var id = $(this).attr('id');
+            $('a[href="#' + id + '"]').closest('.panel-heading').addClass('active-faq');
+            $('a[href="#' + id + '"] .panel-title span').html('<i class="fa fa-minus"></i>');
+        });
+        $('.collapse').on('hide.bs.collapse', function () {
+            var id = $(this).attr('id');
+            $('a[href="#' + id + '"]').closest('.panel-heading').removeClass('active-faq');
+            $('a[href="#' + id + '"] .panel-title span').html('<i class="fa fa-plus"></i>');
+        });
+
+    });
+
+</script>
+</body>
+
+</html>

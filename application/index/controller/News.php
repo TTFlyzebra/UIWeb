@@ -20,11 +20,12 @@ class News extends Controller
             $page['curr'] = $_GET['offset'];
             $page['limit'] = $_GET['limit'];
         }
+        $db->order('createtime desc');
         $db->limit(($page['curr'] - 1) * $page['limit'], $page['limit']);
         $newss = $db->select();
 
         for ($i = 0; $i < sizeof($newss); $i++) {
-            $newss[$i]['newsText'] = mb_substr($newss[$i]['newsText'], 0, 78) . "......";
+            $newss[$i]['newsText'] = mb_substr($newss[$i]['newsText'], 0, 72) . "......";
         }
 
         $this->assign('list1', $newss);
