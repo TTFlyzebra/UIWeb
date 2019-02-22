@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2019-02-21 10:15:35
+-- 生成日期： 2019-02-22 10:12:26
 -- 服务器版本： 5.5.62
 -- PHP 版本： 7.3.0
 
@@ -21,6 +21,23 @@ SET time_zone = "+00:00";
 --
 -- 数据库： `flyui`
 --
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `fly_cases`
+--
+
+CREATE TABLE `fly_cases` (
+  `casesId` int(11) NOT NULL,
+  `casesTitle` varchar(255) NOT NULL,
+  `imageurl` varchar(255) NOT NULL,
+  `casesText` text NOT NULL,
+  `remark` text,
+  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `userid` int(11) NOT NULL,
+  `ip` varchar(16) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -223,6 +240,12 @@ CREATE TABLE `fly_welcome` (
 --
 
 --
+-- 表的索引 `fly_cases`
+--
+ALTER TABLE `fly_cases`
+  ADD PRIMARY KEY (`casesId`);
+
+--
 -- 表的索引 `fly_cell`
 --
 ALTER TABLE `fly_cell`
@@ -295,6 +318,12 @@ ALTER TABLE `fly_welcome`
 --
 -- 在导出的表使用AUTO_INCREMENT
 --
+
+--
+-- 使用表AUTO_INCREMENT `fly_cases`
+--
+ALTER TABLE `fly_cases`
+  MODIFY `casesId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- 使用表AUTO_INCREMENT `fly_cell`
