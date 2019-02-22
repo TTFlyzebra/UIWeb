@@ -17,7 +17,7 @@
     <div class="modal-body">
         <div class="form-group">
             <label class="col-sm-1 control-label">控件类型</label>
-            <div class="col-sm-2">
+            <div class="col-sm-4">
                 <h4 class="modal-title">
                     <select id="celltypeId" name="celltypeId">
                         {volist name="list1" id="celltype" key="k"}
@@ -31,7 +31,7 @@
                 </h4>
             </div>
             <label class="col-sm-1 control-label">项目关联</label>
-            <div class="col-sm-2">
+            <div class="col-sm-4">
                 <h4 class="modal-title">
                     <select id="themeName" name="themeName">
                         <option value="" selected="selected">所有项目</option>
@@ -48,12 +48,12 @@
         </div>
         <div class="form-group">
             <label class="col-sm-1 control-label">图&nbsp&nbsp片&nbsp&nbsp一</label>
-            <div class="col-sm-2">
+            <div class="col-sm-4">
                 <input type="file" id="imageinput1" name="imagefile">
                 <input type="hidden" id="imageurl1" name="imageurl1" value="{$item.imageurl1}">
             </div>
             <label class="col-sm-1 control-label">图&nbsp&nbsp片&nbsp&nbsp二</label>
-            <div class="col-sm-2">
+            <div class="col-sm-4">
                 <input type="file" id="imageinput2" name="imagefile">
                 <input type="hidden" id="imageurl2" name="imageurl2" value="{$item.imageurl2}">
             </div>
@@ -68,6 +68,7 @@
                 <input id="height" name="height" type="text" class="form-control" value="{$item.height}"
                        placeholder="高度(像素)">
             </div>
+            <div class="col-sm-2"></div>
             <label class="col-sm-1 control-label">图片尺寸</label>
             <div class="col-sm-1">
                 <input id="width2" type="text" class="form-control" value="{$item.width}" placeholder="宽度(像素)">
@@ -78,11 +79,9 @@
         </div>
         <div class="form-group">
             <label class="col-sm-1 control-label">文本内容</label>
-            <div class="col-sm-5">
+            <div class="col-sm-4">
                 <input type="text" class="form-control" name="textTitle" id="textTitle" value="{$item.textTitle}" placeholder="文字显示">
             </div>
-        </div>
-        <div class="form-group">
             <label class="col-sm-1 control-label">文本字体</label>
             <div class="col-sm-1">
                 <input id="textSize" class="form-control" name="textSize" type="text" value="{$item.textSize}"
@@ -92,7 +91,7 @@
                 <input id="textColor" class="form-control" name="textColor" type="text" value="{$item.textColor}"
                        placeholder="字体颜色">
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <input id="textFont" class="form-control" name="textFont" type="text" value="{$item.textFont}"
                        placeholder="字体样式">
             </div>
@@ -134,21 +133,18 @@
                 <input id="intentFlag" class="form-control" name="intentFlag" type="text" value="{$item.intentFlag}"
                        placeholder="Intent Flag">
             </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-1 control-label"></label>
             <div class="col-sm-2">
                 <input id="action" class="form-control" name="action" type="text" value="{$item.action}"
                        placeholder="ACTION">
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <input id="flyAction" class="form-control" name="flyAction" type="text" value="{$item.flyAction}"
                        placeholder="自定义">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-1 control-label">备注</label>
-            <div class="col-sm-5">
+            <div class="col-sm-9">
                             <textarea class="form-control" name="remark" value="{$item.remark}" id="remark"
                                       placeholder="备注">{$item.remark}</textarea>
             </div>

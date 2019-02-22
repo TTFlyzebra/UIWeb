@@ -75,7 +75,11 @@
                     title: '控件名称',
                     halign: "center",
                     formatter: function (value, row, index) {
-                        return "["+row.themeName + "]" + value;
+                        if(!isTextEmpty(row.themeName)){
+                            return "[" + row.themeName + "]" + value;
+                        }else{
+                            return value;
+                        }
                     }
                 }, {
                     field: 'width',
@@ -145,5 +149,8 @@
             });
         }
     });
+    function isTextEmpty(obj){
+        return typeof obj == "undefined" || obj == null || obj === "";
+    }
 </script>
 

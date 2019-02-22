@@ -17,7 +17,7 @@
     <div class="modal-body">
         <div class="form-group">
             <label class="col-sm-1 control-label">控件类型</label>
-            <div class="col-sm-2">
+            <div class="col-sm-4">
                 <h4 class="modal-title">
                     <select id="celltypeId" name="celltypeId">
                         {volist name="list1" id="celltype" key="k"}
@@ -27,12 +27,12 @@
                 </h4>
             </div>
             <label class="col-sm-1 control-label">项目关联</label>
-            <div class="col-sm-2">
+            <div class="col-sm-4">
                 <h4 class="modal-title">
                     <select id="themeName" name="themeName">
                         <option value="" selected="selected">所有项目</option>
                         {volist name="list2" id="theme" key="k"}
-                        <option value="{$theme.themeName}">{$theme.themeName}</option>
+                        <option value="{$theme.themeId}">{$theme.themeName}</option>
                         {/volist}
                     </select>
                 </h4>
@@ -40,12 +40,12 @@
         </div>
         <div class="form-group">
             <label class="col-sm-1 control-label">图&nbsp&nbsp片&nbsp&nbsp一</label>
-            <div class="col-sm-2">
+            <div class="col-sm-4">
                 <input type="file" id="imageinput1" name="imagefile">
                 <input type="hidden" id="imageurl1" name="imageurl1" value="">
             </div>
             <label class="col-sm-1 control-label">图&nbsp&nbsp片&nbsp&nbsp二</label>
-            <div class="col-sm-2">
+            <div class="col-sm-4">
                 <input type="file" id="imageinput2" name="imagefile">
                 <input type="hidden" id="imageurl2" name="imageurl2" value="">
             </div>
@@ -58,6 +58,7 @@
             <div class="col-sm-1">
                 <input id="height" name="height" type="text" class="form-control" value="" placeholder="高度(像素)">
             </div>
+            <div class="col-sm-2"></div>
             <label class="col-sm-1 control-label">图片尺寸</label>
             <div class="col-sm-1">
                 <input id="width2" type="text" class="form-control" value="" placeholder="宽度(像素)">
@@ -68,11 +69,9 @@
         </div>
         <div class="form-group">
             <label class="col-sm-1 control-label">文本内容</label>
-            <div class="col-sm-5">
+            <div class="col-sm-4">
                 <input type="text" class="form-control" name="textTitle" id="textTitle" value="" placeholder="文字显示">
             </div>
-        </div>
-        <div class="form-group">
             <label class="col-sm-1 control-label">文本字体</label>
             <div class="col-sm-1">
                 <input id="textSize" class="form-control" name="textSize" type="text" value="" placeholder="字体大小">
@@ -80,7 +79,7 @@
             <div class="col-sm-1">
                 <input id="textColor" class="form-control" name="textColor" type="text" value="" placeholder="字体颜色">
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <input id="textFont" class="form-control" name="textFont" type="text" value="" placeholder="字体样式">
             </div>
         </div>
@@ -114,19 +113,16 @@
                 <input id="intentFlag" class="form-control" name="intentFlag" type="text" value=""
                        placeholder="Intent Flag">
             </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-1 control-label"></label>
             <div class="col-sm-2">
                 <input id="action" class="form-control" name="action" type="text" value="" placeholder="ACTION">
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <input id="flyAction" class="form-control" name="flyAction" type="text" value="" placeholder="自定义">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-1 control-label">备注</label>
-            <div class="col-sm-5">
+            <div class="col-sm-9">
                             <textarea class="form-control" name="remark" value="" id="remark"
                                       placeholder="备注"></textarea>
             </div>
