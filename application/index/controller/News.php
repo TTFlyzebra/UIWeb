@@ -13,7 +13,7 @@ class News extends Controller
         $request = Request::instance();
         $db = Db::name('news');
         $page = array();
-        $page['limit'] = 6;
+        $page['limit'] = 10;
         $page['curr'] = 1;
         $page['count'] = $db->count();
         if ($request->has('limit', 'get') && $request->has('offset', 'get')) {
@@ -22,6 +22,11 @@ class News extends Controller
         }
         $db->limit(($page['curr'] - 1) * $page['limit'], $page['limit']);
         $newss = $db->select();
+
+        for ($i = 0; $i < sizeof($newss); $i++) {
+            $newss[$i]['newsText'] = mb_substr($newss[$i]['newsText'], 0, 78) . "......";
+        }
+
         $this->assign('list1', $newss);
         $this->assign('page', $page);
         return $this->fetch();
