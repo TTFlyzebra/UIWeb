@@ -29,48 +29,51 @@
             <?php $num=$k%3; ?>
             {if condition="$num eq 2"}
             <div class="layui-inline content center">
-            {else /}
-            <div class="layui-inline content">
-            {/if}
-                <div class="layui-inline case-img"><img style="width: 370px;height: 270px" src="{$cases.imageurl}"></div>
-                <p style="width: 370px;height: 80px" class="lable">{$cases.casesTitle}</p><p style="width: 370px;height: 140px">{$cases.casesText}</p>
+                {else /}
+                <div class="layui-inline content">
+                    {/if}
+                    <div class="layui-inline case-img"><img style="width: 370px;height: 270px" src="{$cases.imageurl}">
+                    </div>
+                    <p style="width: 370px;height: 80px" class="lable">{$cases.casesTitle}</p>
+                    <p style="width: 370px;height: 140px">{$cases.casesText}</p>
                 </div>
-            {/volist}
+                {/volist}
             </div>
             <div id="casePage"></div>
         </div>
     </div>
-    <!-- footer部分 -->
-    {include file="common/footer"/}
-    <script src="__RES__/index/layui/layui.js"></script>
-    <!--[if lt IE 9]>
-    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <script>
-        layui.config({
-            base: '__RES__/index/static/js/'
-        }).use('firm');
-        //分页
-        layui.define(['jquery', 'laypage'], function () {
-            var $ = layui.jquery;
-            laypage = layui.laypage;
-            laypage.render({
-                elem: 'casePage',
-                limit: "{$page.limit}",
-                count: "{$page.count}",
-                curr: "{$page.curr}",
-                theme: '#2db5a3',
-                layout: ['prev', 'page', 'next'],
-                jump: function (obj, first) {
-                    if (!first) {
-                        //do something
-                        // alert(obj.curr + "--" + obj.limit);
-                        window.location.href = "{:url('/index/cases')}?" + "offset=" + obj.curr + "&limit=" + obj.limit;
-                    }
+</div>
+<!-- footer部分 -->
+{include file="common/footer"/}
+<script src="__RES__/index/layui/layui.js"></script>
+<!--[if lt IE 9]>
+<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+<script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<script>
+    layui.config({
+        base: '__RES__/index/static/js/'
+    }).use('firm');
+    //分页
+    layui.define(['jquery', 'laypage'], function () {
+        var $ = layui.jquery;
+        laypage = layui.laypage;
+        laypage.render({
+            elem: 'casePage',
+            limit: "{$page.limit}",
+            count: "{$page.count}",
+            curr: "{$page.curr}",
+            theme: '#2db5a3',
+            layout: ['prev', 'page', 'next'],
+            jump: function (obj, first) {
+                if (!first) {
+                    //do something
+                    // alert(obj.curr + "--" + obj.limit);
+                    window.location.href = "{:url('/index/cases')}?" + "offset=" + obj.curr + "&limit=" + obj.limit;
                 }
-            });
+            }
         });
-    </script>
+    });
+</script>
 </body>
 </html>
