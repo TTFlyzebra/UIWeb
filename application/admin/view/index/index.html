@@ -38,10 +38,10 @@
                     <div data-toggle="collapse" data-parent="#accordion" href="#collapse1">应用配置</div>
                 </h4>
             </div>
-            <div id="collapse1" class="panel-collapse collapse in">
+            <div id="collapse1" class="panel-collapse collapse">
                 <div class="panel-body">
                     <ul class="nav nav-pills nav-stacked">
-                        <li class="active" role="presentation"><a href="{:url('/admin/celltype')}" target="mainIframe">控件类型</a></li>
+                        <li role="presentation"><a href="{:url('/admin/celltype')}" target="mainIframe">控件类型</a></li>
                         <li role="presentation"><a href="{:url('/admin/theme')}" target="mainIframe">项目管理</a></li>
                         <li role="presentation"><a href="{:url('/admin/cell')}" target="mainIframe">控件管理</a></li>
                         <li role="presentation"><a href="{:url('/admin/page')}" target="mainIframe">页面管理</a></li>
@@ -66,7 +66,7 @@
     </div>
 </div>
 <div class="content">
-    <iframe name="mainIframe" src="{:url('/admin/theme')}" frameborder="0"></iframe>
+    <iframe name="mainIframe" src="{:url('/admin/index/welcome')}" frameborder="0"></iframe>
 </div>
 <script type="text/javascript">
     function changeMargin() {

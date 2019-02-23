@@ -9,6 +9,10 @@ class Index extends Controller
 {
     public function index()
     {
-        return view();
+        return $this->fetch();
+    }
+
+    public function welcome(){
+        echo "景安驰后台管理系统";
     }
 }
