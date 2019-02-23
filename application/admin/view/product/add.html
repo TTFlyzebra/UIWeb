@@ -17,42 +17,30 @@
     </div>
     <div class="modal-body">
         <div class="form-group">
-            <label class="col-sm-1 control-label">显示标题</label>
+            <label class="col-sm-1 control-label">产品图标</label>
+            <div class="col-sm-1">
+                <input type="file" id="imageinput1" name="imagefile">
+                <input type="hidden" id="iconurl" name="iconurl" value="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">产品图片</label>
+            <div class="col-sm-5">
+                <input type="file" id="imageinput2" name="imagefile">
+                <input type="hidden" id="imageurl" name="imageurl" value="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">文本标题</label>
             <div class="col-sm-5">
                 <input type="text" class="form-control" name="productTitle" id="productTitle" value=""
                        placeholder="请输入标题">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-1 control-label">排列顺序</label>
-            <div class="col-sm-5">
-                <input type="text" class="form-control" name="productSort" id="productSort" value=""
-                       placeholder="按输入数字从小到大排列">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-1 control-label">显示图标</label>
-            <div class="col-sm-2">
-                <input type="file" id="imageinput1" name="imagefile">
-                <input type="hidden" id="iconurl" name="iconurl" value="">
-            </div>
-            <label class="col-sm-1 control-label">显示图片</label>
-            <div class="col-sm-2">
-                <input type="file" id="imageinput2" name="imagefile">
-                <input type="hidden" id="imageurl" name="imageurl" value="">
-            </div>
-        </div>
-        <div class="form-group">
             <label class="col-sm-1 control-label">文本内容</label>
             <div class="col-sm-5">
-                            <textarea class="form-control" name="productDetail" value="" id="productDetail"
-                                      placeholder=""></textarea>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-1 control-label">扩展内容</label>
-            <div class="col-sm-5">
-                            <textarea class="form-control" name="remark" value="" id="remark"
+                            <textarea class="form-control" style="height: 240px" name="productDetail" value="" id="productDetail"
                                       placeholder=""></textarea>
             </div>
         </div>
@@ -103,8 +91,8 @@
         url: upimageurl,
         autoup: true,
         showPreview: true,
-        width: "100%",
-        height: "240px",
+        width: "128px",
+        height: "128px",
         background: "#101010"
     }).on("success", function (event, data) {
         var result = JSON.parse(data);

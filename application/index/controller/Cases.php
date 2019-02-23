@@ -22,9 +22,10 @@ class Cases extends Controller {
         $db->limit(($page['curr'] - 1) * $page['limit'], $page['limit']);
         $casess = $db->select();
 
-//        for ($i = 0; $i < sizeof($casess); $i++) {
-//            $casess[$i]['casesText'] = mb_substr($casess[$i]['casesText'], 0, 72) . "......";
-//        }
+        for ($i = 0; $i < sizeof($casess); $i++) {
+            $casess[$i]['casesTitle'] = mb_substr($casess[$i]['casesTitle'], 0, 12);
+            $casess[$i]['casesText'] = mb_substr($casess[$i]['casesText'], 0, 78);
+        }
 
         $this->assign('list1', $casess);
         $this->assign('page', $page);

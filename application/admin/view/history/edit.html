@@ -9,71 +9,65 @@
 <script type="text/javascript" src="__RES__/admin/js/bootstrap-table-zh-CN.min.js"></script>
 <script type="text/javascript" src="__RES__/admin/js/flyinput.js"></script>
 <body>
-<form class="form-horizontal" name="welcomeform" id="welcomeform" method="post" role="form"
-      action="{:url('/api/welcome')}"
+<form class="form-horizontal" name="historyform" id="historyform" method="post" role="form"
+      action="{:url('/api/history')}"
       enctype="multipart/form-data">
     <div class="modal-header">
-        <h4 class="modal-title" id="">修改轮播图片</h4>
+        <h4 class="modal-title" id="">修改案例</h4>
     </div>
     <div class="modal-body">
         <div class="form-group">
-            <label class="col-sm-1 control-label">排列顺序</label>
+            <label class="col-sm-1 control-label">历史图片</label>
             <div class="col-sm-5">
-                <input type="text" class="form-control" name="welcomeSort" id="welcomeSort" value="{$item.welcomeSort}"
-                       placeholder="按输入数字从小到大排列">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-1 control-label">显示图片</label>
-            <div class="col-sm-5">
-                <input type="file" id="flyimageup" name="imagefile">
+                <input type="file" id="imageinput1" name="imagefile">
                 <input type="hidden" id="imageurl" name="imageurl" value="{$item.imageurl}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-1 control-label">文本标题</label>
+            <label class="col-sm-1 control-label">历史时间</label>
             <div class="col-sm-5">
-                <input type="text" class="form-control" name="welcomeTitle" id="welcomeTitle" value="{$item.welcomeTitle}"
-                       placeholder="请输入标题">
+                <input type="text" class="form-control" name="historyTitle" id="historyTitle" value="{$item.historyTitle}"
+                       placeholder="请输入时间，如:2019年1月">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-1 control-label">文本内容</label>
+            <label class="col-sm-1 control-label">历史事件</label>
             <div class="col-sm-5">
-                            <textarea class="form-control" style="height: 240px" name="welcomeText" value="" id="welcomeText"
-                                      placeholder="">{$item.welcomeText}</textarea>
+                            <textarea class="form-control" style="height: 240px" name="historyText" value="" id="historyText"
+                                      placeholder="">{$item.historyText}</textarea>
             </div>
         </div>
-        <input type="hidden" name="welcomeId" id="welcomeId" value="{$item.welcomeId}">
+        <input type="hidden" name="historyId" id="historyId" value="{$item.historyId}">
         <input type="hidden" name="userid" id="userid" value="{$Think.session.user_id}">
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default"  onclick="onCancel()" >取消</button>
-        <button type="button" class="btn btn-primary" onclick="postwelcome()">修改</button>
+        <button type="button" class="btn btn-default" onclick="onCancel()">取消</button>
+        <button type="button" class="btn btn-primary" onclick="posthistory()">修改</button>
     </div>
 </form>
 </body>
 </html>
 
 <script type="text/javascript">
-    var welcomeurl = "{:url('/api/welcome')}";
-    var upimageurl = "{:url('/api/imagefile')}";
-    var imageurl = $('#imageurl').val();
+    var historyurl = "{:url('/api/history')}";
+    var upimageurl2 = "{:url('/api/imagefile')}";
+    var imageurl1 = $('#imageurl').val();
+
     //POST提交数据
-    function postwelcome() {
-        if ($('#welcomeTitle').val() === "") {
-            $('#welcomeTitle').focus();
+    function posthistory() {
+        if ($('#historyTitle').val() === "") {
+            $('#historyTitle').focus();
             return
         }
 
-        if ($('#welcomeSort').val() === "") {
-            $('#welcomeSort').focus();
+        if ($('#historySort').val() === "") {
+            $('#historySort').focus();
             return
         }
         $.ajax({
             type: "PUT",
-            url: welcomeurl,
-            data: $('#welcomeform').serialize(),
+            url: historyurl,
+            data: $('#historyform').serialize(),
             error: function (request) {
                 alert("向服务器提交数据失败了!\n" +
                     "可能的错误原因：\n" +
@@ -82,17 +76,17 @@
                     "3.网络请求失败。");
             },
             success: function (data) {
-                window.location.href = "{:url('/admin/welcome')}";
+                window.location.href = "{:url('/admin/history')}";
             }
         });
     }
 
-    $('#flyimageup').flyinput({
-        url: upimageurl,
-        image:imageurl,
+    $('#imageinput1').flyinput({
+        url: upimageurl2,
+        image:imageurl1,
         autoup: true,
         showPreview: true,
-        width: "100%",
+        width: "240px",
         height: "240px",
         background: "#101010"
     }).on("success", function (event, data) {
@@ -101,7 +95,7 @@
     });
 
     function onCancel() {
-        window.location.href="{:url('/admin/welcome')}";
+        window.location.href = "{:url('/admin/history')}";
     }
 
 </script>
