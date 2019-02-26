@@ -10,32 +10,47 @@ class Theme
     public function index()
     {
         $request = Request::instance();
-        if($request->isDelete()){
+        if ($request->isDelete()) {
             $delthemeId = ($request->only('themeId'))['themeId'];
-            $db =  Db::name("theme");
-            $result = $db->where('themeId',$delthemeId)->delete();
-        }elseif ($request->isPut()) {
+            $db = Db::name("theme");
+            $result = $db->where('themeId', $delthemeId)->delete();
+        } elseif ($request->isPut()) {
             $theme = $request->put();
             $theme['ip'] = request()->ip();
-            $db =  Db::name("theme");
+            $db = Db::name("theme");
             $result = $db->update($theme);
-        }elseif ($request->isPost()) {
-            $theme =  $request->post();
+        } elseif ($request->isPost()) {
+            $theme = $request->post();
             $theme['ip'] = request()->ip();
-            $db =  Db::name("theme");
+            $db = Db::name("theme");
             $result = $db->insert($theme);
         } elseif ($request->isGet()) {
             $db = Db::name("theme");
-            if($request->has('limit','get')&&$request->has('offset','get')){
-                $db->limit($_GET['offset'],$_GET['limit']);
+            if ($request->has('limit', 'get') && $request->has('offset', 'get')) {
+                $db->limit($_GET['offset'], $_GET['limit']);
             }
-            $db->field('userid,ip',true);
+            $db->field('userid,ip', true);
             $celltypes = $db->select();
-            if($request->isAjax()){
+            for ($i = 0; $i < sizeof($celltypes); $i++) {
+                $pagedatas = Db::name('themepage')
+                    ->where('themeId', $celltypes[$i]['themeId'])
+                    ->alias('a')
+                    ->join("fly_page b", "a.pageId=b.pageId")
+                    ->field('a.pageId,b.pageName')
+                    ->select();
+                $str = '';
+                foreach($pagedatas as $v){
+                    $str .= $v['pageName'].'['.$v['pageId'].'];';//拼接起来
+                }
+                $celltypes[$i]['themePages'] = $str;
+                unset($themePages);
+            }
+
+            if ($request->isAjax()) {
                 $resultdata['total'] = $db->count();
                 $resultdata['rows'] = $celltypes;
                 echo json_encode($resultdata);
-            }else{
+            } else {
                 echo json_encode($celltypes);
             }
         }

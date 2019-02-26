@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2019-02-22 10:12:26
+-- 生成日期： 2019-02-26 10:39:33
 -- 服务器版本： 5.5.62
 -- PHP 版本： 7.3.0
 
@@ -21,6 +21,23 @@ SET time_zone = "+00:00";
 --
 -- 数据库： `flyui`
 --
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `fly_about`
+--
+
+CREATE TABLE `fly_about` (
+  `aboutId` int(11) NOT NULL,
+  `imageurl` varchar(255) NOT NULL,
+  `aboutText` text NOT NULL,
+  `aboutSort` int(11) NOT NULL DEFAULT '0',
+  `remark` text,
+  `edittime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `userid` int(11) NOT NULL,
+  `ip` varchar(16) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -112,6 +129,23 @@ CREATE TABLE `fly_event` (
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `fly_history`
+--
+
+CREATE TABLE `fly_history` (
+  `historyId` int(11) NOT NULL,
+  `imageurl` varchar(255) NOT NULL,
+  `historyTitle` varchar(255) NOT NULL,
+  `historyText` text NOT NULL,
+  `remark` text,
+  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `userid` int(11) NOT NULL,
+  `ip` varchar(16) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `fly_news`
 --
 
@@ -137,7 +171,6 @@ CREATE TABLE `fly_news` (
 CREATE TABLE `fly_page` (
   `pageId` int(11) NOT NULL,
   `pageName` varchar(255) NOT NULL,
-  `themeName` varchar(255) NOT NULL,
   `imageurl` varchar(255) NOT NULL,
   `width` int(11) NOT NULL,
   `height` int(11) NOT NULL,
@@ -159,8 +192,7 @@ CREATE TABLE `fly_pagecell` (
   `x` int(11) NOT NULL,
   `y` int(11) NOT NULL,
   `width` int(11) NOT NULL,
-  `height` int(11) NOT NULL,
-  `remark` text
+  `height` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -185,6 +217,23 @@ CREATE TABLE `fly_product` (
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `fly_recruitment`
+--
+
+CREATE TABLE `fly_recruitment` (
+  `recruitmentId` int(11) NOT NULL,
+  `recruitmentTitle` varchar(255) NOT NULL,
+  `recruitmentText` text NOT NULL,
+  `recruitmentStatu` int(11) NOT NULL DEFAULT '1',
+  `remark` text,
+  `edittime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `userid` int(11) NOT NULL,
+  `ip` varchar(16) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `fly_theme`
 --
 
@@ -192,7 +241,6 @@ CREATE TABLE `fly_theme` (
   `themeId` int(11) NOT NULL,
   `themeName` varchar(64) NOT NULL,
   `themeType` int(11) DEFAULT NULL,
-  `themePages` text,
   `width` int(11) NOT NULL,
   `height` int(11) NOT NULL,
   `imageurl` varchar(255) DEFAULT NULL,
@@ -200,6 +248,17 @@ CREATE TABLE `fly_theme` (
   `edittime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `userid` int(11) NOT NULL,
   `ip` varchar(16) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `fly_themepage`
+--
+
+CREATE TABLE `fly_themepage` (
+  `themeId` int(11) NOT NULL,
+  `pageId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -240,6 +299,12 @@ CREATE TABLE `fly_welcome` (
 --
 
 --
+-- 表的索引 `fly_about`
+--
+ALTER TABLE `fly_about`
+  ADD PRIMARY KEY (`aboutId`);
+
+--
 -- 表的索引 `fly_cases`
 --
 ALTER TABLE `fly_cases`
@@ -267,6 +332,12 @@ ALTER TABLE `fly_event`
   ADD PRIMARY KEY (`eventId`);
 
 --
+-- 表的索引 `fly_history`
+--
+ALTER TABLE `fly_history`
+  ADD PRIMARY KEY (`historyId`);
+
+--
 -- 表的索引 `fly_news`
 --
 ALTER TABLE `fly_news`
@@ -290,6 +361,12 @@ ALTER TABLE `fly_pagecell`
 --
 ALTER TABLE `fly_product`
   ADD PRIMARY KEY (`productId`);
+
+--
+-- 表的索引 `fly_recruitment`
+--
+ALTER TABLE `fly_recruitment`
+  ADD PRIMARY KEY (`recruitmentId`);
 
 --
 -- 表的索引 `fly_theme`
@@ -320,6 +397,12 @@ ALTER TABLE `fly_welcome`
 --
 
 --
+-- 使用表AUTO_INCREMENT `fly_about`
+--
+ALTER TABLE `fly_about`
+  MODIFY `aboutId` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- 使用表AUTO_INCREMENT `fly_cases`
 --
 ALTER TABLE `fly_cases`
@@ -344,6 +427,12 @@ ALTER TABLE `fly_event`
   MODIFY `eventId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- 使用表AUTO_INCREMENT `fly_history`
+--
+ALTER TABLE `fly_history`
+  MODIFY `historyId` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- 使用表AUTO_INCREMENT `fly_news`
 --
 ALTER TABLE `fly_news`
@@ -360,6 +449,12 @@ ALTER TABLE `fly_page`
 --
 ALTER TABLE `fly_product`
   MODIFY `productId` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- 使用表AUTO_INCREMENT `fly_recruitment`
+--
+ALTER TABLE `fly_recruitment`
+  MODIFY `recruitmentId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- 使用表AUTO_INCREMENT `fly_theme`
