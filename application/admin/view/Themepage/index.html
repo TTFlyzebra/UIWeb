@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>页面编辑</title>
+    <title>项目编辑</title>
 </head>
 <link rel="stylesheet" type="text/css" href="__RES__/admin/css/bootstrap.css">
 <script type="text/javascript" src="__RES__/admin/js/jquery-3.2.1.min.js"></script>
@@ -27,6 +27,15 @@
     a:hover, a:active, a:focus {
         color: #999999;
         text-decoration: none;
+    }
+
+    .flytitle {
+        padding-left: 12px;
+        padding-right: 12px;
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+        font-size: 24px;
     }
 
     .flycenter {
@@ -68,7 +77,7 @@
         box-sizing: border-box;
         border-width: 1px;
         border-color: #000000;
-        background: #009688;
+        background: #fefefe;
     }
 
     .flycontrlmenu {
@@ -85,44 +94,110 @@
 </style>
 <body>
 <div class="flycenter">
-    <div style="text-align: left;">
-        &nbsp;&nbsp;{$item.pageName}&nbsp;&nbsp;[{$item.remark}]
-        <!--<select id="sel" style="width: 200px">-->
-            <!--{volist name="list" id="page" key="k"}-->
-            <!--{if condition="$item['pageId'] eq $page['pageId']"}-->
-            <!--<option value="{$page.pageId}" selected="selected">{$page.pageName}</option>-->
-            <!--{else /}-->
-            <!--<option value="{$page.pageId}">{$page.pageName}</option>-->
-            <!--{/if}-->
-            <!--{/volist}-->
-        <!--</select>-->
+    <div style="height: 100px">
+        <div class="flytitle" style="width:100%;height: 50px">{$item.themeName}</div>
+        <ul class="nav nav-tabs" style="height: 50px;" id="pageTab">
+            {volist name="list2" id="themepage" key="k"}
+            <li id="page_{$themepage.pageId}"><a href="{$themepage.pageId}" data-toggle="tab">{$themepage.pageName}</a></li>
+            {/volist}
+        </ul>
     </div>
     <div class="flyscreen"></div>
-    <div class="flycellmenu"></div>
+    <div class="flycellmenu">
+        <form class="form-horizontal" name="celltypeform" id="celltypeform" method="post" role="form"
+              action="{:url('/api/cell')}" enctype="multipart/form-data">
+            <div class="modal-header">
+                <h3 class="modal-title">关联页面</h3>
+            </div>
+            <div class="modal-body">
+                {volist name="list1" id="page" key="k"}
+                <div class="form-group">
+                    <label class="control-label"> {$page.pageName}</label>
+                    <div class="col-sm-2">
+                        <?php if(in_array($page['pageId'],$pageIds)){ ?>
+                        <input type="checkbox" checked="checked" class="form-control" value="{$page.pageId}">
+                        <?php }else{ ?>
+                        <input type="checkbox" class="form-control" value="{$page.pageId}">
+                        <?php } ?>
+                    </div>
+                </div>
+                {/volist}
+            </div>
+        </form>
+    </div>
     <div class="flyscreenmsg"></div>
     <div class="flycontrlmenu">
-        <label>显示删除</label><input type="checkbox" value="">
-        <label>显示网格</label><input type="checkbox" value="">
-        <label>位置调节</label><input type="checkbox" value="">
-        <button type="button" onclick="upTableData()" class="btn btn-lg">保存设置</button>
+        <button type="button" onclick="saveThemePage()" class="btn btn-default">保存设置</button>
     </div>
-
 </div>
 </body>
 <script type="text/javascript">
-    var cellurl = "{:url('/api/cell')}";
+    var themepageurl = "{:url('/api/themepage')}";
+
+    $('#pageTab a').click(function () {
+        pageId = $(this).attr('href');
+        getScreenCell(pageId);
+    });
+
+    $('.modal-body input').click(function () {
+        var pageName = $(this).parents('.form-group').find('label')[0].innerHTML;
+        var pageId = $(this).val();
+        if ($(this).prop('checked')) {
+            $('#pageTab').append("<li id=\"page_" + pageId + "\"><a href=" + pageId + " data-toggle=\"tab\">" + pageName + "</a></li>");
+            $('#page_'+pageId+' a').click(function () {
+                var id = $(this).attr('href');
+                getScreenCell(id);
+            });
+            $('#page_'+pageId+' a').click();
+        } else {
+            if($("#page_" + pageId).is('.active')){
+                $("#page_" + pageId).remove();
+                var tablas = $('#pageTab').find('li');
+                if (tablas.length > 0){
+                    $('#pageTab a:first').click()
+                }else{
+                    $('.flyscreen').get(0).innerHTML="";
+                }
+            }else{
+                $("#page_" + pageId).remove();
+            }
+        }
+    });
+
+    function saveThemePage() {
+        var pageArr = [];
+        var tablas = $('#pageTab').find('li');
+        if (tablas.length > 0) {
+            for (var i = 0; i < tablas.length; i++) {
+                pageArr[i] = {};
+                pageArr[i].themeId = "{$item.themeId}";
+                pageArr[i].pageId = $('#pageTab li:eq('+i+') a').attr('href');
+            }
+        }
+        var pagejscon = JSON.stringify(pageArr);
+        $.ajax({
+            url: themepageurl,
+            type: "POST",
+            data: "jsondata=" + pagejscon + "&themeId={$item.themeId}",
+            dataType: 'html',
+            error: function (request) {
+                alert("向服务器提交页面数据更新失败!");
+            },
+            success: function (result) {
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
     var pagecellurl = "{:url('/api/pagecell')}";
 
     //定义全局变量
     var screenCellArr = [];
-    var menuCellArr = [];
     var screenMoveDiv = null;
     var screenMoveDivPoint = {};
     var screenMoveCell = null;
     var bodyMoveDiv = null;
     var addMenuCell = null;
-    var MENUCELL_WIDTH = "120px";
-    var MENUCELL_HEIGHT = "120px";
 
     var flycenterwidth = trimPX("{$item.width}px") + 380;
 
@@ -198,32 +273,7 @@
                 text.css('color', cell.textColor);
                 text.css('top', (cell.height - 48) + 'px');
                 text.get(0).innerHTML = cell.textTitle;
-                // try {
-                //     var data = JSON.parse(cell.text);
-                //     var content = data.CN;
-                //     if (content) {
-                //         content = content.replace('\n', '<br/>');
-                //     }
-                //     text.get(0).innerHTML = cell.text;
-                // } catch (e) {
-                //     text.get(0).innerHTML = '';
-                //     console.log(e);
-                // }
                 div.get(0).append(text.get(0));
-                //删除按钮
-                var del = $('<div>X</div>');
-                del.css('position', 'absolute');
-                del.css('left', (cell.width - 22) + 'px');
-                del.css('top', '2px');
-                del.css('width', '20px');
-                del.css('height', '20px');
-                del.css('background', '#FAF000');
-
-                del.on("click", function (event) {
-                    $('.flyscreen').get(0).removeChild(div.get(0));
-                    screenCellArr.splice(num, 1);
-                });
-                div.get(0).append(del.get(0));
                 break;
         }
         div.on('mousedown', function (event) {
@@ -244,61 +294,6 @@
                 screenMoveDivPoint.x = x2;
                 screenMoveDivPoint.y = y2;
             }
-        });
-        return div.get(0);
-    }
-
-    /**
-     * @param cell
-     * @returns {*|jQuery|HTMLElement}
-     */
-    function cellMenuDiv(cell) {
-        var div = $('<div></div>');
-        div.css('position', 'relative');
-        div.css('float', 'left');
-        div.css('text-align', 'center');
-        div.css('width', MENUCELL_WIDTH);
-        div.css('height', MENUCELL_HEIGHT);
-        div.css('border', 'solid');
-        div.css('border-width', '1px');
-        div.css('border-color', '#707F00');
-        switch (cell.type) {
-            case 11:
-                break;
-            default:
-                //图像
-                var image = $('<img>');
-                image.css('position', 'absolute');
-                image.attr('src', cell.imageurl1);
-                if (cell.width > cell.height) {
-                    image.attr('width', MENUCELL_WIDTH);
-                    image.attr('height', 'auto');
-                    image.css('left', '0px');
-                    image.css('top', (cell.width - cell.height) * trimPX(MENUCELL_WIDTH) / cell.width / 2 + 'px');
-                } else {
-                    image.attr('width', 'auto');
-                    image.attr('height', MENUCELL_HEIGHT);
-                    image.css('left', (cell.height - cell.width) * trimPX(MENUCELL_HEIGHT) / cell.height / 2 + 'px');
-                    image.css('top', '0px')
-                }
-                image.attr('ondragstart', 'return false;');
-                div.get(0).append(image.get(0));
-                //文字
-                var text = $('<div></div>');
-                text.css('position', 'absolute');
-                text.css('text-align', 'center');
-                text.css('width', MENUCELL_WIDTH);
-                text.css('top', (trimPX(MENUCELL_HEIGHT) - 40) + 'px')
-                text.css('font-size', '20px');
-                text.css('color', '#000000');
-                // text.css('top', (MENUCELL_HEIGHT  - 48) + 'px');
-                text.get(0).innerHTML = cell.textTitle;
-                div.get(0).append(text.get(0));
-                break;
-        }
-        div.on('mousedown', function (event) {
-            //添加点击事件
-            addMenuCell = cell;
         });
         return div.get(0);
     }
@@ -336,34 +331,6 @@
         }
     }
 
-    /**
-     * 获取添加的所有cell样板数据
-     */
-    function getMenuCell(searchStr) {
-        var flycellmenu = $('.flycellmenu').get(0);
-        if (flycellmenu) {
-            $.ajax({
-                url: cellurl,
-                type: "GET",
-                data: "search=" + searchStr,
-                dataType: 'html',
-                success: function (result) {
-                    try {
-                        var data = JSON.parse(result);
-                        menuCellArr.splice(0, menuCellArr.length);
-                        flycellmenu.innerHTML = '';
-                        for (i = 0; i < data.rows.length; i++) {
-                            var num = screenCellArr.length;
-                            menuCellArr[num] = data.rows[i];
-                            flycellmenu.append(cellMenuDiv(menuCellArr[num]));
-                        }
-                    } catch (e) {
-                        console.log(e);
-                    }
-                }
-            });
-        }
-    }
 
     function documentEventInit() {
         $(document).on('mousedown', function (event) {
@@ -479,21 +446,16 @@
 
 
     +$(function () {
-        documentEventInit();
-        flyscreenClassEventInit();
+        // documentEventInit();
+        // flyscreenClassEventInit();
     });
 
-    getMenuCell();
-
-    pageId = "{$item.pageId}";
+    pageId = $('#pageTab a:first').attr('href');
     getScreenCell(pageId);
-
-    // pageId = $('#sel').val();
-    // getScreenCell(pageId);
-    // $('#sel').change(function () {
-    //     pageId = $('#sel').val();
-    //     getScreenCell(pageId);
-    // });
+    $('#sel').change(function () {
+        pageId = $('#sel').val();
+        getScreenCell(pageId);
+    });
 </script>
 </html>
 

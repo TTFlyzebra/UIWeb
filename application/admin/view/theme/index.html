@@ -68,7 +68,7 @@
                     checkbox: true
                 }, {
                     field: 'themeName',
-                    title: '主题名称',
+                    title: '项目名称',
                     halign: "center"
                 }, {
                     field: 'width',
@@ -79,12 +79,24 @@
                         return value + "X" + row.height;
                     }
                 }, {
+                    field: 'themePages',
+                    title: '关联页面',
+                    halign: "center"
+                }, {
                     field: 'imageurl',
                     title: '背景图片',
                     halign: "center",
                     align: 'center',
                     formatter: function (value, row, index) {
                         return '<img  width="auto" height="50px" src="' + value + '">';
+                    }
+                }, {
+                    field: 'themeId',
+                    title: '操作',
+                    halign: "center",
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        return '<a  href="{:url(\'/admin/themepage\')}?id=' + value + '">关联页面</a>';
                     }
                 }, {
                     field: 'edittime',
@@ -105,7 +117,7 @@
     $('#btn_edit').on("click", function (event) {
         var a = $('#flytable').bootstrapTable('getSelections');
         if (a.length > 0) {
-            window.location.href = "{:url('/admin/theme/edit')}?id="+a[0].themeId;
+            window.location.href = "{:url('/admin/theme/edit')}?id=" + a[0].themeId;
         }
     });
 

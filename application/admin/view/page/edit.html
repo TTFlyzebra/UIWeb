@@ -18,23 +18,6 @@
     </div>
     <div class="modal-body">
         <div class="form-group">
-            <label class="col-sm-1 control-label">项目关联</label>
-            <div class="col-sm-2">
-                <h4 class="modal-title">
-                    <select id="themeName" name="themeName">
-                        <option value="" selected="selected">所有项目</option>
-                        {volist name="list" id="theme" key="k"}
-                        {if condition="$item['themeName'] eq $theme['themeName']"}
-                        <option value="{$theme.themeName}" selected="selected">{$theme.themeName}</option>
-                        {else /}
-                        <option value="{$theme.themeName}">{$theme.themeName}</option>
-                        {/if}
-                        {/volist}
-                    </select>
-                </h4>
-            </div>
-        </div>
-        <div class="form-group">
             <label for="pageName" class="col-sm-1 control-label">页面名称</label>
             <div class="col-sm-5">
                 <input type="text" class="form-control" name="pageName" id="pageName" value="{$item.pageName}"
@@ -60,8 +43,7 @@
         <div class="form-group">
             <label for="remark" class="col-sm-1 control-label">备注</label>
             <div class="col-sm-5">
-                            <textarea class="form-control" name="remark" value="{$item.remark}" id="remark"
-                                      placeholder="备注"></textarea>
+                 <textarea class="form-control" name="remark" id="remark" placeholder="添加页面描述，可用于检索。">{$item.remark}</textarea>
             </div>
         </div>
         <input type="hidden" name="pageId" id="pageId" value="{$item.pageId}">
