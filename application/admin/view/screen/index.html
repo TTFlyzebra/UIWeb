@@ -50,9 +50,9 @@
 
     .flyscreenmsg {
         text-align: right;
-        position: absolute;
-        height: 30px;
-        width: 1280px;
+        float: left;
+        width: 100%;
+        position: relative;
         font-size: 24px;
         color: #FF00FF;
     }
@@ -74,37 +74,94 @@
     .flycontrlmenu {
         display: table-cell;
         vertical-align: middle;
-        text-align: center;
         width: 100%;
-        height: 80px;
+        height: 60px;
         border: solid;
         box-sizing: border-box;
-        border-width: 0px;
+        border-width: 1px;
         border-color: #000000;
+    }
+
+    .position {
+        position: absolute;
+        padding-left: 2px;
+        text-align: left;
+        color: #FF00FF;
+    }
+
+    .arrow-down {
+        position: absolute;
+        top: 80px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 24px;
+        height: 24px;
+        margin: auto;
+        display: inline-block;
+        border-left: 24px solid transparent;
+        border-right: 24px solid transparent;
+        border-top: 24px solid #FFB800;
+    }
+
+    .arrow-up {
+        position: absolute;
+        top: 0;
+        bottom: 80px;
+        left: 0;
+        right: 0;
+        width: 24px;
+        height: 24px;
+        margin: auto;
+        display: inline-block;
+        border-bottom: 24px solid #FFB800;
+        border-left: 24px solid transparent;
+        border-right: 24px solid transparent;
+    }
+
+    .arrow-left {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 80px;
+        width: 24px;
+        height: 24px;
+        margin: auto;
+        display: inline-block;
+        border-top: 24px solid transparent;
+        border-bottom: 24px solid transparent;
+        border-right: 24px solid #FFB800;
+    }
+
+    .arrow-right {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 80px;
+        right: 0;
+        width: 24px;
+        height: 24px;
+        margin: auto;
+        display: inline-block;
+        border-top: 24px solid transparent;
+        border-bottom: 24px solid transparent;
+        border-left: 24px solid #FFB800;
     }
 </style>
 <body>
 <div class="flycenter">
     <div style="text-align: left;">
-        &nbsp;&nbsp;{$item.pageName}&nbsp;&nbsp;[{$item.remark}]
-        <!--<select id="sel" style="width: 200px">-->
-            <!--{volist name="list" id="page" key="k"}-->
-            <!--{if condition="$item['pageId'] eq $page['pageId']"}-->
-            <!--<option value="{$page.pageId}" selected="selected">{$page.pageName}</option>-->
-            <!--{else /}-->
-            <!--<option value="{$page.pageId}">{$page.pageName}</option>-->
-            <!--{/if}-->
-            <!--{/volist}-->
-        <!--</select>-->
+        &nbsp;&nbsp;{$item.pageName}&nbsp;&nbsp;[{$item.remark}][{$item.width}X{$item.height}]
     </div>
     <div class="flyscreen"></div>
     <div class="flycellmenu"></div>
-    <div class="flyscreenmsg"></div>
     <div class="flycontrlmenu">
-        <label>显示删除</label><input type="checkbox" value="">
-        <label>显示网格</label><input type="checkbox" value="">
-        <label>位置调节</label><input type="checkbox" value="">
-        <button type="button" onclick="upTableData()" class="btn btn-lg">保存设置</button>
+        <label>显示删除</label><input id="showdel" type="checkbox">
+        <!--<label>显示网格</label><input id="showgrid" type="checkbox">-->
+        <label>位置微调</label><input id="showposition" type="checkbox" checked="checked">
+        <button type="button" onclick="refreshPagecell()" class="btn btn-lg">重新加载</button>
+        <button type="button" onclick="savePagecell()" class="btn btn-lg">保存设置</button>
     </div>
 
 </div>
@@ -112,6 +169,7 @@
 <script type="text/javascript">
     var cellurl = "{:url('/api/cell')}";
     var pagecellurl = "{:url('/api/pagecell')}";
+    var pageId = "{$item.pageId}";
 
     //定义全局变量
     var screenCellArr = [];
@@ -124,20 +182,21 @@
     var MENUCELL_WIDTH = "120px";
     var MENUCELL_HEIGHT = "120px";
 
+    var SHOW_DEL = false;
+    var SHOW_POSITION = true;
+
     var flycenterwidth = trimPX("{$item.width}px") + 380;
 
     $('.flycenter').css('width', flycenterwidth + 'px');
+    $('.flycontrlmenu').css('width', flycenterwidth + 'px');
     $('.flyscreen').css('width', '{$item.width}px');
     $('.flyscreen').css('height', '{$item.height}px');
-    $('.flyscreenmsg').css('width', '{$item.width}px');
     $('.flycellmenu').css('width', '380px');
     $('.flycellmenu').css('height', '{$item.height}px');
 
-    /**
-     * 将以"px"字符串结尾的字符串转换成int整数
-     * @param _px 以"px"结尾的字符串
-     * @returns 去掉"px"后转换的int整数
-     */
+    upMenuCell();
+    refreshPagecell();
+
     function trimPX(_px) {
         if (_px === null || _px === "")
             return 0;
@@ -155,19 +214,14 @@
         };
     }
 
-
-    function showMSG(message) {
+    function showMSG(x, y) {
         var flyscreenmsg = $('.flyscreenmsg').get(0);
         if (flyscreenmsg) {
-            flyscreenmsg.innerHTML = message;
+            flyscreenmsg.innerHTML = Math.round(x) + ',' + Math.round(y);
         }
     }
 
-    /**
-     * @param cell
-     * @returns {*|jQuery|HTMLElement}
-     */
-    function cellScreenDiv(cell, num) {
+    function createScreenCellDiv(cell, num) {
         var div = $('<div></div>');
         div.css('position', 'absolute');
         div.css('width', cell.width + 'px');
@@ -198,33 +252,80 @@
                 text.css('color', cell.textColor);
                 text.css('top', (cell.height - 48) + 'px');
                 text.get(0).innerHTML = cell.textTitle;
-                // try {
-                //     var data = JSON.parse(cell.text);
-                //     var content = data.CN;
-                //     if (content) {
-                //         content = content.replace('\n', '<br/>');
-                //     }
-                //     text.get(0).innerHTML = cell.text;
-                // } catch (e) {
-                //     text.get(0).innerHTML = '';
-                //     console.log(e);
-                // }
+                try {
+                    var data = JSON.parse(cell.text);
+                    var content = data.zh;
+                    if (content) {
+                        content = content.replace('\n', '<br/>');
+                    }
+                    text.get(0).innerHTML = cell.text;
+                } catch (e) {
+                    // console.log(e);
+                }
                 div.get(0).append(text.get(0));
+                //位置调节
+                if (SHOW_POSITION) {
+                    var positon = $('<div></div>');
+                    var arrow_up = $('<div class="arrow-up"></div>');
+                    var arrow_down = $('<div class="arrow-down"></div>');
+                    var arrow_left = $('<div class="arrow-left"></div>');
+                    var arrow_right = $('<div class="arrow-right"></div>');
+                    arrow_up.on("click", function (event) {
+                        var y = Math.round(div.get(0).offsetTop - 1);
+                        div.get(0).style.top = (y - 1) + 'px';
+                        cell.y = y - 1;
+                        show_position.get(0).innerHTML = (div.get(0).offsetLeft - 1) + "X" + (div.get(0).offsetTop - 1);
+                    });
+                    arrow_down.on("click", function (event) {
+                        var y = Math.round(div.get(0).offsetTop - 1);
+                        div.get(0).style.top = (y + 1) + 'px';
+                        cell.y = y + 1;
+                        show_position.get(0).innerHTML = (div.get(0).offsetLeft - 1) + "X" + (div.get(0).offsetTop - 1);
+                    });
+                    arrow_left.on("click", function (event) {
+                        var x = Math.round(div.get(0).offsetLeft - 1);
+                        div.get(0).style.left = (x - 1) + 'px';
+                        cell.x = x - 1;
+                        show_position.get(0).innerHTML = (div.get(0).offsetLeft - 1) + "X" + (div.get(0).offsetTop - 1);
+                    });
+                    arrow_right.on("click", function (event) {
+                        var x = Math.round(div.get(0).offsetLeft - 1);
+                        div.get(0).style.left = (x + 1) + 'px';
+                        cell.x = x + 1;
+                        show_position.get(0).innerHTML = (div.get(0).offsetLeft - 1) + "X" + (div.get(0).offsetTop - 1);
+                    });
+                    positon.css('position', 'absolute');
+                    positon.css('width', '100%');
+                    positon.css('height', '100%');
+                    positon.get(0).append(arrow_up.get(0));
+                    positon.get(0).append(arrow_down.get(0));
+                    positon.get(0).append(arrow_left.get(0));
+                    positon.get(0).append(arrow_right.get(0));
+                    div.get(0).append(positon.get(0));
+                }
                 //删除按钮
-                var del = $('<div>X</div>');
-                del.css('position', 'absolute');
-                del.css('left', (cell.width - 22) + 'px');
-                del.css('top', '2px');
-                del.css('width', '20px');
-                del.css('height', '20px');
-                del.css('background', '#FAF000');
+                if (SHOW_DEL) {
+                    var del = $('<div>X</div>');
+                    del.css('position', 'absolute');
+                    del.css('left', (cell.width - 22) + 'px');
+                    del.css('top', '2px');
+                    del.css('width', '20px');
+                    del.css('height', '20px');
+                    del.css('background', '#FAF000');
+                    del.css('font-size', '18px');
 
-                del.on("click", function (event) {
-                    $('.flyscreen').get(0).removeChild(div.get(0));
-                    screenCellArr.splice(num, 1);
-                });
-                div.get(0).append(del.get(0));
+                    del.on("click", function (event) {
+                        $('.flyscreen').get(0).removeChild(div.get(0));
+                        screenCellArr.splice(num, 1);
+                    });
+                    div.get(0).append(del.get(0));
+                }
                 break;
+        }
+        if (SHOW_POSITION) {
+            var show_position = $('<div id="position" class="position"></div>');
+            show_position.get(0).innerHTML = cell.x + "X" + cell.y;
+            div.get(0).append(show_position.get(0));
         }
         div.on('mousedown', function (event) {
             Ev = event || window.event;
@@ -252,7 +353,7 @@
      * @param cell
      * @returns {*|jQuery|HTMLElement}
      */
-    function cellMenuDiv(cell) {
+    function createMenuCellDiv(cell) {
         var div = $('<div></div>');
         div.css('position', 'relative');
         div.css('float', 'left');
@@ -288,8 +389,8 @@
                 text.css('position', 'absolute');
                 text.css('text-align', 'center');
                 text.css('width', MENUCELL_WIDTH);
-                text.css('top', (trimPX(MENUCELL_HEIGHT) - 40) + 'px')
-                text.css('font-size', '20px');
+                text.css('top', (trimPX(MENUCELL_HEIGHT) - 24) + 'px')
+                text.css('font-size', '12px');
                 text.css('color', '#000000');
                 // text.css('top', (MENUCELL_HEIGHT  - 48) + 'px');
                 text.get(0).innerHTML = cell.textTitle;
@@ -307,8 +408,9 @@
      * 根据TabID获取一页的cell数据
      * @param tabId
      */
-    function getScreenCell(tabId) {
+    function upScreenCell(tabId) {
         var flyscreen = $('.flyscreen').get(0);
+        flyscreen.innerHTML = '<div class="flyscreenmsg"></div>';
         if (flyscreen) {
             $.ajax({
                 url: pagecellurl,
@@ -319,10 +421,9 @@
                     try {
                         var data = JSON.parse(result);
                         screenCellArr.splice(0, screenCellArr.length);
-                        flyscreen.innerHTML = '';
                         for (i = 0; i < data.cellList.length; i++) {
                             var num = screenCellArr.length;
-                            var div = cellScreenDiv(data.cellList[i], num);
+                            var div = createScreenCellDiv(data.cellList[i], num);
                             if (div) {
                                 screenCellArr[num] = data.cellList[i];
                                 flyscreen.append(div);
@@ -339,8 +440,9 @@
     /**
      * 获取添加的所有cell样板数据
      */
-    function getMenuCell(searchStr) {
+    function upMenuCell(searchStr) {
         var flycellmenu = $('.flycellmenu').get(0);
+        flycellmenu.innerHTML = "";
         if (flycellmenu) {
             $.ajax({
                 url: cellurl,
@@ -355,7 +457,7 @@
                         for (i = 0; i < data.rows.length; i++) {
                             var num = screenCellArr.length;
                             menuCellArr[num] = data.rows[i];
-                            flycellmenu.append(cellMenuDiv(menuCellArr[num]));
+                            flycellmenu.append(createMenuCellDiv(menuCellArr[num]));
                         }
                     } catch (e) {
                         console.log(e);
@@ -373,11 +475,11 @@
                 if (addMenuCell) {
                     addMenuCell.imgUrl = addMenuCell.imageurl1;
                     if (bodyMoveDiv === null) {
-                        bodyMoveDiv = cellScreenDiv(addMenuCell);
+                        bodyMoveDiv = createScreenCellDiv(addMenuCell);
                         document.body.appendChild(bodyMoveDiv);
                     }
-                    bodyMoveDiv.style.left = event.clientX + 'px';
-                    bodyMoveDiv.style.top = event.clientY + 'px';
+                    bodyMoveDiv.style.left = (event.clientX - addMenuCell.width / 2) + 'px';
+                    bodyMoveDiv.style.top = (event.clientY - addMenuCell.height / 2) + 'px';
                 }
             } catch (e) {
                 console.log(e);
@@ -391,13 +493,7 @@
                 addMenuCell = null;
             }
         }).on('mouseup', function (event) {
-            if (bodyMoveDiv) {
-                document.body.removeChild(bodyMoveDiv);
-                bodyMoveDiv = null;
-            }
-
             var flyscreen = $('.flyscreen').get(0);
-
             if (flyscreen) {
                 var left = flyscreen.offsetLeft;
                 var top = flyscreen.offsetTop;
@@ -406,16 +502,20 @@
 
                 if (event.clientX >= left && event.clientX <= (width + left) && event.clientY >= top && event.clientY <= (height + top)) {
                     if (addMenuCell) {
-                        var x = event.clientX - left + flyscreen.scrollLeft;
-                        var y = event.clientY - top + flyscreen.scrollTop;
+                        var x = event.clientX - addMenuCell.width / 2 - left + flyscreen.scrollLeft;
+                        var y = event.clientY - addMenuCell.height / 2 - top + flyscreen.scrollTop;
                         addMenuCell.x = x;
                         addMenuCell.y = y;
                         addMenuCell.imgUrl = addMenuCell.imageurl1;
                         var num = screenCellArr.length;
                         screenCellArr[num] = addMenuCell;
-                        flyscreen.append(cellScreenDiv(screenCellArr[num], num));
+                        flyscreen.append(createScreenCellDiv(screenCellArr[num], num));
                     }
                 }
+            }
+            if (bodyMoveDiv) {
+                bodyMoveDiv.remove()
+                bodyMoveDiv = null;
             }
             if (addMenuCell) {
                 addMenuCell = null;
@@ -437,11 +537,14 @@
                     screenMoveCell.y = y;
                     screenMoveDiv.style.left = x + 'px';
                     screenMoveDiv.style.top = y + 'px';
+                    if(SHOW_POSITION){
+                        screenMoveDiv.lastChild.innerHTML = x + "X" + y;
+                    }
                 } else {
-                    x = x - this.offset().left;
-                    x = x - this.offset().top;
+                    x = x - $(this).offset().left;
+                    y = y - $(this).offset().top;
                 }
-                showMSG(x + "--" + y);
+                showMSG(x, y);
             }).on('mouseup', function (event) {
                 if (screenMoveDiv) {
                     screenMoveDiv = null;
@@ -453,7 +556,11 @@
         }
     }
 
-    function upTableData() {
+    function refreshPagecell() {
+        upScreenCell(pageId);
+    }
+
+    function savePagecell() {
         var pageCellArr = [];
         for (var i = 0; i < screenCellArr.length; i++) {
             pageCellArr[i] = {};
@@ -477,23 +584,19 @@
         });
     }
 
-
     +$(function () {
         documentEventInit();
         flyscreenClassEventInit();
     });
 
-    getMenuCell();
-
-    pageId = "{$item.pageId}";
-    getScreenCell(pageId);
-
-    // pageId = $('#sel').val();
-    // getScreenCell(pageId);
-    // $('#sel').change(function () {
-    //     pageId = $('#sel').val();
-    //     getScreenCell(pageId);
-    // });
+    $('#showdel').change(function () {
+        SHOW_DEL = $(this).prop('checked');
+        refreshPagecell();
+    });
+    $('#showposition').change(function () {
+        SHOW_POSITION = $(this).prop('checked');
+        refreshPagecell();
+    });
 </script>
 </html>
 

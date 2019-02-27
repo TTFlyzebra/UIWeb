@@ -15,6 +15,6 @@ class Index
 //        $obj=json_decode($data);
 //        echo json_encode($obj);
 //        echo $data;
-        echo "api test";
+        echo input('server.REQUEST_SCHEME') . '://'.$_SERVER['HTTP_HOST'].'<br/>';
     }
 }

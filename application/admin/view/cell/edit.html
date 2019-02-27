@@ -167,6 +167,9 @@
     var imageurl2 = $('#imageurl2').val();
 
     function postform() {
+        if($('#textSize').val()==null||$('#textSize').val()==0){
+            $('#textSize').val(24);
+        }
         $.ajax({
             type: "PUT",
             url: cellurl,

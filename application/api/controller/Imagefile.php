@@ -13,7 +13,7 @@ class Imagefile
             ->move(ROOT_PATH . 'uploads');//上传文件保存地址
             if ($info) {
                 //	成功上传后	获取上传信息
-                $imgurl = DS . 'uploads' . DS . $info->getSaveName();
+                $imgurl = input('server.REQUEST_SCHEME') . '://'.$_SERVER['HTTP_HOST'].'<br/>'.DS . 'uploads' . DS . $info->getSaveName();
                 $size = getimagesize("." . $imgurl);
                 $result['saveName'] = url($imgurl);
                 $result['width'] = $size[0];

@@ -140,6 +140,9 @@
 
 <script type="text/javascript">
     function postform() {
+        if($('#textSize').val()==null||$('#textSize').val()==0){
+            $('#textSize').val(24);
+        }
         $.ajax({
             type: "POST",
             url: "{:url('/api/cell')}",
