@@ -271,25 +271,25 @@
                     var arrow_left = $('<div class="arrow-left"></div>');
                     var arrow_right = $('<div class="arrow-right"></div>');
                     arrow_up.on("click", function (event) {
-                        var y = Math.round(div.get(0).offsetTop - 1);
+                        var y = trimPX(div.get(0).style.top);
                         div.get(0).style.top = (y - 1) + 'px';
                         cell.y = y - 1;
                         show_position.get(0).innerHTML = (div.get(0).offsetLeft - 1) + "X" + (div.get(0).offsetTop - 1);
                     });
                     arrow_down.on("click", function (event) {
-                        var y = Math.round(div.get(0).offsetTop - 1);
+                        var y = trimPX(div.get(0).style.top);
                         div.get(0).style.top = (y + 1) + 'px';
                         cell.y = y + 1;
                         show_position.get(0).innerHTML = (div.get(0).offsetLeft - 1) + "X" + (div.get(0).offsetTop - 1);
                     });
                     arrow_left.on("click", function (event) {
-                        var x = Math.round(div.get(0).offsetLeft - 1);
+                        var x = trimPX(div.get(0).style.left);
                         div.get(0).style.left = (x - 1) + 'px';
                         cell.x = x - 1;
                         show_position.get(0).innerHTML = (div.get(0).offsetLeft - 1) + "X" + (div.get(0).offsetTop - 1);
                     });
                     arrow_right.on("click", function (event) {
-                        var x = Math.round(div.get(0).offsetLeft - 1);
+                        var x = trimPX(div.get(0).style.left);
                         div.get(0).style.left = (x + 1) + 'px';
                         cell.x = x + 1;
                         show_position.get(0).innerHTML = (div.get(0).offsetLeft - 1) + "X" + (div.get(0).offsetTop - 1);
