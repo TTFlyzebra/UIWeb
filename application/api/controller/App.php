@@ -40,7 +40,7 @@ class App
                         'zh'=>$cellList[$j]['textTitle']
                     );
                 }
-                $pageList[$i]['cells'] = $cellList;
+                $pageList[$i]['cellList'] = $cellList;
             }
 
             $result['pageList'] = $pageList;
