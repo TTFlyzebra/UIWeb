@@ -19,13 +19,14 @@ class App
                 echo retmsg("无模板数据", -1);
                 return;
             }
-            $result['bkimg'] = $theme['imageurl'];
-            $result['width'] = $theme['width'];
-            $result['height'] = $theme['height'];
+//            $result['width'] = $theme['width'];
+//            $result['height'] = $theme['height'];
+//            $result['isMirror'] = $theme['isMirror'];
+//            $result['animType'] = $theme['animType'];
+//            $result['imageurl'] = $theme['imageurl'];
+            $result = $theme;
 
             //获取pageList
-
-
             $pageList = Db::name('themepage')
                 ->where('themeId', $theme['themeId'])
                 ->alias('a')
@@ -42,9 +43,7 @@ class App
                 }
                 $pageList[$i]['cellList'] = $cellList;
             }
-
             $result['pageList'] = $pageList;
-
             echo json_encode($result);
         }
 

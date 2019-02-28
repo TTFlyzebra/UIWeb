@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2019-02-26 10:39:33
+-- 生成日期： 2019-02-28 10:06:23
 -- 服务器版本： 5.5.62
 -- PHP 版本： 7.3.0
 
@@ -244,6 +244,8 @@ CREATE TABLE `fly_theme` (
   `width` int(11) NOT NULL,
   `height` int(11) NOT NULL,
   `imageurl` varchar(255) DEFAULT NULL,
+  `isMirror` tinyint(1) NOT NULL,
+  `animType` int(11) NOT NULL,
   `remark` text,
   `edittime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `userid` int(11) NOT NULL,

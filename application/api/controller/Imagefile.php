@@ -13,9 +13,9 @@ class Imagefile
             ->move(ROOT_PATH . 'uploads');//上传文件保存地址
             if ($info) {
                 //	成功上传后	获取上传信息
-                $imgurl = input('server.REQUEST_SCHEME') . '://'.$_SERVER['HTTP_HOST'].'<br/>'.DS . 'uploads' . DS . $info->getSaveName();
+                $imgurl = DS . 'uploads' . DS . $info->getSaveName();
                 $size = getimagesize("." . $imgurl);
-                $result['saveName'] = url($imgurl);
+                $result['saveName'] = input('server.REQUEST_SCHEME') . '://'.$_SERVER['HTTP_HOST'].url($imgurl);
                 $result['width'] = $size[0];
                 $result['height'] = $size[1];
                 echo retmsg("上传文件成功！", 0, $result);

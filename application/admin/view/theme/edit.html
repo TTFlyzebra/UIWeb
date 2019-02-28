@@ -33,6 +33,24 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="col-sm-1 control-label">显示镜像</label>
+            <div class="col-sm-1">
+                <input type="checkbox" style="margin-top:6px;" id="checkMirror">
+                <input type="hidden" name="isMirror" id="isMirror" value="fasle">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">换页动画</label>
+            <div class="col-sm-4">
+                <h4 class="modal-title">
+                    <select id="animType" name="animType">
+                        <option value="0" selected="selected">无动画</option>
+                        <option value="1">立方体旋转</option>
+                    </select>
+                </h4>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-sm-1 control-label">背景图片</label>
             <div class="col-sm-5">
                 <input type="file" id="flyimageup" name="imagefile">
@@ -61,17 +79,25 @@
     var themeurl = "{:url('/api/theme')}";
     var upimageurl = "{:url('/api/imagefile')}";
     var imageurl = $('#imageurl').val();
+
+    if('{$item.isMirror}'==='1'){
+        $('#checkMirror').prop("checked",true);
+        $('#isMirror').val(1);
+    }else{
+        $('#checkMirror').prop("checked",false);
+        $('#isMirror').val(0);
+    }
+
+    document.getElementById("animType")['{$item.animType}'].selected=true;
+
     //POST提交数据
     function posttheme() {
         if ($('#themeName').val() === "") {
             $('#themeName').focus();
-            return
+            return;
         }
 
-        if ($('#theme').val() === "") {
-            $('#theme').focus();
-            return
-        }
+        $('#isMirror').val($('#checkMirror').prop("checked")===true?1:0);
         $.ajax({
             type: "PUT",
             url: themeurl,

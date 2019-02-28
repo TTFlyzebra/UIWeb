@@ -43,7 +43,7 @@
         overflow: auto;
         border: solid;
         box-sizing: border-box;
-        border-width: 1px;
+        border-width: 0px;
         border-color: #000000;
         background: #1b6d85;
     }
@@ -66,7 +66,7 @@
         overflow-y: scroll;
         border: solid;
         box-sizing: border-box;
-        border-width: 1px;
+        border-width: 0px;
         border-color: #000000;
         background: #009688;
     }
@@ -152,7 +152,7 @@
 <body>
 <div class="flycenter">
     <div style="text-align: left;">
-        &nbsp;&nbsp;{$item.pageName}&nbsp;&nbsp;[{$item.remark}][{$item.width}X{$item.height}]
+        &nbsp;&nbsp;{$item.pageName}&nbsp;&nbsp;[{$item.width}X{$item.height}][{$item.remark}]
     </div>
     <div class="flyscreen"></div>
     <div class="flycellmenu"></div>
@@ -253,12 +253,12 @@
                 text.css('top', (cell.height - 48) + 'px');
                 text.get(0).innerHTML = cell.textTitle;
                 try {
-                    var data = JSON.parse(cell.text);
+                    var data = JSON.parse(cell.textTitle);
                     var content = data.zh;
                     if (content) {
                         content = content.replace('\n', '<br/>');
+                        text.get(0).innerHTML = content;
                     }
-                    text.get(0).innerHTML = cell.text;
                 } catch (e) {
                     // console.log(e);
                 }
@@ -274,25 +274,25 @@
                         var y = trimPX(div.get(0).style.top);
                         div.get(0).style.top = (y - 1) + 'px';
                         cell.y = y - 1;
-                        show_position.get(0).innerHTML = (div.get(0).offsetLeft - 1) + "X" + (div.get(0).offsetTop - 1);
+                        show_position.get(0).innerHTML = cell.x + "X" + cell.y;
                     });
                     arrow_down.on("click", function (event) {
                         var y = trimPX(div.get(0).style.top);
                         div.get(0).style.top = (y + 1) + 'px';
                         cell.y = y + 1;
-                        show_position.get(0).innerHTML = (div.get(0).offsetLeft - 1) + "X" + (div.get(0).offsetTop - 1);
+                        show_position.get(0).innerHTML = cell.x + "X" + cell.y;
                     });
                     arrow_left.on("click", function (event) {
                         var x = trimPX(div.get(0).style.left);
                         div.get(0).style.left = (x - 1) + 'px';
                         cell.x = x - 1;
-                        show_position.get(0).innerHTML = (div.get(0).offsetLeft - 1) + "X" + (div.get(0).offsetTop - 1);
+                        show_position.get(0).innerHTML = cell.x + "X" + cell.y;
                     });
                     arrow_right.on("click", function (event) {
                         var x = trimPX(div.get(0).style.left);
                         div.get(0).style.left = (x + 1) + 'px';
                         cell.x = x + 1;
-                        show_position.get(0).innerHTML = (div.get(0).offsetLeft - 1) + "X" + (div.get(0).offsetTop - 1);
+                        show_position.get(0).innerHTML = cell.x + "X" + cell.y;
                     });
                     positon.css('position', 'absolute');
                     positon.css('width', '100%');
@@ -394,6 +394,16 @@
                 text.css('color', '#000000');
                 // text.css('top', (MENUCELL_HEIGHT  - 48) + 'px');
                 text.get(0).innerHTML = cell.textTitle;
+                try {
+                    var data = JSON.parse(cell.textTitle);
+                    var content = data.zh;
+                    if (content) {
+                        content = content.replace('\n', '<br/>');
+                        text.get(0).innerHTML = content;
+                    }
+                } catch (e) {
+                    // console.log(e);
+                }
                 div.get(0).append(text.get(0));
                 break;
         }

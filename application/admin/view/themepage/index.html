@@ -112,7 +112,7 @@
             <div class="modal-body">
                 {volist name="list1" id="page" key="k"}
                 <div class="form-group">
-                    <label class="control-label"> {$page.pageName}</label>
+                    <label class="control-label"> {$page.pageName}</label>[{$page.remark}]
                     <div class="col-sm-2">
                         <?php if(in_array($page['pageId'],$pageIds)){ ?>
                         <input type="checkbox" checked="checked" class="form-control" value="{$page.pageId}">

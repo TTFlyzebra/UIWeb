@@ -21,6 +21,7 @@ class Theme
             $result = $db->update($theme);
         } elseif ($request->isPost()) {
             $theme = $request->post();
+            $theme['isMirror']=(int)$theme['isMirror'];
             $theme['ip'] = request()->ip();
             $db = Db::name("theme");
             $result = $db->insert($theme);
