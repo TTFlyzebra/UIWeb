@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "152e1b9e36199d29a808eeae33190bbd",
+    "content-hash": "747577905a59464688283c5b4208664e",
     "packages": [
         {
             "name": "gmars/tp5-nestedsets",
@@ -170,20 +170,20 @@
         },
         {
             "name": "topthink/think-migration",
-            "version": "v2.0.2",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-migration.git",
-                "reference": "debc818a4e3b3baff2f7295f1e693653c5ebd02e"
+                "reference": "8e489f8d38a39876690c0e00fcf9a54ae92c4d3d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-migration/zipball/debc818a4e3b3baff2f7295f1e693653c5ebd02e",
-                "reference": "debc818a4e3b3baff2f7295f1e693653c5ebd02e",
+                "url": "https://api.github.com/repos/top-think/think-migration/zipball/8e489f8d38a39876690c0e00fcf9a54ae92c4d3d",
+                "reference": "8e489f8d38a39876690c0e00fcf9a54ae92c4d3d",
                 "shasum": ""
             },
             "require-dev": {
-                "topthink/framework": "5.1.x-dev"
+                "topthink/framework": "^5.0"
             },
             "type": "library",
             "autoload": {
@@ -205,7 +205,7 @@
                     "email": "448901948@qq.com"
                 }
             ],
-            "time": "2017-10-23T06:22:42+00:00"
+            "time": "2017-03-31T06:33:23+00:00"
         }
     ],
     "packages-dev": [],
@@ -217,7 +217,9 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.4.0"
+        "php": ">=5.4.0",
+        "ext-json": "*",
+        "ext-mbstring": "*"
     },
     "platform-dev": []
 }

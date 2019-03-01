@@ -15,10 +15,26 @@
         <div class="panel panel-default">
             <div class="panel-heading mousemove">
                 <h4 class="panel-title">
-                    <div data-toggle="collapse" data-parent="#accordion" href="#collapse3">主页配置</div>
+                    <div data-toggle="collapse" data-parent="#accordion" href="#collapse1">权限管理</div>
                 </h4>
             </div>
-            <div id="collapse3" class="panel-collapse collapse">
+            <div id="collapse1" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li role="presentation"><a href="{:url('/admin/permission')}" target="mainIframe">网站管理</a></li>
+                        <li role="presentation"><a href="{:url('/admin/role')}" target="mainIframe">角色管理</a></li>
+                        <li role="presentation"><a href="{:url('/admin/user')}" target="mainIframe">用户管理</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading mousemove">
+                <h4 class="panel-title">
+                    <div data-toggle="collapse" data-parent="#accordion" href="#collapse2">主页配置</div>
+                </h4>
+            </div>
+            <div id="collapse2" class="panel-collapse collapse">
                 <div class="panel-body">
                     <ul class="nav nav-pills nav-stacked">
                         <li role="presentation"><a href="{:url('/admin/welcome')}" target="mainIframe">欢迎页面</a></li>
@@ -35,10 +51,10 @@
         <div class="panel panel-default">
             <div class="panel-heading mousemove">
                 <h4 class="panel-title">
-                    <div data-toggle="collapse" data-parent="#accordion" href="#collapse1">应用配置</div>
+                    <div data-toggle="collapse" data-parent="#accordion" href="#collapse3">应用配置</div>
                 </h4>
             </div>
-            <div id="collapse1" class="panel-collapse collapse">
+            <div id="collapse3" class="panel-collapse collapse">
                 <div class="panel-body">
                     <ul class="nav nav-pills nav-stacked">
                         <li role="presentation"><a href="{:url('/admin/celltype')}" target="mainIframe">控件类型</a></li>
@@ -52,10 +68,10 @@
         <div class="panel panel-default">
             <div class="panel-heading mousemove">
                 <h4 class="panel-title">
-                    <div data-toggle="collapse" data-parent="#accordion" href="#collapse2">工厂设置</div>
+                    <div data-toggle="collapse" data-parent="#accordion" href="#collapse4">工厂设置</div>
                 </h4>
             </div>
-            <div id="collapse2" class="panel-collapse collapse">
+            <div id="collapse4" class="panel-collapse collapse">
                 <div class="panel-body">
                     <ul class="nav nav-pills nav-stacked">
                         <li role="presentation"><a href="{:url('/admin/factory')}" target="mainIframe">默认设置</a></li>
