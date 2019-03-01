@@ -1,18 +1,17 @@
 <?php
 
-namespace app\admin\controller;
+namespace app\auth\controller;
 
 use gmars\rbac\Rbac;
-use think\Controller;
 use think\Db;
 use think\Request;
 
-class Permission extends Controller
+class Permission extends Auth
 {
     public function index()
     {
         echo __DIR__;
-//        $rbacObj = new Rbac();
+        $rbacObj = new Rbac();
 //        $data = [
 //            'name' => '商品列表',
 //            'status' => 1,

@@ -8,6 +8,9 @@ class Index extends Controller
 {
     public function index()
     {
+        if (!session('flyid')) {
+            $this->redirect(url('auth/login/index'));
+        }
         return $this->fetch();
     }
 

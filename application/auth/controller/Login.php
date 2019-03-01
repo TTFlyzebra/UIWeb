@@ -1,6 +1,6 @@
 <?php
 
-namespace app\admin\controller;
+namespace app\auth\controller;
 
 use think\Controller;
 
@@ -8,7 +8,7 @@ class Login extends Controller
 {
     public function index()
     {
-        echo "登陆页面";
+        return $this->fetch();
     }
 
 }
