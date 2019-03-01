@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<link rel="stylesheet" type="text/css" href="__RES__/admin/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="__RES__/admin/css/bootstrap-theme.css">
+<link rel="stylesheet" type="text/css" href="__RES__/admin/css/bootstrap-table.css">
+<script type="text/javascript" src="__RES__/admin/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="__RES__/admin/js/bootstrap.js"></script>
+<script type="text/javascript" src="__RES__/admin/js/bootstrap-table.js"></script>
+<script type="text/javascript" src="__RES__/admin/js/bootstrap-table-zh-CN.min.js"></script>
+<script type="text/javascript" src="__RES__/admin/js/flyinput.js"></script>
+<body>
+<form class="form-horizontal" name="recruitmentform" id="recruitmentform" method="post" role="form"
+      action="{:url('/api/recruitment')}"
+      enctype="multipart/form-data">
+    <div class="modal-header">
+        <h4 class="modal-title" id="">修改招聘信息</h4>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label class="col-sm-1 control-label">招聘职位</label>
+            <div class="col-sm-5">
+                <input type="text" class="form-control" name="recruitmentTitle" id="recruitmentTitle" value="{$item.recruitmentTitle}"
+                       placeholder="请输入标题">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">职位描述</label>
+            <div class="col-sm-5">
+                            <textarea class="form-control" style="height: 400px" name="recruitmentText" value="" id="recruitmentText"
+                                      placeholder="">{$item.recruitmentText}</textarea>
+            </div>
+        </div>
+        <input type="hidden" name="recruitmentId" id="recruitmentId" value="{$item.recruitmentId}">
+        <input type="hidden" name="userid" id="userid" value="{$Think.session.user_id}">
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" onclick="onCancel()">取消</button>
+        <button type="button" class="btn btn-primary" onclick="postrecruitment()">修改</button>
+    </div>
+</form>
+</body>
+</html>
+
+<script type="text/javascript">
+    var recruitmenturl = "{:url('/api/recruitment')}";
+    var upimageurl2 = "{:url('/api/imagefile')}";
+    var imageurl1 = $('#imageurl').val();
+
+    //POST提交数据
+    function postrecruitment() {
+        if ($('#recruitmentTitle').val() === "") {
+            $('#recruitmentTitle').focus();
+            return
+        }
+
+        if ($('#recruitmentSort').val() === "") {
+            $('#recruitmentSort').focus();
+            return
+        }
+        $.ajax({
+            type: "PUT",
+            url: recruitmenturl,
+            data: $('#recruitmentform').serialize(),
+            error: function (request) {
+                alert("向服务器提交数据失败了!\n" +
+                    "可能的错误原因：\n" +
+                    "1.重复的类型标识;\n" +
+                    "2.重复的类型名称;\n" +
+                    "3.网络请求失败。");
+            },
+            success: function (data) {
+                window.location.href = "{:url('/home/recruitment')}";
+            }
+        });
+    }
+
+    $('#imageinput1').flyinput({
+        url: upimageurl2,
+        image:imageurl1,
+        autoup: true,
+        showPreview: true,
+        width: "100%",
+        height: "240px",
+        background: "#101010"
+    }).on("success", function (event, data) {
+        var result = JSON.parse(data);
+        $('#imageurl').val(result.data.saveName);
+    });
+
+    function onCancel() {
+        window.location.href = "{:url('/home/recruitment')}";
+    }
+
+</script>

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<link rel="stylesheet" type="text/css" href="__RES__/admin/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="__RES__/admin/css/bootstrap-theme.css">
+<link rel="stylesheet" type="text/css" href="__RES__/admin/css/bootstrap-table.css">
+<script type="text/javascript" src="__RES__/admin/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="__RES__/admin/js/bootstrap.js"></script>
+<script type="text/javascript" src="__RES__/admin/js/bootstrap-table.js"></script>
+<script type="text/javascript" src="__RES__/admin/js/bootstrap-table-zh-CN.min.js"></script>
+<script type="text/javascript" src="__RES__/admin/js/flyinput.js"></script>
+<body>
+<form class="form-horizontal" name="themeform" id="themeform" method="post" role="form"
+      action="{:url('/api/theme')}"
+      enctype="multipart/form-data">
+    <div class="modal-header">
+        <h4 class="modal-title" id="">新增项目</h4>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label class="col-sm-1 control-label">项目名称</label>
+            <div class="col-sm-5">
+                <input type="text" class="form-control" name="themeName" id="themeName" value=""
+                       placeholder="请输入名称">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">分&nbsp辨&nbsp率&nbsp</label>
+            <div class="col-sm-1">
+                <input id="width" name="width" type="text" class="form-control" value="1024" placeholder="宽(像素)">
+            </div>
+            <div class="col-sm-1">
+                <input id="height" name="height" type="text" class="form-control" value="600" placeholder="高(像素)">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">显示镜像</label>
+            <div class="col-sm-1">
+                <input type="checkbox" style="margin-top:6px;" id="checkMirror">
+                <input type="hidden" name="isMirror" id="isMirror" value="fasle">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">换页动画</label>
+            <div class="col-sm-4">
+                <h4 class="modal-title">
+                    <select id="animType" name="animType">
+                        <option value="0" selected="selected">无动画</option>
+                        <option value="1">立方体旋转</option>
+                    </select>
+                </h4>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">背景图片</label>
+            <div class="col-sm-5">
+                <input type="file" id="flyimageup" name="imagefile">
+                <input type="hidden" id="imageurl" name="imageurl" value="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">备注</label>
+            <div class="col-sm-5">
+                            <textarea class="form-control" name="remark" value="" id="remark"
+                                      placeholder="备注"></textarea>
+            </div>
+        </div>
+        <input type="hidden" name="userid" id="userid" value="{$Think.session.user_id}">
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" onclick="onCancel()">取消</button>
+        <button type="reset" class="btn btn-default">重置</button>
+        <button type="button" class="btn btn-primary" onclick="posttheme()">提交</button>
+    </div>
+</form>
+</body>
+</html>
+
+<script type="text/javascript">
+    var themeurl = "{:url('/api/theme')}";
+    var upimageurl = "{:url('/api/imagefile')}";
+
+    //POST提交数据
+    function posttheme() {
+        if ($('#themeName').val() === "") {
+            $('#themeName').focus();
+            return;
+        }
+
+        $('#isMirror').val($('#checkMirror').prop("checked")===true?1:0);
+        $.ajax({
+            type: "POST",
+            url: themeurl,
+            data: $('#themeform').serialize(),
+            error: function (request) {
+                alert("向服务器提交数据失败了!\n" +
+                    "可能的错误原因：\n" +
+                    "1.重复的类型标识;\n" +
+                    "2.重复的类型名称;\n" +
+                    "3.网络请求失败。");
+            },
+            success: function (data) {
+                window.location.href = "{:url('/flyui/theme')}";
+            }
+        });
+    }
+
+    $('#flyimageup').flyinput({
+        url: upimageurl,
+        autoup: true,
+        showPreview: true,
+        width: "100%",
+        height: "240px",
+        background: "#101010"
+    }).on("success", function (event, data) {
+        var result = JSON.parse(data);
+        $('#imageurl').val(result.data.saveName);
+    });
+
+    function onCancel() {
+        window.location.href = "{:url('/flyui/theme')}";
+    }
+
+</script>

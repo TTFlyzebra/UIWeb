@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<link rel="stylesheet" type="text/css" href="__RES__/admin/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="__RES__/admin/css/bootstrap-theme.css">
+<link rel="stylesheet" type="text/css" href="__RES__/admin/css/bootstrap-table.css">
+<script type="text/javascript" src="__RES__/admin/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="__RES__/admin/js/bootstrap.js"></script>
+<script type="text/javascript" src="__RES__/admin/js/bootstrap-table.js"></script>
+<script type="text/javascript" src="__RES__/admin/js/bootstrap-table-zh-CN.min.js"></script>
+<script type="text/javascript" src="__RES__/admin/js/flyinput.js"></script>
+<body>
+<form class="form-horizontal" name="celltypeform" id="celltypeform" method="post" role="form"
+      action="{:url('/api/cell')}" enctype="multipart/form-data">
+    <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">修改控件&nbsp</h4>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label class="col-sm-1 control-label">控件类型</label>
+            <div class="col-sm-4">
+                <h4 class="modal-title">
+                    <select id="celltypeId" name="celltypeId">
+                        {volist name="list1" id="celltype" key="k"}
+                        {if condition="$item['celltypeId'] eq $celltype['celltypeId']"}
+                        <option value="{$celltype.celltypeId}" selected="selected">{$celltype.celltypeName}</option>
+                        {else /}
+                        <option value="{$celltype.celltypeId}">{$celltype.celltypeName}</option>
+                        {/if}
+                        {/volist}
+                    </select>
+                </h4>
+            </div>
+            <label class="col-sm-1 control-label">项目关联</label>
+            <div class="col-sm-4">
+                <h4 class="modal-title">
+                    <select id="themeName" name="themeName">
+                        <option value="" selected="selected">所有项目</option>
+                        {volist name="list2" id="theme" key="k"}
+                        {if condition="$item['themeName'] eq $theme['themeName']"}
+                        <option value="{$theme.themeName}" selected="selected">{$theme.themeName}</option>
+                        {else /}
+                        <option value="{$theme.themeName}">{$theme.themeName}</option>
+                        {/if}
+                        {/volist}
+                    </select>
+                </h4>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">图&nbsp&nbsp片&nbsp&nbsp一</label>
+            <div class="col-sm-4">
+                <input type="file" id="imageinput1" name="imagefile">
+                <input type="hidden" id="imageurl1" name="imageurl1" value="{$item.imageurl1}">
+            </div>
+            <label class="col-sm-1 control-label">图&nbsp&nbsp片&nbsp&nbsp二</label>
+            <div class="col-sm-4">
+                <input type="file" id="imageinput2" name="imagefile">
+                <input type="hidden" id="imageurl2" name="imageurl2" value="{$item.imageurl2}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">图片尺寸</label>
+            <div class="col-sm-1">
+                <input id="width" name="width" type="text" class="form-control" value="{$item.width}"
+                       placeholder="宽度(像素)">
+            </div>
+            <div class="col-sm-1">
+                <input id="height" name="height" type="text" class="form-control" value="{$item.height}"
+                       placeholder="高度(像素)">
+            </div>
+            <div class="col-sm-2"></div>
+            <label class="col-sm-1 control-label">图片尺寸</label>
+            <div class="col-sm-1">
+                <input id="width2" type="text" class="form-control" value="{$item.width}" placeholder="宽度(像素)">
+            </div>
+            <div class="col-sm-1">
+                <input id="height2" type="text" class="form-control" value="{$item.height}" placeholder="高度(像素)">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">文本内容</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" name="textTitle" id="textTitle" value="{$item.textTitle}" placeholder="文字显示">
+            </div>
+            <label class="col-sm-1 control-label">文本字体</label>
+            <div class="col-sm-1">
+                <input id="textSize" class="form-control" name="textSize" type="text" value="{$item.textSize}"
+                       placeholder="字体大小">
+            </div>
+            <div class="col-sm-1">
+                <input id="textColor" class="form-control" name="textColor" type="text" value="{$item.textColor}"
+                       placeholder="字体颜色">
+            </div>
+            <div class="col-sm-2">
+                <input id="textFont" class="form-control" name="textFont" type="text" value="{$item.textFont}"
+                       placeholder="字体样式">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">文本位置</label>
+            <div class="col-sm-1">
+                <input id="textLeft" class="form-control" name="textLeft" type="text" value="{$item.textLeft}"
+                       placeholder="LEFT">
+            </div>
+            <div class="col-sm-1">
+                <input id="textTop" class="form-control" name="textTop" type="text" value="{$item.textTop}"
+                       placeholder="TOP">
+            </div>
+            <div class="col-sm-1">
+                <input id="textRight" class="form-control" name="textRight" type="text" value="{$item.textRight}"
+                       placeholder="RIGHT">
+            </div>
+            <div class="col-sm-1">
+                <input id="textBottom" class="form-control" name="textBottom" type="text" value="{$item.textBottom}"
+                       placeholder="BOTTOM">
+            </div>
+            <div class="col-sm-1">
+                <input id="textAlign" class="form-control" name="textAlign" type="text" value="{$item.textAlign}"
+                       placeholder="ALIGN">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">启动事件</label>
+            <div class="col-sm-2">
+                <input id="packName" class="form-control" name="packName" type="text" value="{$item.packName}"
+                       placeholder="包名">
+            </div>
+            <div class="col-sm-2">
+                <input id="className" class="form-control" name="className" type="text" value="{$item.className}"
+                       placeholder="类名">
+            </div>
+            <div class="col-sm-1">
+                <input id="intentFlag" class="form-control" name="intentFlag" type="text" value="{$item.intentFlag}"
+                       placeholder="Intent Flag">
+            </div>
+            <div class="col-sm-2">
+                <input id="action" class="form-control" name="action" type="text" value="{$item.action}"
+                       placeholder="ACTION">
+            </div>
+            <div class="col-sm-2">
+                <input id="flyAction" class="form-control" name="flyAction" type="text" value="{$item.flyAction}"
+                       placeholder="自定义">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">备注</label>
+            <div class="col-sm-9">
+                            <textarea class="form-control" name="remark" value="{$item.remark}" id="remark"
+                                      placeholder="备注">{$item.remark}</textarea>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="userid" id="userid" value="{$Think.session.user_id}">
+    <input type="hidden" name="cellId" id="cellId" value="{$item.cellId}">
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" onclick="onCancel()">取消</button>
+        <button type="button" class="btn btn-primary" onclick="postform()">修改</button>
+    </div>
+</form>
+</body>
+</html>
+
+<script type="text/javascript">
+    var cellurl = "{:url('/api/cell')}";
+    var upimageurl = "{:url('/api/imagefile')}";
+    var imageurl1 = $('#imageurl1').val();
+    var imageurl2 = $('#imageurl2').val();
+
+    function postform() {
+        if($('#textSize').val()==null||$('#textSize').val()==0){
+            $('#textSize').val(24);
+        }
+        $.ajax({
+            type: "PUT",
+            url: cellurl,
+            data: $('#celltypeform').serialize(),
+            error: function (request) {
+                alert("向服务器提交数据失败了!\n" +
+                    "可能的错误原因：\n" +
+                    "1.重复的类型名称;\n" +
+                    "2.网络错误。");
+            },
+            success: function (data) {
+                window.location.href = "{:url('/flyui/cell')}";
+            }
+        });
+    }
+
+
+    $('#imageinput1').flyinput({
+        url: upimageurl,
+        image: imageurl1,
+        autoup: true,
+        showPreview: true,
+        width: "100%",
+        height: "240px",
+        background: "#101010"
+    }).bind("success", function (e, data) {
+        var retmsg = JSON.parse(data);
+        $('#imageurl1').val(retmsg.data.saveName);
+        $('#width').val(retmsg.data.width);
+        $('#height').val(retmsg.data.height);
+        // alert("width="+retmsg.data.width);
+    });
+
+    $('#imageinput2').flyinput({
+        url: upimageurl,
+        image: imageurl2,
+        autoup: true,
+        showPreview: true,
+        width: "100%",
+        height: "240px",
+        background: "#101010"
+    }).bind("success", function (e, data) {
+        var retmsg = JSON.parse(data);
+        $('#imageurl2').val(retmsg.data.saveName);
+        $('#width2').val(retmsg.data.width);
+        $('#height2').val(retmsg.data.height);
+    });
+
+    function onCancel() {
+        window.location.href = "{:url('/flyui/cell')}";
+    }
+
+</script>
+
