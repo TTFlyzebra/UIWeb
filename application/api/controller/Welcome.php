@@ -11,8 +11,8 @@ class Welcome
     {
         $request = Request::instance();
         if ($request->isDelete()) {
-//            $delwelcomeId = ($request->only('welcomeId'))['welcomeId'];
-//            $result = Db::name("welcome")->where('welcomeId', $delwelcomeId)->delete();
+            $delwelcomeId = ($request->param('welcomeId'))['welcomeId'];
+            $result = Db::name("welcome")->where('welcomeId', $delwelcomeId)->delete();
         } elseif ($request->isPut()) {
             $welcome = $request->put();
             $welcome['ip'] = request()->ip();
