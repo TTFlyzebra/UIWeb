@@ -12,9 +12,7 @@ class Theme
         $request = Request::instance();
         if ($request->isDelete()) {
             $deltheme = $request->only('themeId');
-            $delthemeId = $deltheme['themeId'];
-            $db = Db::name("theme");
-            $result = $db->where('themeId', $delthemeId)->delete();
+            $result = Db::name("theme")->where('themeId', $deltheme['themeId'])->delete();
         } elseif ($request->isPut()) {
             $theme = $request->put();
             $theme['ip'] = request()->ip();

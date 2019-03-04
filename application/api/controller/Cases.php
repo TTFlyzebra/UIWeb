@@ -11,8 +11,8 @@ class Cases
     {
         $request = Request::instance();
         if ($request->isDelete()) {
-            $delcasesId = ($request->only('casesId'))['casesId'];
-            $result = Db::name("cases")->where('casesId', $delcasesId)->delete();
+            $delcases = $request->only('casesId');
+            $result = Db::name("cases")->where('casesId', $delcases['casesId'])->delete();
         } elseif ($request->isPut()) {
             $cases = $request->put();
             $cases['ip'] = request()->ip();

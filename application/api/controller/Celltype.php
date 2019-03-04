@@ -11,8 +11,8 @@ class Celltype
     {
         $request = Request::instance();
         if ($request->isDelete()) {
-            $delcelltypeId = ($request->only('celltypeId'))['celltypeId'];
-            $result = Db::name("celltype")->where('celltypeId', $delcelltypeId)->delete();
+            $delcelltype = $request->only('celltypeId');
+            $result = Db::name("celltype")->where('celltypeId', $delcelltype['celltypeId'])->delete();
         } elseif ($request->isPut()) {
             $celltype = $request->put();
             $celltype['ip'] = request()->ip();

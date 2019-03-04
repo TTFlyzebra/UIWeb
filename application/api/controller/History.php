@@ -11,8 +11,8 @@ class History
     {
         $request = Request::instance();
         if ($request->isDelete()) {
-            $delhistoryId = ($request->only('historyId'))['historyId'];
-            $result = Db::name("history")->where('historyId', $delhistoryId)->delete();
+            $delhistory = $request->only('historyId');
+            $result = Db::name("history")->where('historyId', $delhistory['historyId'])->delete();
         } elseif ($request->isPut()) {
             $history = $request->put();
             $history['ip'] = request()->ip();

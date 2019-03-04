@@ -12,9 +12,9 @@ class Cell
         $request = Request::instance();
 
         if($request->isDelete()){
-            $delcellId = ($request->only('cellId'))['cellId'];
+            $delcell = $request->only('cellId');
             $db =  Db::name("cell");
-            $result = $db->where('cellId',$delcellId)->delete();
+            $result = $db->where('cellId',$delcell['cellId'])->delete();
         } elseif ($request->isPut()) {
             $cell = $request->put();
             $cell['ip'] = request()->ip();

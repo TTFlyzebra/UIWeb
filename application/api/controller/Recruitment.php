@@ -11,8 +11,8 @@ class Recruitment
     {
         $request = Request::instance();
         if ($request->isDelete()) {
-            $delrecruitmentId = ($request->only('recruitmentId'))['recruitmentId'];
-            $result = Db::name("recruitment")->where('recruitmentId', $delrecruitmentId)->delete();
+            $delrecruitment = $request->only('recruitmentId');
+            $result = Db::name("recruitment")->where('recruitmentId', $delrecruitment['recruitmentId'])->delete();
         } elseif ($request->isPut()) {
             $recruitment = $request->put();
             $recruitment['ip'] = request()->ip();

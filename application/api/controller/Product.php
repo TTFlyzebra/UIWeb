@@ -11,8 +11,8 @@ class Product
     {
         $request = Request::instance();
         if ($request->isDelete()) {
-            $delproductId = ($request->only('productId'))['productId'];
-            $result = Db::name("product")->where('productId', $delproductId)->delete();
+            $delproduct = $request->only('productId');
+            $result = Db::name("product")->where('productId', $delproduct['productId'])->delete();
         } elseif ($request->isPut()) {
             $product = $request->put();
             $product['ip'] = request()->ip();

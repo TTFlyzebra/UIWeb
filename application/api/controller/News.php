@@ -11,8 +11,8 @@ class News
     {
         $request = Request::instance();
         if ($request->isDelete()) {
-            $delnewsId = ($request->only('newsId'))['newsId'];
-            $result = Db::name("news")->where('newsId', $delnewsId)->delete();
+            $delnews = $request->only('newsId');
+            $result = Db::name("news")->where('newsId', $delnews['newsId'])->delete();
         } elseif ($request->isPut()) {
             $news = $request->put();
             $news['ip'] = request()->ip();

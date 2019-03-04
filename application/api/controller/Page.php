@@ -11,9 +11,9 @@ class Page
     {
         $request = Request::instance();
         if($request->isDelete()){
-            $delpageId = ($request->only('pageId'))['pageId'];
+            $delpage = $request->only('pageId');
             $db =  Db::name("page");
-            $result = $db->where('pageId',$delpageId)->delete();
+            $result = $db->where('pageId',$delpage['pageId'])->delete();
         }elseif ($request->isPut()) {
             $page = $request->put();
             $page['ip'] = request()->ip();

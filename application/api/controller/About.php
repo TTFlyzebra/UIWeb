@@ -11,8 +11,8 @@ class About
     {
         $request = Request::instance();
         if ($request->isDelete()) {
-            $delaboutId = ($request->only('aboutId'))['aboutId'];
-            $result = Db::name("about")->where('aboutId', $delaboutId)->delete();
+            $delabout = $request->only('aboutId');
+            $result = Db::name("about")->where('aboutId', $delabout['aboutId'])->delete();
         } elseif ($request->isPut()) {
             $about = $request->put();
             $about['ip'] = request()->ip();
