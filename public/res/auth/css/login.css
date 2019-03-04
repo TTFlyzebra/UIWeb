@@ -17,26 +17,12 @@
 	height: 99%;
 }
 
-.login-tab {
-	border-collapse: collapse;
-}
-
-.login-tab tr {
-	line-height: 60px;
-}
-
-.login-tab th {
-	text-align: center;
-	font-size: 24px;
-}
-
 .reg-tab {
-	margin: 10px;
 	border-collapse: collapse;
 }
 
 .reg-tab tr {
-	line-height: 45px;
+	line-height: 32px;
 }
 
 .reg-tab th {
@@ -45,16 +31,14 @@
 }
 
 .reg-tab td {
-	text-align: center;
+	text-align: left;
 	font-size: 18px;
 }
 
 .reg-tab-input {
 	font-size: 20px;
-	height: 20px;
-	font-weight: bolder;
+	height: 24px;
 	color: #000000;
-	line-height: 20px;
 }
 
 .login-center {
@@ -65,7 +49,7 @@
 	bottom: 10%;
 	margin: auto;
 	width: 440px;
-	height: 320px;
+	height: 360px;
 	border-radius: 10px;
 	border: solid 2px #0080c0;
 	box-shadow: 0 0 10px #0080ff;

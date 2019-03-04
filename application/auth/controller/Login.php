@@ -15,11 +15,15 @@ class Login extends Controller
 
     public function login(){
         $request = Request::instance();
-        if ($request->has('loginname', 'post')&&$request->has('loginword', 'post')){
-            if($_POST['loginname']=='admin'&&$_POST['loginword']==md5('123456')){
-                Session::set('user_id',$_POST['loginname']);
-            }else{
-                echo "password error!";
+        if ($request->has('loginname', 'post')&&$request->has('loginword', 'post')&&$request->has('captcha', 'post')){
+            if(!captcha_check($_POST['captcha'])) {
+                echo "captcha error!";
+            }else {
+                if ($_POST['loginname'] == 'admin' && $_POST['loginword'] == md5('123456')) {
+                    Session::set('user_id', $_POST['loginname']);
+                } else {
+                    echo "password error!";
+                }
             }
         }else{
             echo "login error!";
