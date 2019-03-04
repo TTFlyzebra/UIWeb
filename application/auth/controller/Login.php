@@ -16,7 +16,7 @@ class Login extends Controller
         $request = Request::instance();
         if ($request->has('loginname', 'post')&&$request->has('loginword', 'post')){
             if($_POST['loginname']=='admin'&&$_POST['loginword']==md5('123456')){
-                session('flyid',$_POST['loginname']);
+                session('user_id',$_POST['loginname']);
             }else{
                 echo "password error!";
             }
@@ -26,9 +26,8 @@ class Login extends Controller
     }
 
     public function logout(){
-        session_unset();
-        session_destroy();
-        $this->redirect("/auth/login/login");
+        session("user_id", NULL);
+        $this->redirect(url('auth/login/index'));
     }
 
 }
