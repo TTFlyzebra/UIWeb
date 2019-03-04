@@ -2,15 +2,12 @@
 
 namespace app\admin\controller;
 
-use think\Controller;
+use app\auth\controller\Auth;
 
-class Index extends Controller
+class Index extends Auth
 {
     public function index()
     {
-        if (!session('flyid')) {
-            $this->redirect(url('auth/login/index'));
-        }
         return $this->fetch();
     }
 

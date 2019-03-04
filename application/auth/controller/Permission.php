@@ -10,7 +10,7 @@ class Permission extends Auth
 {
     public function index()
     {
-        echo __DIR__;
+        echo "功能开发中......";
         $rbacObj = new Rbac();
 //        $data = [
 //            'name' => '商品列表',
@@ -20,7 +20,7 @@ class Permission extends Auth
 //            'create_time' => time()
 //        ];
 //        $rbacObj->createPermission($data);
-        return $this->fetch();
+//        return $this->fetch();
     }
 
     public function add()
