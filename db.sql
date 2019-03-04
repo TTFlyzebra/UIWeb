@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2019-02-28 10:06:23
+-- 生成日期： 2019-03-04 03:18:34
 -- 服务器版本： 5.5.62
 -- PHP 版本： 7.3.0
 
@@ -146,6 +146,20 @@ CREATE TABLE `fly_history` (
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `fly_migrations`
+--
+
+CREATE TABLE `fly_migrations` (
+  `version` bigint(20) NOT NULL,
+  `migration_name` varchar(100) DEFAULT NULL,
+  `start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `end_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `breakpoint` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `fly_news`
 --
 
@@ -187,6 +201,7 @@ CREATE TABLE `fly_page` (
 --
 
 CREATE TABLE `fly_pagecell` (
+  `id` int(11) NOT NULL,
   `pageId` int(11) NOT NULL,
   `cellId` int(11) NOT NULL,
   `x` int(11) NOT NULL,
@@ -194,6 +209,21 @@ CREATE TABLE `fly_pagecell` (
   `width` int(11) NOT NULL,
   `height` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `fly_permission`
+--
+
+CREATE TABLE `fly_permission` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '权限名称',
+  `path` varchar(100) NOT NULL DEFAULT '' COMMENT '权限路径',
+  `description` varchar(200) NOT NULL DEFAULT '' COMMENT '权限描述',
+  `status` int(1) NOT NULL DEFAULT '0' COMMENT '权限状态',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='权限表';
 
 -- --------------------------------------------------------
 
@@ -234,6 +264,36 @@ CREATE TABLE `fly_recruitment` (
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `fly_role`
+--
+
+CREATE TABLE `fly_role` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '角色名称',
+  `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT '父角色id',
+  `description` varchar(200) NOT NULL DEFAULT '' COMMENT '描述信息',
+  `status` int(1) NOT NULL DEFAULT '0' COMMENT '角色状态',
+  `sort_num` int(11) NOT NULL DEFAULT '0' COMMENT '排序值',
+  `left_key` int(11) NOT NULL DEFAULT '0' COMMENT '用来组织关系的左值',
+  `right_key` int(11) NOT NULL DEFAULT '0' COMMENT '用来组织关系的右值',
+  `level` int(11) NOT NULL DEFAULT '0' COMMENT '所处层级'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色';
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `fly_role_permission`
+--
+
+CREATE TABLE `fly_role_permission` (
+  `id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL DEFAULT '0' COMMENT '角色Id',
+  `permission_id` int(11) NOT NULL DEFAULT '0' COMMENT '权限ID'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色权限对应表';
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `fly_theme`
 --
 
@@ -259,6 +319,7 @@ CREATE TABLE `fly_theme` (
 --
 
 CREATE TABLE `fly_themepage` (
+  `id` int(11) NOT NULL,
   `themeId` int(11) NOT NULL,
   `pageId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -270,14 +331,26 @@ CREATE TABLE `fly_themepage` (
 --
 
 CREATE TABLE `fly_user` (
-  `userid` int(11) NOT NULL,
-  `username` int(11) NOT NULL,
-  `password` varchar(64) NOT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `remark` int(11) DEFAULT NULL,
-  `edittime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `ip` varchar(16) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` int(11) NOT NULL,
+  `user_name` varchar(50) NOT NULL DEFAULT '' COMMENT '用户账号',
+  `password` varchar(64) NOT NULL DEFAULT '' COMMENT '用户密码',
+  `mobile` varchar(20) NOT NULL DEFAULT '' COMMENT '手机号码',
+  `email` varchar(50) NOT NULL DEFAULT '' COMMENT '邮箱',
+  `last_login_time` int(11) NOT NULL DEFAULT '0' COMMENT '最后登录时间',
+  `status` int(1) NOT NULL DEFAULT '0' COMMENT '用户状态'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `fly_user_role`
+--
+
+CREATE TABLE `fly_user_role` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
+  `role_id` int(11) NOT NULL DEFAULT '0' COMMENT '角色id'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户角色对应关系';
 
 -- --------------------------------------------------------
 
@@ -340,6 +413,12 @@ ALTER TABLE `fly_history`
   ADD PRIMARY KEY (`historyId`);
 
 --
+-- 表的索引 `fly_migrations`
+--
+ALTER TABLE `fly_migrations`
+  ADD PRIMARY KEY (`version`);
+
+--
 -- 表的索引 `fly_news`
 --
 ALTER TABLE `fly_news`
@@ -355,8 +434,15 @@ ALTER TABLE `fly_page`
 -- 表的索引 `fly_pagecell`
 --
 ALTER TABLE `fly_pagecell`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `tableId` (`pageId`),
   ADD KEY `cellId` (`cellId`);
+
+--
+-- 表的索引 `fly_permission`
+--
+ALTER TABLE `fly_permission`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- 表的索引 `fly_product`
@@ -371,6 +457,18 @@ ALTER TABLE `fly_recruitment`
   ADD PRIMARY KEY (`recruitmentId`);
 
 --
+-- 表的索引 `fly_role`
+--
+ALTER TABLE `fly_role`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- 表的索引 `fly_role_permission`
+--
+ALTER TABLE `fly_role_permission`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- 表的索引 `fly_theme`
 --
 ALTER TABLE `fly_theme`
@@ -381,12 +479,22 @@ ALTER TABLE `fly_theme`
   ADD KEY `themeName_2` (`themeName`);
 
 --
+-- 表的索引 `fly_themepage`
+--
+ALTER TABLE `fly_themepage`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- 表的索引 `fly_user`
 --
 ALTER TABLE `fly_user`
-  ADD PRIMARY KEY (`userid`),
-  ADD KEY `username` (`username`),
-  ADD KEY `userid` (`userid`);
+  ADD PRIMARY KEY (`id`);
+
+--
+-- 表的索引 `fly_user_role`
+--
+ALTER TABLE `fly_user_role`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- 表的索引 `fly_welcome`
@@ -447,6 +555,18 @@ ALTER TABLE `fly_page`
   MODIFY `pageId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- 使用表AUTO_INCREMENT `fly_pagecell`
+--
+ALTER TABLE `fly_pagecell`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- 使用表AUTO_INCREMENT `fly_permission`
+--
+ALTER TABLE `fly_permission`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- 使用表AUTO_INCREMENT `fly_product`
 --
 ALTER TABLE `fly_product`
@@ -459,16 +579,40 @@ ALTER TABLE `fly_recruitment`
   MODIFY `recruitmentId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- 使用表AUTO_INCREMENT `fly_role`
+--
+ALTER TABLE `fly_role`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- 使用表AUTO_INCREMENT `fly_role_permission`
+--
+ALTER TABLE `fly_role_permission`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- 使用表AUTO_INCREMENT `fly_theme`
 --
 ALTER TABLE `fly_theme`
   MODIFY `themeId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- 使用表AUTO_INCREMENT `fly_themepage`
+--
+ALTER TABLE `fly_themepage`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- 使用表AUTO_INCREMENT `fly_user`
 --
 ALTER TABLE `fly_user`
-  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- 使用表AUTO_INCREMENT `fly_user_role`
+--
+ALTER TABLE `fly_user_role`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- 使用表AUTO_INCREMENT `fly_welcome`
