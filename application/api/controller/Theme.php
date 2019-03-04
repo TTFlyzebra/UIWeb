@@ -11,7 +11,8 @@ class Theme
     {
         $request = Request::instance();
         if ($request->isDelete()) {
-            $delthemeId = ($request->only('themeId'))['themeId'];
+            $deltheme = $request->only('themeId');
+            $delthemeId = $deltheme['themeId'];
             $db = Db::name("theme");
             $result = $db->where('themeId', $delthemeId)->delete();
         } elseif ($request->isPut()) {
