@@ -11,7 +11,7 @@ class Permission extends Auth
     public function index()
     {
         echo "功能开发中......";
-        $rbacObj = new Rbac();
+//        $rbacObj = new Rbac();
 //        $data = [
 //            'name' => '商品列表',
 //            'status' => 1,
