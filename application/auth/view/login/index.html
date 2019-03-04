@@ -2,55 +2,59 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>景安驰后台管理系统</title>
+    <title>JanCar-管理系统</title>
     <link rel="stylesheet" type="text/css" href="__RES__/auth/css/login.css"/>
     <link rel="stylesheet" type="text/css" href="__RES__/auth/css/main.css"/>
-    <script type="text/javascript" src="__RES__/auth/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="__RES__/common/js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="__RES__/auth/js/md5.js"></script>
     <script type="text/javascript" src="__RES__/auth/js/times.js"></script>
 </head>
 <body onload="showLeftTime()">
 <div class="login-mask">
-    <img class="backimg" src="__RES__/auth/images/back.jpg">
+    <img class="backimg" src="__RES__/auth/img/back.jpg">
 </div>
 <div class="top">
     <div class="top-logo">
-        <img alt="" src="__RES__/auth/images/logo.png">
+        <img alt="" src="__RES__/auth/img/logo.png">
     </div>
     <div class="top-name">
-        <div class="top-name-cn">后台管理系统</div>
+        <div class="top-name-cn">管理系统</div>
     </div>
     <div class="top-info">
         <div class="top-info-date">
             <label id="show">显示时间的位置</label>
         </div>
-
     </div>
 </div>
 <div class="login-center">
     <form name="loginform" id="loginform" accept-charset="utf-8" action='{:url("/auth/login/login")}' method="post">
-        <table class="login-tab" width=100%>
+        <table class="reg-tab" width=100%>
             <tr>
-                <th colspan="2">帐号登陆</th>
+                <th colspan="2" style="font-size: 28px;">登&emsp;陆</th>
             </tr>
             <tr>
-                <td style="width: 35%; text-align: right">帐号：</td>
-                <td><input class="common-text" id="loginname" name="loginname" size="20" value="" type="text"></td>
+                <td colspan="2" style="text-align: center">
+                    <div >&emsp;</div>
+                </td>
             </tr>
             <tr>
-                <td style="text-align: right">密码：</td>
-                <td><input class="common-text" id="password" name="password" size="20" value="" type="password"></td>
+                <td>帐&emsp;&emsp;号：</td>
+                <td><input class="reg-tab-input" id="loginname" name="loginname" size="20" value="" type="text"></td>
+            </tr>
+            <tr>
+                <td>密&emsp;&emsp;码：</td>
+                <td><input class="reg-tab-input" id="password" name="password" size="20" value="" type="password"></td>
+            </tr>
+            <tr>
+                <th colspan="2">
+                    <div id="message">&emsp;</div>
+                </th>
             </tr>
             <tr>
                 <th colspan="2">
                     <input type="button" class="btn btn-primary btn150" value="登陆" id="login">
-                    <input type="reset" class="btn btn-primary btn150" value="重置">
+                    <input type="reset" class="btn btn-primary btn150" value="重置" id="reset">
                 </th>
-            </tr>
-            <tr style="height: 30px; line-height: 30px;">
-                <td colspan="2" style="text-align: center">
-                    <div id="message">&emsp;</div>
-                </td>
             </tr>
         </table>
     </form>
@@ -65,11 +69,7 @@
 </html>
 
 <script type="text/javascript">
-    var regurl = '{:url("/auth/register")}'
-    function goReg() {
-        window.location = regurl;
-    }
-    $(document).ready(function() {
+    $(function() {
         $('#login').click(function() {
             // 判断是否为空
             if ($('#loginname').val() == "") {
@@ -98,6 +98,10 @@
                     }
                 }
             });
+        });
+
+        $('#reset').click(function() {
+            $("#message").html("&emsp;");
         });
 
     });

@@ -1,69 +1,120 @@
 <!doctype html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>管理系统</title>
-<link rel="stylesheet" type="text/css" href="__RES__/auth/css/login.css" />
-<link rel="stylesheet" type="text/css" href="__RES__/auth/css/main.css" />
-<script type="text/javascript" src="__RES__/auth/js/jquery-1.9.0.min.js"></script>
-<script type="text/javascript" src="__RES__/auth/js/md5.js"></script>
-<script type="text/javascript" src="__RES__/auth/js/times.js"></script>
-<script type="text/javascript">	var ajaxurl = '{:url("/Admin/Ajax/reg")}'</script>
-<script type="text/javascript" src="__RES__/auth/js/register.js"></script>
+    <meta charset="UTF-8">
+    <title>JanCar-管理系统</title>
+    <link rel="stylesheet" type="text/css" href="__RES__/auth/css/login.css"/>
+    <link rel="stylesheet" type="text/css" href="__RES__/auth/css/main.css"/>
+    <script type="text/javascript" src="__RES__/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="__RES__/auth/js/md5.js"></script>
+    <script type="text/javascript" src="__RES__/auth/js/times.js"></script>
 </head>
 <body onload="showLeftTime()">
-	<div class="login-mask">
-		<img class="backimg" src="__RES__/auth/images/back.jpg">
-	</div>
-	<div class="top">
-		<div class="top-logo">
-			<img alt="" src="__RES__/auth/images/logo.png">
-		</div>
-		<div class="top-name">
-			<div class="top-name-cn">考勤管理系统1.0V</div>
-		</div>
-		<div class="top-info">
-			<div class="top-info-date">
-				<label id="show">显示时间的位置</label>
-			</div>
+<div class="login-mask">
+    <img class="backimg" src="__RES__/auth/img/back.jpg">
+</div>
+<div class="top">
+    <div class="top-logo">
+        <img alt="" src="__RES__/auth/img/logo.png">
+    </div>
+    <div class="top-name">
+        <div class="top-name-cn">管理系统</div>
+    </div>
+    <div class="top-info">
+        <div class="top-info-date">
+            <label id="show">显示时间的位置</label>
+        </div>
 
-		</div>
-	</div>
-	<div class="login-center">
-		<form action='{:url("/Admin/Register/register")}' method="post" id="registerFrom" name="registerFrom" enctype="multipart/form-data">
-			<table class="reg-tab" width="100%">
-				<tbody>
-					<tr>
-						<th colspan="2" style="font-size: 28px;">注册帐号</th>
-					</tr>
-					<tr>
-						<td>帐&emsp;&emsp;号：</td>
-						<td><input class="reg-tab-input" id="loginname" name="loginname" value="" type="text"></td>
-					</tr>
-					<tr>
-						<td>密&emsp;&emsp;码：</td>
-						<td><input class="reg-tab-input" id="loginword" name="loginword" value="" type="password"></td>
-					</tr>
-					<tr>
-						<td>确认密码：</td>
-						<td><input class="reg-tab-input" id="loginword2" value="" type="password"></td>
-					</tr>
-					<tr>
-						<th colspan="2"><input type="button" class="btn btn-primary btn150" value="注册" id="register"> <input type="reset" class="btn btn-primary btn150" value="重置"></th>
-					</tr>
-					<tr>
-						<th colspan="2">
-							<div id="message">&emsp;</div>
-						</th>
-					</tr>
-				</tbody>
-			</table>
-		</form>
-	</div>
-	<div class="login-end">
-		<div class="top-info-bottom">
-			<a href="{:url('/auth/login')}">帐号登陆</a>
-		</div>
-	</div>
+    </div>
+</div>
+<div class="login-center">
+    <form action='{:url("/auth/register/register")}' method="post" id="registerFrom" name="registerFrom"
+          enctype="multipart/form-data">
+        <table class="reg-tab" width="100%">
+            <tbody>
+            <tr>
+                <th colspan="2" style="font-size: 28px;">注&emsp;册</th>
+            </tr>
+            <tr>
+                <td>帐&emsp;&emsp;号：</td>
+                <td><input class="reg-tab-input" id="loginname" name="loginname" value="" type="text"></td>
+            </tr>
+            <tr>
+                <td>密&emsp;&emsp;码：</td>
+                <td><input class="reg-tab-input" id="loginword" name="loginword" value="" type="password"></td>
+            </tr>
+            <tr>
+                <td>确认密码：</td>
+                <td><input class="reg-tab-input" id="loginword2" value="" type="password"></td>
+            </tr>
+            <tr>
+                <th colspan="2">
+                    <div id="message">&emsp;</div>
+                </th>
+            </tr>
+            <tr>
+                <th colspan="2">
+                    <input type="submit" class="btn btn-primary btn150" value="注册" id="register">
+                    <input type="reset" class="btn btn-primary btn150" value="重置" id="reset">
+                </th>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<div class="login-end">
+    <div class="top-info-bottom">
+        <a href="{:url('/auth/login')}">帐号登陆</a>
+    </div>
+</div>
 </body>
 </html>
+
+<script type="text/javascript">
+    $(function () {
+        $('#register').click(function () {
+            if ($('#loginname').val() == "") {
+                $('#message').html("<font color='red'><b>请输入用户名</b></font>");
+                $('#loginname').focus();
+                return false;
+            }
+
+            if ($('#loginword').val() == "") {
+                $('#message').html("<font color='red'><b>请输入密码</b></font>");
+                $('#loginword').focus();
+                return false;
+            }
+
+            if ($('#loginword2').val() != $('#loginword').val()) {
+                $('#message').html("<font color='red'><b>两次输入密码不一致</b></font>");
+                $('#loginword2').focus();
+                return false;
+            }
+
+
+            $('#message').html("");
+
+            var loginword = hex_md5(document.getElementById("loginword").value);
+            $.ajax({
+                url: ajaxurl,
+                type: "post",
+                data: "loginname=" + $("#loginname").val(),
+                dataType: 'html',
+                success: function (result) {
+                    if (result.length > 2) {
+                        $('#message').html("<font color='red'><b>" + result + "</b></font>");
+                        return false;
+                    } else {
+                        $('#message').html("<font color='blue'><b>注册请求已提交！</b></font>");
+                        document.getElementById("loginword").value = loginword;
+                        $('#registerFrom').submit();
+                    }
+                }
+            });
+        });
+
+        $('#reset').click(function() {
+            $("#message").html("&emsp;");
+        });
+    });
+</script>

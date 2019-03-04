@@ -45,14 +45,11 @@
 }
 
 .reg-tab td {
-	text-align: left;
-	width: 100px;
+	text-align: center;
 	font-size: 18px;
 }
 
 .reg-tab-input {
-	width: 200px;
-	text-align: left;
 	font-size: 20px;
 	height: 20px;
 	font-weight: bolder;
@@ -62,25 +59,13 @@
 
 .login-center {
 	position: absolute;
-	top: 40%;
-	left: 50%;
-	margin-left: -210px;
-	margin-top: -150px;
-	width: 400px;
-	height: 280px;
-	border-radius: 10px;
-	border: solid 2px #0080c0;
-	box-shadow: 0 0 10px #0080ff;
-}
-
-.reg-center {
-	position: absolute;
-	top: 40%;
-	left: 50%;
-	margin-left: -260px;
-	margin-top: -120px;
-	width: 500px;
-	height: 240;
+	top:0;
+	left: 0;
+	right: 0;
+	bottom: 10%;
+	margin: auto;
+	width: 440px;
+	height: 320px;
 	border-radius: 10px;
 	border: solid 2px #0080c0;
 	box-shadow: 0 0 10px #0080ff;
