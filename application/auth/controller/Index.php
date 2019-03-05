@@ -1,7 +1,7 @@
 <?php
 namespace app\auth\controller;
 
-class Index
+class Index extends Auth
 {
     public function index()
     {

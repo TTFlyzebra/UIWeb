@@ -79,12 +79,19 @@
     $(function() {
         $('#login').click(function() {
             // 判断是否为空
-            if ($('#loginname').val() == "") {
+            if ($('#loginname').val() === "") {
+                $('#message').html("<font color='red'><b>请输入帐号</b></font>");
                 $('#loginname').focus();
                 return false;
             }
-            if ($('#loginword').val() == "") {
+            if ($('#loginword').val() === "") {
+                $('#message').html("<font color='red'><b>请输入密码</b></font>");
                 $('#loginword').focus();
+                return false;
+            }
+            if ($('#captcha').val() === "") {
+                $('#message').html("<font color='red'><b>请输入验证码</b></font>");
+                $('#captcha').focus();
                 return false;
             }
             // 判断用户名密码是否正确
@@ -95,13 +102,14 @@
                 data:"loginname=" + $("#loginname").val()+"&loginword="+loginword+"&captcha=" + $("#captcha").val(),
                 dataType:'html',
                 success: function(result) {
-                    if (result.length > 2) {
-                        $("#message").html("<font color='red'><b>"+result+"</b></font>");
-                        return false;
-                    } else {
+                    var obj = JSON.parse(result);
+                    if (obj.code === 0) {
                         window.location.href = "{:url('/admin/index')}";
-                        // document.getElementById("loginword").value = loginword;
-                        // $('#loginform').submit();
+                        return true;
+                    } else {
+                        $("#message").html("<font color='red'><b>"+obj.msg+"</b></font>");
+                        refreshVerify();
+                        return false;
                     }
                 }
             });

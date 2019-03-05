@@ -2,11 +2,11 @@
 
 namespace app\flyui\controller;
 
-use think\Controller;
+use app\auth\controller\Auth;
 use think\Db;
 use think\Request;
 
-class Theme extends Controller {
+class Theme extends Auth {
 	public function index() {
 		return $this->fetch ();
 	}

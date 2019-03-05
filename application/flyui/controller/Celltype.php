@@ -2,11 +2,11 @@
 
 namespace app\flyui\controller;
 
-use think\Controller;
+use app\auth\controller\Auth;
 use think\Db;
 use think\Request;
 
-class Celltype extends Controller
+class Celltype extends Auth
 {
     public function index()
     {

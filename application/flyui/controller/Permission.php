@@ -2,12 +2,11 @@
 
 namespace app\flyui\controller;
 
-use gmars\rbac\Rbac;
-use think\Controller;
+use app\auth\controller\Auth;
 use think\Db;
 use think\Request;
 
-class Permission extends Controller
+class Permission extends Auth
 {
     public function index()
     {

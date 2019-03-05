@@ -5,7 +5,7 @@
     <title>JanCar-管理系统</title>
     <link rel="stylesheet" type="text/css" href="__RES__/auth/css/login.css"/>
     <link rel="stylesheet" type="text/css" href="__RES__/auth/css/main.css"/>
-    <script type="text/javascript" src="__RES__/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="__RES__/common/js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="__RES__/auth/js/md5.js"></script>
     <script type="text/javascript" src="__RES__/auth/js/times.js"></script>
 </head>
@@ -27,7 +27,7 @@
 
     </div>
 </div>
-<div class="login-center">
+<div class="login-center" style="height: 420px">
     <form action='{:url("/auth/register/register")}' method="post" id="registerFrom" name="registerFrom"
           enctype="multipart/form-data">
         <table class="reg-tab" width="100%">
@@ -41,11 +41,20 @@
             </tr>
             <tr>
                 <td>密&emsp;&emsp;码：</td>
-                <td><input class="reg-tab-input" id="loginword" name="loginword" size="24" value="" type="password"></td>
+                <td><input class="reg-tab-input" id="loginword" name="loginword" size="24" value="" type="password">
+                </td>
             </tr>
             <tr>
                 <td>确认密码：</td>
                 <td><input class="reg-tab-input" id="loginword2" size="24" value="" type="password"></td>
+            </tr>
+            <tr>
+                <td>邮&emsp;&emsp;箱：</td>
+                <td><input class="reg-tab-input" id="email" name="email" size="24" value="" type="text"></td>
+            </tr>
+            <tr>
+                <td>手机号码：</td>
+                <td><input class="reg-tab-input" id="mobile" name="mobile" size="24" value="" type="text"></td>
             </tr>
             <tr>
                 <td>验&ensp;证&ensp;码：</td>
@@ -80,13 +89,13 @@
 <script type="text/javascript">
     $(function () {
         $('#register').click(function () {
-            if ($('#loginname').val() == "") {
-                $('#message').html("<font color='red'><b>请输入用户名</b></font>");
+            if ($('#loginname').val() === "") {
+                $('#message').html("<font color='red'><b>请输入帐号</b></font>");
                 $('#loginname').focus();
                 return false;
             }
 
-            if ($('#loginword').val() == "") {
+            if ($('#loginword').val() === "") {
                 $('#message').html("<font color='red'><b>请输入密码</b></font>");
                 $('#loginword').focus();
                 return false;
@@ -97,24 +106,41 @@
                 $('#loginword2').focus();
                 return false;
             }
+            if ($('#email').val() === "") {
+                $('#message').html("<font color='red'><b>请输入邮箱</b></font>");
+                $('#email').focus();
+                return false;
+            }
+            if ($('#mobile').val() === "") {
+                $('#message').html("<font color='red'><b>请输入手机号码</b></font>");
+                $('#mobile').focus();
+                return false;
+            }
+            if ($('#captcha').val() === "") {
+                $('#message').html("<font color='red'><b>请输入验证码</b></font>");
+                $('#captcha').focus();
+                return false;
+            }
 
-
-            $('#message').html("");
-
+            $('#message').html("&ensp;");
             var loginword = hex_md5(document.getElementById("loginword").value);
             $.ajax({
-                url: ajaxurl,
+                url:"{:url('/auth/register/register')}",
                 type: "post",
-                data: "loginname=" + $("#loginname").val(),
+                data: "loginname=" + $("#loginname").val() +
+                    "&loginword=" + loginword +
+                    "&captcha=" + $("#captcha").val() +
+                    "&email=" + $("#email").val() +
+                    "&mobile=" + $("#mobile").val(),
                 dataType: 'html',
                 success: function (result) {
-                    if (result.length > 2) {
-                        $('#message').html("<font color='red'><b>" + result + "</b></font>");
-                        return false;
+                    var obj = JSON.parse(result);
+                    if (obj.code === 0) {
+                        window.location.href = "{:url('/admin/index')}";
                     } else {
-                        $('#message').html("<font color='blue'><b>注册请求已提交！</b></font>");
-                        document.getElementById("loginword").value = loginword;
-                        $('#registerFrom').submit();
+                        $('#message').html("<font color='red'><b>" + obj.msg + "</b></font>");
+                        refreshVerify();
+                        return false;
                     }
                 }
             });
@@ -126,8 +152,8 @@
     });
 
     function refreshVerify() {
-        var ts = Date.parse(new Date())/1000;
+        var ts = Date.parse(new Date()) / 1000;
         var img = document.getElementById('captchaimg');
-        img.src = "{:url('/captcha?id=')}"+ts;
+        img.src = "{:url('/captcha?id=')}" + ts;
     }
 </script>

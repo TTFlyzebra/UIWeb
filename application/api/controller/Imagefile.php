@@ -18,13 +18,13 @@ class Imagefile
                 $result['saveName'] = input('server.REQUEST_SCHEME') . '://'.$_SERVER['HTTP_HOST'].url($imgurl);
                 $result['width'] = $size[0];
                 $result['height'] = $size[1];
-                echo retmsg("上传文件成功！", 0, $result);
+                echo retJsonMsg("上传文件成功！", 0, $result);
             } else {
                 //	上传失败获取错误信息
-                echo retmsg("上传文件失败!", -1, $file->getError());
+                echo retJsonMsg("上传文件失败!", -1, $file->getError());
             }
         } else {
-            echo retmsg("获取上传文件列表失败！", -1, $file);
+            echo retJsonMsg("获取上传文件列表失败！", -1, $file);
         }
     }
 }

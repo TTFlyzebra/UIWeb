@@ -1,7 +1,9 @@
 <?php
 namespace app\flyui\controller;
 
-class Index
+use app\auth\controller\Auth;
+
+class Index extends Auth
 {
     public function index()
     {

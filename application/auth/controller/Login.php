@@ -3,6 +3,7 @@
 namespace app\auth\controller;
 
 use think\Controller;
+use think\Db;
 use think\Request;
 use think\Session;
 
@@ -13,24 +14,42 @@ class Login extends Controller
         return $this->fetch();
     }
 
-    public function login(){
+    public function login()
+    {
         $request = Request::instance();
-        if ($request->has('loginname', 'post')&&$request->has('loginword', 'post')&&$request->has('captcha', 'post')){
-            if(!captcha_check($_POST['captcha'])) {
-                echo "captcha error!";
-            }else {
-                if ($_POST['loginname'] == 'admin' && $_POST['loginword'] == md5('123456')) {
-                    Session::set('user_id', $_POST['loginname']);
+        if ($request->isPost()) {
+            $param = $request->param();
+            $validate = $this->validate($param, 'Login');
+            if (true === $validate) {
+                if (!captcha_check($param['captcha'])) {
+                    echo retJsonMsg("captcha error", -1);
                 } else {
-                    echo "password error!";
+                    $user = array();
+                    $user['user_name'] = $param['loginname'];
+                    if (Db::name('user')->where($user)->find()) {
+                        $user['password'] = md5($param['loginword']);
+                        if ($login = Db::name('user')->where($user)->find()) {
+                            Session::set('user_id', $login['id']);
+                            Session::set('user_name', $login['user_name']);
+                            echo retJsonMsg("login successful");
+                        } else {
+                            echo retJsonMsg("password error", -1);
+                        }
+                    } else {
+                        echo retJsonMsg("no username", -1);
+                    }
+
                 }
+            } else {
+                echo retJsonMsg($validate, -1);
             }
-        }else{
-            echo "login error!";
+        } else {
+            echo retJsonMsg("error", -1);
         }
     }
 
-    public function logout(){
+    public function logout()
+    {
         Session::clear();
         $this->redirect(url('auth/login/index'));
     }

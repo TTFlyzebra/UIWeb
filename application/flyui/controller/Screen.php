@@ -2,11 +2,12 @@
 
 namespace app\flyui\controller;
 
+use app\auth\controller\Auth;
 use think\Controller;
 use think\Db;
 use think\Request;
 
-class Screen extends Controller {
+class Screen extends Auth {
 	public function index() {
         $db= Db::name('page');
         $pages = $db->select();

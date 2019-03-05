@@ -2,14 +2,6 @@
 
 use think\Db;
 
-function retmsg($message="", $ret="0", $data=""){
-    $msg = array();
-    $msg['msg']=$message;
-    $msg['ret']=$ret;
-    $msg['data'] = $data;
-    return json_encode($msg);
-}
-
 function getPagecell($pageId)
 {
     $pagedata = Db::name('pagecell')

@@ -45,7 +45,7 @@ $.fn.flyinput = function (option) {
                     self.trigger("success",data);
                     try {
                         var result = JSON.parse(data);
-                        if (result.ret === 0) {
+                        if (result.code === 0) {
                             divimg.attr('src', result.data.saveName);
                             var a = result.data.width / result.data.height;
                             var b = divparent.width() / divparent.height();

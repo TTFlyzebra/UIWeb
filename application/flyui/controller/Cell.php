@@ -2,11 +2,11 @@
 
 namespace app\flyui\controller;
 
-use think\Controller;
+use app\auth\controller\Auth;
 use think\Db;
 use think\Request;
 
-class Cell extends Controller {
+class Cell extends Auth {
 	public function index() {
 	    $celltypes = Db::name('celltype')->select();
 	    $this->assign('list',$celltypes);

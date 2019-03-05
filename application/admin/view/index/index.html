@@ -40,7 +40,7 @@
     </div>
     <div class="h_title">
         <div class="top-name-cn">
-            管理系统{if condition=" $Think.session.user_id !==null"} <a style="font-size: 16px" href="{:url('/auth/login/logout')}">[{$Think.session.user_id}](退出登陆)</a> {/if}
+            管理系统{if condition=" $Think.session.user_id !==null"} <a style="font-size: 16px" href="{:url('/auth/login/logout')}">[{$Think.session.user_name}](退出登陆)</a> {/if}
         </div>
     </div>
 </div>

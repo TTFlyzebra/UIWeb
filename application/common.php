@@ -10,3 +10,11 @@
 // +----------------------------------------------------------------------
 
 // 应用公共文件
+
+function retJsonMsg($message="OK!", $code=0, $data=""){
+    $msg = array();
+    $msg['msg']=$message;
+    $msg['code']=$code;
+    $msg['data'] = $data;
+    return json_encode($msg);
+}

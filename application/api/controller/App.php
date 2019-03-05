@@ -16,7 +16,7 @@ class App
                 ->field('edittime,userid,ip', true)
                 ->find();
             if (!$theme) {
-                echo retmsg("无模板数据", -1);
+                echo retJsonMsg("无模板数据", -1);
                 return;
             }
 //            $result['width'] = $theme['width'];
