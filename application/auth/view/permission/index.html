@@ -3,151 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <title>管理系统</title>
-    <link rel="stylesheet" type="text/css" href="__RES__/res/css/dialog.css"/>
-    <link rel="stylesheet" type="text/css" href="__RES__/res/css/node.css"/>
-    <script type="text/javascript" src="__RES__/res/js/jquery-1.9.0.min.js"></script>
-    <script type="text/javascript"> var delurl = '{:url("/Admin/Node/del")}'</script>
-    <script type="text/javascript"> var statusurl = '{:url("/Admin/Node/status")}'</script>
-    <script type="text/javascript" src="__RES__/res/js/admin-node.js"></script>
+    <!--<link rel="stylesheet" type="text/css" href="__RES__/admin/css/bootstrap.css">-->
+    <link rel="stylesheet" type="text/css" href="__RES__/auth/css/main.css"/>
+    <script type="text/javascript" src="__RES__/common/js/jquery-3.2.1.min.js"></script>
 </head>
 <body>
-<div class="sub-nov">
-    &emsp;<a href="{:url('/')}">首页</a>&gt; <a href="{:url('/Admin')}">后台管理</a>&gt; <a href="#">节点管理</a>
-</div>
-<div class="content">
-    <div class="apps-title">网站目录<a href="javascript:addDlg('','0','1');">＋</a>
-        <foreach name='node' item='v'>
-            <div class="apps">
-                <div class="app">{$v.remark}<!--
-					 --><a href="javascript:addDlg('{$v.remark}','{$v.id}','2');">＋</a><!-- 
-					 -->
-                    <if condition="$v['child']==null"><a
-                            href="javascript:delDlg('{$v.id}','{$v.name}','{$v.remark}','{$v.status}','{$v.pid}','{$v.level}');">－</a><!--
-					 --></if>
-                    <a href="javascript:editDlg('{$v.id}','{$v.name}','{$v.remark}','1','{$v.pid}','{$v.level}','');">Ｅ</a>
-                </div>
-                <foreach name='v.child' item='c'>
-                    <div class="controls">
-                        <div class="control">{$c.remark}<!--
-					--><a href="javascript:addDlg('{$c.remark}','{$c.id}','3');">＋</a><!-- 
-					-->
-                            <if condition="$c['child']==null"><a
-                                    href="javascript:delDlg('{$c.id}','{$c.name}','{$c.remark}','{$v.status}','{$c.pid}','{$c.level}');">－</a><!--
-					--></if>
-                            <a href="javascript:editDlg('{$c.id}','{$c.name}','{$c.remark}','1','{$c.pid}','{$c.level}','{$v.remark}');">Ｅ</a>
-                        </div>
-                        <foreach name='c.child' item='m'>
-                            <div class="method">{$m.remark}<!--
-					--><a href="javascript:delDlg('{$m.id}','{$m.name}','{$m.remark}','{$v.status}','{$m.pid}','{$m.level}');">－</a><!-- 
-					--><a href="javascript:editDlg('{$m.id}','{$m.name}','{$m.remark}','1','{$m.pid}','{$m.level}','{$c.remark}');">Ｅ</a>
-                            </div>
-                        </foreach>
-                    </div>
-                </foreach>
+<div class="apps-title">网站目录<a href="javascript:addDlg('网站目录','0','/');">＋</a>
+    {volist name="list" id="v" key="k"}
+    <div class="apps">
+        <div class="app">{$v.name}
+            <a href="javascript:addDlg('{$v.name}','{$v.id}','{$v.path}/');">＋</a>
+            <if condition="$v['child']==null">
+                <a href="javascript:delDlg('{$v.id}');">－</a>
+            </if>
+            <a href="javascript:editDlg('{$v.id}','{$v.name}','{$v.path}','{$v.pid}','{$v.description}','/');">Ｅ</a>
+        </div>
+        {volist name="v['child']" id="c" key="k"}
+        <div class="controls">
+            <div class="control">{$c.name}
+                <a href="javascript:addDlg('{$c.name}','{$c.id}','{$c.path}/');">＋</a>
+                <if condition="$c['child']==null">
+                    <a href="javascript:delDlg('{$c.id}');">－</a>
+                </if>
+                <a href="javascript:editDlg('{$c.id}','{$c.name}','{$c.path}','{$c.pid}','{$c.description}','{$v.path}/');">Ｅ</a>
             </div>
-        </foreach>
+            {volist name="c['child']" id="m" key="k"}
+            <div class="method">{$m.name}
+                <a href="javascript:delDlg('{$m.id}');">－</a>
+                <a href="javascript:editDlg('{$m.id}','{$m.name}','{$m.path}','{$m.pid}','{$m.description}','{$c.path}/');">Ｅ</a>
+            </div>
+            {/volist}
+        </div>
+        {/volist}
     </div>
+    {/volist}
 </div>
-<!-- 弹出菜单 Start-->
+<!--弹出菜单 Start-->
 <div class="node-mask"></div>
-<!-- 添加菜单 Start-->
+<!--添加菜单 Start-->
 <div class="node-dlg-add">
-    <form name="addFrom" id="addFrom" accept-charset="utf-8" action="__ROOT__/Admin/Node/add" method="post">
-        <table class="admin-tab" width="100%">
+    <form name="addFrom" id="addFrom" accept-charset="utf-8" action="{:url('/auth/permission/add')}" method="post">
+        <table class="flytable" width="100%">
             <tbody>
             <div class="node-dlg-title">添加节点
                 <div class="node-dlg-title-close"><a href="javascript:closeAddDlg();" title="关闭">×</a></div>
             </div>
             <tr>
-                <th><span class="require-red">*</span>节点名称：</th>
+                <th>节点名称：</th>
                 <td>
-                    <input class="common-text" type="text" id="node_name" name="node_name" size="20" value="">
+                    <input class="common-text" type="text" id="node_name" name="name" size="30" value="">
                 </td>
             </tr>
             <tr>
-                <th><span class="require-red">*</span>节点描述：</th>
+                <th>节点路径：</th>
                 <td>
-                    <input class="common-text" type="text" id="node_remark" name="node_remark" size="40" value="">
+                    <input type="hidden" id="node_path2" name="path" size="30" value="">
+                    <input class="common-text" type="text" id="node_path" size="30" value="">
                 </td>
             </tr>
             <tr>
-                <th><span class="require-red">*</span>是否启用：</th>
+                <th>是否启用：</th>
                 <td>
-                    <input class="common-text" id="node_status" name="node_status" value="1" type="radio" checked="checked">开启
-                    <input class="common-text" id="node_status" name="node_status" value="0" type="radio">关闭
+                    <input class="common-text" name="status" value="1" type="radio" checked="checked">开启
+                    <input class="common-text" name="status" value="0" type="radio">关闭
                 </td>
             </tr>
             <tr>
-                <th><span class="require-red">*</span>父&ensp;节&ensp;点：</th>
+                <th>父&ensp;节&ensp;点：</th>
                 <td>
-                    <input class="common-text" type="hidden" id="node_pid" name="node_pid" size="20" value="1">
-                    <input class="common-text" type="text" id="parent_name1" size="20" value="" readonly="true">
+                    <input type="hidden" id="node_pid" name="pid" value="">
+                    <div id="parent_name1"></div>
                 </td>
             </tr>
             <tr>
-                <th><span class="require-red">*</span>应用级别：</th>
+                <th>节点描述：</th>
                 <td>
-                    <input class="common-text" type="text" id="node_level" name="node_level" size="20" value="1"
-                           readonly="true">
+                    <input class="common-text" type="text" id="node_description" name="description" size="30" value="">
                 </td>
             </tr>
             <tr>
                 <th colspan="2">
+                    <div id="messageadd">&emsp;</div>
+                </th>
+            </tr>
+            <tr>
+                <th colspan="2">
                     <input type="submit" class="btn btn-primary btn6 mr10" value="添加" id="add">
-                    <input type="reset" class="btn btn-primary btn6 mr10" value="重置">
+                    <input type="reset" class="btn btn-primary btn6 mr10" value="重置" id="reset1">
                 </th>
             </tr>
             </tbody>
+            <input type="hidden" id="userid" name="userid" value="{$Think.session.user_id}">
         </table>
     </form>
 </div>
-<!-- 修改菜单 Start-->
+<!--修改菜单 Start-->
 <div class="node-dlg-edit">
-    <form name="addFrom" id="addFrom" accept-charset="utf-8" action="__ROOT__/Admin/Node/edit" method="post">
-        <input type="hidden" id="edit_id" name="node_id" value="0">
-        <table class="admin-tab" width="100%">
+    <form name="editForm" id="editForm" accept-charset="utf-8" action="{:url('/auth/permission/edit')}" method="post">
+        <input type="hidden" id="edit_id" name="id" value="0">
+        <table class="flytable" width="100%">
             <tbody>
             <div class="node-dlg-title">修改节点
                 <div class="node-dlg-title-close"><a href="javascript:closeEditDlg();" title="关闭">×</a></div>
             </div>
             <tr>
-                <th><span class="require-red">*</span>节点名称：</th>
+                <th>节点名称：</th>
                 <td>
-                    <input class="common-text" type="text" id="edit_name" name="node_name" size="20" value="">
+                    <input class="common-text" type="text" id="edit_name" name="name" size="30" value="">
                 </td>
             </tr>
             <tr>
-                <th><span class="require-red">*</span>节点描述：</th>
+                <th>节点路径：</th>
                 <td>
-                    <input class="common-text" type="text" id="edit_remark" name="node_remark" size="40" value="">
+                    <input type="hidden" id="edit_path2" name="path" size="30" value="">
+                    <input class="common-text" type="text" id="edit_path" size="30" value="">
                 </td>
             </tr>
             <tr>
-                <th><span class="require-red">*</span>是否启用：</th>
+                <th>是否启用：</th>
                 <td>
-                    <input class="common-text" id="edit_status" name="node_status" value="1" type="radio"
-                           checked="checked">开启
-                    <input class="common-text" id="edit_status" name="node_status" value="0" type="radio">关闭
+                    <input class="common-text" name="status" value="1" type="radio" checked="checked">开启
+                    <input class="common-text" name="status" value="0" type="radio">关闭
                 </td>
             </tr>
             <tr>
-                <th><span class="require-red">*</span>父&ensp;节&ensp;点：</th>
+                <th>父&ensp;节&ensp;点：</th>
                 <td>
-                    <input class="common-text" type="hidden" id="edit_pid" name="node_pid" size="20" value="1"
-                           readonly="true">
-                    <input class="common-text" type="text" id="parent_name2" size="20" value="" readonly="true">
+                    <input type="hidden" id="edit_pid" name="pid" value="">
+                    <div id="parent_name2"></div>
                 </td>
             </tr>
             <tr>
-                <th><span class="require-red">*</span>应用级别：</th>
+                <th>节点描述：</th>
                 <td>
-                    <input class="common-text" type="text" id="edit_level" name="node_level" size="20" value="1"
-                           readonly="true">
+                    <input class="common-text" type="text" id="edit_description" name="description" size="30">
                 </td>
             </tr>
             <tr>
                 <th colspan="2">
-                    <input type="submit" class="btn btn-primary btn6 mr10" value="修改" id="add">
+                    <div id="messageedit">&emsp;</div>
+                </th>
+            </tr>
+            <tr>
+                <th colspan="2">
+                    <input type="submit" class="btn btn-primary btn6 mr10" value="修改" id="edit">
                     <input type="reset" class="btn btn-primary btn6 mr10" value="重置">
                 </th>
             </tr>
@@ -155,6 +154,78 @@
         </table>
     </form>
 </div>
-<!-- 弹出菜单 End -->
+<!--弹出菜单 End-->
 </body>
 </html>
+
+<script type="text/javascript">
+    $('#add').click(function () {
+        var path = $("#node_path2").val() + $("#node_path").val();
+        $("#node_path2").val(path);
+        $.ajax({
+            type: "POST",
+            url: "{:url('/auth/permission/add')}",
+            data: $('#addFrom').serialize(),
+            error: function (request) {
+                $('#messageadd').html("<font color='red'><b>error code:" + request.readyState + "</b></font>");
+            },
+            success: function (result) {
+                var obj = JSON.parse(result);
+                if (obj.code === 0) {
+                    window.location.href = "{:url('/auth/permission/index')}";
+                } else {
+                    $('#messageadd').html("<font color='red'><b>" + obj.msg + "</b></font>");
+                }
+            }
+        });
+    });
+
+    $('#reset1').click(function () {
+        $("#messageadd").html("&emsp;");
+    });
+
+    function closeAddDlg(s1, s2, s3, s4, s5, s6) {
+        $('.node-dlg-add').fadeOut(100);
+        $('.node-mask').fadeOut(100);
+    }
+
+    function addDlg(s1, s2, s3) {
+        $('.node-dlg-add').fadeIn(100);
+        $('.node-mask').fadeIn(100);
+        // 设置初始值
+        $("#parent_name1").html(s1+"[路径："+s3+"]");
+        $("#node_pid").val(s2);
+        $("#node_path2").val(s3);
+    }
+
+    function closeEditDlg() {
+        $('.node-dlg-edit').fadeOut(100);
+        $('.node-mask').fadeOut(100);
+    }
+
+    function editDlg(s1, s2, s3, s4, s5) {
+        $('.node-dlg-edit').fadeIn(100);
+        $('.node-mask').fadeIn(100);
+        // 设置初始值
+        $("#edit_id").val(s1);
+        $("#edit_name").val(s2);
+        $("#edit_path").val(s3);
+        $("#edit_pid").val(s4);
+        $("#edit_description").val(s5);
+        $("#parent_name2").html("[路径："+s6+"]");
+    }
+
+    function delDlg(s1, s2, s3, s4, s5, s6) {
+        $.ajax({
+            url: delurl,
+            type: 'post',
+            data: "id=" + s1 + "&name=" + s2 + "&remark=" + s3 + "&status=" + s4
+                + "&pid=" + s5 + "&level=" + s6,
+            success: function () {
+                parent.location.reload();
+                window.location.reload();
+            },
+            dataType: 'html'
+        });
+    }
+</script>
