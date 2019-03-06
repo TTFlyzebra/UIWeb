@@ -4,6 +4,7 @@ namespace app\api\controller;
 
 use think\Db;
 use think\Request;
+use think\Session;
 
 class Product
 {
@@ -16,10 +17,12 @@ class Product
         } elseif ($request->isPut()) {
             $product = $request->put();
             $product['ip'] = request()->ip();
+            $product['userid'] = Session::get('userid');
             $result = Db::name("product")->update($product);
         } elseif ($request->isPost()) {
             $product = $request->post();;
             $product['ip'] = request()->ip();
+            $product['userid'] = Session::get('userid');
             $result = Db::name("product")->insert($product);
         } elseif ($request->isGet()) {
             $db = Db::name("product");

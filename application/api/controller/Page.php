@@ -17,11 +17,13 @@ class Page
         }elseif ($request->isPut()) {
             $page = $request->put();
             $page['ip'] = request()->ip();
+            $page['userid'] = Session::get('userid');
             $db =  Db::name("page");
             $result = $db->update($page);
         }elseif ($request->isPost()) {
             $page =  $request->post();
             $page['ip'] = request()->ip();
+            $page['userid'] = Session::get('userid');
             $db =  Db::name("page");
             $result = $db->insert($page);
         } elseif ($request->isGet()) {

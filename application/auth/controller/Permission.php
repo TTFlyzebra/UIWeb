@@ -2,10 +2,11 @@
 
 namespace app\auth\controller;
 
-use gmars\rbac\Rbac;
+use app\auth\common\Rbac;
 use think\Db;
 use think\Exception;
 use think\Request;
+use think\Session;
 
 class Permission extends Auth
 {
@@ -24,10 +25,11 @@ class Permission extends Auth
             $param = $request->param();
             $validate = $this->validate($param, 'Permission');
             if (true === $validate) {
-                $param['create_time'] = time();
-                $param['ip'] = $request->ip();
-                $rbacObj = new Rbac();
                 try {
+                    $param['create_time'] = time();
+                    $param['ip'] = $request->ip();
+                    $param['userid'] = Session::get('userid');
+                    $rbacObj = new Rbac();
                     if($rbacObj->createPermission($param)){
                         echo retJsonMsg();
                     }else{
@@ -46,5 +48,46 @@ class Permission extends Auth
 
     public function edit()
     {
+        $request = Request::instance();
+        if ($request->isPut()) {
+            $param = $request->put();
+            $validate = $this->validate($param, 'Permission');
+            if (true === $validate) {
+                try {
+                    $rbacObj = new Rbac();
+                    $param['userid'] = Session::get('userid');
+                    if($rbacObj->editPermission($param)){
+                        echo retJsonMsg();
+                    }else{
+                        echo retJsonMsg("db edit error",-1);
+                    }
+                } catch (Exception $e) {
+                    echo retJsonMsg("catch Exception",-1,$e);
+                }
+            } else {
+                echo retJsonMsg($validate,-1);
+            }
+        } else {
+            echo retJsonMsg("error",-1);
+        }
+    }
+
+    public function del(){
+        $request = Request::instance();
+        if($request->isDelete()){
+            $param = $request->param();
+            $rbacObj = new Rbac();
+            try {
+                if($rbacObj->delPermission($param['id'])){
+                    echo retJsonMsg();
+                }else{
+                    echo retJsonMsg("db delete error",-1);
+                }
+            } catch (Exception $e) {
+                echo retJsonMsg("catch Exception",-1,$e);
+            }
+        }else{
+            echo retJsonMsg('error',-1);
+        }
     }
 }

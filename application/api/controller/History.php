@@ -4,6 +4,7 @@ namespace app\api\controller;
 
 use think\Db;
 use think\Request;
+use think\Session;
 
 class History
 {
@@ -16,10 +17,12 @@ class History
         } elseif ($request->isPut()) {
             $history = $request->put();
             $history['ip'] = request()->ip();
+            $history['userid'] = Session::get('userid');
             $result = Db::name("history")->update($history);
         } elseif ($request->isPost()) {
             $history = $request->post();;
             $history['ip'] = request()->ip();
+            $history['userid'] = Session::get('userid');
             $result = Db::name("history")->insert($history);
         } elseif ($request->isGet()) {
             $db = Db::name("history");

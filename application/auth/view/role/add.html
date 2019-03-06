@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<link rel="stylesheet" type="text/css" href="__RES__/common/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="__RES__/common/css/bootstrap-theme.css">
+<link rel="stylesheet" type="text/css" href="__RES__/common/css/bootstrap-table.css">
+<script type="text/javascript" src="__RES__/common/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="__RES__/common/js/bootstrap.js"></script>
+<script type="text/javascript" src="__RES__/common/js/bootstrap-table.js"></script>
+<script type="text/javascript" src="__RES__/common/js/bootstrap-table-zh-CN.min.js"></script>
+<script type="text/javascript" src="__RES__/admin/js/flyinput.js"></script>
+<body>
+<form class="form-horizontal" name="roleform" id="roleform" method="post" role="form"
+      action="{:url('/auth/role/api')}"
+      enctype="multipart/form-data">
+    <div class="modal-header">
+        <h4 class="modal-title" id="">新增角色</h4>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label class="col-sm-1 control-label">角色名称</label>
+            <div class="col-sm-5">
+                <input type="text" class="form-control" name="name" id="roleName" value=""
+                       placeholder="请输入名称">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">角色说明</label>
+            <div class="col-sm-5">
+                <input type="text" class="form-control" name="description" id="description" value=""
+                       placeholder="请输入角色说明">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">角色状态</label>
+            <div class="col-sm-5">
+                <input style="margin: 10px" name="status" value="1" type="radio" checked="checked">开启
+                <input style="margin: 10px" name="status" value="0" type="radio">关闭
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default"  onclick="onCancel()" >取消</button>
+        <button type="reset" class="btn btn-default">重置</button>
+        <button type="button" class="btn btn-primary" onclick="postrole()">提交</button>
+    </div>
+</form>
+</body>
+</html>
+
+<script type="text/javascript">
+    //POST提交数据
+    function postrole() {
+        if ($('#roleName').val() === "") {
+            $('#roleName').focus();
+            return
+        }
+
+        if ($('#description').val() === "") {
+            $('#description').focus();
+            return
+        }
+        $.ajax({
+            type: "POST",
+            url: "{:url('/auth/role/api')}",
+            data: $('#roleform').serialize(),
+            error: function (request) {
+                alert("error code:"+request.readyState);
+            },
+            success: function (data) {
+                window.location.href = "{:url('/auth/role')}";
+            }
+        });
+    }
+
+
+    function onCancel() {
+        window.location.href="{:url('/auth/role')}";
+    }
+
+</script>

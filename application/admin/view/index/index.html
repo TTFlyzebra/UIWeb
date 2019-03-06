@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <title>JanCar-管理系统</title>
 </head>
-<link rel="stylesheet" type="text/css" href="__RES__/admin/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="__RES__/common/css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="__RES__/admin/css/flyui.css">
-<script type="text/javascript" src="__RES__/admin/js/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="__RES__/admin/js/bootstrap.js"></script>
+<script type="text/javascript" src="__RES__/common/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="__RES__/common/js/bootstrap.js"></script>
 <body>
 <style type="text/css">
     .logo {
@@ -40,7 +40,7 @@
     </div>
     <div class="h_title">
         <div class="top-name-cn">
-            管理系统{if condition=" $Think.session.user_id !==null"} <a style="font-size: 16px" href="{:url('/auth/login/logout')}">[{$Think.session.user_name}](退出登陆)</a> {/if}
+            管理系统{if condition=" $Think.session.userid !==null"} <a style="font-size: 16px" href="{:url('/auth/login/logout')}">[{$Think.session.user_name}](退出登陆)</a> {/if}
         </div>
     </div>
 </div>

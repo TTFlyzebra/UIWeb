@@ -4,6 +4,7 @@ namespace app\api\controller;
 
 use think\Db;
 use think\Request;
+use think\Session;
 
 class Cell
 {
@@ -18,11 +19,13 @@ class Cell
         } elseif ($request->isPut()) {
             $cell = $request->put();
             $cell['ip'] = request()->ip();
+            $cell['userid'] = Session::get('userid');
             $db =  Db::name("cell");
             $result = $db->update($cell);
         }elseif ($request->isPost()) {
             $cell = $request->post();
             $cell['ip'] = request()->ip();
+            $cell['userid'] = Session::get('userid');
             $db =  Db::name("cell");
             $result = $db->insert($cell);
         } elseif ($request->isGet()) {

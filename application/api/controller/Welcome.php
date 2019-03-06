@@ -4,6 +4,7 @@ namespace app\api\controller;
 
 use think\Db;
 use think\Request;
+use think\Session;
 
 class Welcome
 {
@@ -16,10 +17,12 @@ class Welcome
         } elseif ($request->isPut()) {
             $welcome = $request->put();
             $welcome['ip'] = request()->ip();
+            $welcome['userid'] = Session::get('userid');
             $result = Db::name("welcome")->update($welcome);
         } elseif ($request->isPost()) {
             $welcome = $request->post();;
             $welcome['ip'] = request()->ip();
+            $welcome['userid'] = Session::get('userid');
             $result = Db::name("welcome")->insert($welcome);
         } elseif ($request->isGet()) {
             $db = Db::name("welcome");

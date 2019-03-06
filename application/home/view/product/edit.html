@@ -1,12 +1,12 @@
 <!doctype html>
 <html lang="en">
-<link rel="stylesheet" type="text/css" href="__RES__/admin/css/bootstrap.css">
-<link rel="stylesheet" type="text/css" href="__RES__/admin/css/bootstrap-theme.css">
-<link rel="stylesheet" type="text/css" href="__RES__/admin/css/bootstrap-table.css">
-<script type="text/javascript" src="__RES__/admin/js/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="__RES__/admin/js/bootstrap.js"></script>
-<script type="text/javascript" src="__RES__/admin/js/bootstrap-table.js"></script>
-<script type="text/javascript" src="__RES__/admin/js/bootstrap-table-zh-CN.min.js"></script>
+<link rel="stylesheet" type="text/css" href="__RES__/common/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="__RES__/common/css/bootstrap-theme.css">
+<link rel="stylesheet" type="text/css" href="__RES__/common/css/bootstrap-table.css">
+<script type="text/javascript" src="__RES__/common/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="__RES__/common/js/bootstrap.js"></script>
+<script type="text/javascript" src="__RES__/common/js/bootstrap-table.js"></script>
+<script type="text/javascript" src="__RES__/common/js/bootstrap-table-zh-CN.min.js"></script>
 <script type="text/javascript" src="__RES__/admin/js/flyinput.js"></script>
 <body>
 <form class="form-horizontal" name="productform" id="productform" method="post" role="form"
@@ -45,7 +45,6 @@
             </div>
         </div>
         <input type="hidden" name="productId" id="productId" value="{$item.productId}">
-        <input type="hidden" name="userid" id="userid" value="{$Think.session.user_id}">
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" onclick="onCancel()">取消</button>

@@ -12,7 +12,7 @@ class App
         $request = Request::instance();
         if ($request->has('appname', 'get')) {
             $theme = Db::name('theme')
-                ->where('themeName','Launcher-AP1')
+                ->where('themeName',$_GET['appname'])
                 ->field('edittime,userid,ip', true)
                 ->find();
             if (!$theme) {

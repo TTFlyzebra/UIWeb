@@ -10,7 +10,7 @@ class User extends Auth
 {
     public function index()
     {
-        echo "功能开发中......";
+        return $this->fetch();
     }
 
 }

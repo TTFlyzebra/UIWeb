@@ -34,7 +34,7 @@
         //初始化Table
         oTableInit.Init = function () {
             $('#flytable').bootstrapTable({
-                url: "{:url('/api/cell')}",     //请求后台的URL（*）
+                url: "{:url('/auth/role/api')}",     //请求后台的URL（*）
                 method: 'get',                      //请求方式（*）
                 dataType: 'json',
                 toolbar: '#toolbar',                //工具按钮用哪个容器
@@ -60,56 +60,28 @@
                 minimumCountColumns: 2,             //最少允许的列数
                 clickToSelect: true,                //是否启用点击选中行
 //                height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
-                uniqueId: "cellId",             //每一行的唯一标识，一般为主键列
+                uniqueId: "id",             //每一行的唯一标识，一般为主键列
                 showToggle: false,                   //是否显示详细视图和列表视图的切换按钮
                 cardView: false,                    //是否显示详细视图
                 detailView: false,                  //是否显示父子表
                 columns: [{
                     checkbox: true
                 }, {
-                    field: 'celltypeName',
-                    title: '类型',
+                    field: 'name',
+                    title: '角色名称',
                     halign: "center"
                 }, {
-                    field: 'textTitle',
-                    title: '控件名称',
-                    halign: "center",
-                    formatter: function (value, row, index) {
-                        if(!isTextEmpty(row.themeName)){
-                            return "[" + row.themeName + "]" + value;
-                        }else{
-                            return value;
-                        }
-                    }
+                    field: 'description',
+                    title: '角色说明',
+                    halign: "center"
                 }, {
-                    field: 'width',
-                    title: '尺寸',
-                    halign: "center",
-                    align: 'center',
-                    formatter: function (value, row, index) {
-                        return value + "X" + row.height;
-                    }
+                    field: 'status',
+                    title: '角色状态',
+                    halign: "center"
                 }, {
-                    field: 'imageurl1',
-                    title: '图片一',
-                    halign: "center",
-                    align: 'center',
-                    formatter: function (value, row, index) {
-                        return '<img  width="auto" height="50px" src="' + value + '">';
-                    }
-                }, {
-                    field: 'imageurl2',
-                    title: '图片二',
-                    halign: "center",
-                    align: 'center',
-                    formatter: function (value, row, index) {
-                        return '<img  width="auto" height="50px" src="' + value + '">';
-                    }
-                }, {
-                    field: 'edittime',
-                    title: '修改时间',
-                    halign: "center",
-                    align: 'center'
+                    field: 'id',
+                    title: '执行操作',
+                    halign: "center"
                 }]
             });
         };
@@ -118,13 +90,13 @@
     };
 
     $('#btn_add').on("click", function (event) {
-        window.location.href = "{:url('/flyui/cell/add')}";
+        window.location.href = "{:url('/auth/role/add')}";
     });
 
     $('#btn_edit').on("click", function (event) {
         var a = $('#flytable').bootstrapTable('getSelections');
         if (a.length > 0) {
-            window.location.href = "{:url('/flyui/cell/edit')}?id="+a[0].cellId;
+            window.location.href = "{:url('/auth/role/edit')}?id="+a[0].id;
         }
     });
 
@@ -133,18 +105,21 @@
         for (var i = 0; i < a.length; i++) {
             $.ajax({
                 type: "DELETE",
-                url: "{:url('/api/cell')}",
+                url: "{:url('/auth/role/api')}",
                 data: {
-                    cellId: a[i].cellId
+                    id: a[i].id
                 },
                 error: function (request) {
-                    alert("删除失败!\n" +
-                        "可能的错误原因：\n" +
-                        "网络错误。");
+                   alert("error code:"+request.readyState);
                 },
                 success: function (data) {
                     //更新显示列表
-                    $('#flytable').bootstrapTable('refresh');
+                    var obj = JSON.parse(data);
+                    if(obj.code===0){
+                        $('#flytable').bootstrapTable('refresh');
+                    }else{
+                        alert(obj.msg);
+                    }
                 }
             });
         }

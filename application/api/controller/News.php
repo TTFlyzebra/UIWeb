@@ -4,6 +4,7 @@ namespace app\api\controller;
 
 use think\Db;
 use think\Request;
+use think\Session;
 
 class News
 {
@@ -16,10 +17,12 @@ class News
         } elseif ($request->isPut()) {
             $news = $request->put();
             $news['ip'] = request()->ip();
+            $news['userid'] = Session::get('userid');
             $result = Db::name("news")->update($news);
         } elseif ($request->isPost()) {
             $news = $request->post();;
             $news['ip'] = request()->ip();
+            $news['userid'] = Session::get('userid');
             $result = Db::name("news")->insert($news);
         } elseif ($request->isGet()) {
             $db = Db::name("news");

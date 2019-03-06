@@ -29,7 +29,7 @@ class Login extends Controller
                     if (Db::name('user')->where($user)->find()) {
                         $user['password'] = md5($param['loginword']);
                         if ($login = Db::name('user')->where($user)->find()) {
-                            Session::set('user_id', $login['id']);
+                            Session::set('userid', $login['id']);
                             Session::set('user_name', $login['user_name']);
                             echo retJsonMsg("login successful");
                         } else {

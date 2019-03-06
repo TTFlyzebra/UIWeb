@@ -4,6 +4,7 @@ namespace app\api\controller;
 
 use think\Db;
 use think\Request;
+use think\Session;
 
 class Celltype
 {
@@ -16,10 +17,12 @@ class Celltype
         } elseif ($request->isPut()) {
             $celltype = $request->put();
             $celltype['ip'] = request()->ip();
+            $celltype['userid'] = Session::get('userid');
             $result = Db::name("celltype")->update($celltype);
         } elseif ($request->isPost()) {
             $celltype = $request->post();;
             $celltype['ip'] = request()->ip();
+            $celltype['userid'] = Session::get('userid');
             $result = Db::name("celltype")->insert($celltype);
         } elseif ($request->isGet()) {
             $db = Db::name("celltype");

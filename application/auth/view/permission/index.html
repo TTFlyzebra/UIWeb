@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>管理系统</title>
-    <!--<link rel="stylesheet" type="text/css" href="__RES__/admin/css/bootstrap.css">-->
+    <!--<link rel="stylesheet" type="text/css" href="__RES__/common/css/bootstrap.css">-->
     <link rel="stylesheet" type="text/css" href="__RES__/auth/css/main.css"/>
     <script type="text/javascript" src="__RES__/common/js/jquery-3.2.1.min.js"></script>
 </head>
@@ -13,24 +13,24 @@
     <div class="apps">
         <div class="app">{$v.name}
             <a href="javascript:addDlg('{$v.name}','{$v.id}','{$v.path}/');">＋</a>
-            <if condition="$v['child']==null">
+            {if condition="$v['child'] eq null"}
                 <a href="javascript:delDlg('{$v.id}');">－</a>
-            </if>
-            <a href="javascript:editDlg('{$v.id}','{$v.name}','{$v.path}','{$v.pid}','{$v.description}','/');">Ｅ</a>
+            {/if}
+            <a href="javascript:editDlg('{$v.id}','{$v.name}','{$v.path}','{$v.pid}','{$v.description}','/','网站目录');">Ｅ</a>
         </div>
         {volist name="v['child']" id="c" key="k"}
         <div class="controls">
             <div class="control">{$c.name}
                 <a href="javascript:addDlg('{$c.name}','{$c.id}','{$c.path}/');">＋</a>
-                <if condition="$c['child']==null">
+                {if condition="$c['child'] eq null"}
                     <a href="javascript:delDlg('{$c.id}');">－</a>
-                </if>
-                <a href="javascript:editDlg('{$c.id}','{$c.name}','{$c.path}','{$c.pid}','{$c.description}','{$v.path}/');">Ｅ</a>
+                {/if}
+                <a href="javascript:editDlg('{$c.id}','{$c.name}','{$c.path}','{$c.pid}','{$c.description}','{$v.path}/','{$v.name}');">Ｅ</a>
             </div>
             {volist name="c['child']" id="m" key="k"}
             <div class="method">{$m.name}
                 <a href="javascript:delDlg('{$m.id}');">－</a>
-                <a href="javascript:editDlg('{$m.id}','{$m.name}','{$m.path}','{$m.pid}','{$m.description}','{$c.path}/');">Ｅ</a>
+                <a href="javascript:editDlg('{$m.id}','{$m.name}','{$m.path}','{$m.pid}','{$m.description}','{$c.path}/','{$c.name}');">Ｅ</a>
             </div>
             {/volist}
         </div>
@@ -88,12 +88,11 @@
             </tr>
             <tr>
                 <th colspan="2">
-                    <input type="submit" class="btn btn-primary btn6 mr10" value="添加" id="add">
+                    <input type="button" class="btn btn-primary btn6 mr10" value="添加" id="add">
                     <input type="reset" class="btn btn-primary btn6 mr10" value="重置" id="reset1">
                 </th>
             </tr>
             </tbody>
-            <input type="hidden" id="userid" name="userid" value="{$Think.session.user_id}">
         </table>
     </form>
 </div>
@@ -146,8 +145,8 @@
             </tr>
             <tr>
                 <th colspan="2">
-                    <input type="submit" class="btn btn-primary btn6 mr10" value="修改" id="edit">
-                    <input type="reset" class="btn btn-primary btn6 mr10" value="重置">
+                    <input type="button" class="btn btn-primary btn6 mr10" value="修改" id="edit">
+                    <input type="reset" class="btn btn-primary btn6 mr10" value="重置" id="reset2">
                 </th>
             </tr>
             </tbody>
@@ -159,6 +158,49 @@
 </html>
 
 <script type="text/javascript">
+    function closeAddDlg(s1, s2, s3, s4, s5, s6) {
+        $('.node-dlg-add').fadeOut(100);
+        $('.node-mask').fadeOut(100);
+        $("#messageadd").html("&emsp;");
+    }
+
+    function closeEditDlg() {
+        $('.node-dlg-edit').fadeOut(100);
+        $('.node-mask').fadeOut(100);
+        $("#messageedit").html("&emsp;");
+    }
+
+    function addDlg(s1, s2, s3) {
+        $('.node-dlg-add').fadeIn(100);
+        $('.node-mask').fadeIn(100);
+        // 设置初始值
+        $("#parent_name1").html(s1 + "[路径：" + s3 + "]");
+        $("#node_pid").val(s2);
+        $("#node_path2").val(s3);
+    }
+
+    function editDlg(s1, s2, s3, s4, s5, s6, s7) {
+        $('.node-dlg-edit').fadeIn(100);
+        $('.node-mask').fadeIn(100);
+        // 设置初始值
+        $("#edit_id").val(s1);
+        $("#edit_name").val(s2);
+        var start = s3.lastIndexOf('/')+1;
+        var path = s3.substring(start);
+        $("#edit_path").val(path);
+        $("#edit_pid").val(s4);
+        $("#edit_description").val(s5);
+        $("#parent_name2").html(s7 + "[路径：" + s6 + "]");
+    }
+
+    $('#reset1').click(function () {
+        $("#messageadd").html("&emsp;");
+    });
+
+    $('#reset2').click(function () {
+        $("#messageedit").html("&emsp;");
+    });
+
     $('#add').click(function () {
         var path = $("#node_path2").val() + $("#node_path").val();
         $("#node_path2").val(path);
@@ -180,52 +222,44 @@
         });
     });
 
-    $('#reset1').click(function () {
-        $("#messageadd").html("&emsp;");
+    $('#edit').click(function () {
+        var path = $("#edit_path2").val() + $("#edit_path").val();
+        $("#edit_path2").val(path);
+        $.ajax({
+            type: "PUT",
+            url: "{:url('/auth/permission/edit')}",
+            data: $('#editForm').serialize(),
+            error: function (request) {
+                $('#messageedit').html("<font color='red'><b>error code:" + request.readyState + "</b></font>");
+            },
+            success: function (result) {
+                var obj = JSON.parse(result);
+                if (obj.code === 0) {
+                    window.location.href = "{:url('/auth/permission/index')}";
+                } else {
+                    $('#messageedit').html("<font color='red'><b>" + obj.msg + "</b></font>");
+                }
+            }
+        });
     });
 
-    function closeAddDlg(s1, s2, s3, s4, s5, s6) {
-        $('.node-dlg-add').fadeOut(100);
-        $('.node-mask').fadeOut(100);
-    }
-
-    function addDlg(s1, s2, s3) {
-        $('.node-dlg-add').fadeIn(100);
-        $('.node-mask').fadeIn(100);
-        // 设置初始值
-        $("#parent_name1").html(s1+"[路径："+s3+"]");
-        $("#node_pid").val(s2);
-        $("#node_path2").val(s3);
-    }
-
-    function closeEditDlg() {
-        $('.node-dlg-edit').fadeOut(100);
-        $('.node-mask').fadeOut(100);
-    }
-
-    function editDlg(s1, s2, s3, s4, s5) {
-        $('.node-dlg-edit').fadeIn(100);
-        $('.node-mask').fadeIn(100);
-        // 设置初始值
-        $("#edit_id").val(s1);
-        $("#edit_name").val(s2);
-        $("#edit_path").val(s3);
-        $("#edit_pid").val(s4);
-        $("#edit_description").val(s5);
-        $("#parent_name2").html("[路径："+s6+"]");
-    }
-
-    function delDlg(s1, s2, s3, s4, s5, s6) {
+    function delDlg(s1) {
         $.ajax({
-            url: delurl,
-            type: 'post',
-            data: "id=" + s1 + "&name=" + s2 + "&remark=" + s3 + "&status=" + s4
-                + "&pid=" + s5 + "&level=" + s6,
-            success: function () {
-                parent.location.reload();
-                window.location.reload();
+            url: "{:url('/auth/permission/del')}",
+            type: 'DELETE',
+            data: "id=" + s1,
+            error: function (result) {
+                alert("error code:" + request.readyState);
             },
-            dataType: 'html'
+            success: function (result) {
+                var obj = JSON.parse(result);
+                if (obj.code === 0) {
+                    parent.location.reload();
+                    window.location.reload();
+                } else {
+                    alert(obj.msg);
+                }
+            }
         });
     }
 </script>

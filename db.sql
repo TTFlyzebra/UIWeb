@@ -348,7 +348,7 @@ CREATE TABLE `fly_user` (
 
 CREATE TABLE `fly_user_role` (
   `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
+  `userid` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
   `role_id` int(11) NOT NULL DEFAULT '0' COMMENT '角色id'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户角色对应关系';
 

@@ -4,6 +4,7 @@ namespace app\api\controller;
 
 use think\Db;
 use think\Request;
+use think\Session;
 
 class Theme
 {
@@ -16,12 +17,14 @@ class Theme
         } elseif ($request->isPut()) {
             $theme = $request->put();
             $theme['ip'] = request()->ip();
+            $theme['userid'] = Session::get('userid');
             $db = Db::name("theme");
             $result = $db->update($theme);
         } elseif ($request->isPost()) {
             $theme = $request->post();
             $theme['isMirror']=(int)$theme['isMirror'];
             $theme['ip'] = request()->ip();
+            $theme['userid'] = Session::get('userid');
             $db = Db::name("theme");
             $result = $db->insert($theme);
         } elseif ($request->isGet()) {

@@ -4,6 +4,7 @@ namespace app\api\controller;
 
 use think\Db;
 use think\Request;
+use think\Session;
 
 class Recruitment
 {
@@ -16,10 +17,12 @@ class Recruitment
         } elseif ($request->isPut()) {
             $recruitment = $request->put();
             $recruitment['ip'] = request()->ip();
+            $recruitment['userid'] = Session::get('userid');
             $result = Db::name("recruitment")->update($recruitment);
         } elseif ($request->isPost()) {
             $recruitment = $request->post();;
             $recruitment['ip'] = request()->ip();
+            $recruitment['userid'] = Session::get('userid');
             $result = Db::name("recruitment")->insert($recruitment);
         } elseif ($request->isGet()) {
             $db = Db::name("recruitment");

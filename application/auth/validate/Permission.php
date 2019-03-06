@@ -18,14 +18,12 @@ class Permission extends Validate
         'name'             => 'require',
         'path'             => 'require',
         'description'             => 'require',
-        'userid'             => 'require'
     ];
 
     protected $message  =   [
         'name.require'              => '节点名称不能为空！',
         'path.require'              => '节点路径不能为空！',
         'description.require'       => '节点描述不能为空！',
-        'userid.require'              => '登陆ID不能为空！'
     ];
 
 
