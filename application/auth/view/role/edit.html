@@ -9,108 +9,78 @@
 <script type="text/javascript" src="__RES__/common/js/bootstrap-table-zh-CN.min.js"></script>
 <script type="text/javascript" src="__RES__/admin/js/flyinput.js"></script>
 <body>
-<form class="form-horizontal" name="celltypeform" id="celltypeform" method="post" role="form"
-      action="{:url('/api/celltype')}"
+<form class="form-horizontal" name="roleform" id="roleform" method="post" role="form"
+      action="{:url('/auth/role/api')}"
       enctype="multipart/form-data">
     <div class="modal-header">
-        <h4 class="modal-title" id="">修改控件类型</h4>
+        <h4 class="modal-title" id="">修改角色</h4>
     </div>
     <div class="modal-body">
         <div class="form-group">
-            <label class="col-sm-1 control-label">类别名称</label>
+            <label class="col-sm-1 control-label">角色名称</label>
             <div class="col-sm-5">
-                <input type="text" class="form-control" name="celltypeName" id="celltypeName"
-                       value="{$item.celltypeName}"
+                <input type="text" class="form-control" name="name" id="roleName" value="{$item.name}"
                        placeholder="请输入名称">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-1 control-label">类别标识</label>
+            <label class="col-sm-1 control-label">角色说明</label>
             <div class="col-sm-5">
-                <input type="text" class="form-control" name="celltype" id="celltype" value="{$item.celltype}"
-                       placeholder="请输入类型标识(*唯一值，不能与已录入数据重复)">
+                <input type="text" class="form-control" name="description" id="description" value="{$item.description}"
+                       placeholder="请输入角色说明">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-1 control-label">图片示例</label>
+            <label class="col-sm-1 control-label">角色状态</label>
             <div class="col-sm-5">
-                <input type="file" accept="image/*" id="imageinput1" name="imagefile">
-                <input type="hidden" id="imageurl1" name="imageurl" value="{$item.imageurl}">
+                {if condition=" $item['status'] eq 1"}
+                <input style="margin: 10px" name="status" value="1" type="radio" checked="checked">开启
+                <input style="margin: 10px" name="status" value="0" type="radio">关闭
+                {else /}
+                <input style="margin: 10px" name="status" value="1" type="radio">开启
+                <input style="margin: 10px" name="status" value="0" type="radio" checked="checked">关闭
+                {/if}
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-sm-1 control-label">特殊属性</label>
-            <div class="col-sm-5">
-                <textarea class="form-control" name="extend" id="extend"
-                          placeholder="属性类别=属性名称，多个属性用#分隔，例如：新增一个图片属性和一个文本属性，image=child1#text=shay">{$item.extend}</textarea>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-1 control-label">备注</label>
-            <div class="col-sm-5">
-                <textarea class="form-control" name="remark" id="remark"
-                          placeholder="描述说明控件信息">{$item.remark}</textarea>
-            </div>
-        </div>
-        <input type="hidden" name="celltypeId" id="celltypeId" value="{$item.celltypeId}">
     </div>
+    <input type="hidden" name="id"  value="{$item.id}">
     <div class="modal-footer">
-        <button type="button" class="btn btn-default" onclick="onCancel()">取消</button>
-        <button type="button" class="btn btn-primary" onclick="postcelltype()">修改</button>
-        <!--<button type="submit" class="btn btn-primary">修改</button>-->
+        <button type="button" class="btn btn-default"  onclick="onCancel()" >取消</button>
+        <button type="button" class="btn btn-primary" onclick="postrole()">修改</button>
     </div>
 </form>
 </body>
 </html>
 
 <script type="text/javascript">
-    var celltypeurl = "{:url('/api/celltype')}";
-    var upimageurl = "{:url('/api/imagefile')}";
-    var imageurl1 = $('#imageurl1').val();
 
     //POST提交数据
-    function postcelltype() {
-        if ($('#celltypeName').val() === "") {
-            $('#celltypeName').focus();
+    function postrole() {
+        if ($('#roleName').val() === "") {
+            $('#roleName').focus();
             return
         }
 
-        if ($('#celltype').val() === "") {
-            $('#celltype').focus();
+        if ($('#description').val() === "") {
+            $('#description').focus();
             return
         }
         $.ajax({
             type: "PUT",
-            url: celltypeurl,
-            data: $('#celltypeform').serialize(),
+            url: "{:url('/auth/role/api')}",
+            data: $('#roleform').serialize(),
             error: function (request) {
-                alert("向服务器提交数据失败了!\n" +
-                    "可能的错误原因：\n" +
-                    "1.重复的类型标识;\n" +
-                    "2.重复的类型名称;\n" +
-                    "3.网络请求失败。");
+                alert("error code:"+request.readyState);
             },
             success: function (data) {
-                window.location.href = "{:url('/flyui/celltype')}";
+                window.location.href = "{:url('/auth/role')}";
             }
         });
     }
 
-    $('#imageinput1').flyinput({
-        url: upimageurl,
-        image: imageurl1,
-        autoup: true,
-        showPreview: true,
-        width: "100%",
-        height: "240px",
-        background: "#101010"
-    }).on("success", function (event, data) {
-        var result = JSON.parse(data);
-        $('#imageurl1').val(result.data.saveName);
-    });
 
     function onCancel() {
-        window.location.href = "{:url('/flyui/celltype')}";
+        window.location.href="{:url('/auth/role')}";
     }
 
 </script>

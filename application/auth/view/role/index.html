@@ -80,8 +80,12 @@
                     halign: "center"
                 }, {
                     field: 'id',
-                    title: '执行操作',
-                    halign: "center"
+                    title: '操作',
+                    halign: "center",
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        return '<a  href="{:url(\'/auth/permission/dispath\')}?id=' + value + '">分配权限</a>';
+                    }
                 }]
             });
         };

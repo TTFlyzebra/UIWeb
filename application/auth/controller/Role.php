@@ -22,7 +22,13 @@ class Role extends Auth
 
     public function edit()
     {
-        return $this->fetch();
+        $request = Request::instance();
+        if ($request->has('id', 'get')) {
+            $db = Db::name('role');
+            $item = $db->where('id', $_GET['id'])->find();
+            $this->assign('item', $item);
+            return $this->fetch();
+        }
     }
 
     public function api()
@@ -68,7 +74,6 @@ class Role extends Auth
             }
         } elseif ($request->isGet()) {
             $db = Db::name("role");
-            $db->order('id desc');
             if ($request->has('limit', 'get') && $request->has('offset', 'get')) {
                 $db->limit($_GET['offset'], $_GET['limit']);
             }
