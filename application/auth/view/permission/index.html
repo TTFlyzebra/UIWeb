@@ -3,34 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <title>管理系统</title>
-    <!--<link rel="stylesheet" type="text/css" href="__RES__/common/css/bootstrap.css">-->
     <link rel="stylesheet" type="text/css" href="__RES__/auth/css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="__RES__/common/css/bootstrap.css">
     <script type="text/javascript" src="__RES__/common/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="__RES__/common/js/bootstrap.js"></script>
 </head>
 <body>
-<div class="apps-title">网站目录<a href="javascript:addDlg('网站目录','0','/');">＋</a>
+<div class="modal-header">
+    <h4 class="modal-title">网站管理[划分网站权限节点]</h4>
+</div>
+<div class="apps-title"><label>网站目录</label><a href="javascript:addDlg('网站目录','0','/');">＋</a>
     {volist name="list" id="v" key="k"}
     <div class="apps">
         <div class="app">{$v.name}
             <a href="javascript:addDlg('{$v.name}','{$v.id}','{$v.path}/');">＋</a>
             {if condition="$v['child'] eq null"}
-                <a href="javascript:delDlg('{$v.id}');">－</a>
+            <a href="javascript:delDlg('{$v.id}');">－</a>
             {/if}
-            <a href="javascript:editDlg('{$v.id}','{$v.name}','{$v.path}','{$v.pid}','{$v.description}','/','网站目录');">Ｅ</a>
+            <a href="javascript:editDlg('{$v.id}','{$v.name}','{$v.path}','{$v.pid}','{$v.description}','/','网站目录','{$v.status}');">Ｅ</a>
         </div>
         {volist name="v['child']" id="c" key="k"}
         <div class="controls">
             <div class="control">{$c.name}
                 <a href="javascript:addDlg('{$c.name}','{$c.id}','{$c.path}/');">＋</a>
                 {if condition="$c['child'] eq null"}
-                    <a href="javascript:delDlg('{$c.id}');">－</a>
+                <a href="javascript:delDlg('{$c.id}');">－</a>
                 {/if}
-                <a href="javascript:editDlg('{$c.id}','{$c.name}','{$c.path}','{$c.pid}','{$c.description}','{$v.path}/','{$v.name}');">Ｅ</a>
+                <a href="javascript:editDlg('{$c.id}','{$c.name}','{$c.path}','{$c.pid}','{$c.description}','{$v.path}/','{$v.name}','{$c.status}');">Ｅ</a>
             </div>
             {volist name="c['child']" id="m" key="k"}
             <div class="method">{$m.name}
                 <a href="javascript:delDlg('{$m.id}');">－</a>
-                <a href="javascript:editDlg('{$m.id}','{$m.name}','{$m.path}','{$m.pid}','{$m.description}','{$c.path}/','{$c.name}');">Ｅ</a>
+                <a href="javascript:editDlg('{$m.id}','{$m.name}','{$m.path}','{$m.pid}','{$m.description}','{$c.path}/','{$c.name}','{$m.status}');">Ｅ</a>
             </div>
             {/volist}
         </div>
@@ -121,8 +125,8 @@
             <tr>
                 <th>是否启用：</th>
                 <td>
-                    <input class="common-text" name="status" value="1" type="radio" checked="checked">开启
-                    <input class="common-text" name="status" value="0" type="radio">关闭
+                    <input id="edit_radio1" class="common-text" name="status" value="1" type="radio" checked="checked">开启
+                    <input id="edit_radio2" class="common-text" name="status" value="0" type="radio">关闭
                 </td>
             </tr>
             <tr>
@@ -158,7 +162,7 @@
 </html>
 
 <script type="text/javascript">
-    function closeAddDlg(s1, s2, s3, s4, s5, s6) {
+    function closeAddDlg() {
         $('.node-dlg-add').fadeOut(100);
         $('.node-mask').fadeOut(100);
         $("#messageadd").html("&emsp;");
@@ -179,18 +183,23 @@
         $("#node_path2").val(s3);
     }
 
-    function editDlg(s1, s2, s3, s4, s5, s6, s7) {
+    function editDlg(s1, s2, s3, s4, s5, s6, s7, s8) {
         $('.node-dlg-edit').fadeIn(100);
         $('.node-mask').fadeIn(100);
         // 设置初始值
         $("#edit_id").val(s1);
         $("#edit_name").val(s2);
-        var start = s3.lastIndexOf('/')+1;
+        var start = s3.lastIndexOf('/') + 1;
         var path = s3.substring(start);
         $("#edit_path").val(path);
         $("#edit_pid").val(s4);
         $("#edit_description").val(s5);
         $("#parent_name2").html(s7 + "[路径：" + s6 + "]");
+        if (s8 == 1) {
+            $("#edit_radio1").click();
+        } else {
+            $("#edit_radio2").click();
+        }
     }
 
     $('#reset1').click(function () {

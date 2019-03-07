@@ -325,6 +325,8 @@ class Rbac
             throw new Exception('参数错误');
         }
 
+        Db::name($this->rolePermissionTable)->where('role_id',$roleId)->delete();
+
         $rolePermission = [];
         foreach ($permission as $v)
         {

@@ -89,8 +89,4 @@ class Role extends Auth
             echo retJsonMsg('error', -1);
         }
     }
-
-    public function test(){
-    }
-
 }

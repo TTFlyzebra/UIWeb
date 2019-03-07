@@ -46,6 +46,21 @@ class Permission extends Auth
         }
     }
 
+    public function dispath()
+    {
+        $ids = [];
+        $role = DB::name('role')->where('id', $_GET['id'])->find();
+        $role_permissions = Db::name('role_permission')->where('role_id', $_GET['id'])->field('permission_id')->select();
+        foreach ($role_permissions as $v){
+            $ids[] = $v['permission_id'];
+        }
+        $permissions = DB::name('permission')->select();
+        $node = node_merge($permissions, $ids);
+        $this->assign('item',$role);
+        $this->assign('list', $node);
+        return $this->fetch();
+    }
+
     public function edit()
     {
         $request = Request::instance();
@@ -92,42 +107,14 @@ class Permission extends Auth
         }
     }
 
-    public function dispath()
-    {
-        $roleids = Db::name('role_permission')->where('role_id', $_GET['id'])->field('permission_id')->select();
-        $permissions = DB::name('permission')->select();
-        $node = node_merge($permissions, $roleids);
-        $this->assign('list', $node);
-        return $this->fetch();
-    }
-
-    public function test(){
-        dump($_POST);
-    }
-
-    /**
-     * 分配权限页面
-     */
-    public function setAccess(){
-        $role_id = $_POST['pid'];
-        $data = array();
-        foreach ($_POST['nodeid'] as $v){
-            $tmp = explode('_', $v);
-            $data[] = array(
-                'role_id'=>$role_id,
-                'node_id'=>$tmp[0],
-                'level'=>$tmp[1]
-            );
+    public function setrole(){
+        $request = Request::instance();
+        if ($request->isPost()) {
+            $rbacObj = new Rbac();
+            try {
+                $rbacObj->assignRolePermission($_POST['role_id'], $_POST['permid']);
+            } catch (Exception $e) {
+            }
         }
-        $db= M('access');
-        $db->where(array('role_id'=>$role_id))->delete();
-        if($data==null){
-            $this->redirect("/Admin/Access/index",array('pid' =>$role_id));
-        }else if($db->addAll($data)){
-            $this->redirect("/Admin/Access/index",array('pid' =>$role_id));
-        }else{
-            $this->error($db->getError());
-        }
-
     }
 }

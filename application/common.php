@@ -24,15 +24,15 @@ function retJsonMsg($message="OK!", $code=0, $data=""){
  * @param unknown $node
  * @param number $pid
  */
-function node_merge($node, $access = null, $pid = 0) {
+function node_merge($node, $permissions = null, $pid = 0) {
     $arr = array ();
     foreach ( $node as $v ) {
         if ($v ['pid'] == $pid) {
-            if (is_array ( $access )) {
-                $v ['access'] = in_array ( $v ['id'], $access ) ? 1 : 0;
+            if (is_array ( $permissions )) {
+                $v ['access'] = in_array ( $v ['id'], $permissions ) ? 1 : 0;
             }
 
-            $v ['child'] = node_merge ( $node, $access, $v ['id'] );
+            $v ['child'] = node_merge ( $node, $permissions, $v ['id'] );
             $arr [] = $v;
         }
     }

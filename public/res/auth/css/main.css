@@ -431,7 +431,7 @@ a:hover, a:active, a:focus {
 }
 
 .flytable tr {
-	line-height: 40px;
+	line-height: 36px;
 }
 
 .flytable th {
@@ -456,8 +456,8 @@ a:hover, a:active, a:focus {
 	height: auto;
 	overflow: hidden;
 	border: 1px solid #000;
-	font-size: 28px;
-	text-indent: 10px;
+	font-size: 20px;
+	text-indent: 8px;
 }
 
 .apps-title a {
@@ -483,7 +483,7 @@ a:hover, a:active, a:focus {
 	height: 36px;
 	line-height: 36px;
 	background: #e6e6e6;
-	color: #0b99d8;
+	color: #000088;
 }
 
 .apps a {
@@ -570,6 +570,24 @@ a:hover, a:active, a:focus {
 	display: none;
 }
 
+.user-dlg {
+	z-index: 9999;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 10%;
+	width: 500px;
+	height: 360px;
+	margin: auto;
+	border-radius: 5px;
+	padding: 5px 5px;
+	border: solid 2px #666;
+	background-color: #f8ffff;
+	box-shadow: 0 0 10px #666;
+	display: none;
+}
+
 .node-dlg-title {
 	height: 40px;
 	line-height: 40px;
@@ -590,7 +608,7 @@ a:hover, a:active, a:focus {
 	float: right;
 }
 .common-text{
-	font-size: 18px;
+	font-size: 20px;
 	border-bottom:1px solid #cccccc;
-	padding:5px;
+	padding:2px;
 }
