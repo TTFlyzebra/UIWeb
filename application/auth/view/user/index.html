@@ -15,15 +15,15 @@
 <!--弹出菜单 start-->
 <div class="node-mask"></div>
 <div class="user-dlg">
-    <form class="form-horizontal" name="roleform" id="roleform" method="post" role="form"
-          action="{:url('/auth/user/setrole')}"
+    <form class="form-horizontal" name="UserRoleForm" id="UserRoleForm" method="post" role="form"
+          action="{:url('/auth/user/userrole')}"
           enctype="multipart/form-data">
         <div class="modal-header">
             <h4 class="modal-title" id="">配置角色</h4>
         </div>
         <div class="modal-body" style="height:220px;overflow: auto">
             <div class="form-group" style="display: none">
-                <input style="margin: 10px" type="radio" checked="checked">未配置
+                <input style="margin: 10px" id="radio_null" name="role_id" value="-1" type="radio" checked="checked">未配置
             </div>
             {volist name="list" id="v" key="k"}
             <div class="form-group">
@@ -34,7 +34,7 @@
         <input type="hidden" id="user_id" name="user_id" value="">
         <div class="modal-footer">
             <button type="button" class="btn btn-default" onclick="closeDlg()">取消</button>
-            <button type="submit" class="btn btn-primary" onclick="postSave()">确定</button>
+            <button type="button" class="btn btn-primary" onclick="postSave()">确定</button>
         </div>
     </form>
 </div>
@@ -131,6 +131,26 @@
         $('.node-mask').fadeIn(100);
         $('#user_id').val(s1);
         $('#radio_'+s2).click();
+    }
+
+
+    function postSave() {
+        $.ajax({
+            type: "POST",
+            url: "{:url('/auth/user/userrole')}",
+            data: $('#UserRoleForm').serialize(),
+            error: function (request) {
+                alert("error code:"+request.readyState);
+            },
+            success: function (data) {
+                var obj = JSON.parse(data);
+                if(obj.code===0){
+                    window.location.href = "{:url('/auth/user')}";
+                }else{
+                    alert(obj.msg);
+                }
+            }
+        });
     }
 </script>
 

@@ -46,21 +46,6 @@ class Permission extends Auth
         }
     }
 
-    public function dispath()
-    {
-        $ids = [];
-        $role = DB::name('role')->where('id', $_GET['id'])->find();
-        $role_permissions = Db::name('role_permission')->where('role_id', $_GET['id'])->field('permission_id')->select();
-        foreach ($role_permissions as $v){
-            $ids[] = $v['permission_id'];
-        }
-        $permissions = DB::name('permission')->select();
-        $node = node_merge($permissions, $ids);
-        $this->assign('item',$role);
-        $this->assign('list', $node);
-        return $this->fetch();
-    }
-
     public function edit()
     {
         $request = Request::instance();
@@ -107,14 +92,5 @@ class Permission extends Auth
         }
     }
 
-    public function setrole(){
-        $request = Request::instance();
-        if ($request->isPost()) {
-            $rbacObj = new Rbac();
-            try {
-                $rbacObj->assignRolePermission($_POST['role_id'], $_POST['permid']);
-            } catch (Exception $e) {
-            }
-        }
-    }
+
 }

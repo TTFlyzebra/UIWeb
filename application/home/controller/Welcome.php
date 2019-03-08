@@ -2,11 +2,11 @@
 
 namespace app\home\controller;
 
-use think\Controller;
+use app\auth\controller\Auth;
 use think\Db;
 use think\Request;
 
-class Welcome extends Controller
+class Welcome extends Auth
 {
     public function index()
     {

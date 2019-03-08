@@ -299,14 +299,20 @@ class Rbac
      */
     public function assignUserRole($userId, array $role = [])
     {
-        if (empty($userId) || empty($role)) {
+        if (empty($userId)) {
             throw new Exception('参数错误');
+        }
+
+        Db::name($this->userRoleTable)->where('user_id',$userId)->delete();
+
+        if(empty($role)){
+            return true;
         }
 
         $userRole = [];
         foreach ($role as $v)
         {
-            $userRole [] = ['userid' => $userId, 'role_id' => $v];
+            $userRole [] = ['user_id' => $userId, 'role_id' => $v];
         }
 
         return Db::name($this->userRoleTable)->insertAll($userRole);
@@ -321,12 +327,15 @@ class Rbac
      */
     public function assignRolePermission($roleId, array $permission = [])
     {
-        if (empty($roleId) || empty($permission)) {
+        if (empty($roleId)) {
             throw new Exception('参数错误');
         }
 
         Db::name($this->rolePermissionTable)->where('role_id',$roleId)->delete();
 
+        if (empty($permission)) {
+            return true;
+        }
         $rolePermission = [];
         foreach ($permission as $v)
         {
@@ -394,15 +403,15 @@ class Rbac
 
         $permission = Db::name($this->permissionTable)
             ->alias('p')
-            ->join("{$this->rolePermissionTable} rp", "p.id = rp.permission_id")
-            ->join("{$this->userRoleTable} ur", "rp.role_id = ur.role_id")
-            ->where("ur.userid = {$id}")->select();
+            ->join("fly_{$this->rolePermissionTable} rp", "p.id = rp.permission_id")
+            ->join("fly_{$this->userRoleTable} ur", "rp.role_id = ur.role_id")
+            ->where("ur.user_id = {$id}")->select();
 
         $newPermission = [];
         if (!empty($permission)) {
             foreach ($permission as $k=>$v)
             {
-                $newPermission[$v['path']] = $v;
+                $newPermission[strtolower($v['path'])] = $v;
             }
         }
 
@@ -431,7 +440,7 @@ class Rbac
 
         $permissionList = cache($cacheName);
         if (empty($permissionList)) {
-            throw new Exception('你还没有登录或在登录后没有获取权限缓存');
+            return false;
         }
 
         if (isset($permissionList[$path]) && !empty($permissionList[$path])) {

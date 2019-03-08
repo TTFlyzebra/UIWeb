@@ -2,6 +2,7 @@
 
 namespace app\auth\controller;
 
+use app\auth\common\Rbac;
 use think\Controller;
 use think\Db;
 use think\Request;
@@ -31,6 +32,8 @@ class Login extends Controller
                         if ($login = Db::name('user')->where($user)->find()) {
                             Session::set('userid', $login['id']);
                             Session::set('user_name', $login['user_name']);
+                            $rbacObj = new Rbac();
+                            $rbacObj->cachePermission($login['id']);
                             echo retJsonMsg("login successful");
                         } else {
                             echo retJsonMsg("password error", -1);

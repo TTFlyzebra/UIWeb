@@ -89,4 +89,41 @@ class Role extends Auth
             echo retJsonMsg('error', -1);
         }
     }
+
+    public function dispath()
+    {
+        $ids = [];
+        $role = DB::name('role')->where('id', $_GET['id'])->find();
+        $role_permissions = Db::name('role_permission')->where('role_id', $_GET['id'])->field('permission_id')->select();
+        foreach ($role_permissions as $v){
+            $ids[] = $v['permission_id'];
+        }
+        $permissions = DB::name('permission')->select();
+        $node = node_merge($permissions, $ids);
+        $this->assign('item',$role);
+        $this->assign('list', $node);
+        return $this->fetch();
+    }
+
+    public function rolepermission(){
+        $request = Request::instance();
+        if ($request->isPost()) {
+            $data = $request->param();
+            if(!($request->has('permid','POST'))){
+                $data['permid'] = array();
+            }
+            try {
+                $rbacObj = new Rbac();
+                if($rbacObj->assignRolePermission($data['role_id'], $data['permid'])){
+                    echo retJsonMsg();
+                }else{
+                    echo retJsonMsg('assignRolePermission failed', -1);
+                }
+            } catch (Exception $e) {
+                echo retJsonMsg('Exception', -1,$e);
+            }
+        }else{
+            echo retJsonMsg('error', -1);
+        }
+    }
 }

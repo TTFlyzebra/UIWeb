@@ -9,7 +9,7 @@
 </head>
 <body>
 <form class="form-horizontal" name="saveForm" id="saveForm" accept-charset="utf-8"
-      action="{:url('/auth/permission/setrole')}" method="post">
+      action="{:url('/auth/role/rolepermission')}" method="post">
     <div class="modal-header">
         <h4 class="modal-title">配置[{$item.name}]的权限</h4>
     </div>
@@ -75,13 +75,19 @@
     function postSave() {
         $.ajax({
             type: "POST",
-            url: "{:url('/auth/permission/setrole')}",
+            url: "{:url('/auth/role/rolepermission')}",
             data: $('#saveForm').serialize(),
             error: function (request) {
-                alert("error code:"+request.readyState);
+                alert("error code:" + request.readyState);
             },
             success: function (data) {
-                window.location.href = "{:url('/auth/role')}";
+                var obj = JSON.parse(data);
+                if (obj.code === 0) {
+                    window.location.href = "{:url('/auth/role')}";
+                } else {
+                    alert(obj.msg);
+                }
+
             }
         });
     }

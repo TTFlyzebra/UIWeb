@@ -2,11 +2,11 @@
 
 namespace app\home\controller;
 
-use think\Controller;
+use app\auth\controller\Auth;
 use think\Db;
 use think\Request;
 
-class Factory extends Controller {
+class Factory extends Auth {
 	public function index() {
 	    $celltypes = Db::name('celltype')->select();
 	    $this->assign('list',$celltypes);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2019-03-06 10:09:39
+-- 生成日期： 2019-03-08 07:57:20
 -- 服务器版本： 5.5.62
 -- PHP 版本： 7.3.0
 
@@ -421,10 +421,27 @@ CREATE TABLE `fly_permission` (
 
 INSERT INTO `fly_permission` (`id`, `pid`, `name`, `path`, `description`, `status`, `create_time`, `userid`, `ip`) VALUES
 (43, 0, '公司网站管理', '/home', '公司网站后台管理模块入口', 1, 1551838895, 6, '192.168.1.119'),
-(44, 43, '主页轮播管理', '/home/welcome', '首页轮播内容管理', 1, 1551839060, 6, '192.168.1.119'),
-(45, 44, '显示内容列表', 'index', '轮播内容列表显示页面', 1, 1551839157, 6, '192.168.1.119'),
-(46, 44, '添加轮播内容', 'add', '添加轮播内容操作页面', 1, 1551839218, 6, '192.168.1.119'),
-(47, 44, '修改轮播内容', 'edit', '修改轮播内容操作页面', 1, 1551839323, 6, '192.168.1.119');
+(44, 43, '主页轮播管理', '/home/welcome', '首页轮播内容管理', 1, 1551839060, 5, '192.168.1.119'),
+(45, 44, '显示内容列表', '/home/welcome/index', '轮播内容列表显示页面', 1, 1551839157, 6, '192.168.1.119'),
+(46, 44, '添加轮播内容', '/home/welcome/add', '添加轮播内容操作页面', 1, 1551839218, 6, '192.168.1.119'),
+(47, 44, '修改轮播内容', '/home/welcome/edit', '修改轮播内容操作页面', 1, 1551839323, 6, '192.168.1.119'),
+(48, 0, '网站权限管理', '/auth', '分配管理用户权限', 1, 1552027443, 6, '192.168.1.119'),
+(49, 48, '权限节点编辑', '/auth/permission', '分配网站的权限节点', 1, 1552030063, 6, '192.168.1.119'),
+(50, 49, '显示页面', '/auth/permission/index', '权限节点编辑显示页面', 1, 1552030161, 6, '192.168.1.119'),
+(51, 49, '添加权限节点', '/auth/permission/add', '添加权限节点', 1, 1552030183, 6, '192.168.1.119'),
+(52, 49, '编辑权限节点', '/auth/permission/edit', '编辑权限节点', 1, 1552030212, 6, '192.168.1.119'),
+(53, 49, '删除权限节点', '/auth/permission/del', '删除权限节点', 1, 1552030225, 6, '192.168.1.119'),
+(54, 48, '用户权限分配', '/auth/user', '用户权限分配', 1, 1552030271, 6, '192.168.1.119'),
+(55, 54, '显示页面', '/auth/user/index', '显示用户列表页面', 1, 1552030383, 6, '192.168.1.119'),
+(56, 54, '用户数据操作', '/auth/user/api', '用户数据操作', 1, 1552030411, 6, '192.168.1.119'),
+(57, 54, '设置用户角色', '/auth/user/userrole', '设置用户角色', 1, 1552030455, 6, '192.168.1.119'),
+(58, 48, '权限角色管理', '/auth/role', '权限角色管理', 1, 1552030591, 6, '192.168.1.119'),
+(59, 58, '显示页面', '/auth/role/index', '显示角色列表页面', 1, 1552030647, 6, '192.168.1.119'),
+(60, 58, '添加角色页面', '/auth/role/add', '添加角色', 1, 1552030685, 6, '192.168.1.119'),
+(61, 58, '修改角色页面', '/auth/role/edit', '修改角色页面', 1, 1552030854, 6, '192.168.1.119'),
+(62, 58, '角色数据操作', '/auth/role/api', '角色数据操作', 1, 1552030889, 6, '192.168.1.119'),
+(63, 58, '分配角色权限页面', '/auth/role/dispath', '分配角色权限页面', 1, 1552031137, 6, '192.168.1.119'),
+(65, 58, '分配角色权限', '/auth/role/rolepermission', '分配角色权限', 1, 1552031297, 6, '192.168.1.119');
 
 -- --------------------------------------------------------
 
@@ -504,9 +521,8 @@ CREATE TABLE `fly_role` (
 --
 
 INSERT INTO `fly_role` (`id`, `name`, `parent_id`, `description`, `status`, `sort_num`, `left_key`, `right_key`, `level`, `createtime`, `ip`, `userid`) VALUES
-(3, '系统管理员', 0, '系统管理员', 1, 0, 7, 8, 1, '2019-03-06 07:24:27', '192.168.1.119', 6),
-(4, '网站管理员', 0, '只用于管理公司网站', 1, 0, 5, 6, 1, '2019-03-06 07:25:42', '192.168.1.119', 6),
-(5, 'UI配置管理', 0, '配置管理Android端的界面', 1, 0, 3, 4, 1, '2019-03-06 07:41:21', '192.168.1.119', 6);
+(3, '系统管理员', 0, '系统管理员，拥有所有权限。', 1, 0, 7, 8, 1, '2019-03-06 07:24:27', '192.168.1.119', 6),
+(4, '网站管理员', 0, '只用于管理公司网站', 1, 0, 5, 6, 1, '2019-03-06 07:25:42', '192.168.1.119', 6);
 
 -- --------------------------------------------------------
 
@@ -519,6 +535,34 @@ CREATE TABLE `fly_role_permission` (
   `role_id` int(11) NOT NULL DEFAULT '0' COMMENT '角色Id',
   `permission_id` int(11) NOT NULL DEFAULT '0' COMMENT '权限ID'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色权限对应表';
+
+--
+-- 转存表中的数据 `fly_role_permission`
+--
+
+INSERT INTO `fly_role_permission` (`id`, `role_id`, `permission_id`) VALUES
+(163, 3, 43),
+(164, 3, 44),
+(165, 3, 45),
+(166, 3, 46),
+(167, 3, 47),
+(168, 3, 48),
+(169, 3, 49),
+(170, 3, 50),
+(171, 3, 51),
+(172, 3, 52),
+(173, 3, 53),
+(174, 3, 54),
+(175, 3, 55),
+(176, 3, 56),
+(177, 3, 57),
+(178, 3, 58),
+(179, 3, 59),
+(180, 3, 60),
+(181, 3, 61),
+(182, 3, 62),
+(183, 3, 63),
+(184, 3, 65);
 
 -- --------------------------------------------------------
 
@@ -603,8 +647,9 @@ CREATE TABLE `fly_user` (
 --
 
 INSERT INTO `fly_user` (`id`, `user_name`, `password`, `mobile`, `email`, `last_login_time`, `status`, `createtime`, `ip`) VALUES
-(5, 'flyzebra', '28c8edde3d61a0411511d3b1866f0636', '13612121212', '1@qq.com', 1551762134, 1, '0000-00-00 00:00:00', '192.168.1.119'),
-(6, 'admin', 'c3284d0f94606de1fd2af172aba15bf3', '13111111111', '2@qq.com', 1551762435, 1, '0000-00-00 00:00:00', '192.168.1.119');
+(5, 'flyzebra', '10e208ffd957f5488f795e555f483af8', '13612121212', '1@qq.com', 1551762134, 1, '0000-00-00 00:00:00', '192.168.1.119'),
+(6, 'admin', 'c3284d0f94606de1fd2af172aba15bf3', '13111111111', '2@qq.com', 1551762435, 1, '0000-00-00 00:00:00', '192.168.1.119'),
+(7, 'jancar', '10e208ffd957f5488f795e555f483af8', '13111111111', '3@qq.com', 1552028100, 1, '2019-03-08 06:55:00', '192.168.1.119');
 
 -- --------------------------------------------------------
 
@@ -632,6 +677,15 @@ CREATE TABLE `fly_user_role` (
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
   `role_id` int(11) NOT NULL DEFAULT '0' COMMENT '角色id'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户角色对应关系';
+
+--
+-- 转存表中的数据 `fly_user_role`
+--
+
+INSERT INTO `fly_user_role` (`id`, `user_id`, `role_id`) VALUES
+(15, 5, 5),
+(16, 7, 4),
+(18, 6, 3);
 
 -- --------------------------------------------------------
 
@@ -862,7 +916,7 @@ ALTER TABLE `fly_pagecell`
 -- 使用表AUTO_INCREMENT `fly_permission`
 --
 ALTER TABLE `fly_permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- 使用表AUTO_INCREMENT `fly_product`
@@ -880,13 +934,13 @@ ALTER TABLE `fly_recruitment`
 -- 使用表AUTO_INCREMENT `fly_role`
 --
 ALTER TABLE `fly_role`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- 使用表AUTO_INCREMENT `fly_role_permission`
 --
 ALTER TABLE `fly_role_permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=185;
 
 --
 -- 使用表AUTO_INCREMENT `fly_theme`
@@ -904,7 +958,7 @@ ALTER TABLE `fly_themepage`
 -- 使用表AUTO_INCREMENT `fly_user`
 --
 ALTER TABLE `fly_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- 使用表AUTO_INCREMENT `fly_user_log`
@@ -916,13 +970,13 @@ ALTER TABLE `fly_user_log`
 -- 使用表AUTO_INCREMENT `fly_user_role`
 --
 ALTER TABLE `fly_user_role`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- 使用表AUTO_INCREMENT `fly_welcome`
 --
 ALTER TABLE `fly_welcome`
-  MODIFY `welcomeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `welcomeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

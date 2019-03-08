@@ -2,7 +2,9 @@
 
 namespace app\auth\controller;
 
+use app\auth\common\Rbac;
 use think\Db;
+use think\Exception;
 use think\Request;
 
 class User extends Auth
@@ -43,14 +45,30 @@ class User extends Auth
         }
     }
 
-    public function repswd()
+    public function userrole()
     {
-
+        $request = Request::instance();
+        if ($request->isPost()) {
+            $data = $request->param();
+            if ($data['role_id'] == '-1') {
+                echo retJsonMsg();
+                return;
+            }
+            $rbacObj = new Rbac();
+            try {
+                $role_ids = array();
+                $role_ids[] = $data['role_id'];
+                if ($rbacObj->assignUserRole($data['user_id'], $role_ids)) {
+                    echo retJsonMsg();
+                } else {
+                    echo retJsonMsg('assignUserRole failed', -1);
+                }
+            } catch (Exception $e) {
+                echo retJsonMsg('Exception', -1, $e);
+            }
+        } else {
+            echo retJsonMsg('error', -1);
+        }
     }
-
-    public function setrole(){
-        dump($_POST);
-    }
-
 
 }
