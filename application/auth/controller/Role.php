@@ -38,6 +38,8 @@ class Role extends Auth
         if ($request->isDelete()) {
             $delrole = $request->only('id');
             try {
+                Db::name("user_role")->where('role_id',$delrole['id'])->delete();
+                Db::name("role_permission")->where('role_id',$delrole['id'])->delete();
                 if(Db::name("role")->where('id',$delrole['id'])->delete()){
 //                if ($rbacObj->delRole($delrole['id'])) {
                     echo retJsonMsg();
