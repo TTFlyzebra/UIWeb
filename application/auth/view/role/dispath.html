@@ -14,35 +14,35 @@
         <h4 class="modal-title">配置[{$item.name}]的权限</h4>
     </div>
     <div class="apps-title">
-        <label>网站目录</label>
+        <label>网站模块</label>
         {volist name="list" id="v" key="k"}
         <div class="apps">
             <div class="app">
-                {$v.name}
                 {if condition="$v['access'] eq 1"}
                 <input class="checkbox1" type="checkbox" name="permid[]" value="{$v.id}" id="1" checked="checked">
                 {else/}
                 <input class="checkbox1" type="checkbox" name="permid[]" value="{$v.id}" id="1">
                 {/if}
+                {$v.name}
             </div>
             {volist name="v['child']" id="c" key="k"}
             <div class="controls">
                 <div class="control">
-                    {$c.name}
                     {if condition="$c['access'] eq 1"}
                     <input class="checkbox1" type="checkbox" name="permid[]" value="{$c.id}" id="2" checked="checked">
                     {else/}
                     <input class="checkbox1" type="checkbox" name="permid[]" value="{$c.id}" id="2">
                     {/if}
+                    {$c.name}
                 </div>
                 {volist name="c['child']" id="m" key="k"}
                 <div class="method">
-                    {$m.name}
                     {if condition="$m['access'] eq 1"}
                     <input class="checkbox1" type="checkbox" name="permid[]" value="{$m.id}" id="3" checked="checked">
                     {else/}
                     <input class="checkbox1" type="checkbox" name="permid[]" value="{$m.id}" id="3">
                     {/if}
+                    {$m.name}
                 </div>
                 {/volist}
             </div>

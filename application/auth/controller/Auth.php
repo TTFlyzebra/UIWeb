@@ -49,6 +49,7 @@ class Auth extends Controller
                 $path = strtolower('/' . $request->module() . '/' . $request->controller() . '/' . $request->action());
                 $rbacObj = new Rbac();
                 if (!$rbacObj->can($path)) {
+                    echo $path;
                     $this->error("没有访问权限!");
                 }
             } catch (Exception $e) {
