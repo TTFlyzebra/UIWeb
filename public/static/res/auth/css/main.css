@@ -497,10 +497,10 @@ a:hover, a:active, a:focus {
 
 .controls {
 	height: auto;
-	width: 100%;
+	width: auto;
 	margin: 10px 10px;
 	float: left;
-	display:block;
+	display:grid;
 	border: 2px solid #e6e6e6;
 }
 

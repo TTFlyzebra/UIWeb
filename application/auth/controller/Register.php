@@ -21,12 +21,12 @@ class Register extends Controller
             $validate = $this->validate($param, 'Register');
             if ($validate === true) {
                 if (!captcha_check($param['captcha'])) {
-                    echo retJsonMsg("captcha error", -1);
+                    echo retJsonMsg("验证码不正确!", -1);
                 } else {
                     $user = array();
                     $user['user_name'] = $param['loginname'];
                     if(Db::name('user')->where($user)->find()){
-                        echo retJsonMsg("username already register!", -1);
+                        echo retJsonMsg("该用户已注册!", -1);
                     }else {
                         $user['password'] = md5($param['loginword']);
                         $user['mobile'] = $param['mobile'];
@@ -36,9 +36,9 @@ class Register extends Controller
                         $user['ip'] = $request->ip();
                         $result = Db::name("user")->insert($user);
                         if ($request) {
-                            echo retJsonMsg("register successful", 0, $result);
+                            echo retJsonMsg("注册成功！", 0, $result);
                         } else {
-                            echo retJsonMsg("register failed", -1, $result);
+                            echo retJsonMsg("注册失败，请重试！", -1, $result);
                         }
                     }
                 }

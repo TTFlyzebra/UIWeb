@@ -23,7 +23,7 @@ class Login extends Controller
             $validate = $this->validate($param, 'Login');
             if (true === $validate) {
                 if (!captcha_check($param['captcha'])) {
-                    echo retJsonMsg("captcha error", -1);
+                    echo retJsonMsg("验证码不正确！", -1);
                 } else {
                     $user = array();
                     $user['user_name'] = $param['loginname'];
@@ -34,12 +34,12 @@ class Login extends Controller
                             Session::set('user_name', $login['user_name']);
                             $rbacObj = new Rbac();
                             $rbacObj->cachePermission($login['id']);
-                            echo retJsonMsg("login successful");
+                            echo retJsonMsg("登陆成功！");
                         } else {
-                            echo retJsonMsg("password error", -1);
+                            echo retJsonMsg("密码错误！", -1);
                         }
                     } else {
-                        echo retJsonMsg("no username", -1);
+                        echo retJsonMsg("用户未注册！", -1);
                     }
 
                 }

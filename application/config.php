@@ -8,7 +8,8 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-use \think\Request;
+use think\Request;
+
 $WEBROOT = Request::instance()->root();
 if (pathinfo($WEBROOT, PATHINFO_EXTENSION) == 'php') {
     $WEBROOT = dirname($WEBROOT);
@@ -153,7 +154,7 @@ return [
 
     // 视图输出字符串内容替换
     'view_replace_str'       => [
-        '__RES__'=>$WEBROOT.'/public/res',
+        '__RES__'=>$WEBROOT.'/public/static/res',
         '__STATIC__'=>$WEBROOT.'/public/static'
     ],
     // 默认跳转页面对应的模板文件
