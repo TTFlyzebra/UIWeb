@@ -12,8 +12,9 @@ class News
     {
         $request = Request::instance();
         if ($request->isDelete()) {
-            $delnews = $request->only('newsId');
-            $result = Db::name("news")->where('newsId', $delnews['newsId'])->delete();
+            $delnews = $request->delete();
+            $delnews['status']=0;
+            $result = Db::name("news")->update($delnews);
         } elseif ($request->isPut()) {
             $news = $request->put();
             $news['ip'] = request()->ip();
@@ -26,6 +27,7 @@ class News
             $result = Db::name("news")->insert($news);
         } elseif ($request->isGet()) {
             $db = Db::name("news");
+            $db->where('status',1);
             $db->order('createtime desc');
             if ($request->has('limit', 'get') && $request->has('offset', 'get')) {
                 $db->limit($_GET['offset'], $_GET['limit']);

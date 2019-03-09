@@ -11,7 +11,7 @@ class Page
     {
         $request = Request::instance();
         if($request->isDelete()){
-            $delpage = $request->only('pageId');
+            $delpage = $request->delete();
             $db =  Db::name("page");
             $result = $db->where('pageId',$delpage['pageId'])->delete();
         }elseif ($request->isPut()) {

@@ -12,7 +12,7 @@ class History
     {
         $request = Request::instance();
         if ($request->isDelete()) {
-            $delhistory = $request->only('historyId');
+            $delhistory = $request->delete();
             $result = Db::name("history")->where('historyId', $delhistory['historyId'])->delete();
         } elseif ($request->isPut()) {
             $history = $request->put();

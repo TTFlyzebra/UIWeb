@@ -12,7 +12,7 @@ class Celltype
     {
         $request = Request::instance();
         if ($request->isDelete()) {
-            $delcelltype = $request->only('celltypeId');
+            $delcelltype = $request->delete();
             $result = Db::name("celltype")->where('celltypeId', $delcelltype['celltypeId'])->delete();
         } elseif ($request->isPut()) {
             $celltype = $request->put();

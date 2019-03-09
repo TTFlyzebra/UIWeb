@@ -11,11 +11,10 @@ class Cell
     public function index()
     {
         $request = Request::instance();
-
         if($request->isDelete()){
-            $delcell = $request->only('cellId');
+            $delcell = $request->delete();
             $db =  Db::name("cell");
-            $result = $db->where('cellId',$delcell['cellId'])->delete();
+            $result = $db->where('cellId',$delcell['cellId'])->update();
         } elseif ($request->isPut()) {
             $cell = $request->put();
             $cell['ip'] = request()->ip();
@@ -30,11 +29,11 @@ class Cell
             $result = $db->insert($cell);
         } elseif ($request->isGet()) {
             $db = Db::name("cell");
+            $db->where('status',1);
             $db->order('cellId desc');
             if($request->has('limit','get')&&$request->has('offset','get')){
                 $db->limit($_GET['offset'],$_GET['limit']);
             }
-//            $db->field('userid,ip',true);
             $cells = $db
                 ->alias('a')
                 ->join("fly_celltype b", "a.celltypeId=b.celltypeId")
