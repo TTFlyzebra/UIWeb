@@ -30,21 +30,6 @@
                     </select>
                 </h4>
             </div>
-            <label class="col-sm-1 control-label">项目关联</label>
-            <div class="col-sm-4">
-                <h4 class="modal-title">
-                    <select id="themeName" name="themeName">
-                        <option value="" selected="selected">所有项目</option>
-                        {volist name="list2" id="theme" key="k"}
-                        {if condition="$item['themeName'] eq $theme['themeName']"}
-                        <option value="{$theme.themeName}" selected="selected">{$theme.themeName}</option>
-                        {else /}
-                        <option value="{$theme.themeName}">{$theme.themeName}</option>
-                        {/if}
-                        {/volist}
-                    </select>
-                </h4>
-            </div>
         </div>
         <div class="form-group">
             <label class="col-sm-1 control-label">图&nbsp&nbsp片&nbsp&nbsp一</label>
