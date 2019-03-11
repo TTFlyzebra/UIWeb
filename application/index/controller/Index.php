@@ -7,7 +7,7 @@ use think\Db;
 
 class Index extends Controller {
 	public function index() {
-        $this->assign('list1',Db::name('welcome')->select());
+        $this->assign('list1',Db::name('welcome')->where('status', 1)->select());
 		return $this->fetch ();
 	}
 }

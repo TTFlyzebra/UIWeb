@@ -20,7 +20,7 @@ class Cases extends Controller {
         }
         $db->order('createtime desc');
         $db->limit(($page['curr'] - 1) * $page['limit'], $page['limit']);
-        $casess = $db->select();
+        $casess = $db->where('status', 1)->select();
 
         for ($i = 0; $i < sizeof($casess); $i++) {
             $casess[$i]['casesTitle'] = mb_substr($casess[$i]['casesTitle'], 0, 12);

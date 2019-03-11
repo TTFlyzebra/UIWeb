@@ -22,7 +22,7 @@ class News extends Controller
         }
         $db->order('createtime desc');
         $db->limit(($page['curr'] - 1) * $page['limit'], $page['limit']);
-        $newss = $db->select();
+        $newss = $db->where('status', 1)->select();
 
         for ($i = 0; $i < sizeof($newss); $i++) {
             $newss[$i]['newsText'] = mb_substr($newss[$i]['newsText'], 0, 72) . "......";
@@ -38,11 +38,14 @@ class News extends Controller
         $request = Request::instance();
         if ($request->has('id', 'get')) {
             $db = Db::name('news');
-            $item = $db->where('newsId', $_GET['id'])->find();
-            $item['newsText'] = preg_replace("/\r/\n", "<br/>", $item['newsText']);
-            $item['remark'] = preg_replace("/\r/\n", "<br/>", $item['remark']);
-            $this->assign('item', $item);
-            return $this->fetch();
+            $item = $db->where('newsId', $_GET['id'])->where('status', 1)->find();
+            if(!empty($item)) {
+                $item['newsText'] = preg_replace("/\r/\n", "<br/>", $item['newsText']);
+                $item['remark'] = preg_replace("/\r/\n", "<br/>", $item['remark']);
+                $this->assign('item', $item);
+            }else{
+                $this->assign('item', null);
+            }
         }
         return $this->fetch();
     }

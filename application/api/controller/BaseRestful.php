@@ -46,10 +46,10 @@ class BaseRestful
                 $table = $request->post();;
                 $table['ip'] = request()->ip();
                 $table['userid'] = Session::get('userid');
-                $result = Db::name($tableName)->insert($table);
+                $result = Db::name($tableName)->insert($table,false,true);
                 if ($result) {
                     echo retJsonMsg();
-                    $about[$tableName . 'Id'] = $result;
+                    $table[$tableName . 'Id'] = $result;
                     saveLog(Config::get('event')['add'], $tableName, $table);
                 } else {
                     echo retJsonMsg('add failed', -1, $result);
