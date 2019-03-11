@@ -258,4 +258,30 @@ return [
         'path' => ROOT_PATH .'vendor/gmars/tp5-rbac/'
     ],
 
+    /**
+     * 操作事件
+     */
+    'event'=>[
+        'add'=>[
+            'name'=>'add',
+            'text'=>'添加了数据：'
+        ],
+        'edit'=>[
+            'name'=>'edit',
+            'text'=>'修改了数据：'
+        ],
+        'del'=>[
+            'name'=>'del',
+            'text'=>'删除了数据：'
+        ],
+        'login'=>[
+            'name'=>'login',
+            'text'=>'登陆了系统 。'
+        ],
+        'logout'=>[
+            'name'=>'logout',
+            'text'=>'离开了 。'
+        ]
+    ]
+
 ];

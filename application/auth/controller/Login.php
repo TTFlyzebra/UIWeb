@@ -3,6 +3,7 @@
 namespace app\auth\controller;
 
 use app\auth\common\Rbac;
+use think\Config;
 use think\Controller;
 use think\Db;
 use think\Request;
@@ -35,6 +36,7 @@ class Login extends Controller
                             $rbacObj = new Rbac();
                             $rbacObj->cachePermission($login['id']);
                             echo retJsonMsg("登陆成功！");
+                            saveLog(Config::get('event')['login']);
                         } else {
                             echo retJsonMsg("密码错误！", -1);
                         }
@@ -53,6 +55,7 @@ class Login extends Controller
 
     public function logout()
     {
+        saveLog(Config::get('event')['logout']);
         Session::clear();
         $this->redirect(url('auth/login/index'));
     }

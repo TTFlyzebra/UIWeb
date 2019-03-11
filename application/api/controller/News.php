@@ -2,46 +2,11 @@
 
 namespace app\api\controller;
 
-use think\Db;
-use think\Request;
-use think\Session;
-
-class News
+class News extends BaseRestful
 {
     public function index()
     {
-        $request = Request::instance();
-        if ($request->isDelete()) {
-            $delnews = $request->delete();
-            $delnews['status']=0;
-            $result = Db::name("news")->update($delnews);
-        } elseif ($request->isPut()) {
-            $news = $request->put();
-            $news['ip'] = request()->ip();
-            $news['userid'] = Session::get('userid');
-            $result = Db::name("news")->update($news);
-        } elseif ($request->isPost()) {
-            $news = $request->post();;
-            $news['ip'] = request()->ip();
-            $news['userid'] = Session::get('userid');
-            $result = Db::name("news")->insert($news);
-        } elseif ($request->isGet()) {
-            $db = Db::name("news");
-            $db->where('status',1);
-            $db->order('createtime desc');
-            if ($request->has('limit', 'get') && $request->has('offset', 'get')) {
-                $db->limit($_GET['offset'], $_GET['limit']);
-            }
-            $db->field('userid,ip', true);
-            $newss = $db->select();
-            if ($request->isAjax()) {
-                $resultdata['total'] = $db->count();
-                $resultdata['rows'] = $newss;
-                echo json_encode($resultdata);
-            } else {
-                echo json_encode($newss);
-            }
-        }
+        $this->handle('news','createtime desc');
     }
 
 }

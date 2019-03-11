@@ -11,69 +11,38 @@
 
 // 应用公共文件
 
-function retJsonMsg($message="OK!", $code=0, $data=""){
+/**
+ * 以Json格式统一返回结果
+ * @param string $message
+ * @param int $code
+ * @param string $data
+ * @return false|string
+ */
+function retJsonMsg($message = "success!", $code = 0, $data = "")
+{
     $msg = array();
-    $msg['msg']=$message;
-    $msg['code']=$code;
+    $msg['msg'] = $message;
+    $msg['code'] = $code;
     $msg['data'] = $data;
     return json_encode($msg);
 }
 
 /**
- * 重组节点信息
- * @param unknown $node
- * @param number $pid
+ * 保存数据操作记录
+ * @param $event
+ * @param $tableName
+ * @param $data
  */
-function node_merge($node, $permissions = null, $pid = 0) {
-    $arr = array ();
-    foreach ( $node as $v ) {
-        if ($v ['pid'] == $pid) {
-            if (is_array ( $permissions )) {
-                $v ['access'] = in_array ( $v ['id'], $permissions ) ? 1 : 0;
-            }
-
-            $v ['child'] = node_merge ( $node, $permissions, $v ['id'] );
-            $arr [] = $v;
-        }
+function saveLog($event, $tableName='', $data='')
+{
+    if(!empty($data)){
+        $data = json_encode($data);
     }
-    return $arr;
-}
-function path_merge($data) {
-    $arr = array ();
-    foreach ( $data as $v ) {
-        $arr [] = get_path ( $data, $v ['id'] );
-    }
-    return $arr;
-}
-
-/**
- * 获取RBAC所有能访问的节点的路径
- *
- * @param unknown $data
- * @param unknown $id
- * @return string
- */
-function get_path($data, $id) {
-    foreach ( $data as $v ) {
-        if ($v ['id'] != $id)
-            continue;
-        if ($v ['pid'] == 0) {
-            $path = '/' . $v ['name'];
-        } else {
-            $path = get_path ( $data, $v ['pid'] ) . '/' . $v ['name'];
-        }
-    }
-    return $path;
-}
-
-/**
- *
- * [writeArr 写入配置文件方法]**
- * @param [type] $arr   	[要写入的数据]
- * @param [type] $filename 	[文件路径]
- * @return [type] [description]
- *
- */
-function write_config_arr($arr, $filename) {
-    return file_put_contents ( $filename, "<?php\r\nreturn " . var_export ( $arr, true ) . ";" );
+    \think\Db::name('user_log')->insert(array(
+        'event' => $event['name'],
+        'tableName' => $tableName,
+        'data' => $data,
+        'ip' => \think\Request::instance()->ip(),
+        'userid' => \think\Session::get('userid'),
+    ));
 }

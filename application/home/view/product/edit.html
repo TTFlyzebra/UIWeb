@@ -76,14 +76,15 @@
             url: producturl,
             data: $('#productform').serialize(),
             error: function (request) {
-                alert("向服务器提交数据失败了!\n" +
-                    "可能的错误原因：\n" +
-                    "1.重复的类型标识;\n" +
-                    "2.重复的类型名称;\n" +
-                    "3.网络请求失败。");
+                alert("error code:" + request.readyState);
             },
             success: function (data) {
-                window.location.href = "{:url('/home/product')}";
+                var obj = JSON.parse(data);
+                if (obj.code === 0) {
+                    window.history.back();
+                } else {
+                    alert(obj.msg);
+                }
             }
         });
     }

@@ -74,10 +74,15 @@
             url: welcomeurl,
             data: $('#welcomeform').serialize(),
             error: function (request) {
-                alert("error code: "+request.readyState);
+                alert("error code:" + request.readyState);
             },
             success: function (data) {
-                window.location.href = "{:url('/home/welcome')}";
+                var obj = JSON.parse(data);
+                if (obj.code === 0) {
+                    window.history.back();
+                } else {
+                    alert(obj.msg);
+                }
             }
         });
     }
