@@ -16,7 +16,7 @@
     <li class="active"><a href="#home" data-toggle="tab">主控件</a></li>
 </ul>
 <form class="form-horizontal" name="celltypeform" id="celltypeform" method="post" role="form"
-      action="{:url('/admin/index/posttest')}" enctype="multipart/form-data">
+      action="{:url('/admin/test')}" enctype="multipart/form-data">
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade in active" id="home">
             <div class="modal-body">
@@ -141,17 +141,15 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-default" onclick="onCancel()">取消</button>
         <button type="reset" class="btn btn-default">重置</button>
-        <button type="submit" class="btn btn-primary" onclick="postform()">提交</button>
+        <button type="button" class="btn btn-primary" onclick="postform()">提交</button>
     </div>
 </form>
 </body>
 </html>
 
 <script type="text/javascript">
+    var subcellnum = 1;
     function postform() {
-        if ($('#textSize').val() == null || $('#textSize').val() == 0) {
-            $('#textSize').val(24);
-        }
         $.ajax({
             type: "POST",
             url: "{:url('/api/cell')}",
@@ -214,14 +212,14 @@
         var tab = $(" <li ><a href=\"#" + name + "\" data-toggle=\"tab\">子控件</a></li>");
         var tabContent = $('<div class="tab-pane fade" id="' + name + '">\n' +
             '            <div class="modal-body">\n' +
-            '            <input type="hidden" name="sub[]" value="'+sub+'">\n' +
+            '            <input type="hidden" name="subcell[]" value="' + name + '">\n' +
             '            <button type="button" style="width:40px;height:40px;position: absolute;top:10px;right: 10px;font-size: 24px;" onclick="addSub()">+</button>' +
-            '            <button id="del' + sub + '" type="button" style="width:40px;height:40px;position: absolute;top:10px;right: 50px;font-size: 24px;">-</button>' +
+            '            <button id="del' + name + '" type="button" style="width:40px;height:40px;position: absolute;top:10px;right: 50px;font-size: 24px;">-</button>' +
             '            <div class="form-group">\n' +
             '            <label class="col-sm-1 control-label">控件类型</label>\n' +
             '            <div class="col-sm-4">\n' +
             '            <h4 class="modal-title">\n' +
-            '            <select name="' + sub + 'celltypeId">\n' +
+            '            <select name="' + name + 'celltypeId">\n' +
             '            {volist name="list1" id="celltype" key="k"}\n' +
             '            <option value="{$celltype.celltypeId}">{$celltype.celltypeName}</option>\n' +
             '        {/volist}\n' +
@@ -232,99 +230,99 @@
             '        <div class="form-group">\n' +
             '            <label class="col-sm-1 control-label">图&nbsp&nbsp片&nbsp&nbsp一</label>\n' +
             '            <div class="col-sm-4">\n' +
-            '            <input type="file" accept="image/*" id="' + sub + 'imageinput1" name="imagefile">\n' +
-            '            <input type="hidden" id="' + sub + 'imageurl1" name="' + sub + 'imageurl1" value="">\n' +
+            '            <input type="file" accept="image/*" id="' + name + 'imageinput1" name="imagefile">\n' +
+            '            <input type="hidden" id="' + name + 'imageurl1" name="' + name + 'imageurl1" value="">\n' +
             '            </div>\n' +
             '            <label class="col-sm-1 control-label">图&nbsp&nbsp片&nbsp&nbsp二</label>\n' +
             '            <div class="col-sm-4">\n' +
-            '            <input type="file" accept="image/*" id="' + sub + 'imageinput2" name="imagefile">\n' +
-            '            <input type="hidden" id="' + sub + 'imageurl2" name="' + sub + 'imageurl2" value="">\n' +
+            '            <input type="file" accept="image/*" id="' + name + 'imageinput2" name="imagefile">\n' +
+            '            <input type="hidden" id="' + name + 'imageurl2" name="' + name + 'imageurl2" value="">\n' +
             '            </div>\n' +
             '            </div>\n' +
             '            <div class="form-group">\n' +
             '            <label class="col-sm-1 control-label">图片尺寸</label>\n' +
             '            <div class="col-sm-1">\n' +
-            '            <input id="' + sub + 'width" name="' + sub + 'width" type="text" class="form-control" value="" placeholder="宽度(像素)">\n' +
+            '            <input id="' + name + 'width" name="' + name + 'width" type="text" class="form-control" value="" placeholder="宽度(像素)">\n' +
             '            </div>\n' +
             '            <div class="col-sm-1">\n' +
-            '            <input id="' + sub + 'height" name="' + sub + 'height" type="text" class="form-control" value="" placeholder="高度(像素)">\n' +
+            '            <input id="' + name + 'height" name="' + name + 'height" type="text" class="form-control" value="" placeholder="高度(像素)">\n' +
             '            </div>\n' +
             '            <div class="col-sm-2"></div>\n' +
             '            <label class="col-sm-1 control-label">图片尺寸</label>\n' +
             '            <div class="col-sm-1">\n' +
-            '            <input id="' + sub + 'width2" type="text" class="form-control" value="" placeholder="宽度(像素)">\n' +
+            '            <input id="' + name + 'width2" type="text" class="form-control" value="" placeholder="宽度(像素)">\n' +
             '            </div>\n' +
             '            <div class="col-sm-1">\n' +
-            '            <input id="' + sub + 'height2" type="text" class="form-control" value="" placeholder="高度(像素)">\n' +
+            '            <input id="' + name + 'height2" type="text" class="form-control" value="" placeholder="高度(像素)">\n' +
             '            </div>\n' +
             '            </div>\n' +
             '            <div class="form-group">\n' +
             '            <label class="col-sm-1 control-label">文本内容</label>\n' +
             '            <div class="col-sm-4">\n' +
-            '            <input type="text" class="form-control" name="' + sub + 'textTitle" id="' + sub + 'textTitle" value=""\n' +
+            '            <input type="text" class="form-control" name="' + name + 'textTitle" id="' + name + 'textTitle" value=""\n' +
             '            placeholder="文字显示">\n' +
             '                </div>\n' +
             '                <label class="col-sm-1 control-label">文本字体</label>\n' +
             '            <div class="col-sm-1">\n' +
-            '            <input id="' + sub + 'textSize" class="form-control" name="' + sub + 'textSize" type="text" value=""\n' +
+            '            <input id="' + name + 'textSize" class="form-control" name="' + name + 'textSize" type="text" value=""\n' +
             '            placeholder="字体大小">\n' +
             '                </div>\n' +
             '                <div class="col-sm-1">\n' +
-            '            <input id="' + sub + 'textColor" class="form-control" name="' + sub + 'textColor" type="text" value=""\n' +
+            '            <input id="' + name + 'textColor" class="form-control" name="' + name + 'textColor" type="text" value=""\n' +
             '            placeholder="字体颜色">\n' +
             '                </div>\n' +
             '                <div class="col-sm-2">\n' +
-            '            <input id="' + sub + 'textFont" class="form-control" name="' + sub + 'textFont" type="text" value=""\n' +
+            '            <input id="' + name + 'textFont" class="form-control" name="' + name + 'textFont" type="text" value=""\n' +
             '            placeholder="字体样式">\n' +
             '                </div>\n' +
             '                </div>\n' +
             '                <div class="form-group">\n' +
             '            <label class="col-sm-1 control-label">文本位置</label>\n' +
             '            <div class="col-sm-1">\n' +
-            '            <input id="' + sub + 'textLeft" class="form-control" name="' + sub + 'textLeft" type="text" value=""\n' +
+            '            <input id="' + name + 'textLeft" class="form-control" name="' + name + 'textLeft" type="text" value=""\n' +
             '            placeholder="LEFT">\n' +
             '                </div>\n' +
             '                <div class="col-sm-1">\n' +
-            '            <input id="' + sub + 'textTop" class="form-control" name="' + sub + 'textTop" type="text" value="" placeholder="TOP">\n' +
+            '            <input id="' + name + 'textTop" class="form-control" name="' + name + 'textTop" type="text" value="" placeholder="TOP">\n' +
             '            </div>\n' +
             '            <div class="col-sm-1">\n' +
-            '            <input id="' + sub + 'textRight" class="form-control" name="' + sub + 'textRight" type="text" value=""\n' +
+            '            <input id="' + name + 'textRight" class="form-control" name="' + name + 'textRight" type="text" value=""\n' +
             '            placeholder="RIGHT">\n' +
             '                </div>\n' +
             '                <div class="col-sm-1">\n' +
-            '            <input id="' + sub + 'textBottom" class="form-control" name="' + sub + 'textBottom" type="text" value=""\n' +
+            '            <input id="' + name + 'textBottom" class="form-control" name="' + name + 'textBottom" type="text" value=""\n' +
             '            placeholder="BOTTOM">\n' +
             '                </div>\n' +
             '                <div class="col-sm-1">\n' +
-            '            <input id="' + sub + 'textAlign" class="form-control" name="' + sub + 'textAlign" type="text" value=""\n' +
+            '            <input id="' + name + 'textAlign" class="form-control" name="' + name + 'textAlign" type="text" value=""\n' +
             '            placeholder="ALIGN">\n' +
             '                </div>\n' +
             '                </div>\n' +
             '                <div class="form-group">\n' +
             '            <label class="col-sm-1 control-label">启动事件</label>\n' +
             '            <div class="col-sm-2">\n' +
-            '            <input id="' + sub + 'packName" class="form-control" name="' + sub + 'packName" type="text" value="" placeholder="包名">\n' +
+            '            <input id="' + name + 'packName" class="form-control" name="' + name + 'packName" type="text" value="" placeholder="包名">\n' +
             '            </div>\n' +
             '            <div class="col-sm-2">\n' +
-            '            <input id="' + sub + 'className" class="form-control" name="' + sub + 'className" type="text" value=""\n' +
+            '            <input id="' + name + 'className" class="form-control" name="' + name + 'className" type="text" value=""\n' +
             '            placeholder="类名">\n' +
             '                </div>\n' +
             '                <div class="col-sm-1">\n' +
-            '            <input id="' + sub + 'intentFlag" class="form-control" name="' + sub + 'intentFlag" type="text" value=""\n' +
+            '            <input id="' + name + 'intentFlag" class="form-control" name="' + name + 'intentFlag" type="text" value=""\n' +
             '            placeholder="Intent Flag">\n' +
             '                </div>\n' +
             '                <div class="col-sm-2">\n' +
-            '            <input id="' + sub + 'action" class="form-control" name="' + sub + 'action" type="text" value="" placeholder="ACTION">\n' +
+            '            <input id="' + name + 'action" class="form-control" name="' + name + 'action" type="text" value="" placeholder="ACTION">\n' +
             '            </div>\n' +
             '            <div class="col-sm-2">\n' +
-            '            <input id="' + sub + 'flyAction" class="form-control" name="' + sub + 'flyAction" type="text" value=""\n' +
+            '            <input id="' + name + 'flyAction" class="form-control" name="' + name + 'flyAction" type="text" value=""\n' +
             '            placeholder="自定义">\n' +
             '                </div>\n' +
             '                </div>\n' +
             '                <div class="form-group">\n' +
             '            <label class="col-sm-1 control-label">备注</label>\n' +
             '            <div class="col-sm-9">\n' +
-            '            <textarea class="form-control" name="' + sub + 'remark" value="" id="' + sub + 'remark"\n' +
+            '            <textarea class="form-control" name="' + name + 'remark" value="" id="' + name + 'remark"\n' +
             '            placeholder="备注"></textarea>\n' +
             '                </div>\n' +
             '                </div>\n' +
@@ -333,20 +331,18 @@
         $('#myTab').get(0).append(tab.get(0));
         $('#myTabContent').get(0).append(tabContent.get(0));
         $('#myTab a:last').click()
-        flyinput1(sub);
-        flyinput2(sub);
-        $('#del' + sub).on("click", function (event) {
+        flyinput1('sub' + subcellnum + '_');
+        flyinput2('sub' + subcellnum + '_');
+        $('#del' + 'sub' + subcellnum + '_').on("click", function (event) {
             $('#myTab').get(0).removeChild(tab.get(0));
             $('#myTab a:last').click()
             $('#myTabContent').get(0).removeChild(tabContent.get(0));
         });
     }
 
-    var sub = 0;
-
     function addSub() {
-        sub = sub + 1;
-        createTabContent(sub);
+        createTabContent('sub' + subcellnum + '_');
+        subcellnum = subcellnum + 1;
     }
 
 </script>

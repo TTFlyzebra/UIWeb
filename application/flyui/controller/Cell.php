@@ -25,13 +25,13 @@ class Cell extends Auth {
 
     public function edit(){
         $this->assign('list1',Db::name('celltype')->select());
-        $this->assign('list2',Db::name('theme')->select());
 
         $request = Request::instance();
         if ($request->has('id', 'get')) {
-            $db = Db::name('cell');
-            $item = $db->where('cellId', $_GET['id'])->find();
+            $item = Db::name('cell')->where('cellId', $_GET['id'])->find();
             $this->assign('item', $item);
+            $subcells = Db::name('cellsub')->where('cellId', $_GET['id'])->select();
+            $this->assign('list2',$subcells);
             return $this->fetch ();
         }
     }

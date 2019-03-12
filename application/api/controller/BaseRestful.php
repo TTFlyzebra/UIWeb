@@ -21,7 +21,19 @@ class BaseRestful
     {
         try {
             $request = Request::instance();
-            if ($request->isDelete()) {
+            if ($request->isPost()) {
+                $table = $request->post();;
+                $table['ip'] = $request->ip();
+                $table['userid'] = Session::get('userid');
+                $result = Db::name($tableName)->insert($table, false, true);
+                if ($result) {
+                    echo retJsonMsg();
+                    $table[$tableName . 'Id'] = $result;
+                    saveLog(Config::get('event')['add'], $tableName, $table);
+                } else {
+                    echo retJsonMsg('add failed', -1, $result);
+                }
+            }elseif ($request->isDelete()) {
                 $deltable = $request->delete();
                 $deltable['status'] = 0;
                 $result = Db::name($tableName)->update($deltable);
@@ -33,7 +45,7 @@ class BaseRestful
                 }
             } elseif ($request->isPut()) {
                 $table = $request->put();
-                $table['ip'] = request()->ip();
+                $table['ip'] = $request->ip();
                 $table['userid'] = Session::get('userid');
                 $result = Db::name($tableName)->update($table);
                 if ($result) {
@@ -41,18 +53,6 @@ class BaseRestful
                     saveLog(Config::get('event')['edit'], $tableName, $table);
                 } else {
                     echo retJsonMsg('edit failed', -1, $result);
-                }
-            } elseif ($request->isPost()) {
-                $table = $request->post();;
-                $table['ip'] = request()->ip();
-                $table['userid'] = Session::get('userid');
-                $result = Db::name($tableName)->insert($table, false, true);
-                if ($result) {
-                    echo retJsonMsg();
-                    $table[$tableName . 'Id'] = $result;
-                    saveLog(Config::get('event')['add'], $tableName, $table);
-                } else {
-                    echo retJsonMsg('add failed', -1, $result);
                 }
             } elseif ($request->isGet()) {
                 $db = Db::name($tableName);
