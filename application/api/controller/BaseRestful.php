@@ -17,7 +17,7 @@ use think\Session;
 
 class BaseRestful
 {
-    public function handle($tableName, $order = null)
+    public function handle($tableName, $order = null, $joins = null, $field = null)
     {
         try {
             $request = Request::instance();
@@ -46,7 +46,7 @@ class BaseRestful
                 $table = $request->post();;
                 $table['ip'] = request()->ip();
                 $table['userid'] = Session::get('userid');
-                $result = Db::name($tableName)->insert($table,false,true);
+                $result = Db::name($tableName)->insert($table, false, true);
                 if ($result) {
                     echo retJsonMsg();
                     $table[$tableName . 'Id'] = $result;
@@ -57,13 +57,22 @@ class BaseRestful
             } elseif ($request->isGet()) {
                 $db = Db::name($tableName);
                 $db->where('status', 1);
-                if ($order) {
-                    $db->order($order);
-                }
                 if ($request->has('limit', 'get') && $request->has('offset', 'get')) {
                     $db->limit($_GET['offset'], $_GET['limit']);
                 }
-                $db->field('userid,ip', true);
+                if (!empty($order)) {
+                    $db->order($order);
+                }
+                if (!empty($joins)) {
+                    $db->alias('a');
+                    foreach ($joins as $v) {
+                        $db->join($v[0], $v[1], $v[2]);
+                    }
+                } if(empty($field)){
+                    $db->field('userid,ip', true);
+                }else{
+                    $db->field($field);
+                }
                 $tables = $db->select();
                 if ($request->isAjax()) {
                     $resultdata['total'] = $db->count();

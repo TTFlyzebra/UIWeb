@@ -13,13 +13,12 @@ class Cell extends Auth {
 		return $this->fetch ();
 	}
 
-	public function add(){
+	public function oldadd(){
         $this->assign('list1',Db::name('celltype')->select());
-        $this->assign('list2',Db::name('theme')->select());
         return $this->fetch ();
     }
 
-    public function newadd(){
+    public function add(){
         $this->assign('list1',Db::name('celltype')->select());
         return $this->fetch ();
     }

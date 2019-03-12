@@ -2,51 +2,31 @@
 
 namespace app\api\controller;
 
-use think\Db;
 use think\Request;
-use think\Session;
 
-class Cell
+class Cell extends BaseRestful
 {
     public function index()
     {
+        $tableName = 'cell';
+        $order = 'edittime desc';
+        $joins = [
+            [
+                "fly_celltype b",
+                "a.celltypeId=b.celltypeId",
+                'INNER'
+            ]
+        ];
+        $field = ['a.cellId','a.width','a.height','a.imageurl1','a.imageurl2','a.textTitle','a.textSize','a.textColor',
+            'a.textAlign','a.textFont','a.textLeft','a.textTop','a.textRight','a.textBottom','a.packName','a.className',
+            'a.intentFlag','a.action','a.flyAction','a.status','a.remark','a.extend','a.edittime','b.celltypeName'];
         $request = Request::instance();
-        if($request->isDelete()){
-            $delcell = $request->delete();
-            $db =  Db::name("cell");
-            $result = $db->where('cellId',$delcell['cellId'])->update();
-        } elseif ($request->isPut()) {
-            $cell = $request->put();
-            $cell['ip'] = request()->ip();
-            $cell['userid'] = Session::get('userid');
-            $db =  Db::name("cell");
-            $result = $db->update($cell);
-        }elseif ($request->isPost()) {
-            $cell = $request->post();
-            $cell['ip'] = request()->ip();
-            $cell['userid'] = Session::get('userid');
-            $db =  Db::name("cell");
-            $result = $db->insert($cell);
-        } elseif ($request->isGet()) {
-            $db = Db::name("cell");
-            $db->where('status',1);
-            $db->order('cellId desc');
-            if($request->has('limit','get')&&$request->has('offset','get')){
-                $db->limit($_GET['offset'],$_GET['limit']);
-            }
-            $cells = $db
-                ->alias('a')
-                ->join("fly_celltype b", "a.celltypeId=b.celltypeId")
-//                ->field('a.userid,a.ip,b.userid,b.ip',true)
-                ->select();
-            if($request->isAjax()){
-                $resultdata['total'] = $db->count();
-                $resultdata['rows'] = $cells;
-                echo json_encode($resultdata);
-            }else{
-                echo json_encode($cells);
-            }
+        if ($request->isPost()&&$request->has('sub')) {
+            $subs = $request->param('sub');
+        }else if($request->isPut()&&$request->has('sub')){
 
+        }else{
+            $this->handle($tableName,$order,$joins,$field);
         }
     }
 

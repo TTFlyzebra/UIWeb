@@ -118,7 +118,7 @@
     };
 
     $('#btn_add').on("click", function (event) {
-        window.location.href = "{:url('/flyui/cell/newadd')}";
+        window.location.href = "{:url('/flyui/cell/add')}";
     });
 
     $('#btn_edit').on("click", function (event) {
@@ -138,13 +138,15 @@
                     cellId: a[i].cellId
                 },
                 error: function (request) {
-                    alert("删除失败!\n" +
-                        "可能的错误原因：\n" +
-                        "网络错误。");
+                    alert("error code:" + request.readyState);
                 },
                 success: function (data) {
-                    //更新显示列表
-                    $('#flytable').bootstrapTable('refresh');
+                    var obj = JSON.parse(data);
+                    if (obj.code === 0) {
+                        $('#flytable').bootstrapTable('refresh');
+                    } else {
+                        alert(obj.msg);
+                    }
                 }
             });
         }

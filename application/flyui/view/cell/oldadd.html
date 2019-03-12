@@ -12,7 +12,7 @@
 <form class="form-horizontal" name="celltypeform" id="celltypeform" method="post" role="form"
       action="{:url('/api/cell')}" enctype="multipart/form-data">
     <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">修改控件&nbsp</h4>
+        <h4 class="modal-title">添加控件</h4>
     </div>
     <div class="modal-body">
         <div class="form-group">
@@ -21,11 +21,7 @@
                 <h4 class="modal-title">
                     <select id="celltypeId" name="celltypeId">
                         {volist name="list1" id="celltype" key="k"}
-                        {if condition="$item['celltypeId'] eq $celltype['celltypeId']"}
-                        <option value="{$celltype.celltypeId}" selected="selected">{$celltype.celltypeName}</option>
-                        {else /}
                         <option value="{$celltype.celltypeId}">{$celltype.celltypeName}</option>
-                        {/if}
                         {/volist}
                     </select>
                 </h4>
@@ -35,128 +31,109 @@
             <label class="col-sm-1 control-label">图&nbsp&nbsp片&nbsp&nbsp一</label>
             <div class="col-sm-4">
                 <input type="file" accept="image/*" id="imageinput1" name="imagefile">
-                <input type="hidden" id="imageurl1" name="imageurl1" value="{$item.imageurl1}">
+                <input type="hidden" id="imageurl1" name="imageurl1" value="">
             </div>
             <label class="col-sm-1 control-label">图&nbsp&nbsp片&nbsp&nbsp二</label>
             <div class="col-sm-4">
                 <input type="file" accept="image/*" id="imageinput2" name="imagefile">
-                <input type="hidden" id="imageurl2" name="imageurl2" value="{$item.imageurl2}">
+                <input type="hidden" id="imageurl2" name="imageurl2" value="">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-1 control-label">图片尺寸</label>
             <div class="col-sm-1">
-                <input id="width" name="width" type="text" class="form-control" value="{$item.width}"
-                       placeholder="宽度(像素)">
+                <input id="width" name="width" type="text" class="form-control" value="" placeholder="宽度(像素)">
             </div>
             <div class="col-sm-1">
-                <input id="height" name="height" type="text" class="form-control" value="{$item.height}"
-                       placeholder="高度(像素)">
+                <input id="height" name="height" type="text" class="form-control" value="" placeholder="高度(像素)">
             </div>
             <div class="col-sm-2"></div>
             <label class="col-sm-1 control-label">图片尺寸</label>
             <div class="col-sm-1">
-                <input id="width2" type="text" class="form-control" value="{$item.width}" placeholder="宽度(像素)">
+                <input id="width2" type="text" class="form-control" value="" placeholder="宽度(像素)">
             </div>
             <div class="col-sm-1">
-                <input id="height2" type="text" class="form-control" value="{$item.height}" placeholder="高度(像素)">
+                <input id="height2" type="text" class="form-control" value="" placeholder="高度(像素)">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-1 control-label">文本内容</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control" name="textTitle" id="textTitle" value="{$item.textTitle}" placeholder="文字显示">
+                <input type="text" class="form-control" name="textTitle" id="textTitle" value="" placeholder="文字显示">
             </div>
             <label class="col-sm-1 control-label">文本字体</label>
             <div class="col-sm-1">
-                <input id="textSize" class="form-control" name="textSize" type="text" value="{$item.textSize}"
-                       placeholder="字体大小">
+                <input id="textSize" class="form-control" name="textSize" type="text" value="" placeholder="字体大小">
             </div>
             <div class="col-sm-1">
-                <input id="textColor" class="form-control" name="textColor" type="text" value="{$item.textColor}"
-                       placeholder="字体颜色">
+                <input id="textColor" class="form-control" name="textColor" type="text" value="" placeholder="字体颜色">
             </div>
             <div class="col-sm-2">
-                <input id="textFont" class="form-control" name="textFont" type="text" value="{$item.textFont}"
-                       placeholder="字体样式">
+                <input id="textFont" class="form-control" name="textFont" type="text" value="" placeholder="字体样式">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-1 control-label">文本位置</label>
             <div class="col-sm-1">
-                <input id="textLeft" class="form-control" name="textLeft" type="text" value="{$item.textLeft}"
-                       placeholder="LEFT">
+                <input id="textLeft" class="form-control" name="textLeft" type="text" value="" placeholder="LEFT">
             </div>
             <div class="col-sm-1">
-                <input id="textTop" class="form-control" name="textTop" type="text" value="{$item.textTop}"
-                       placeholder="TOP">
+                <input id="textTop" class="form-control" name="textTop" type="text" value="" placeholder="TOP">
             </div>
             <div class="col-sm-1">
-                <input id="textRight" class="form-control" name="textRight" type="text" value="{$item.textRight}"
-                       placeholder="RIGHT">
+                <input id="textRight" class="form-control" name="textRight" type="text" value="" placeholder="RIGHT">
             </div>
             <div class="col-sm-1">
-                <input id="textBottom" class="form-control" name="textBottom" type="text" value="{$item.textBottom}"
-                       placeholder="BOTTOM">
+                <input id="textBottom" class="form-control" name="textBottom" type="text" value="" placeholder="BOTTOM">
             </div>
             <div class="col-sm-1">
-                <input id="textAlign" class="form-control" name="textAlign" type="text" value="{$item.textAlign}"
-                       placeholder="ALIGN">
+                <input id="textAlign" class="form-control" name="textAlign" type="text" value="" placeholder="ALIGN">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-1 control-label">启动事件</label>
             <div class="col-sm-2">
-                <input id="packName" class="form-control" name="packName" type="text" value="{$item.packName}"
-                       placeholder="包名">
+                <input id="packName" class="form-control" name="packName" type="text" value="" placeholder="包名">
             </div>
             <div class="col-sm-2">
-                <input id="className" class="form-control" name="className" type="text" value="{$item.className}"
-                       placeholder="类名">
+                <input id="className" class="form-control" name="className" type="text" value="" placeholder="类名">
             </div>
             <div class="col-sm-1">
-                <input id="intentFlag" class="form-control" name="intentFlag" type="text" value="{$item.intentFlag}"
+                <input id="intentFlag" class="form-control" name="intentFlag" type="text" value=""
                        placeholder="Intent Flag">
             </div>
             <div class="col-sm-2">
-                <input id="action" class="form-control" name="action" type="text" value="{$item.action}"
-                       placeholder="ACTION">
+                <input id="action" class="form-control" name="action" type="text" value="" placeholder="ACTION">
             </div>
             <div class="col-sm-2">
-                <input id="flyAction" class="form-control" name="flyAction" type="text" value="{$item.flyAction}"
-                       placeholder="自定义">
+                <input id="flyAction" class="form-control" name="flyAction" type="text" value="" placeholder="自定义">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-1 control-label">备注</label>
             <div class="col-sm-9">
-                            <textarea class="form-control" name="remark" value="{$item.remark}" id="remark"
-                                      placeholder="备注">{$item.remark}</textarea>
+                            <textarea class="form-control" name="remark" value="" id="remark"
+                                      placeholder="备注"></textarea>
             </div>
         </div>
     </div>
-    <input type="hidden" name="cellId" id="cellId" value="{$item.cellId}">
     <div class="modal-footer">
         <button type="button" class="btn btn-default" onclick="onCancel()">取消</button>
-        <button type="button" class="btn btn-primary" onclick="postform()">修改</button>
+        <button type="reset" class="btn btn-default">重置</button>
+        <button type="button" class="btn btn-primary" onclick="postform()">提交</button>
     </div>
 </form>
 </body>
 </html>
 
 <script type="text/javascript">
-    var cellurl = "{:url('/api/cell')}";
-    var upimageurl = "{:url('/api/imagefile')}";
-    var imageurl1 = $('#imageurl1').val();
-    var imageurl2 = $('#imageurl2').val();
-
     function postform() {
         if($('#textSize').val()==null||$('#textSize').val()==0){
             $('#textSize').val(24);
         }
         $.ajax({
-            type: "PUT",
-            url: cellurl,
+            type: "POST",
+            url: "{:url('/api/cell')}",
             data: $('#celltypeform').serialize(),
             error: function (request) {
                 alert("error code:" + request.readyState);
@@ -174,8 +151,7 @@
 
 
     $('#imageinput1').flyinput({
-        url: upimageurl,
-        image: imageurl1,
+        url: "{:url('/api/imagefile')}",
         autoup: true,
         showPreview: true,
         width: "100%",
@@ -190,8 +166,7 @@
     });
 
     $('#imageinput2').flyinput({
-        url: upimageurl,
-        image: imageurl2,
+        url: "{:url('/api/imagefile')}",
         autoup: true,
         showPreview: true,
         width: "100%",
