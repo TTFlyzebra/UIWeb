@@ -10,7 +10,7 @@
 <script type="text/javascript" src="__RES__/flyui/js/flyinput.js"></script>
 <body>
 <form class="form-horizontal" name="celltypeform" id="celltypeform" method="post" role="form"
-      action="{:url('/api/cell')}" enctype="multipart/form-data">
+      action="{:url('/admin/test')}" enctype="multipart/form-data">
     <div class="modal-header">
         <h4 class="modal-title" id="myModalLabel">修改控件&nbsp</h4>
     </div>
@@ -298,7 +298,7 @@
     var subcellnum = {$subnum}+1;
     function postform() {
         $.ajax({
-            type: "POST",
+            type: "PUT",
             url: "{:url('/api/cell')}",
             data: $('#celltypeform').serialize(),
             error: function (request) {
@@ -355,8 +355,6 @@
         flyinput1('sub_' + i + '_');
         flyinput2('sub_' + i + '_');
     }
-
-    subcellnum += 1;
 
     function onCancel() {
         window.history.back();

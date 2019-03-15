@@ -35,7 +35,7 @@ class Cell extends Auth
         if ($request->has('id', 'get')) {
             $item = Db::name('cell')->where('cellId', $_GET['id'])->find();
             $this->assign('item', $item);
-            $subcells = Db::name('cellsub')->where('cellId', $_GET['id'])->select();
+            $subcells = Db::name('cellsub')->where('cellId', $_GET['id'])->where('status',1)->select();
             $this->assign('list2', $subcells);
             $this->assign('subnum', sizeof($subcells));
         }else{
