@@ -68,20 +68,40 @@
                     checkbox: true
                 }, {
                     field: 'themeName',
-                    title: '项目名称',
+                    title: '模板名称',
                     halign: "center"
                 }, {
-                    field: 'width',
+                    field: 'screenWidth',
                     title: '分辨率',
                     halign: "center",
                     align: 'center',
                     formatter: function (value, row, index) {
-                        return value + "X" + row.height;
+                        return value + "X" + row.screenHeight;
+                    }
+                }, {
+                    field: 'pageName',
+                    title: '顶部页面',
+                    halign: "center",
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        // if (isTextEmpty(value)) {
+                            return '<a  href="{:url(\'/flyui/themepage/toppage\')}?id=' + row.themeId + '">[编辑页面]</a>';
+                        // } else {
+                        //     return value + '<a  href="{:url(\'/flyui/themepage/toppage\')}?id=' + row.themeId + '">[编辑]</a>';
+                        // }
                     }
                 }, {
                     field: 'themePages',
                     title: '关联页面',
-                    halign: "center"
+                    halign: "center",
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        if (isTextEmpty(value)) {
+                            return '<a  href="{:url(\'/flyui/themepage\')}?id=' + row.themeId + '">[添加页面]</a>';
+                        } else {
+                            return value + '<a  href="{:url(\'/flyui/themepage\')}?id=' + row.themeId + '">[选择页面]</a>';
+                        }
+                    }
                 }, {
                     field: 'imageurl',
                     title: '背景图片',
@@ -89,14 +109,6 @@
                     align: 'center',
                     formatter: function (value, row, index) {
                         return '<img  width="auto" height="50px" src="' + value + '">';
-                    }
-                }, {
-                    field: 'themeId',
-                    title: '操作',
-                    halign: "center",
-                    align: 'center',
-                    formatter: function (value, row, index) {
-                        return '<a  href="{:url(\'/flyui/themepage\')}?id=' + value + '">关联页面</a>';
                     }
                 }, {
                     field: 'edittime',
@@ -144,5 +156,9 @@
             });
         }
     });
+
+    function isTextEmpty(obj) {
+        return typeof obj == "undefined" || obj == null || obj === "";
+    }
 </script>
 

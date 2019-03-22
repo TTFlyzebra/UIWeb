@@ -12,8 +12,8 @@ class App
         $request = Request::instance();
         if ($request->has('appname', 'get')) {
             $theme = Db::name('theme')
-                ->where('themeName','Launcher-AP6')
-                ->field('edittime,userid,ip', true)
+                ->where('themeName',$_GET['appname'])
+                ->field('edittime,status,userid,ip', true)
                 ->find();
             if (!$theme) {
                 echo retJsonMsg("无模板数据", -1);

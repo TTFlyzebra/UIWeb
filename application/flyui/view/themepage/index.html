@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>项目编辑</title>
+    <title>模板编辑</title>
 </head>
 <link rel="stylesheet" type="text/css" href="__RES__/common/css/bootstrap.css">
 <script type="text/javascript" src="__RES__/common/js/jquery-3.2.1.min.js"></script>
@@ -98,7 +98,8 @@
         <div class="flytitle" style="width:100%;height: 50px">{$item.themeName}</div>
         <ul class="nav nav-tabs" style="height: 50px;" id="pageTab">
             {volist name="list2" id="themepage" key="k"}
-            <li id="page_{$themepage.pageId}"><a href="{$themepage.pageId}" data-toggle="tab">{$themepage.pageName}</a></li>
+            <li id="page_{$themepage.pageId}"><a href="{$themepage.pageId}" data-toggle="tab">{$themepage.pageName}</a>
+            </li>
             {/volist}
         </ul>
     </div>
@@ -107,7 +108,7 @@
         <form class="form-horizontal" name="celltypeform" id="celltypeform" method="post" role="form"
               action="{:url('/api/cell')}" enctype="multipart/form-data">
             <div class="modal-header">
-                <h3 class="modal-title">关联页面</h3>
+                <h3 class="modal-title">选择关联页面</h3>
             </div>
             <div class="modal-body">
                 {volist name="list1" id="page" key="k"}
@@ -133,64 +134,7 @@
 </body>
 <script type="text/javascript">
     var themepageurl = "{:url('/api/themepage')}";
-
-    $('#pageTab a').click(function () {
-        pageId = $(this).attr('href');
-        getScreenCell(pageId);
-    });
-
-    $('.modal-body input').click(function () {
-        var pageName = $(this).parents('.form-group').find('label')[0].innerHTML;
-        var pageId = $(this).val();
-        if ($(this).prop('checked')) {
-            $('#pageTab').append("<li id=\"page_" + pageId + "\"><a href=" + pageId + " data-toggle=\"tab\">" + pageName + "</a></li>");
-            $('#page_'+pageId+' a').click(function () {
-                var id = $(this).attr('href');
-                getScreenCell(id);
-            });
-            $('#page_'+pageId+' a').click();
-        } else {
-            if($("#page_" + pageId).is('.active')){
-                $("#page_" + pageId).remove();
-                var tablas = $('#pageTab').find('li');
-                if (tablas.length > 0){
-                    $('#pageTab a:first').click()
-                }else{
-                    $('.flyscreen').get(0).innerHTML="";
-                }
-            }else{
-                $("#page_" + pageId).remove();
-            }
-        }
-    });
-
-    function saveThemePage() {
-        var pageArr = [];
-        var tablas = $('#pageTab').find('li');
-        if (tablas.length > 0) {
-            for (var i = 0; i < tablas.length; i++) {
-                pageArr[i] = {};
-                pageArr[i].themeId = "{$item.themeId}";
-                pageArr[i].pageId = $('#pageTab li:eq('+i+') a').attr('href');
-            }
-        }
-        var pagejscon = JSON.stringify(pageArr);
-        $.ajax({
-            url: themepageurl,
-            type: "POST",
-            data: "jsondata=" + pagejscon + "&themeId={$item.themeId}",
-            dataType: 'html',
-            error: function (request) {
-                alert("向服务器提交页面数据更新失败!");
-            },
-            success: function (result) {
-            }
-        });
-    }
-</script>
-<script type="text/javascript">
     var pagecellurl = "{:url('/api/pagecell')}";
-
     //定义全局变量
     var screenCellArr = [];
     var screenMoveDiv = null;
@@ -199,14 +143,14 @@
     var bodyMoveDiv = null;
     var addMenuCell = null;
 
-    var flycenterwidth = trimPX("{$item.width}px") + 380;
+    var flycenterwidth = trimPX("{$item.screenWidth}px") + 380;
 
     $('.flycenter').css('width', flycenterwidth + 'px');
-    $('.flyscreen').css('width', '{$item.width}px');
-    $('.flyscreen').css('height', '{$item.height}px');
-    $('.flyscreenmsg').css('width', '{$item.width}px');
+    $('.flyscreen').css('width', '{$item.screenWidth}px');
+    $('.flyscreen').css('height', '{$item.screenHeight}px');
+    $('.flyscreenmsg').css('width', '{$item.screenWidth}px');
     $('.flycellmenu').css('width', '380px');
-    $('.flycellmenu').css('height', '{$item.height}px');
+    $('.flycellmenu').css('height', '{$item.screenHeight}px');
 
     /**
      * 将以"px"字符串结尾的字符串转换成int整数
@@ -229,15 +173,6 @@
             y: event.clientY + document.body.scrollTop - document.body.clientTop
         };
     }
-
-
-    function showMSG(message) {
-        var flyscreenmsg = $('.flyscreenmsg').get(0);
-        if (flyscreenmsg) {
-            flyscreenmsg.innerHTML = message;
-        }
-    }
-
     /**
      * @param cell
      * @returns {*|jQuery|HTMLElement}
@@ -331,110 +266,51 @@
         }
     }
 
+    $('#pageTab a').click(function () {
+        pageId = $(this).attr('href');
+        getScreenCell(pageId);
+    });
 
-    function documentEventInit() {
-        $(document).on('mousedown', function (event) {
-            //
-        }).on('mousemove', function (event) {
-            try {
-                if (addMenuCell) {
-                    addMenuCell.imgUrl = addMenuCell.imageurl1;
-                    if (bodyMoveDiv === null) {
-                        bodyMoveDiv = cellScreenDiv(addMenuCell);
-                        document.body.appendChild(bodyMoveDiv);
-                    }
-                    bodyMoveDiv.style.left = event.clientX + 'px';
-                    bodyMoveDiv.style.top = event.clientY + 'px';
-                }
-            } catch (e) {
-                console.log(e);
-            }
-        }).on('mouseleave', function (event) {
-            if (bodyMoveDiv) {
-                document.body.removeChild(bodyMoveDiv);
-                bodyMoveDiv = null;
-            }
-            if (addMenuCell) {
-                addMenuCell = null;
-            }
-        }).on('mouseup', function (event) {
-            if (bodyMoveDiv) {
-                document.body.removeChild(bodyMoveDiv);
-                bodyMoveDiv = null;
-            }
-
-            var flyscreen = $('.flyscreen').get(0);
-
-            if (flyscreen) {
-                var left = flyscreen.offsetLeft;
-                var top = flyscreen.offsetTop;
-                var width = flyscreen.offsetWidth;
-                var height = flyscreen.offsetHeight;
-
-                if (event.clientX >= left && event.clientX <= (width + left) && event.clientY >= top && event.clientY <= (height + top)) {
-                    if (addMenuCell) {
-                        var x = event.clientX - left + flyscreen.scrollLeft;
-                        var y = event.clientY - top + flyscreen.scrollTop;
-                        addMenuCell.x = x;
-                        addMenuCell.y = y;
-                        addMenuCell.imgUrl = addMenuCell.imageurl1;
-                        var num = screenCellArr.length;
-                        screenCellArr[num] = addMenuCell;
-                        flyscreen.append(cellScreenDiv(screenCellArr[num], num));
-                    }
-                }
-            }
-            if (addMenuCell) {
-                addMenuCell = null;
-            }
-        });
-
-    }
-
-    function flyscreenClassEventInit() {
-        var flyscreen = $('.flyscreen');
-        if (flyscreen) {
-            flyscreen.on('mousemove', function (event) {
-                var x = event.clientX;
-                var y = event.clientY;
-                if (screenMoveCell) {
-                    x = x - screenMoveDivPoint.x;
-                    y = y - screenMoveDivPoint.y;
-                    screenMoveCell.x = x;
-                    screenMoveCell.y = y;
-                    screenMoveDiv.style.left = x + 'px';
-                    screenMoveDiv.style.top = y + 'px';
-                } else {
-                    x = x - this.offset().left;
-                    x = x - this.offset().top;
-                }
-                showMSG(x + "--" + y);
-            }).on('mouseup', function (event) {
-                if (screenMoveDiv) {
-                    screenMoveDiv = null;
-                }
-                if (screenMoveCell) {
-                    screenMoveCell = null;
-                }
+    $('.modal-body input').click(function () {
+        var pageName = $(this).parents('.form-group').find('label')[0].innerHTML;
+        var pageId = $(this).val();
+        if ($(this).prop('checked')) {
+            $('#pageTab').append("<li id=\"page_" + pageId + "\"><a href=" + pageId + " data-toggle=\"tab\">" + pageName + "</a></li>");
+            $('#page_' + pageId + ' a').click(function () {
+                var id = $(this).attr('href');
+                getScreenCell(id);
             });
+            $('#page_' + pageId + ' a').click();
+        } else {
+            if ($("#page_" + pageId).is('.active')) {
+                $("#page_" + pageId).remove();
+                var tablas = $('#pageTab').find('li');
+                if (tablas.length > 0) {
+                    $('#pageTab a:first').click()
+                } else {
+                    $('.flyscreen').get(0).innerHTML = "";
+                }
+            } else {
+                $("#page_" + pageId).remove();
+            }
         }
-    }
+    });
 
-    function upTableData() {
-        var pageCellArr = [];
-        for (var i = 0; i < screenCellArr.length; i++) {
-            pageCellArr[i] = {};
-            pageCellArr[i].cellId = screenCellArr[i].cellId;
-            pageCellArr[i].width = screenCellArr[i].width;
-            pageCellArr[i].height = screenCellArr[i].height;
-            pageCellArr[i].x = screenCellArr[i].x;
-            pageCellArr[i].y = screenCellArr[i].y;
+    function saveThemePage() {
+        var pageArr = [];
+        var tablas = $('#pageTab').find('li');
+        if (tablas.length > 0) {
+            for (var i = 0; i < tablas.length; i++) {
+                pageArr[i] = {};
+                pageArr[i].themeId = "{$item.themeId}";
+                pageArr[i].pageId = $('#pageTab li:eq(' + i + ') a').attr('href');
+            }
         }
-        var celljson = JSON.stringify(pageCellArr);
+        var pagejscon = JSON.stringify(pageArr);
         $.ajax({
-            url: pagecellurl,
+            url: themepageurl,
             type: "POST",
-            data: "jsondata=" + celljson + "&pageId=" + pageId,
+            data: "jsondata=" + pagejscon + "&themeId={$item.themeId}",
             dataType: 'html',
             error: function (request) {
                 alert("向服务器提交页面数据更新失败!");
@@ -444,18 +320,7 @@
         });
     }
 
-
-    +$(function () {
-        // documentEventInit();
-        // flyscreenClassEventInit();
-    });
-
-    pageId = $('#pageTab a:first').attr('href');
-    getScreenCell(pageId);
-    $('#sel').change(function () {
-        pageId = $('#sel').val();
-        getScreenCell(pageId);
-    });
+    $('#pageTab a:first').click();
 </script>
 </html>
 

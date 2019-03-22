@@ -69,7 +69,7 @@ class BaseRestful
                         $db->join($v[0], $v[1], $v[2]);
                     }
                 } if(empty($field)){
-                    $db->field('userid,ip', true);
+                    $db->field('status,userid,ip', true);
                 }else{
                     $db->field($field);
                 }

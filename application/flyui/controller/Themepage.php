@@ -12,8 +12,8 @@ class Themepage extends Auth
     {
         $request = Request::instance();
         $theme['themeId'] = -1;
-        $theme['width'] = 1024;
-        $theme['height'] = 600;
+        $theme['screenWidth'] = 1024;
+        $theme['screenHeight'] = 600;
         $theme['themeName'] = "";
         $pages = null;
         $pagedatas = null;
@@ -35,8 +35,8 @@ class Themepage extends Auth
             }
         } else {
             $theme['themeId'] = -1;
-            $theme['width'] = 1024;
-            $theme['height'] = 600;
+            $theme['screenWidth'] = 1024;
+            $theme['screenHeight'] = 600;
             $theme['themeName'] = "";
             $pages = null;
             $pagedatas = null;
@@ -45,6 +45,21 @@ class Themepage extends Auth
         $this->assign("item", $theme);
         $this->assign('list2', $pagedatas);
         $this->assign('pageIds', $pageIds);
+        return $this->fetch();
+    }
+
+    public function toppage(){
+        $db= Db::name('page');
+        $pages = $db->select();
+        $this->assign('list',$pages);
+
+        $request = Request::instance();
+        if ($request->has('id', 'get')) {
+            $item = Db::name('page')->where('pageId', $_GET['id'])->find();
+        }else{
+            $item = [];
+        }
+        $this->assign('item', $item);
         return $this->fetch();
     }
 }
