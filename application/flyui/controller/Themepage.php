@@ -3,8 +3,10 @@
 namespace app\flyui\controller;
 
 use app\auth\controller\Auth;
+use think\Config;
 use think\Db;
 use think\Request;
+use think\Session;
 
 class Themepage extends Auth
 {
@@ -21,7 +23,7 @@ class Themepage extends Auth
         if ($request->has('id', 'get')) {
             $db = Db::name('page');
             $theme = Db::name('theme')->where('themeId', $_GET['id'])->find();
-            $pages = $db->select();
+            $pages = $db->where('status', 1)->select();
             $pagedatas = Db::name('themepage')
                 ->where('themeId', (int)$_GET['id'])
                 ->alias('a')
@@ -48,18 +50,49 @@ class Themepage extends Auth
         return $this->fetch();
     }
 
-    public function toppage(){
-        $db= Db::name('page');
-        $pages = $db->select();
-        $this->assign('list',$pages);
+    public function toppage()
+    {
+        $db = Db::name('page');
+        $pages = $db->where('status', 2)->select();
+        $this->assign('list', $pages);
 
         $request = Request::instance();
         if ($request->has('id', 'get')) {
-            $item = Db::name('page')->where('pageId', $_GET['id'])->find();
-        }else{
-            $item = [];
+            $theme = Db::name('theme')
+                ->where('themeId', $_GET['id'])
+                ->field('userid,ip,edittime', true)
+                ->find();
+            if (empty($theme['topPageId'])) {
+                $page = [];
+                $page['pageName'] = 'TOP_PAGE';
+                $page['status'] = 2;
+                $page['width'] = $theme['screenWidth'];
+                $page['height'] = $theme['screenHeight'];
+                $page['userid'] = Session::get('userid');
+                $page['ip'] = $request->ip();
+                $result1 = Db::name('page')->insert($page, false, true);
+                if ($result1) {
+                    $page['pageId'] = $result1;
+                    saveLog(Config::get('event')['add'], 'page', $page);
+                    $theme['topPageId'] = $result1;
+                    $result2 = Db::name('theme')->update($theme);
+                    if ($result2) {
+                        saveLog(Config::get('event')['edit'], 'theme', $theme);
+                    }
+                    $page['themeName'] = $theme['themeName'];
+                    $this->assign('item', $page);
+                    return $this->fetch();
+                } else {
+                    echo retJsonMsg('add failed', -1, $result1);
+                }
+            } else {
+                $item = Db::name('page')->where('pageId', $theme['topPageId'])->where('status', 2)->find();
+                $item['themeName'] = $theme['themeName'];
+                $this->assign('item', $item);
+                return $this->fetch();
+            }
+        } else {
+            echo retJsonMsg('param error', -1);
         }
-        $this->assign('item', $item);
-        return $this->fetch();
     }
 }

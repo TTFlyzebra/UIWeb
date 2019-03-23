@@ -79,16 +79,16 @@
                         return value + "X" + row.screenHeight;
                     }
                 }, {
-                    field: 'pageName',
+                    field: 'topPageId',
                     title: '顶部页面',
                     halign: "center",
                     align: 'center',
                     formatter: function (value, row, index) {
-                        // if (isTextEmpty(value)) {
+                        if (isTextEmpty(value)) {
+                            return '<a  href="{:url(\'/flyui/themepage/toppage\')}?id=' + row.themeId + '">[添加页面]</a>';
+                        } else {
                             return '<a  href="{:url(\'/flyui/themepage/toppage\')}?id=' + row.themeId + '">[编辑页面]</a>';
-                        // } else {
-                        //     return value + '<a  href="{:url(\'/flyui/themepage/toppage\')}?id=' + row.themeId + '">[编辑]</a>';
-                        // }
+                        }
                     }
                 }, {
                     field: 'themePages',

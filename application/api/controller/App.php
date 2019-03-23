@@ -12,7 +12,7 @@ class App
         $request = Request::instance();
         if ($request->has('appname', 'get')) {
             $theme = Db::name('theme')
-                ->where('themeName',$_GET['appname'])
+                ->where('themeName', $_GET['appname'])
                 ->field('edittime,status,userid,ip', true)
                 ->find();
             if (!$theme) {
@@ -25,7 +25,17 @@ class App
 //            $result['animType'] = $theme['animType'];
 //            $result['imageurl'] = $theme['imageurl'];
             $result = $theme;
-
+            unset($result['topPageId']);
+            //获取topPage
+            if (!empty($theme['topPageId'])) {
+                $cellList = getPagecell($theme['topPageId']);
+                for ($n = 0; $n < sizeof($cellList); $n++) {
+                    $cellList[$n]['textTitle'] = array(
+                        'zh' => $cellList[$n]['textTitle']
+                    );
+                }
+                $result['topPage']['cellList'] = $cellList;
+            }
             //获取pageList
             $pageList = Db::name('themepage')
                 ->where('themeId', $theme['themeId'])
@@ -38,7 +48,7 @@ class App
                 $cellList = getPagecell($pageList[$i]['pageId']);
                 for ($j = 0; $j < sizeof($cellList); $j++) {
                     $cellList[$j]['textTitle'] = array(
-                        'zh'=>$cellList[$j]['textTitle']
+                        'zh' => $cellList[$j]['textTitle']
                     );
                 }
                 $pageList[$i]['cellList'] = $cellList;

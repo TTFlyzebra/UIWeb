@@ -15,11 +15,11 @@ class Theme extends BaseRestful
                 if (request()->has('limit', 'get') && request()->has('offset', 'get')) {
                     $db->limit($_GET['offset'], $_GET['limit']);
                 }
-                $db->alias("a")
-                    ->join("fly_page b", "a.topPageId=b.pageId", 'LEFT')
-                    ->field(['a.themeId', "a.themeName", "a.themeType", "a.screenWidth", "a.screenHeight",
-                        "a.x", "a.y", "a.width", "a.height", "a.imageurl", "a.isMirror",
-                        "a.animType", "a.remark", "a.topPageId" => "pageId", "b.pageName"]);
+//                $db->alias("a")
+//                    ->join("fly_page b", "a.topPageId=b.pageId", 'LEFT')
+//                    ->field(['a.themeId', "a.themeName", "a.themeType", "a.screenWidth", "a.screenHeight",
+//                        "a.x", "a.y", "a.width", "a.height", "a.imageurl", "a.isMirror",
+//                        "a.animType", "a.remark", "a.topPageId" => "pageId", "b.pageName"]);
                 $celltypes = $db->select();
                 for ($i = 0; $i < sizeof($celltypes); $i++) {
                     $pagedatas = Db::name('themepage')
