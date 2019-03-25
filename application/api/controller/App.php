@@ -12,18 +12,13 @@ class App
         $request = Request::instance();
         if ($request->has('appname', 'get')) {
             $theme = Db::name('theme')
-                ->where('themeName', $_GET['appname'])
+                ->where('themeName', 'Launcher-AP5')
                 ->field('edittime,status,userid,ip', true)
                 ->find();
             if (!$theme) {
                 echo retJsonMsg("无模板数据", -1);
                 return;
             }
-//            $result['width'] = $theme['width'];
-//            $result['height'] = $theme['height'];
-//            $result['isMirror'] = $theme['isMirror'];
-//            $result['animType'] = $theme['animType'];
-//            $result['imageurl'] = $theme['imageurl'];
             $result = $theme;
             unset($result['topPageId']);
             //获取topPage
@@ -34,6 +29,7 @@ class App
                         'zh' => $cellList[$n]['textTitle']
                     );
                 }
+                $result['topPage']['pageId'] = $theme['topPageId'];
                 $result['topPage']['cellList'] = $cellList;
             }
             //获取pageList

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2019-03-15 08:31:20
+-- 生成日期： 2019-03-25 09:56:55
 -- 服务器版本： 5.5.62
 -- PHP 版本： 7.3.0
 
@@ -44,9 +44,9 @@ CREATE TABLE `fly_about` (
 --
 
 INSERT INTO `fly_about` (`aboutId`, `imageurl`, `aboutText`, `status`, `remark`, `edittime`, `userid`, `ip`) VALUES
-(1, 'http://192.168.1.119:801/uiweb/uploads/58/a3ee19fdd8c6473532ca9463b90077.jpg', '身处在前端社区的繁荣之下，我们都在有意或无意地追逐。而 layui 偏偏回望当初，奔赴在返璞归真的漫漫征途，自信并勇敢着，追寻于原生态的书写指令，试图以最简单的方式诠释高效。身处在前端社区的繁荣之下，我们都在有意或无意地追逐。而 layui 偏偏回望当初，奔赴在返璞归真的漫漫征途，自信并勇敢着，追寻于原生态的书写指令，试图以最简单的方式诠释高效。身处在前端社区的繁荣之下，我们都在有意或无意地追逐。而 layui 偏偏回望当初，奔赴在返璞归真的漫漫征途，自信并勇敢着，追寻于原生态的书写指令，试图以最简单的方式诠释高效', 1, NULL, '2019-03-09 08:24:58', 0, '192.168.1.119'),
-(2, 'http://192.168.1.119:801/uiweb/uploads/eb/eeb8f691d4836161e6bde902abf265.jpg', '拥有双面的不仅是人生，还有Layui。一面极简，一面丰盈。极简是视觉所见的外在，是开发所念的简易。丰盈是倾情雕琢的内在，是信手拈来的承诺。一切本应如此，简而全，双重体验。拥有双面的不仅是人生，还有Layui。一面极简，一面丰盈。极简是视觉所见的外在，是开发所念的简易。丰盈是倾情雕琢的内在，是信手拈来的承诺。一切本应如此，简而全，双重体验。', 1, NULL, '2019-03-09 08:25:03', 0, '192.168.1.119'),
-(3, 'http://192.168.1.119:801/uiweb/uploads/f9/d546081201d174ffe28d6e5b24207c.jpg', '拥有双面的不仅是人生，还有Layui。一面极简，一面丰盈。极简是视觉所见的外在，是开发所念的简易。丰盈是倾情雕琢的内在，是信手拈来的承诺。一切本应如此，简而全，双重体验。', 1, NULL, '2019-03-11 06:06:59', 0, '192.168.1.119'),
+(1, '/uiweb/uploads/58/a3ee19fdd8c6473532ca9463b90077.jpg', '身处在前端社区的繁荣之下，我们都在有意或无意地追逐。而 layui 偏偏回望当初，奔赴在返璞归真的漫漫征途，自信并勇敢着，追寻于原生态的书写指令，试图以最简单的方式诠释高效。身处在前端社区的繁荣之下，我们都在有意或无意地追逐。而 layui 偏偏回望当初，奔赴在返璞归真的漫漫征途，自信并勇敢着，追寻于原生态的书写指令，试图以最简单的方式诠释高效。身处在前端社区的繁荣之下，我们都在有意或无意地追逐。而 layui 偏偏回望当初，奔赴在返璞归真的漫漫征途，自信并勇敢着，追寻于原生态的书写指令，试图以最简单的方式诠释高效', 1, NULL, '2019-03-09 08:24:58', 0, '192.168.1.119'),
+(2, '/uiweb/uploads/eb/eeb8f691d4836161e6bde902abf265.jpg', '拥有双面的不仅是人生，还有Layui。一面极简，一面丰盈。极简是视觉所见的外在，是开发所念的简易。丰盈是倾情雕琢的内在，是信手拈来的承诺。一切本应如此，简而全，双重体验。拥有双面的不仅是人生，还有Layui。一面极简，一面丰盈。极简是视觉所见的外在，是开发所念的简易。丰盈是倾情雕琢的内在，是信手拈来的承诺。一切本应如此，简而全，双重体验。', 1, NULL, '2019-03-09 08:25:03', 0, '192.168.1.119'),
+(3, '/uiweb/uploads/f9/d546081201d174ffe28d6e5b24207c.jpg', '拥有双面的不仅是人生，还有Layui。一面极简，一面丰盈。极简是视觉所见的外在，是开发所念的简易。丰盈是倾情雕琢的内在，是信手拈来的承诺。一切本应如此，简而全，双重体验。', 1, NULL, '2019-03-11 06:06:59', 0, '192.168.1.119'),
 (4, 'http://192.168.1.119:801/uiweb/uploads/8c/e959e3095e392fd7f8c63177cfac0a.jpg', '关于我们', 0, NULL, '2019-03-11 02:21:11', 6, '192.168.1.119'),
 (5, 'http://192.168.1.119:801/uiweb/uploads/12/993f4446443c2d7f25596512720cdf.jpg', 'test', 0, NULL, '2019-03-11 06:07:22', 6, '192.168.1.119');
 
@@ -73,12 +73,12 @@ CREATE TABLE `fly_cases` (
 --
 
 INSERT INTO `fly_cases` (`casesId`, `casesTitle`, `imageurl`, `casesText`, `status`, `remark`, `createtime`, `userid`, `ip`) VALUES
-(1, '名牌工厂店', 'http://192.168.1.119:801/uiweb/uploads/8c/e959e3095e392fd7f8c63177cfac0a.jpg', '一家工厂企业的商品展示网站，主要以卖高端服饰为主。主要以卖高端服饰为主。主要以卖高端服饰为主。', 1, '', '2019-02-22 09:21:47', 0, '192.168.1.119'),
-(2, '测试没试', 'http://192.168.1.119:801/uiweb/uploads/12/993f4446443c2d7f25596512720cdf.jpg', '一家工厂企业的商品展示网站，主要以卖高端服饰为主。主要以卖高端服饰为主。主要以卖高端服饰为主。', 1, '', '2019-02-22 09:25:07', 0, '192.168.1.119'),
-(3, '纟纟纟x', 'http://192.168.1.119:801/uiweb/uploads/c6/4c0069727708f55646a135eba53c4f.jpg', '一家工厂企业的商品展示网站，主要以卖高端服饰为主。主要以卖高端服饰为主。主要以卖高端服饰为主。', 1, '', '2019-02-22 09:38:07', 0, '192.168.1.119'),
-(4, 'cccccccccc', 'http://192.168.1.119:801/uiweb/uploads/d8/0f7d89969851465634660e03e4f922.jpg', '一家工厂企业的商品展示网站，主要以卖高端服饰为主。主要以卖高端服饰为主。主要以卖高端服饰为主。', 1, '', '2019-02-22 09:49:09', 0, '192.168.1.119'),
-(5, 'ccccc', 'http://192.168.1.119:801/uiweb/uploads/4b/86c495bffe7e2f2f0b8d11d30f580d.jpg', '一家工厂企业的商品展示网站，主要以卖高端服饰为主。主要以卖高端服饰为主。主要以卖高端服饰为主。', 1, '', '2019-02-22 09:50:22', 0, '192.168.1.119'),
-(6, 'bbbb', 'http://192.168.1.119:801/uiweb/uploads/fb/373749569112755e4149c01d7f7346.jpg', '一家工厂企业的商品展示网站，主要以卖高端服饰为主。主要以卖高端服饰为主。主要以卖高端服饰为主。一家工厂企业的商品展示网站，主要以卖高端服饰为主。主要以卖高端服饰为主。主要以卖高端服饰为主。', 1, '', '2019-02-22 09:50:30', 0, '192.168.1.119'),
+(1, '名牌工厂店', '/uiweb/uploads/8c/e959e3095e392fd7f8c63177cfac0a.jpg', '一家工厂企业的商品展示网站，主要以卖高端服饰为主。主要以卖高端服饰为主。主要以卖高端服饰为主。', 1, '', '2019-02-22 09:21:47', 0, '192.168.1.119'),
+(2, '测试没试', '/uiweb/uploads/12/993f4446443c2d7f25596512720cdf.jpg', '一家工厂企业的商品展示网站，主要以卖高端服饰为主。主要以卖高端服饰为主。主要以卖高端服饰为主。', 1, '', '2019-02-22 09:25:07', 0, '192.168.1.119'),
+(3, '纟纟纟x', '/uiweb/uploads/c6/4c0069727708f55646a135eba53c4f.jpg', '一家工厂企业的商品展示网站，主要以卖高端服饰为主。主要以卖高端服饰为主。主要以卖高端服饰为主。', 1, '', '2019-02-22 09:38:07', 0, '192.168.1.119'),
+(4, 'cccccccccc', '/uiweb/uploads/d8/0f7d89969851465634660e03e4f922.jpg', '一家工厂企业的商品展示网站，主要以卖高端服饰为主。主要以卖高端服饰为主。主要以卖高端服饰为主。', 1, '', '2019-02-22 09:49:09', 0, '192.168.1.119'),
+(5, 'ccccc', '/uiweb/uploads/4b/86c495bffe7e2f2f0b8d11d30f580d.jpg', '一家工厂企业的商品展示网站，主要以卖高端服饰为主。主要以卖高端服饰为主。主要以卖高端服饰为主。', 1, '', '2019-02-22 09:50:22', 0, '192.168.1.119'),
+(6, 'bbbb', '/uiweb/uploads/fb/373749569112755e4149c01d7f7346.jpg', '一家工厂企业的商品展示网站，主要以卖高端服饰为主。主要以卖高端服饰为主。主要以卖高端服饰为主。一家工厂企业的商品展示网站，主要以卖高端服饰为主。主要以卖高端服饰为主。主要以卖高端服饰为主。', 1, '', '2019-02-22 09:50:30', 0, '192.168.1.119'),
 (7, '一家工厂企业的商品展示一家工厂企业的商品展示', 'http://192.168.1.119:801/uiweb/uploads/c6/4c0069727708f55646a135eba53c4f.jpg', '一家工厂企业的商品展示网站，主要以卖高端服饰为主。', 1, '', '2019-02-22 09:50:40', 6, '192.168.1.119'),
 (8, '新闻新闻新闻新闻新闻', 'http://192.168.1.119:801/uiweb/uploads/9f/e51538edbe7cd7ab234da7af1fc7d0.jpg', '新闻新闻新闻新闻新闻新闻新闻新闻新闻新闻新闻新闻新闻', 0, NULL, '2019-03-11 06:07:53', 6, '192.168.1.119');
 
@@ -175,7 +175,8 @@ INSERT INTO `fly_cell` (`cellId`, `celltypeId`, `width`, `height`, `imageurl1`, 
 (74, 1, 105, 105, 'http://192.168.1.119:801/uiweb/uploads/a4/0f78d7a2419cadb4f31b77c8f7fb42.png', '', '导航', 24, '', '', '', 0, -50, 0, 0, '', '', '', '', '', 1, '', NULL, '2019-03-15 06:50:09', 6, '192.168.1.119'),
 (75, 1, 105, 105, 'http://192.168.1.119:801/uiweb/uploads/05/a16741c726afed1917c8e1b02babf5.png', '', '应用', 24, '', '', '', 0, -50, 0, 0, '', '', '', '', '', 1, '', NULL, '2019-03-15 06:50:20', 6, '192.168.1.119'),
 (76, 1, 105, 105, 'http://192.168.1.119:801/uiweb/uploads/f5/e174af144e1336fac615000c8d9faf.png', '', '手机互联', 24, '', '', '', 0, -50, 0, 0, '', '', '', '', '', 1, '', NULL, '2019-03-15 06:50:34', 6, '192.168.1.119'),
-(77, 1, 105, 105, 'http://192.168.1.119:801/uiweb/uploads/07/f5f1be53d377245b0a35f5d3a8da13.png', '', '蓝牙音乐', 24, '', '', '', 0, -50, 0, 0, '', '', '', '', '', 1, '', NULL, '2019-03-15 06:50:47', 6, '192.168.1.119');
+(77, 1, 105, 105, 'http://192.168.1.119:801/uiweb/uploads/07/f5f1be53d377245b0a35f5d3a8da13.png', '', '蓝牙音乐', 24, '', '', '', 0, -50, 0, 0, '', '', '', '', '', 1, '', NULL, '2019-03-15 06:50:47', 6, '192.168.1.119'),
+(78, 28, 1024, 16, 'http://192.168.1.119:801/uiweb/uploads/40/841f8b970233545b18c849c6908a49.png', 'http://192.168.1.119:801/uiweb/uploads/a9/107fb29ec2972ec649ca6a57fbbaf5.png', '', 24, '', '', '', 0, 0, 0, 0, '', '', '', '', '', 1, '', NULL, '2019-03-25 05:33:12', 6, '192.168.1.119');
 
 -- --------------------------------------------------------
 
@@ -245,12 +246,13 @@ CREATE TABLE `fly_celltype` (
 --
 
 INSERT INTO `fly_celltype` (`celltypeId`, `celltype`, `celltypeName`, `imageurl`, `extend`, `remark`, `status`, `edittime`, `userid`, `ip`) VALUES
-(1, 1, '通用控件', 'http://192.168.1.119:801/uiweb/uploads/ef/260b41ec0675e60869569b84fd52bb.png', '', '包含图片，文字，点击事件。', 1, '2019-02-28 01:45:13', 0, '192.168.1.119'),
+(1, 1, '通用控件', '/uiweb/uploads/ef/260b41ec0675e60869569b84fd52bb.png', '', '包含图片，文字，点击事件。', 1, '2019-02-28 01:45:13', 0, '192.168.1.119'),
 (23, 2, '收音机控件', 'http://192.168.1.119:801/uiweb/uploads/0f/87821bfe4d2ceed787c0b7f4520ae3.png', '', '特殊控件，跟系统平台相关。', 1, '2019-02-28 01:46:34', 0, '192.168.1.119'),
 (24, 0, '静态图片', 'http://192.168.1.119:801/uiweb/uploads/37/604a49f3cef26a842dca53f265c4cc.png', '', '只显示图片并且无点击事件。', 1, '2019-02-28 01:45:22', 0, '192.168.1.119'),
 (25, 3, '日期控件', 'http://192.168.1.119:801/uiweb/uploads/80/7048235eca8611e36b03c9a943adaf.png', '', '用来显示日期的控件', 1, '2019-03-15 07:05:10', 6, '192.168.1.119'),
 (26, 4, '媒体信息控件', 'http://192.168.1.119:801/uiweb/uploads/af/d0a90782db989dbd2bab5dd993a3e2.png', '', '显示媒体播放信息', 1, '2019-03-15 07:06:20', 6, '192.168.1.119'),
-(27, 5, '镜像控件', 'http://192.168.1.119:801/uiweb/uploads/51/b013a08f7ad2ff3de49e3b9740cdd0.png', '', '可以生成镜像的图片', 1, '2019-03-15 07:04:08', 6, '192.168.1.119');
+(27, 5, '镜像控件', 'http://192.168.1.119:801/uiweb/uploads/51/b013a08f7ad2ff3de49e3b9740cdd0.png', '', '可以生成镜像的图片', 1, '2019-03-15 07:04:08', 6, '192.168.1.119'),
+(28, 6, '圆点分页导航条', 'http://192.168.1.119:801/uiweb/uploads/08/107d409667de3c3b17d9b0bd193f06.png', '', '', 1, '2019-03-25 05:31:16', 6, '192.168.1.119');
 
 -- --------------------------------------------------------
 
@@ -275,8 +277,8 @@ CREATE TABLE `fly_history` (
 --
 
 INSERT INTO `fly_history` (`historyId`, `imageurl`, `historyTitle`, `historyText`, `status`, `remark`, `createtime`, `userid`, `ip`) VALUES
-(1, 'http://192.168.1.119:801/uiweb/uploads/c6/035a74237d5db8c5fecf9f27aed033.png', '2018年4月', '我们于华翰科技园成立了', 1, NULL, '2019-03-11 06:06:09', 0, '192.168.1.119'),
-(2, 'http://192.168.1.119:801/uiweb/uploads/69/220e370672bda3779f913d88e7d17f.png', '2018年10月', '我们来到了创维创新谷这个美丽的地方', 1, NULL, '2019-03-11 06:06:07', 0, '192.168.1.119');
+(1, '/uiweb/uploads/c6/035a74237d5db8c5fecf9f27aed033.png', '2018年4月', '我们于华翰科技园成立了', 1, NULL, '2019-03-11 06:06:09', 0, '192.168.1.119'),
+(2, '/uiweb/uploads/69/220e370672bda3779f913d88e7d17f.png', '2018年10月', '我们来到了创维创新谷这个美丽的地方', 1, NULL, '2019-03-11 06:06:07', 0, '192.168.1.119');
 
 -- --------------------------------------------------------
 
@@ -321,13 +323,13 @@ INSERT INTO `fly_news` (`newsId`, `newsTitle`, `newsSort`, `imageurl1`, `imageur
 CREATE TABLE `fly_page` (
   `pageId` int(11) NOT NULL,
   `pageName` varchar(255) NOT NULL,
-  `imageurl` varchar(255) NOT NULL,
+  `imageurl` varchar(255) DEFAULT NULL,
   `width` int(11) NOT NULL,
   `height` int(11) NOT NULL,
   `status` int(11) NOT NULL DEFAULT '1',
   `remark` text,
   `edittime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `userid` int(11) DEFAULT NULL,
+  `userid` int(11) NOT NULL,
   `ip` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -336,7 +338,7 @@ CREATE TABLE `fly_page` (
 --
 
 INSERT INTO `fly_page` (`pageId`, `pageName`, `imageurl`, `width`, `height`, `status`, `remark`, `edittime`, `userid`, `ip`) VALUES
-(5, '第一页', '', 1024, 600, 1, 'Launcher-AP1', '2019-02-27 08:42:44', 0, '192.168.1.119'),
+(5, '第一页', '', 1024, 600, 1, 'Launcher-AP1', '2019-03-22 01:21:30', 6, '192.168.1.119'),
 (6, '第二页', '', 1024, 600, 1, 'Launcher-AP1', '2019-02-27 08:42:36', 0, '192.168.1.119'),
 (7, '第三页', '', 1024, 600, 1, 'Launcher-AP1', '2019-02-27 08:42:56', 0, '192.168.1.119'),
 (8, '第一页', '', 1024, 600, 1, 'Launcher-AP3', '2019-03-15 06:36:26', 6, '192.168.1.119'),
@@ -344,7 +346,13 @@ INSERT INTO `fly_page` (`pageId`, `pageName`, `imageurl`, `width`, `height`, `st
 (11, '第一页', '', 1024, 600, 1, 'Launcher-AP4', '2019-03-15 06:36:40', 6, '192.168.1.119'),
 (12, '第一页', '', 1024, 600, 1, 'Launcher-AP5', '2019-03-15 06:36:49', 6, '192.168.1.119'),
 (13, '第二页', '', 1024, 600, 1, 'Launcher-AP5', '2019-03-15 06:36:55', 6, '192.168.1.119'),
-(14, '第一页', '', 1024, 600, 1, 'Launcher-AP6', '2019-03-15 06:37:06', 6, '192.168.1.119');
+(14, '第一页', '', 1024, 600, 1, 'Launcher-AP6', '2019-03-15 06:37:06', 6, '192.168.1.119'),
+(21, 'TOP_PAGE', NULL, 1024, 600, 2, NULL, '2019-03-23 07:49:43', 6, '192.168.1.119'),
+(22, 'TOP_PAGE', NULL, 1024, 600, 2, NULL, '2019-03-23 08:02:40', 6, '192.168.1.119'),
+(23, 'TOP_PAGE', NULL, 1024, 600, 2, NULL, '2019-03-23 08:03:29', 6, '192.168.1.119'),
+(24, 'TOP_PAGE', NULL, 1024, 600, 2, NULL, '2019-03-23 08:03:35', 6, '192.168.1.119'),
+(25, 'TOP_PAGE', NULL, 1024, 600, 2, NULL, '2019-03-23 08:03:37', 6, '192.168.1.119'),
+(26, 'TOP_PAGE', NULL, 1024, 600, 2, NULL, '2019-03-23 08:03:40', 6, '192.168.1.119');
 
 -- --------------------------------------------------------
 
@@ -408,31 +416,32 @@ INSERT INTO `fly_pagecell` (`id`, `pageId`, `cellId`, `x`, `y`, `width`, `height
 (39, 11, 41, 454, 420, 112, 112),
 (40, 11, 42, 659, 420, 112, 112),
 (41, 11, 43, 866, 420, 112, 112),
-(48, 12, 46, 0, 0, 387, 600),
-(49, 12, 47, 387, 121, 120, 102),
-(50, 12, 48, 608, 121, 120, 102),
-(51, 12, 49, 829, 121, 120, 102),
-(52, 12, 50, 387, 349, 120, 102),
-(53, 12, 51, 608, 349, 120, 102),
-(54, 12, 52, 829, 349, 120, 102),
-(61, 13, 46, 0, 0, 387, 600),
-(62, 13, 53, 387, 121, 120, 102),
-(63, 13, 57, 608, 121, 120, 102),
-(64, 13, 54, 828, 121, 120, 102),
-(65, 13, 55, 387, 349, 120, 102),
-(66, 13, 56, 608, 349, 120, 102),
-(96, 14, 67, 460, 72, 105, 105),
-(97, 14, 68, 660, 72, 105, 105),
-(98, 14, 69, 860, 72, 105, 105),
-(99, 14, 70, 460, 252, 105, 105),
-(100, 14, 71, 660, 252, 105, 105),
-(101, 14, 72, 860, 252, 105, 105),
-(102, 14, 73, 60, 432, 105, 105),
-(103, 14, 74, 260, 432, 105, 105),
-(104, 14, 75, 460, 432, 105, 105),
-(105, 14, 76, 660, 432, 105, 105),
-(106, 14, 77, 860, 432, 105, 105),
-(107, 14, 66, 20, 79, 406, 272);
+(120, 14, 67, 460, 72, 105, 105),
+(121, 14, 68, 660, 72, 105, 105),
+(122, 14, 69, 860, 72, 105, 105),
+(123, 14, 70, 460, 252, 105, 105),
+(124, 14, 71, 660, 252, 105, 105),
+(125, 14, 72, 860, 252, 105, 105),
+(126, 14, 73, 60, 432, 105, 105),
+(127, 14, 74, 260, 432, 105, 105),
+(128, 14, 75, 460, 432, 105, 105),
+(129, 14, 76, 660, 432, 105, 105),
+(130, 14, 77, 860, 432, 105, 105),
+(131, 14, 66, 27, 86, 406, 272),
+(136, 26, 78, 0, 530, 1024, 16),
+(139, 12, 47, 387, 121, 120, 102),
+(140, 12, 48, 608, 121, 120, 102),
+(141, 12, 49, 829, 121, 120, 102),
+(142, 12, 50, 387, 349, 120, 102),
+(143, 12, 51, 608, 349, 120, 102),
+(144, 12, 52, 829, 349, 120, 102),
+(145, 13, 53, 387, 121, 120, 102),
+(146, 13, 57, 608, 121, 120, 102),
+(147, 13, 54, 828, 121, 120, 102),
+(148, 13, 55, 387, 349, 120, 102),
+(149, 13, 56, 608, 349, 120, 102),
+(150, 24, 46, 0, 0, 387, 600),
+(151, 24, 78, 0, 530, 1024, 16);
 
 -- --------------------------------------------------------
 
@@ -565,7 +574,7 @@ CREATE TABLE `fly_product` (
 --
 
 INSERT INTO `fly_product` (`productId`, `imageurl`, `productSort`, `productTitle`, `productDetail`, `status`, `iconurl`, `remark`, `edittime`, `userid`, `ip`) VALUES
-(2, 'http://192.168.1.119:801/uiweb/uploads/23/e3cf886844a7287f16c2583dbef583.jpg', 1, '核心板', '核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板', 1, '/uiweb/uploads/21/911649e1292399373950dfa2b9acbf.png', '', '2019-03-01 06:21:46', 0, '192.168.1.119'),
+(2, '/uiweb/uploads/23/e3cf886844a7287f16c2583dbef583.jpg', 1, '核心板', '核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板核心板', 1, '/uiweb/uploads/21/911649e1292399373950dfa2b9acbf.png', '', '2019-03-01 06:21:46', 0, '192.168.1.119'),
 (3, 'http://192.168.1.119:801/uiweb/uploads/13/f8d257805c7dfe62baa69adc8eaaea.jpg', 2, '一体板', '一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板一体板', 1, '/uiweb/uploads/30/c3804c8eeb10fc1021e76a62ebb609.png', '', '2019-03-11 06:05:43', 6, '192.168.1.119');
 
 -- --------------------------------------------------------
@@ -795,30 +804,36 @@ INSERT INTO `fly_role_permission` (`id`, `role_id`, `permission_id`) VALUES
 
 CREATE TABLE `fly_theme` (
   `themeId` int(11) NOT NULL,
-  `themeName` varchar(64) NOT NULL,
-  `themeType` int(11) DEFAULT NULL,
-  `width` int(11) NOT NULL,
-  `height` int(11) NOT NULL,
+  `themeName` varchar(255) NOT NULL,
+  `themeType` int(11) NOT NULL DEFAULT '0',
+  `screenWidth` int(11) NOT NULL,
+  `screenHeight` int(11) NOT NULL,
+  `left` int(11) NOT NULL DEFAULT '0',
+  `top` int(11) NOT NULL DEFAULT '0',
+  `right` int(11) NOT NULL DEFAULT '0',
+  `bottom` int(11) NOT NULL DEFAULT '0',
   `imageurl` varchar(255) DEFAULT NULL,
   `isMirror` tinyint(1) NOT NULL,
   `animType` int(11) NOT NULL,
   `status` int(11) NOT NULL DEFAULT '1',
   `remark` text,
+  `topPageId` int(11) DEFAULT NULL,
   `edittime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `userid` int(11) NOT NULL,
-  `ip` varchar(16) NOT NULL
+  `ip` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `fly_theme`
 --
 
-INSERT INTO `fly_theme` (`themeId`, `themeName`, `themeType`, `width`, `height`, `imageurl`, `isMirror`, `animType`, `status`, `remark`, `edittime`, `userid`, `ip`) VALUES
-(5, 'Launcher-AP1', NULL, 1024, 600, 'http://192.168.1.119:801/uiweb/uploads/4c/b32fd9b6fae5c378c2c0410e7cf70f.jpg', 1, 1, 1, '', '2019-03-01 05:06:46', 0, '192.168.1.119'),
-(7, 'Launcher-AP3', NULL, 1024, 600, 'http://192.168.1.119:801/uiweb/uploads/f8/fc65ab56c952ebccd91be18b9a2d06.png', 1, 1, 1, '', '2019-03-15 05:55:58', 6, '192.168.1.119'),
-(12, 'Launcher-AP4', NULL, 1024, 600, 'http://192.168.1.119:801/uiweb/uploads/b0/c768931cd086751d854d1847e181cf.png', 0, 0, 1, '', '2019-03-15 05:56:04', 6, '192.168.1.119'),
-(13, 'Launcher-AP5', NULL, 1024, 600, 'http://192.168.1.119:801/uiweb/uploads/2f/e2f98c6ff84f553cc7c7079b721ad1.png', 0, 1, 1, '', '2019-03-15 05:56:11', 6, '192.168.1.119'),
-(14, 'Launcher-AP6', NULL, 1024, 600, '', 0, 0, 1, '', '2019-03-15 05:58:40', 6, '192.168.1.119');
+INSERT INTO `fly_theme` (`themeId`, `themeName`, `themeType`, `screenWidth`, `screenHeight`, `left`, `top`, `right`, `bottom`, `imageurl`, `isMirror`, `animType`, `status`, `remark`, `topPageId`, `edittime`, `userid`, `ip`) VALUES
+(5, 'Launcher-AP1', 0, 1024, 600, 0, 0, 1024, 600, 'http://192.168.1.119:801/uiweb/uploads/4c/b32fd9b6fae5c378c2c0410e7cf70f.jpg', 1, 1, 1, '', 21, '2019-03-25 08:34:40', 6, '192.168.1.119'),
+(7, 'Launcher-AP3', 0, 1024, 600, 0, 0, 1024, 600, 'http://192.168.1.119:801/uiweb/uploads/f8/fc65ab56c952ebccd91be18b9a2d06.png', 1, 1, 1, '', 22, '2019-03-25 08:34:54', 6, '192.168.1.119'),
+(12, 'Launcher-AP4', 0, 1024, 600, 0, 0, 1024, 600, 'http://192.168.1.119:801/uiweb/uploads/b0/c768931cd086751d854d1847e181cf.png', 0, 0, 1, '', 23, '2019-03-25 08:35:06', 6, '192.168.1.119'),
+(13, 'Launcher-AP5', 0, 1024, 600, 296, 0, 1024, 600, 'http://192.168.1.119:801/uiweb/uploads/2f/e2f98c6ff84f553cc7c7079b721ad1.png', 0, 2, 1, '', 24, '2019-03-25 09:45:19', 6, '192.168.1.119'),
+(14, 'Launcher-AP6', 0, 1024, 600, 0, 0, 1024, 600, 'http://192.168.1.119:801/uiweb/uploads/d3/b3bb3a1a9a2ae08b6585c8512d769b.png', 0, 0, 1, '', 25, '2019-03-25 08:35:30', 6, '192.168.1.119'),
+(15, 'Music-AP1', 0, 1024, 600, 0, 0, 1024, 600, 'http://192.168.1.119:801/uiweb/uploads/42/e1f50a04f3daaa87b24d9883631db4.png', 1, 1, 1, '', 26, '2019-03-25 08:35:58', 6, '192.168.1.119');
 
 -- --------------------------------------------------------
 
@@ -848,7 +863,10 @@ INSERT INTO `fly_themepage` (`id`, `themeId`, `pageId`) VALUES
 (14, 13, 13),
 (26, 7, 8),
 (27, 7, 9),
-(28, 14, 14);
+(30, 14, 14),
+(32, 15, 5),
+(33, 15, 6),
+(34, 15, 7);
 
 -- --------------------------------------------------------
 
@@ -994,7 +1012,60 @@ INSERT INTO `fly_user_log` (`id`, `userid`, `event`, `tableName`, `data`, `creat
 (94, 6, 'edit', 'celltype', '{\"celltypeName\":\"\\u65e5\\u671f\\u63a7\\u4ef6\",\"celltype\":\"3\",\"imageurl\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/80\\/7048235eca8611e36b03c9a943adaf.png\",\"extend\":\"\",\"remark\":\"\\u7528\\u6765\\u663e\\u793a\\u65e5\\u671f\\u7684\\u63a7\\u4ef6\",\"celltypeId\":\"25\",\"ip\":\"192.168.1.119\",\"userid\":6}', '2019-03-15 07:05:10', '192.168.1.119'),
 (95, 6, 'edit', 'celltype', '{\"celltypeName\":\"\\u5a92\\u4f53\\u4fe1\\u606f\\u63a7\\u4ef6\",\"celltype\":\"4\",\"imageurl\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/af\\/d0a90782db989dbd2bab5dd993a3e2.png\",\"extend\":\"\",\"remark\":\"\\u663e\\u793a\\u5a92\\u4f53\\u64ad\\u653e\\u4fe1\\u606f\",\"celltypeId\":\"26\",\"ip\":\"192.168.1.119\",\"userid\":6}', '2019-03-15 07:06:20', '192.168.1.119'),
 (96, 6, 'edit', 'cell', '{\"celltypeId\":\"25\",\"imageurl1\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/15\\/22a1b70b85f3dd21b0f9dafbe8f6ac.png\",\"imageurl2\":\"\",\"width\":\"406\",\"height\":\"272\",\"textTitle\":\"\",\"textSize\":\"80\",\"textColor\":\"\",\"textFont\":\"\",\"textLeft\":\"0\",\"textTop\":\"0\",\"textRight\":\"0\",\"textBottom\":\"0\",\"textAlign\":\"\",\"packName\":\"\",\"className\":\"\",\"intentFlag\":\"\",\"action\":\"\",\"flyAction\":\"\",\"remark\":\"\",\"cellId\":\"66\"}', '2019-03-15 07:13:41', '192.168.1.119'),
-(97, 6, 'edit', 'cell', '{\"celltypeId\":\"25\",\"imageurl1\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/15\\/22a1b70b85f3dd21b0f9dafbe8f6ac.png\",\"imageurl2\":\"\",\"width\":\"406\",\"height\":\"272\",\"textTitle\":\"\",\"textSize\":\"64\",\"textColor\":\"\",\"textFont\":\"\",\"textLeft\":\"0\",\"textTop\":\"0\",\"textRight\":\"0\",\"textBottom\":\"0\",\"textAlign\":\"\",\"packName\":\"\",\"className\":\"\",\"intentFlag\":\"\",\"action\":\"\",\"flyAction\":\"\",\"remark\":\"\",\"cellId\":\"66\"}', '2019-03-15 07:13:56', '192.168.1.119');
+(97, 6, 'edit', 'cell', '{\"celltypeId\":\"25\",\"imageurl1\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/15\\/22a1b70b85f3dd21b0f9dafbe8f6ac.png\",\"imageurl2\":\"\",\"width\":\"406\",\"height\":\"272\",\"textTitle\":\"\",\"textSize\":\"64\",\"textColor\":\"\",\"textFont\":\"\",\"textLeft\":\"0\",\"textTop\":\"0\",\"textRight\":\"0\",\"textBottom\":\"0\",\"textAlign\":\"\",\"packName\":\"\",\"className\":\"\",\"intentFlag\":\"\",\"action\":\"\",\"flyAction\":\"\",\"remark\":\"\",\"cellId\":\"66\"}', '2019-03-15 07:13:56', '192.168.1.119'),
+(98, 6, 'edit', 'theme', '{\"themeName\":\"Launcher-AP6\",\"width\":\"1024\",\"height\":\"600\",\"isMirror\":\"0\",\"animType\":\"0\",\"imageurl\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/d3\\/b3bb3a1a9a2ae08b6585c8512d769b.png\",\"remark\":\"\",\"themeId\":\"14\",\"ip\":\"192.168.1.119\",\"userid\":6}', '2019-03-15 09:50:45', '192.168.1.119'),
+(99, 6, 'login', '', '', '2019-03-15 10:02:21', '192.168.1.119'),
+(100, 6, 'login', '', '', '2019-03-18 00:40:55', '192.168.1.119'),
+(101, 6, 'login', '', '', '2019-03-19 07:01:09', '192.168.1.119'),
+(102, 6, 'add', 'theme', '{\"themeName\":\"Music-AP1\",\"width\":\"1024\",\"height\":\"600\",\"isMirror\":\"0\",\"animType\":\"0\",\"imageurl\":\"\",\"remark\":\"\",\"ip\":\"192.168.1.119\",\"userid\":6,\"themeId\":\"15\"}', '2019-03-19 07:06:18', '192.168.1.119'),
+(103, 6, 'add', 'page', '{\"pageName\":\"Music_Menu\",\"imageurl\":\"\",\"width\":\"1024\",\"height\":\"600\",\"remark\":\"Music-AP1\",\"ip\":\"192.168.1.119\",\"userid\":6,\"pageId\":\"15\"}', '2019-03-19 08:23:03', '192.168.1.119'),
+(104, 6, 'login', '', '', '2019-03-20 00:53:05', '192.168.1.119'),
+(105, 6, 'login', '', '', '2019-03-20 00:53:33', '192.168.1.119'),
+(106, 6, 'login', '', '', '2019-03-20 03:49:22', '192.168.1.119'),
+(107, 6, 'login', '', '', '2019-03-21 00:45:08', '192.168.1.119'),
+(108, 6, 'login', '', '', '2019-03-22 00:36:49', '192.168.1.119'),
+(109, 6, 'edit', 'page', '{\"pageName\":\"\\u7b2c\\u4e00\\u9875\",\"imageurl\":\"\",\"width\":\"1920\",\"height\":\"1080\",\"remark\":\"Launcher-AP1\",\"pageId\":\"5\",\"ip\":\"192.168.1.119\",\"userid\":6}', '2019-03-22 01:20:57', '192.168.1.119'),
+(110, 6, 'edit', 'page', '{\"pageName\":\"\\u7b2c\\u4e00\\u9875\",\"imageurl\":\"\",\"width\":\"1024\",\"height\":\"600\",\"remark\":\"Launcher-AP1\",\"pageId\":\"5\",\"ip\":\"192.168.1.119\",\"userid\":6}', '2019-03-22 01:21:30', '192.168.1.119'),
+(111, 6, 'edit', 'page', '{\"pageName\":\"Launcher-TOP\",\"imageurl\":\"\",\"width\":\"1024\",\"height\":\"600\",\"remark\":\"Launcher\",\"pageId\":\"15\",\"ip\":\"192.168.1.119\",\"userid\":6}', '2019-03-22 01:22:06', '192.168.1.119'),
+(112, 6, 'edit', 'page', '{\"pageName\":\"Launcher\\u9876\\u90e8\\u9875\\u9762\",\"imageurl\":\"\",\"width\":\"1024\",\"height\":\"600\",\"remark\":\"Launcher\",\"pageId\":\"15\",\"ip\":\"192.168.1.119\",\"userid\":6}', '2019-03-22 01:22:41', '192.168.1.119'),
+(113, 6, 'login', '', '', '2019-03-22 06:22:17', '192.168.1.119'),
+(114, 6, 'edit', 'theme', '{\"themeName\":\"\\u7b2c\\u4e00\\u9875\",\"screenWidth\":\"1024\",\"screenHeight\":\"600\",\"isMirror\":\"0\",\"animType\":\"0\",\"imageurl\":\"\",\"remark\":\"\",\"themeId\":\"15\",\"ip\":\"192.168.1.119\",\"userid\":6}', '2019-03-22 06:50:57', '192.168.1.119'),
+(115, 6, 'edit', 'theme', '{\"themeName\":\"Music-AP1\",\"screenWidth\":\"1024\",\"screenHeight\":\"600\",\"isMirror\":\"0\",\"animType\":\"0\",\"imageurl\":\"\",\"remark\":\"\",\"themeId\":\"15\",\"ip\":\"192.168.1.119\",\"userid\":6}', '2019-03-22 06:52:34', '192.168.1.119'),
+(116, 6, 'del', 'page', '{\"pageId\":\"15\",\"status\":0}', '2019-03-22 07:00:07', '192.168.1.119'),
+(117, 6, 'login', '', '', '2019-03-22 09:59:49', '192.168.1.119'),
+(118, 6, 'login', '', '', '2019-03-23 00:44:15', '192.168.1.119'),
+(119, 6, 'add', 'page', '{\"pageName\":\"TOP_PAGE\",\"status\":2,\"width\":1024,\"height\":600,\"userid\":6,\"ip\":\"192.168.1.119\",\"pageId\":\"21\"}', '2019-03-23 07:49:44', '192.168.1.119'),
+(120, 6, 'edit', 'theme', '{\"themeId\":5,\"themeName\":\"Launcher-AP1\",\"themeType\":null,\"screenWidth\":1024,\"screenHeight\":600,\"x\":0,\"y\":0,\"width\":0,\"height\":0,\"imageurl\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/4c\\/b32fd9b6fae5c378c2c0410e7cf70f.jpg\",\"isMirror\":1,\"animType\":1,\"status\":1,\"remark\":\"\",\"topPageId\":\"21\"}', '2019-03-23 07:49:44', '192.168.1.119'),
+(121, 6, 'add', 'page', '{\"pageName\":\"TOP_PAGE\",\"status\":2,\"width\":1024,\"height\":600,\"userid\":6,\"ip\":\"192.168.1.119\",\"pageId\":\"22\"}', '2019-03-23 08:02:40', '192.168.1.119'),
+(122, 6, 'edit', 'theme', '{\"themeId\":7,\"themeName\":\"Launcher-AP3\",\"themeType\":null,\"screenWidth\":1024,\"screenHeight\":600,\"x\":0,\"y\":0,\"width\":0,\"height\":0,\"imageurl\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/f8\\/fc65ab56c952ebccd91be18b9a2d06.png\",\"isMirror\":1,\"animType\":1,\"status\":1,\"remark\":\"\",\"topPageId\":\"22\"}', '2019-03-23 08:02:40', '192.168.1.119'),
+(123, 6, 'add', 'page', '{\"pageName\":\"TOP_PAGE\",\"status\":2,\"width\":1024,\"height\":600,\"userid\":6,\"ip\":\"192.168.1.119\",\"pageId\":\"23\"}', '2019-03-23 08:03:29', '192.168.1.119'),
+(124, 6, 'edit', 'theme', '{\"themeId\":12,\"themeName\":\"Launcher-AP4\",\"themeType\":null,\"screenWidth\":1024,\"screenHeight\":600,\"x\":0,\"y\":0,\"width\":0,\"height\":0,\"imageurl\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/b0\\/c768931cd086751d854d1847e181cf.png\",\"isMirror\":0,\"animType\":0,\"status\":1,\"remark\":\"\",\"topPageId\":\"23\"}', '2019-03-23 08:03:29', '192.168.1.119'),
+(125, 6, 'add', 'page', '{\"pageName\":\"TOP_PAGE\",\"status\":2,\"width\":1024,\"height\":600,\"userid\":6,\"ip\":\"192.168.1.119\",\"pageId\":\"24\"}', '2019-03-23 08:03:35', '192.168.1.119'),
+(126, 6, 'edit', 'theme', '{\"themeId\":13,\"themeName\":\"Launcher-AP5\",\"themeType\":null,\"screenWidth\":1024,\"screenHeight\":600,\"x\":0,\"y\":0,\"width\":0,\"height\":0,\"imageurl\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/2f\\/e2f98c6ff84f553cc7c7079b721ad1.png\",\"isMirror\":0,\"animType\":1,\"status\":1,\"remark\":\"\",\"topPageId\":\"24\"}', '2019-03-23 08:03:35', '192.168.1.119'),
+(127, 6, 'add', 'page', '{\"pageName\":\"TOP_PAGE\",\"status\":2,\"width\":1024,\"height\":600,\"userid\":6,\"ip\":\"192.168.1.119\",\"pageId\":\"25\"}', '2019-03-23 08:03:37', '192.168.1.119'),
+(128, 6, 'edit', 'theme', '{\"themeId\":14,\"themeName\":\"Launcher-AP6\",\"themeType\":null,\"screenWidth\":1024,\"screenHeight\":600,\"x\":0,\"y\":0,\"width\":0,\"height\":0,\"imageurl\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/d3\\/b3bb3a1a9a2ae08b6585c8512d769b.png\",\"isMirror\":0,\"animType\":0,\"status\":1,\"remark\":\"\",\"topPageId\":\"25\"}', '2019-03-23 08:03:37', '192.168.1.119'),
+(129, 6, 'add', 'page', '{\"pageName\":\"TOP_PAGE\",\"status\":2,\"width\":1024,\"height\":600,\"userid\":6,\"ip\":\"192.168.1.119\",\"pageId\":\"26\"}', '2019-03-23 08:03:40', '192.168.1.119'),
+(130, 6, 'edit', 'theme', '{\"themeId\":15,\"themeName\":\"Music-AP1\",\"themeType\":null,\"screenWidth\":1024,\"screenHeight\":600,\"x\":0,\"y\":0,\"width\":0,\"height\":0,\"imageurl\":\"\",\"isMirror\":0,\"animType\":0,\"status\":1,\"remark\":\"\",\"topPageId\":\"26\"}', '2019-03-23 08:03:40', '192.168.1.119'),
+(131, 6, 'edit', 'theme', '{\"themeName\":\"Music-AP1\",\"screenWidth\":\"1024\",\"screenHeight\":\"600\",\"isMirror\":\"0\",\"animType\":\"0\",\"imageurl\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/42\\/e1f50a04f3daaa87b24d9883631db4.png\",\"remark\":\"\",\"themeId\":\"15\",\"ip\":\"192.168.1.119\",\"userid\":6}', '2019-03-23 08:04:31', '192.168.1.119'),
+(132, 6, 'login', '', '', '2019-03-25 02:00:45', '192.168.1.119'),
+(133, 6, 'edit', 'theme', '{\"themeName\":\"Music-AP1\",\"screenWidth\":\"1024\",\"screenHeight\":\"600\",\"isMirror\":\"1\",\"animType\":\"1\",\"imageurl\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/42\\/e1f50a04f3daaa87b24d9883631db4.png\",\"remark\":\"\",\"themeId\":\"15\",\"ip\":\"192.168.1.119\",\"userid\":6}', '2019-03-25 02:48:42', '192.168.1.119'),
+(134, 6, 'add', 'celltype', '{\"celltypeName\":\"\\u5bfc\\u822a\\u6761\",\"celltype\":\"6\",\"imageurl\":\"\",\"remark\":\"\",\"ip\":\"192.168.1.119\",\"userid\":6,\"celltypeId\":\"28\"}', '2019-03-25 05:25:27', '192.168.1.119'),
+(135, 6, 'edit', 'celltype', '{\"celltypeName\":\"\\u5bfc\\u822a\\u6761\",\"celltype\":\"6\",\"imageurl\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/08\\/107d409667de3c3b17d9b0bd193f06.png\",\"extend\":\"\",\"remark\":\"\",\"celltypeId\":\"28\",\"ip\":\"192.168.1.119\",\"userid\":6}', '2019-03-25 05:29:47', '192.168.1.119'),
+(136, 6, 'edit', 'celltype', '{\"celltypeName\":\"\\u5706\\u70b9\\u9875\\u9762\\u5bfc\\u822a\\u6307\\u793a\\u6761\",\"celltype\":\"6\",\"imageurl\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/08\\/107d409667de3c3b17d9b0bd193f06.png\",\"extend\":\"\",\"remark\":\"\",\"celltypeId\":\"28\",\"ip\":\"192.168.1.119\",\"userid\":6}', '2019-03-25 05:30:43', '192.168.1.119'),
+(137, 6, 'edit', 'celltype', '{\"celltypeName\":\"\\u5706\\u70b9\\u9875\\u9762\\u5bfc\\u822a\\u6761\",\"celltype\":\"6\",\"imageurl\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/08\\/107d409667de3c3b17d9b0bd193f06.png\",\"extend\":\"\",\"remark\":\"\",\"celltypeId\":\"28\",\"ip\":\"192.168.1.119\",\"userid\":6}', '2019-03-25 05:30:56', '192.168.1.119'),
+(138, 6, 'edit', 'celltype', '{\"celltypeName\":\"\\u5706\\u70b9\\u5bfc\\u822a\\u6761\",\"celltype\":\"6\",\"imageurl\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/08\\/107d409667de3c3b17d9b0bd193f06.png\",\"extend\":\"\",\"remark\":\"\",\"celltypeId\":\"28\",\"ip\":\"192.168.1.119\",\"userid\":6}', '2019-03-25 05:31:04', '192.168.1.119'),
+(139, 6, 'edit', 'celltype', '{\"celltypeName\":\"\\u5706\\u70b9\\u5206\\u9875\\u5bfc\\u822a\\u6761\",\"celltype\":\"6\",\"imageurl\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/08\\/107d409667de3c3b17d9b0bd193f06.png\",\"extend\":\"\",\"remark\":\"\",\"celltypeId\":\"28\",\"ip\":\"192.168.1.119\",\"userid\":6}', '2019-03-25 05:31:16', '192.168.1.119'),
+(140, 6, 'add', 'cell', '{\"celltypeId\":\"28\",\"imageurl1\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/40\\/841f8b970233545b18c849c6908a49.png\",\"imageurl2\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/a9\\/107fb29ec2972ec649ca6a57fbbaf5.png\",\"width\":\"1024\",\"height\":\"16\",\"textTitle\":\"\",\"textSize\":\"\",\"textColor\":\"\",\"textFont\":\"\",\"textLeft\":\"\",\"textTop\":\"\",\"textRight\":\"\",\"textBottom\":\"\",\"textAlign\":\"\",\"packName\":\"\",\"className\":\"\",\"intentFlag\":\"\",\"action\":\"\",\"flyAction\":\"\",\"remark\":\"\",\"cellId\":\"78\"}', '2019-03-25 05:33:12', '192.168.1.119'),
+(141, 6, 'edit', 'theme', '{\"themeName\":\"Launcher-AP1\",\"screenWidth\":\"1024\",\"screenHeight\":\"600\",\"left\":\"0\",\"top\":\"0\",\"right\":\"1024\",\"bottom\":\"600\",\"isMirror\":\"1\",\"animType\":\"1\",\"imageurl\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/4c\\/b32fd9b6fae5c378c2c0410e7cf70f.jpg\",\"remark\":\"\",\"themeId\":\"5\",\"ip\":\"192.168.1.119\",\"userid\":6}', '2019-03-25 08:34:40', '192.168.1.119'),
+(142, 6, 'edit', 'theme', '{\"themeName\":\"Launcher-AP3\",\"screenWidth\":\"1024\",\"screenHeight\":\"600\",\"left\":\"0\",\"top\":\"0\",\"right\":\"1024\",\"bottom\":\"600\",\"isMirror\":\"1\",\"animType\":\"1\",\"imageurl\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/f8\\/fc65ab56c952ebccd91be18b9a2d06.png\",\"remark\":\"\",\"themeId\":\"7\",\"ip\":\"192.168.1.119\",\"userid\":6}', '2019-03-25 08:34:54', '192.168.1.119'),
+(143, 6, 'edit', 'theme', '{\"themeName\":\"Launcher-AP4\",\"screenWidth\":\"1024\",\"screenHeight\":\"600\",\"left\":\"0\",\"top\":\"0\",\"right\":\"1024\",\"bottom\":\"600\",\"isMirror\":\"0\",\"animType\":\"0\",\"imageurl\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/b0\\/c768931cd086751d854d1847e181cf.png\",\"remark\":\"\",\"themeId\":\"12\",\"ip\":\"192.168.1.119\",\"userid\":6}', '2019-03-25 08:35:06', '192.168.1.119'),
+(144, 6, 'edit', 'theme', '{\"themeName\":\"Launcher-AP5\",\"screenWidth\":\"1024\",\"screenHeight\":\"600\",\"left\":\"0\",\"top\":\"0\",\"right\":\"1024\",\"bottom\":\"600\",\"isMirror\":\"0\",\"animType\":\"1\",\"imageurl\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/2f\\/e2f98c6ff84f553cc7c7079b721ad1.png\",\"remark\":\"\",\"themeId\":\"13\",\"ip\":\"192.168.1.119\",\"userid\":6}', '2019-03-25 08:35:16', '192.168.1.119'),
+(145, 6, 'edit', 'theme', '{\"themeName\":\"Launcher-AP6\",\"screenWidth\":\"1024\",\"screenHeight\":\"600\",\"left\":\"0\",\"top\":\"0\",\"right\":\"1024\",\"bottom\":\"600\",\"isMirror\":\"0\",\"animType\":\"0\",\"imageurl\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/d3\\/b3bb3a1a9a2ae08b6585c8512d769b.png\",\"remark\":\"\",\"themeId\":\"14\",\"ip\":\"192.168.1.119\",\"userid\":6}', '2019-03-25 08:35:30', '192.168.1.119'),
+(146, 6, 'edit', 'theme', '{\"themeName\":\"Music-AP1\",\"screenWidth\":\"1024\",\"screenHeight\":\"600\",\"left\":\"0\",\"top\":\"0\",\"right\":\"1024\",\"bottom\":\"600\",\"isMirror\":\"1\",\"animType\":\"1\",\"imageurl\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/42\\/e1f50a04f3daaa87b24d9883631db4.png\",\"remark\":\"\",\"themeId\":\"15\",\"ip\":\"192.168.1.119\",\"userid\":6}', '2019-03-25 08:35:58', '192.168.1.119'),
+(147, 6, 'edit', 'theme', '{\"themeName\":\"Launcher-AP5\",\"screenWidth\":\"1024\",\"screenHeight\":\"600\",\"left\":\"191\",\"top\":\"0\",\"right\":\"1024\",\"bottom\":\"600\",\"isMirror\":\"0\",\"animType\":\"1\",\"imageurl\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/2f\\/e2f98c6ff84f553cc7c7079b721ad1.png\",\"remark\":\"\",\"themeId\":\"13\",\"ip\":\"192.168.1.119\",\"userid\":6}', '2019-03-25 08:47:50', '192.168.1.119'),
+(148, 6, 'edit', 'theme', '{\"themeName\":\"Launcher-AP5\",\"screenWidth\":\"1024\",\"screenHeight\":\"600\",\"left\":\"296\",\"top\":\"0\",\"right\":\"1024\",\"bottom\":\"600\",\"isMirror\":\"0\",\"animType\":\"1\",\"imageurl\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/2f\\/e2f98c6ff84f553cc7c7079b721ad1.png\",\"remark\":\"\",\"themeId\":\"13\",\"ip\":\"192.168.1.119\",\"userid\":6}', '2019-03-25 09:29:27', '192.168.1.119'),
+(149, 6, 'edit', 'theme', '{\"themeName\":\"Launcher-AP5\",\"screenWidth\":\"1024\",\"screenHeight\":\"600\",\"left\":\"296\",\"top\":\"0\",\"right\":\"1024\",\"bottom\":\"600\",\"isMirror\":\"0\",\"animType\":\"0\",\"imageurl\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/2f\\/e2f98c6ff84f553cc7c7079b721ad1.png\",\"remark\":\"\",\"themeId\":\"13\",\"ip\":\"192.168.1.119\",\"userid\":6}', '2019-03-25 09:30:05', '192.168.1.119'),
+(150, 6, 'edit', 'theme', '{\"themeName\":\"Launcher-AP5\",\"screenWidth\":\"1024\",\"screenHeight\":\"600\",\"left\":\"296\",\"top\":\"0\",\"right\":\"1024\",\"bottom\":\"600\",\"isMirror\":\"0\",\"animType\":\"2\",\"imageurl\":\"http:\\/\\/192.168.1.119:801\\/uiweb\\/uploads\\/2f\\/e2f98c6ff84f553cc7c7079b721ad1.png\",\"remark\":\"\",\"themeId\":\"13\",\"ip\":\"192.168.1.119\",\"userid\":6}', '2019-03-25 09:45:19', '192.168.1.119');
 
 -- --------------------------------------------------------
 
@@ -1041,7 +1112,7 @@ CREATE TABLE `fly_welcome` (
 
 INSERT INTO `fly_welcome` (`welcomeId`, `imageurl`, `welcomeTitle`, `welcomeText`, `welcomeSort`, `status`, `userid`, `edittime`, `ip`) VALUES
 (1, 'http://192.168.1.119:801/uiweb/uploads/7e/b83361c57dc762493d937381938176.jpg', '深圳景安驰', '保持驾驶安全永远是第一重要，任何新功能的增加都必须先考虑这个原则。', 1, 1, 6, '2019-03-06 08:11:52', '192.168.1.119'),
-(3, 'http://192.168.1.119:801/uiweb/uploads/3b/1b79b7bfda8e8841538b7291782506.jpg', '深圳景安驰', '车载系统不是手机系统的简单移植，手机上的应用大部分也不适合车载系统。', 2, 1, 0, '2019-02-21 07:10:00', '192.168.1.119'),
+(3, '/uiweb/uploads/3b/1b79b7bfda8e8841538b7291782506.jpg', '深圳景安驰', '车载系统不是手机系统的简单移植，手机上的应用大部分也不适合车载系统。', 2, 1, 0, '2019-02-21 07:10:00', '192.168.1.119'),
 (4, 'http://192.168.1.119:801/uiweb/uploads/7e/b83361c57dc762493d937381938176.jpg', '深圳景安驰', '车载系统不是手机系统的简单移植，手机上的应用大部分也不适合车载系统。车载系统不是手机系统的简单移植，手机上的应用大部分也不适合车载系统。', 3, 1, 0, '2019-03-11 06:05:04', '192.168.1.119');
 
 --
@@ -1189,7 +1260,7 @@ ALTER TABLE `fly_cases`
 -- 使用表AUTO_INCREMENT `fly_cell`
 --
 ALTER TABLE `fly_cell`
-  MODIFY `cellId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `cellId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- 使用表AUTO_INCREMENT `fly_cellsub`
@@ -1201,7 +1272,7 @@ ALTER TABLE `fly_cellsub`
 -- 使用表AUTO_INCREMENT `fly_celltype`
 --
 ALTER TABLE `fly_celltype`
-  MODIFY `celltypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `celltypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- 使用表AUTO_INCREMENT `fly_history`
@@ -1219,13 +1290,13 @@ ALTER TABLE `fly_news`
 -- 使用表AUTO_INCREMENT `fly_page`
 --
 ALTER TABLE `fly_page`
-  MODIFY `pageId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `pageId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- 使用表AUTO_INCREMENT `fly_pagecell`
 --
 ALTER TABLE `fly_pagecell`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=152;
 
 --
 -- 使用表AUTO_INCREMENT `fly_permission`
@@ -1261,13 +1332,13 @@ ALTER TABLE `fly_role_permission`
 -- 使用表AUTO_INCREMENT `fly_theme`
 --
 ALTER TABLE `fly_theme`
-  MODIFY `themeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `themeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- 使用表AUTO_INCREMENT `fly_themepage`
 --
 ALTER TABLE `fly_themepage`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- 使用表AUTO_INCREMENT `fly_user`
@@ -1279,7 +1350,7 @@ ALTER TABLE `fly_user`
 -- 使用表AUTO_INCREMENT `fly_user_log`
 --
 ALTER TABLE `fly_user_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=151;
 
 --
 -- 使用表AUTO_INCREMENT `fly_user_role`
