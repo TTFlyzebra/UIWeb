@@ -23,8 +23,8 @@ class Cell extends BaseRestful
                 ]
             ];
             $field = ['a.cellId', 'a.width', 'a.height', 'a.imageurl1', 'a.imageurl2', 'a.textTitle', 'a.textSize', 'a.textColor',
-                'a.textAlign', 'a.textFont', 'a.textLeft', 'a.textTop', 'a.textRight', 'a.textBottom', 'a.packName', 'a.className',
-                'a.intentFlag', 'a.action', 'a.flyAction', 'a.status', 'a.remark', 'a.extend', 'a.edittime', 'b.celltypeName'];
+                'a.textAlign', 'a.textFont', 'a.textLeft', 'a.textTop', 'a.textRight', 'a.textBottom', 'a.event',  'a.status',
+                'a.remark', 'a.extend', 'a.edittime', 'b.celltypeName'];
             $request = Request::instance();
             if ($request->isPost()) {
                 $table = $request->post();
@@ -121,8 +121,8 @@ class Cell extends BaseRestful
         $subcell["celltypeId"] = $data[$str."celltypeId"];
         $subcell["imageurl1"] = $data[$str."imageurl1"];
         $subcell["imageurl2"] = $data[$str."imageurl2"];
-        $subcell["width"] = $data[$str."width"];
-        $subcell["height"]= $data[$str."height"];
+        $subcell["width"] = (int)$data[$str."width"];
+        $subcell["height"]= (int)$data[$str."height"];
         $subcell["textTitle"] = $data[$str."textTitle"];
         $subcell["textSize"] = empty($data[$str."textSize"])?24:$data[$str."textSize"];
         $subcell["textColor"]= $data[$str."textColor"];
@@ -132,11 +132,7 @@ class Cell extends BaseRestful
         $subcell["textRight"] = empty($data[$str."textRight"])?0:$data[$str."textRight"];
         $subcell["textBottom"] = empty($data[$str."textBottom"])?0:$data[$str."textBottom"];
         $subcell["textAlign"] = $data[$str."textAlign"];
-        $subcell["packName"] = $data[$str."packName"];
-        $subcell["className"] = $data[$str."className"];
-        $subcell["intentFlag"] = $data[$str."intentFlag"];
-        $subcell["action"] = $data[$str."action"];
-        $subcell["flyAction"]= $data[$str."flyAction"];
+        $subcell["event"] = $data[$str."event"];
         $subcell["remark"] = $data[$str."remark"];
         $subcell['ip'] = request()->ip();
         $subcell['userid'] = Session::get('userid');

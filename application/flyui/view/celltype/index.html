@@ -88,7 +88,9 @@
                     halign: "center",
                     align: "center",
                     formatter: function (value, row, index) {
-                        return '<img  width="auto" height="50px" src="' + value + '">';
+                        return '<div style="display: flex;align-items:center;justify-content:center;height: 56px">' +
+                            '<img  style="max-width: 72px;max-height:56px;width: auto;height: auto" src="' + value + '">' +
+                            '</div>';
                     }
                 }, {
                     field: 'extend',
@@ -116,7 +118,7 @@
     $('#btn_edit').on("click", function (event) {
         var a = $('#flytable').bootstrapTable('getSelections');
         if (a.length > 0) {
-            window.location.href = "{:url('/flyui/celltype/edit')}?id="+a[0].celltypeId;
+            window.location.href = "{:url('/flyui/celltype/edit')}?id=" + a[0].celltypeId;
         }
     });
 

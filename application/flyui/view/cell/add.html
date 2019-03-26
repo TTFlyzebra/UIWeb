@@ -28,7 +28,7 @@
                     <label class="col-sm-1 control-label">控件类型</label>
                     <div class="col-sm-4">
                         <h4 class="modal-title">
-                            <select id="celltypeId" name="celltypeId">
+                            <select style="height: 34px;font-size: 16px" id="celltypeId" name="celltypeId">
                                 {volist name="list1" id="celltype" key="k"}
                                 <option value="{$celltype.celltypeId}">{$celltype.celltypeName}</option>
                                 {/volist}
@@ -101,24 +101,13 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label">启动事件</label>
-                    <div class="col-sm-2">
-                        <input id="packName" class="form-control" name="packName" type="text" value="" placeholder="包名">
-                    </div>
-                    <div class="col-sm-2">
-                        <input id="className" class="form-control" name="className" type="text" value=""
-                               placeholder="类名">
+                    <label class="col-sm-1 control-label">控件事件</label>
+                    <div class="col-sm-8">
+                        <input id="event" class="form-control" name="event" type="text" value=""
+                               placeholder="例如：activity=AAAA||service=BBBB">
                     </div>
                     <div class="col-sm-1">
-                        <input id="intentFlag" class="form-control" name="intentFlag" type="text" value=""
-                               placeholder="Intent Flag">
-                    </div>
-                    <div class="col-sm-2">
-                        <input id="action" class="form-control" name="action" type="text" value="" placeholder="ACTION">
-                    </div>
-                    <div class="col-sm-2">
-                        <input id="flyAction" class="form-control" name="flyAction" type="text" value=""
-                               placeholder="自定义">
+                        <button type="button" class="btn btn-default" onclick="createEventDialog('event')">生成事件辅助</button>
                     </div>
                 </div>
                 <div class="form-group">
@@ -142,6 +131,7 @@
 
 <script type="text/javascript">
     var subcellnum = 1;
+
     function postform() {
         $.ajax({
             type: "POST",
@@ -193,12 +183,11 @@
 
     flyinput1('');
     flyinput2('');
-    $('#myTabContent').css('height',$('#myTabContent').height()+'px');
+    $('#myTabContent').css('height', $('#myTabContent').height() + 'px');
 
     function onCancel() {
         window.history.back();
     }
-
     function createTabContent(name) {
         var tab = $(" <li ><a href=\"#" + name + "\" data-toggle=\"tab\">子控件</a></li>");
         var tabContent = $('<div class="tab-pane fade" id="' + name + '">\n' +
@@ -283,24 +272,12 @@
             '                </div>\n' +
             '                </div>\n' +
             '                <div class="form-group">\n' +
-            '            <label class="col-sm-1 control-label">启动事件</label>\n' +
-            '            <div class="col-sm-2">\n' +
-            '            <input id="' + name + 'packName" class="form-control" name="' + name + 'packName" type="text" value="" placeholder="包名">\n' +
+            '            <label class="col-sm-1 control-label">控件事件</label>\n' +
+            '            <div class="col-sm-8">\n' +
+            '                <input id="' + name + 'event" class="form-control" name="' + name + 'event" type="text" value="" placeholder="例如：activity=AAAA||service=BBBB">\n' +
             '            </div>\n' +
-            '            <div class="col-sm-2">\n' +
-            '            <input id="' + name + 'className" class="form-control" name="' + name + 'className" type="text" value=""\n' +
-            '            placeholder="类名">\n' +
-            '                </div>\n' +
-            '                <div class="col-sm-1">\n' +
-            '            <input id="' + name + 'intentFlag" class="form-control" name="' + name + 'intentFlag" type="text" value=""\n' +
-            '            placeholder="Intent Flag">\n' +
-            '                </div>\n' +
-            '                <div class="col-sm-2">\n' +
-            '            <input id="' + name + 'action" class="form-control" name="' + name + 'action" type="text" value="" placeholder="ACTION">\n' +
-            '            </div>\n' +
-            '            <div class="col-sm-2">\n' +
-            '            <input id="' + name + 'flyAction" class="form-control" name="' + name + 'flyAction" type="text" value=""\n' +
-            '            placeholder="自定义">\n' +
+            '            <div class="col-sm-1">\n' +
+            '             <button type="button" class="btn btn-default" onclick="createEventDialog(\''+name+'event\')">生成事件辅助</button>\n' +
             '                </div>\n' +
             '                </div>\n' +
             '                <div class="form-group">\n' +
@@ -327,6 +304,10 @@
     function addSub() {
         createTabContent('sub_' + subcellnum + '_');
         subcellnum = subcellnum + 1;
+    }
+
+    function createEventDialog(eventtext) {
+        alert(eventtext);
     }
 
 </script>
