@@ -197,6 +197,10 @@
     upMenuCell();
     refreshPagecell();
 
+    function isTextEmpty(obj) {
+        return typeof obj == "undefined" || obj == null || obj === "";
+    }
+
     function trimPX(_px) {
         if (_px === null || _px === "")
             return 0;
@@ -229,20 +233,20 @@
         div.css('left', cell.x + 'px');
         div.css('top', cell.y + 'px');
         div.css('background', '#efefff');
-        switch (cell.type) {
-            case 11:
-                break;
+        switch (cell.celltype) {
             default:
                 //图像
-                var image = $('<img>');
-                image.css('position', 'absolute');
-                image.css('width', cell.width + 'px');
-                image.css('height', cell.height + 'px');
-                image.css('left', 0 + 'px');
-                image.css('top', 0 + 'px');
-                image.attr('src', cell.imageurl1);
-                image.attr('ondragstart', 'return false;');
-                div.get(0).append(image.get(0));
+                if (!isTextEmpty(cell.imageurl1)) {
+                    var image = $('<img>');
+                    image.css('position', 'absolute');
+                    image.css('width', cell.width + 'px');
+                    image.css('height', cell.height + 'px');
+                    image.css('left', 0 + 'px');
+                    image.css('top', 0 + 'px');
+                    image.attr('src', cell.imageurl1);
+                    image.attr('ondragstart', 'return false;');
+                    div.get(0).append(image.get(0));
+                }
                 //文字
                 var text = $('<div></div>');
                 text.css('position', 'absolute');
@@ -250,18 +254,21 @@
                 text.css('width', cell.width + 'px');
                 text.css('font-size', cell.textSize + 'px');
                 text.css('color', cell.textColor);
-                text.css('top', (cell.height - 48) + 'px');
-                text.get(0).innerHTML = cell.textTitle;
+                text.css('marginTop', (cell.height - 48) + 'px');
                 try {
                     var data = JSON.parse(cell.textTitle);
                     var content = data.zh;
                     if (content) {
-                        content = content.replace('\n', '<br/>');
-                        text.get(0).innerHTML = content;
+                        cell.textTitle = content.replace('\n', '<br/>');
                     }
                 } catch (e) {
                     // console.log(e);
                 }
+                if (isTextEmpty(cell.textTitle)) {
+                    text.css('marginTop', (cell.height - 36)/2 + 'px');
+                    text.css('font-size', '24px');
+                }
+                text.get(0).innerHTML = isTextEmpty(cell.textTitle) ? cell.celltypeName : cell.textTitle;
                 div.get(0).append(text.get(0));
                 //位置调节
                 if (SHOW_POSITION) {
@@ -363,15 +370,24 @@
         div.css('border', 'solid');
         div.css('border-width', '1px');
         div.css('border-color', '#707F00');
-        switch (cell.type) {
-            case 11:
-                break;
+        switch (cell.celltype) {
             default:
                 //图像
                 var image = $('<img>');
                 image.css('position', 'absolute');
-                image.attr('src', cell.imageurl1);
-                if (cell.width > cell.height) {
+                if(isTextEmpty(cell.imageurl1)||cell.celltype===6){
+                    if (cell.width > cell.height) {
+                        image.attr('width', MENUCELL_WIDTH);
+                        image.attr('height',cell.height * trimPX(MENUCELL_WIDTH) / cell.width + 'px');
+                        image.css('left', '0px');
+                        image.css('top', (cell.width - cell.height) * trimPX(MENUCELL_WIDTH) / cell.width / 2 + 'px');
+                    } else {
+                        image.attr('width', cell.width * trimPX(MENUCELL_HEIGHT) / cell.height + 'px');
+                        image.attr('height', MENUCELL_HEIGHT);
+                        image.css('left', (cell.height - cell.width) * trimPX(MENUCELL_HEIGHT) / cell.height / 2 + 'px');
+                        image.css('top', '0px')
+                    }
+                }else if (cell.width > cell.height) {
                     image.attr('width', MENUCELL_WIDTH);
                     image.attr('height', 'auto');
                     image.css('left', '0px');
@@ -382,6 +398,7 @@
                     image.css('left', (cell.height - cell.width) * trimPX(MENUCELL_HEIGHT) / cell.height / 2 + 'px');
                     image.css('top', '0px')
                 }
+                isTextEmpty(cell.imageurl1)||cell.celltype===6 ? image.attr('src', '__RES__/flyui/img/default_cellmenu.png') : image.attr('src', cell.imageurl1);
                 image.attr('ondragstart', 'return false;');
                 div.get(0).append(image.get(0));
                 //文字
@@ -390,20 +407,18 @@
                 text.css('text-align', 'center');
                 text.css('width', MENUCELL_WIDTH);
                 text.css('top', (trimPX(MENUCELL_HEIGHT) - 24) + 'px')
-                text.css('font-size', '12px');
-                text.css('color', '#000000');
-                // text.css('top', (MENUCELL_HEIGHT  - 48) + 'px');
-                text.get(0).innerHTML = cell.textTitle;
+                text.css('font-size', '16px');
+                text.css('color', '#ffffff');
                 try {
                     var data = JSON.parse(cell.textTitle);
                     var content = data.zh;
                     if (content) {
-                        content = content.replace('\n', '<br/>');
-                        text.get(0).innerHTML = content;
+                        cell.textTitle = content.replace('\n', '<br/>');
                     }
                 } catch (e) {
                     // console.log(e);
                 }
+                text.get(0).innerHTML = isTextEmpty(cell.textTitle) ? cell.celltypeName : cell.textTitle;
                 div.get(0).append(text.get(0));
                 break;
         }
@@ -547,7 +562,7 @@
                     screenMoveCell.y = y;
                     screenMoveDiv.style.left = x + 'px';
                     screenMoveDiv.style.top = y + 'px';
-                    if(SHOW_POSITION){
+                    if (SHOW_POSITION) {
                         screenMoveDiv.lastChild.innerHTML = x + "X" + y;
                     }
                 } else {

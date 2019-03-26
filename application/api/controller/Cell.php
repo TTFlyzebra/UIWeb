@@ -23,8 +23,8 @@ class Cell extends BaseRestful
                 ]
             ];
             $field = ['a.cellId', 'a.width', 'a.height', 'a.imageurl1', 'a.imageurl2', 'a.textTitle', 'a.textSize', 'a.textColor',
-                'a.textAlign', 'a.textFont', 'a.textLeft', 'a.textTop', 'a.textRight', 'a.textBottom', 'a.event',  'a.status',
-                'a.remark', 'a.extend', 'a.edittime', 'b.celltypeName'];
+                'a.textAlign', 'a.textFont', 'a.textLeft', 'a.textTop', 'a.textRight', 'a.launchAction','a.acceptAction',
+                'a.textBottom', 'a.event',  'a.status', 'a.remark', 'a.extend', 'a.edittime', 'b.celltype','b.celltypeName'];
             $request = Request::instance();
             if ($request->isPost()) {
                 $table = $request->post();
@@ -132,6 +132,8 @@ class Cell extends BaseRestful
         $subcell["textRight"] = empty($data[$str."textRight"])?0:$data[$str."textRight"];
         $subcell["textBottom"] = empty($data[$str."textBottom"])?0:$data[$str."textBottom"];
         $subcell["textAlign"] = $data[$str."textAlign"];
+        $subcell["launchAction"] = $data[$str."launchAction"];
+        $subcell["acceptAction"] = $data[$str."acceptAction"];
         $subcell["event"] = $data[$str."event"];
         $subcell["remark"] = $data[$str."remark"];
         $subcell['ip'] = request()->ip();
