@@ -11,7 +11,7 @@ class App
     {
         $request = Request::instance();
 
-        $themeName = "Launcher-AP1";
+        $themeName = "Test-AP1";
 
         if ($request->has('appname', 'get')) {
             $themeName = $request->param('appname');
