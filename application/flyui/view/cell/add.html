@@ -50,13 +50,16 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-1 control-label">控件大小</label>
-                    <div class="col-sm-1">
+                    <div class="col-sm-2">
                         <input id="width" name="width" type="text" class="form-control" value="" placeholder="宽度(像素)">
                     </div>
-                    <div class="col-sm-1">
+                    <div class="col-sm-2">
                         <input id="height" name="height" type="text" class="form-control" value="" placeholder="高度(像素)">
                     </div>
-                    <div class="col-sm-2"></div>
+                    <label class="col-sm-1 control-label">背景颜色</label>
+                    <div class="col-sm-4">
+                        <input id="backcolor" name="backcolor" type="text" class="form-control" value="" placeholder="设置了图片的情况下无效（设置格式为#FFFFFFFF）">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-1 control-label">文本内容</label>
@@ -229,13 +232,16 @@
             '</div>\n' +
             '<div class="form-group">\n' +
             '<label class="col-sm-1 control-label">控件大小</label>\n' +
-            '<div class="col-sm-1">\n' +
+            '<div class="col-sm-2">\n' +
             '<input id="' + name + 'width" name="' + name + 'width" type="text" class="form-control" value="" placeholder="宽度(像素)">\n' +
             '</div>\n' +
-            '<div class="col-sm-1">\n' +
+            '<div class="col-sm-2">\n' +
             '<input id="' + name + 'height" name="' + name + 'height" type="text" class="form-control" value="" placeholder="高度(像素)">\n' +
             '</div>\n' +
-            '<div class="col-sm-2"></div>\n' +
+            '<label class="col-sm-1 control-label">背景颜色</label>\n' +
+            '<div class="col-sm-4">\n' +
+            '<input id="' + name + 'backcolor" name="' + name + 'backcolor" type="text" class="form-control" value="" placeholder="设置了图片的情况下无效（设置格式为#FFFFFFFF）">\n' +
+            '</div>\n' +
             '</div>\n' +
             '<div class="form-group">\n' +
             '<label class="col-sm-1 control-label">文本内容</label>\n' +

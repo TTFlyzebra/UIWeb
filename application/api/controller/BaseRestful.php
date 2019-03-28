@@ -75,7 +75,7 @@ class BaseRestful
                 }
                 $tables = $db->select();
                 if ($request->isAjax()) {
-                    $resultdata['total'] = $db->count();
+                    $resultdata['total'] = $db->where('status',1)->count();
                     $resultdata['rows'] = $tables;
                     echo json_encode($resultdata);
                 } else {
