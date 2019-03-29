@@ -235,6 +235,21 @@ $.fn.flyscreen = function (option) {
     return this;
 };
 (function ($) {
+    var FlyScreen = function (el, options) {
+        this.options = options;
+    };
+    FlyScreen.DEFAULTS = {
+        width: 1024,
+        height: 600,
+        pageId: undefined,
+        url: undefined,
+        onRefresh: function () {
+            return false;
+        }
+    };
+    FlyScreen.prototype.init = function () {
+    };
+
     $.fn.flyinit = function (option) {
         var value, args = Array.prototype.slice.call(arguments, 1);
         var self = this;
