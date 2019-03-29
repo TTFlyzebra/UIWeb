@@ -94,10 +94,10 @@
     <div class="flyscreen"></div>
     <div class="flycellmenu"></div>
     <div class="flycontrlmenu">
-        <label>显示删除</label><input id="showdelete" type="checkbox" checked="checked">
-        <label>位置微调</label><input id="showarrow" type="checkbox" checked="checked">
-        <button type="button" onclick="refreshPagecell()" class="btn btn-lg">重新加载</button>
-        <button type="button" onclick="savePagecell()" class="btn btn-lg">保存设置</button>
+        <label>显示删除</label><input class="showdelete" type="checkbox" checked="checked">
+        <label>位置微调</label><input class="showadjust" type="checkbox" checked="checked">
+        <button type="button" class="refresh" class="btn btn-lg">重新加载</button>
+        <button type="button" class="save" class="btn btn-lg">保存设置</button>
     </div>
 
 </div>
@@ -108,9 +108,6 @@
     //定义全局变量
     var screenCellArr = [];
     var menuCellArr = [];
-    var screenMoveDiv = null;
-    var screenMoveDivPoint = {};
-    var screenMoveCell = null;
     var bodyMoveDiv = null;
     var addMenuCell = null;
     var MENUCELL_WIDTH = "120px";
@@ -245,7 +242,7 @@
                 if (addMenuCell) {
                     addMenuCell.imgUrl = addMenuCell.imageurl1;
                     if (bodyMoveDiv === null) {
-                        bodyMoveDiv = createScreenCellDiv($('.flyscreen'), addMenuCell);
+                        bodyMoveDiv = createCellDiv(addMenuCell);
                         document.body.appendChild(bodyMoveDiv);
                     }
                     bodyMoveDiv.style.left = (event.clientX - addMenuCell.width / 2) + 'px';
@@ -264,27 +261,23 @@
             }
         }).on('mouseup', function (event) {
             var flyscreen = $('.flyscreen').get(0);
-            if (flyscreen) {
-                var left = flyscreen.offsetLeft;
-                var top = flyscreen.offsetTop;
-                var width = flyscreen.offsetWidth;
-                var height = flyscreen.offsetHeight;
+            var left = flyscreen.offsetLeft;
+            var top = flyscreen.offsetTop;
+            var width = flyscreen.offsetWidth;
+            var height = flyscreen.offsetHeight;
 
-                if (event.clientX >= left && event.clientX <= (width + left) && event.clientY >= top && event.clientY <= (height + top)) {
-                    if (addMenuCell) {
-                        var x = event.clientX - addMenuCell.width / 2 - left + flyscreen.scrollLeft;
-                        var y = event.clientY - addMenuCell.height / 2 - top + flyscreen.scrollTop;
-                        addMenuCell.x = x;
-                        addMenuCell.y = y;
-                        addMenuCell.imgUrl = addMenuCell.imageurl1;
-                        var num = screenCellArr.length;
-                        screenCellArr[num] = addMenuCell;
-                        flyscreen.append(createScreenCellDiv($('.flyscreen'), screenCellArr[num]));
-                    }
+            if (event.clientX >= left && event.clientX <= (width + left) && event.clientY >= top && event.clientY <= (height + top)) {
+                if (addMenuCell) {
+                    var x = event.clientX - addMenuCell.width / 2 - left + flyscreen.scrollLeft;
+                    var y = event.clientY - addMenuCell.height / 2 - top + flyscreen.scrollTop;
+                    addMenuCell.x = Math.round(x);
+                    addMenuCell.y = Math.round(y);
+                    addMenuCell.imgUrl = addMenuCell.imageurl1;
+                    $('.flyscreen').screen("addcell", addMenuCell);
                 }
             }
             if (bodyMoveDiv) {
-                bodyMoveDiv.remove()
+                bodyMoveDiv.remove();
                 bodyMoveDiv = null;
             }
             if (addMenuCell) {
@@ -294,29 +287,11 @@
 
     }
 
-    function refreshPagecell() {
-        $('.flyscreen').screen("refresh");
-    }
-
-    function savePagecell() {
-        $('.flyscreen').screen("save");
-    }
-
-    $('#showdelete').change(function () {
-        $('.flyscreen').screen("showdelete", $(this).prop('checked'));
-    });
-
-    $('#showarrow').change(function () {
-        $('.flyscreen').screen("showarrow", $(this).prop('checked'));
-    });
-
     $('.flyscreen').screen({
         width: "{$item.width}",
         height: "{$item.height}",
         pageId: "{$item.pageId}",
-        url: "{:url('/api/pagecell')}",
-        showdelete: true,
-        showarrow: true
+        url: "{:url('/api/pagecell')}"
     });
     upMenuCell();
     documentEventInit();

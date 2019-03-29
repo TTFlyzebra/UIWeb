@@ -1,137 +1,159 @@
+//获取鼠标点击区域在Html绝对位置坐标
+var mouseCoords = function (event) {
+    if (event.pageX || event.pageY) {
+        return {x: event.pageX, y: event.pageY};
+    }
+    return {
+        x: event.clientX + document.body.scrollLeft - document.body.clientLeft,
+        y: event.clientY + document.body.scrollTop - document.body.clientTop
+    };
+};
+
+var isTextEmpty = function (obj) {
+    return typeof obj == "undefined" || obj == null || obj === "";
+};
+
+var trimPX = function (_px) {
+    if (_px === null || _px === "")
+        return 0;
+    return parseInt(_px.substr(0, _px.lastIndexOf("px")));
+};
+
+var createCellDiv = function (cell) {
+    var cell_div = cellitem(cell);
+    //图像
+    var image = childimage(cell);
+    cell_div.get(0).append(image.get(0));
+    //文字
+    var text = childtext(cell);
+    cell_div.get(0).append(text.get(0));
+    //删除按钮
+    return cell_div.get(0);
+};
+
+var cellitem = function (cell) {
+    var cell_div = $('<div class="cell" cellId="' + cell.cellId + '"></div>');
+    cell_div.css('position', 'absolute');
+    cell_div.css('width', cell.width + 'px');
+    cell_div.css('height', cell.height + 'px');
+    cell_div.css('left', cell.x + 'px');
+    cell_div.css('top', cell.y + 'px');
+    return cell_div;
+};
+
+var childimage = function (cell) {
+    if (!isTextEmpty(cell.imageurl1)) {
+        var image_div = $('<img>');
+        image_div.css('position', 'absolute');
+        image_div.css('width', cell.width + 'px');
+        image_div.css('height', cell.height + 'px');
+        image_div.css('left', 0 + 'px');
+        image_div.css('top', 0 + 'px');
+        image_div.attr('src', cell.imageurl1);
+        image_div.attr('ondragstart', 'return false;');
+        return image_div;
+    } else {
+        return "";
+    }
+};
+
+var childtext = function (cell) {
+    var text_div = $('<div></div>');
+    text_div.css('position', 'absolute');
+    text_div.css('text-align', 'center');
+    text_div.css('width', cell.width + 'px');
+    text_div.css('font-size', cell.textSize + 'px');
+    text_div.css('color', cell.textColor);
+    text_div.css('marginTop', (cell.height - 48) + 'px');
+    try {
+        var data = JSON.parse(cell.textTitle);
+        var content = data.zh;
+        if (content) {
+            cell.textTitle = content.replace('\n', '<br/>');
+        }
+    } catch (e) {
+    }
+    if (isTextEmpty(cell.textTitle)) {
+        text_div.css('marginTop', (cell.height - 36) / 2 + 'px');
+        text_div.css('font-size', '24px');
+    }
+    text_div.get(0).innerHTML = isTextEmpty(cell.textTitle) ? cell.celltypeName : cell.textTitle;
+    return text_div;
+};
+
+var childposion = function (cell, cell_div, bshow) {
+    var position_div = $('<div class="position"></div>');
+    var arrow_up = $('<div style="position: absolute;left:0;right:0;top: 0;bottom: 80px;width: 24px;height: 24px;margin: auto;' +
+        'border-bottom: 24px solid #FFB800;border-left: 24px solid transparent;border-right: 24px solid transparent;"></div>');
+    var arrow_down = $('<div style="position: absolute;top: 80px;bottom: 0;left: 0;right: 0;width: 24px;height: 24px;margin: auto;' +
+        'border-left: 24px solid transparent;border-right: 24px solid transparent;border-top: 24px solid #FFB800;"></div>');
+    var arrow_left = $('<div style="position: absolute;top: 0;bottom: 0;left: 0;right: 80px;width: 24px;height: 24px;margin: auto;' +
+        'border-top: 24px solid transparent;border-bottom: 24px solid transparent;border-right: 24px solid #FFB800;"></div>');
+    var arrow_right = $('<div style=" position: absolute;top: 0;bottom: 0;left: 80px;right: 0;width: 24px;height: 24px;margin: auto;' +
+        'border-top: 24px solid transparent;border-bottom: 24px solid transparent;border-left: 24px solid #FFB800;"></div>');
+    var positiontext = $('<div id="position" style=" position: absolute;padding-left: 2px;text-align: left;color: #FF00FF;"></div>');
+    positiontext.get(0).innerHTML = cell.x + "X" + cell.y;
+    arrow_up.on("click", function (event) {
+        var y = trimPX(cell_div.get(0).style.top);
+        cell_div.get(0).style.top = (y - 1) + 'px';
+        cell.y = y - 1;
+        positiontext.get(0).innerHTML = cell.x + "X" + cell.y;
+    });
+    arrow_down.on("click", function (event) {
+        var y = trimPX(cell_div.get(0).style.top);
+        cell_div.get(0).style.top = (y + 1) + 'px';
+        cell.y = y + 1;
+        positiontext.get(0).innerHTML = cell.x + "X" + cell.y;
+    });
+    arrow_left.on("click", function (event) {
+        var x = trimPX(cell_div.get(0).style.left);
+        cell_div.get(0).style.left = (x - 1) + 'px';
+        cell.x = x - 1;
+        positiontext.get(0).innerHTML = cell.x + "X" + cell.y;
+    });
+    arrow_right.on("click", function (event) {
+        var x = trimPX(cell_div.get(0).style.left);
+        cell_div.get(0).style.left = (x + 1) + 'px';
+        cell.x = x + 1;
+        positiontext.get(0).innerHTML = cell.x + "X" + cell.y;
+    });
+    position_div.css('position', 'absolute');
+    position_div.css('display', bshow ? 'block' : 'none');
+    position_div.css('width', '100%');
+    position_div.css('height', '100%');
+    position_div.get(0).append(positiontext.get(0));
+    position_div.get(0).append(arrow_up.get(0));
+    position_div.get(0).append(arrow_down.get(0));
+    position_div.get(0).append(arrow_left.get(0));
+    position_div.get(0).append(arrow_right.get(0));
+    cell.position_text_div = positiontext;
+    cell.position_div = position_div;
+    return position_div
+};
+
+var _delete = function (cell, bshow) {
+    var del_div = $('<div class="delete">X</div>');
+    del_div.css('position', 'absolute');
+    del_div.css('display', bshow ? 'block' : 'none');
+    del_div.css('left', (cell.width - 22) + 'px');
+    del_div.css('top', '2px');
+    del_div.css('width', '20px');
+    del_div.css('height', '20px');
+    del_div.css('background', '#FAF000');
+    del_div.css('font-size', '18px');
+    cell.del_div = del_div;
+    return del_div;
+};
+
 (function ($) {
     var FlyScreen = function (screen, options) {
         this.screen = screen;
         this.$srceen = $(screen);
         this.options = options;
         this.init();
+        this.initevent();
         this.refresh();
         this.eventinit();
-    };
-
-    //获取鼠标点击区域在Html绝对位置坐标
-    var mouseCoords = function (event) {
-        if (event.pageX || event.pageY) {
-            return {x: event.pageX, y: event.pageY};
-        }
-        return {
-            x: event.clientX + document.body.scrollLeft - document.body.clientLeft,
-            y: event.clientY + document.body.scrollTop - document.body.clientTop
-        };
-    };
-
-    var cellitem = function (cell) {
-        var cell_div = $('<div class="cell" cellId="' + cell.cellId + '"></div>');
-        cell_div.css('position', 'absolute');
-        cell_div.css('width', cell.width + 'px');
-        cell_div.css('height', cell.height + 'px');
-        cell_div.css('left', cell.x + 'px');
-        cell_div.css('top', cell.y + 'px');
-        return cell_div;
-    };
-
-    var childimage = function (cell) {
-        if (!isTextEmpty(cell.imageurl1)) {
-            var image_div = $('<img>');
-            image_div.css('position', 'absolute');
-            image_div.css('width', cell.width + 'px');
-            image_div.css('height', cell.height + 'px');
-            image_div.css('left', 0 + 'px');
-            image_div.css('top', 0 + 'px');
-            image_div.attr('src', cell.imageurl1);
-            image_div.attr('ondragstart', 'return false;');
-            return image_div;
-        } else {
-            return "";
-        }
-    };
-
-    var childtext = function (cell) {
-        var text_div = $('<div></div>');
-        text_div.css('position', 'absolute');
-        text_div.css('text-align', 'center');
-        text_div.css('width', cell.width + 'px');
-        text_div.css('font-size', cell.textSize + 'px');
-        text_div.css('color', cell.textColor);
-        text_div.css('marginTop', (cell.height - 48) + 'px');
-        try {
-            var data = JSON.parse(cell.textTitle);
-            var content = data.zh;
-            if (content) {
-                cell.textTitle = content.replace('\n', '<br/>');
-            }
-        } catch (e) {
-        }
-        if (isTextEmpty(cell.textTitle)) {
-            text_div.css('marginTop', (cell.height - 36) / 2 + 'px');
-            text_div.css('font-size', '24px');
-        }
-        text_div.get(0).innerHTML = isTextEmpty(cell.textTitle) ? cell.celltypeName : cell.textTitle;
-        return text_div;
-    };
-
-    var childposion = function (cell,bshow) {
-        var cell_div = cell.cell_div;
-        var position_div = $('<div class="position"></div>');
-        var arrow_up = $('<div style="position: absolute;left:0;right:0;top: 0;bottom: 80px;width: 24px;height: 24px;margin: auto;' +
-            'border-bottom: 24px solid #FFB800;border-left: 24px solid transparent;border-right: 24px solid transparent;"></div>');
-        var arrow_down = $('<div style="position: absolute;top: 80px;bottom: 0;left: 0;right: 0;width: 24px;height: 24px;margin: auto;' +
-            'border-left: 24px solid transparent;border-right: 24px solid transparent;border-top: 24px solid #FFB800;"></div>');
-        var arrow_left = $('<div style="position: absolute;top: 0;bottom: 0;left: 0;right: 80px;width: 24px;height: 24px;margin: auto;' +
-            'border-top: 24px solid transparent;border-bottom: 24px solid transparent;border-right: 24px solid #FFB800;"></div>');
-        var arrow_right = $('<div style=" position: absolute;top: 0;bottom: 0;left: 80px;right: 0;width: 24px;height: 24px;margin: auto;' +
-            'border-top: 24px solid transparent;border-bottom: 24px solid transparent;border-left: 24px solid #FFB800;"></div>');
-        var positiontext = $('<div id="position" style=" position: absolute;padding-left: 2px;text-align: left;color: #FF00FF;"></div>');
-        positiontext.get(0).innerHTML = cell.x + "X" + cell.y;
-        arrow_up.on("click", function (event) {
-            var y = trimPX(cell_div.get(0).style.top);
-            cell_div.get(0).style.top = (y - 1) + 'px';
-            cell.y = y - 1;
-            positiontext.get(0).innerHTML = cell.x + "X" + cell.y;
-        });
-        arrow_down.on("click", function (event) {
-            var y = trimPX(cell_div.get(0).style.top);
-            cell_div.get(0).style.top = (y + 1) + 'px';
-            cell.y = y + 1;
-            positiontext.get(0).innerHTML = cell.x + "X" + cell.y;
-        });
-        arrow_left.on("click", function (event) {
-            var x = trimPX(cell_div.get(0).style.left);
-            cell_div.get(0).style.left = (x - 1) + 'px';
-            cell.x = x - 1;
-            positiontext.get(0).innerHTML = cell.x + "X" + cell.y;
-        });
-        arrow_right.on("click", function (event) {
-            var x = trimPX(cell_div.get(0).style.left);
-            cell_div.get(0).style.left = (x + 1) + 'px';
-            cell.x = x + 1;
-            positiontext.get(0).innerHTML = cell.x + "X" + cell.y;
-        });
-        position_div.css('position', 'absolute');
-        position_div.css('display', bshow?'block':'none');
-        position_div.css('width', '100%');
-        position_div.css('height', '100%');
-        position_div.get(0).append(positiontext.get(0));
-        position_div.get(0).append(arrow_up.get(0));
-        position_div.get(0).append(arrow_down.get(0));
-        position_div.get(0).append(arrow_left.get(0));
-        position_div.get(0).append(arrow_right.get(0));
-        cell.position_text_div = positiontext;
-        cell.position_div = position_div;
-        return position_div
-    };
-
-    var _delete = function (cell,bshow) {
-        var del_div = $('<div class="delete">X</div>');
-        del_div.css('position', 'absolute');
-        del_div.css('display', bshow?'block':'none');
-        del_div.css('left', (cell.width - 22) + 'px');
-        del_div.css('top', '2px');
-        del_div.css('width', '20px');
-        del_div.css('height', '20px');
-        del_div.css('background', '#FAF000');
-        del_div.css('font-size', '18px');
-        cell.del_div = del_div;
-        return del_div;
     };
 
     FlyScreen.DEFAULTS = {
@@ -139,12 +161,12 @@
         height: 600,
         pageId: undefined,
         url: undefined,
-        onRefresh: function () {
-            return false;
-        }
+        showdelete: $('.showdelete').prop('checked'),
+        showadjust: $('.showadjust').prop('checked'),
     };
 
     FlyScreen.prototype.createCellDiv = function (cell) {
+        var self = this;
         var screen = this.screen;
         var cell_div = cellitem(cell);
         //图像
@@ -154,10 +176,10 @@
         var text = childtext(cell);
         cell_div.get(0).append(text.get(0));
         //位置调节
-        var position = childposion(cell, this.options.showarrow);
+        var position = childposion(cell, cell_div, this.options.showadjust);
         cell_div.get(0).append(position.get(0));
         //删除按钮
-        var del = _delete(cell,this.options.showdelete);
+        var del = _delete(cell, this.options.showdelete);
         cell_div.get(0).append(del.get(0));
 
         del.on("click", function (event) {
@@ -175,11 +197,11 @@
             //鼠标点击位置相对于div的坐标
             var x2 = x - x1;
             var y2 = y - y1;
-            if (addMenuCell === null) {
-                screenMoveCell = cell;
-                screenMoveDiv = cell_div.get(0);
-                screenMoveDivPoint.x = x2;
-                screenMoveDivPoint.y = y2;
+            self.movePos = {x: x2, y: y2};
+            if (!self.moveMuneCell) {
+                self.moveCell = cell_div.get(0);
+            } else {
+                self.moveCell = null;
             }
         });
         return cell_div.get(0);
@@ -188,6 +210,25 @@
     FlyScreen.prototype.init = function () {
         this.$srceen.css("width", this.options.width);
         this.$srceen.css("height", this.options.height);
+    };
+
+    FlyScreen.prototype.initevent = function () {
+        var self = this;
+        $('.refresh').click(function () {
+            self.refresh();
+        });
+
+        $('.save').click(function () {
+            self.save();
+        });
+
+        $('.showdelete').change(function () {
+            self.showdelete($(this).prop('checked'));
+        });
+
+        $('.showadjust').change(function () {
+            self.showadjust($(this).prop('checked'));
+        });
     };
 
     FlyScreen.prototype.refresh = function (id) {
@@ -265,26 +306,16 @@
         screen.on('mousemove', function (event) {
             var x = event.clientX;
             var y = event.clientY;
-            if (screenMoveCell) {
-                x = x - screenMoveDivPoint.x;
-                y = y - screenMoveDivPoint.y;
-                screenMoveCell.x = x;
-                screenMoveCell.y = y;
-                screenMoveDiv.style.left = x + 'px';
-                screenMoveDiv.style.top = y + 'px';
-                screenMoveCell.position_text_div.get(0).innerHTML = x + "X" + y;
+            if (self.moveCell) {
+                self.moveCell.style.left = x - self.movePos.x + 'px';
+                self.moveCell.style.top = y - self.movePos.y + 'px';
             } else {
                 x = x - $(this).offset().left;
                 y = y - $(this).offset().top;
             }
             self.showmsg(Math.round(x) + ',' + Math.round(y));
         }).on('mouseup', function (event) {
-            if (screenMoveDiv) {
-                screenMoveDiv = null;
-            }
-            if (screenMoveCell) {
-                screenMoveCell = null;
-            }
+            self.moveCell = null;
         });
     };
 
@@ -296,12 +327,17 @@
         }
     };
 
-    FlyScreen.prototype.showarrow = function (bshow) {
-        this.options.showarrow = bshow;
+    FlyScreen.prototype.showadjust = function (bshow) {
+        this.options.showadjust = bshow;
         var list = $(".position");
         for (var i = 0; i < list.length; i++) {
             $(list[i]).css('display', bshow ? 'block' : 'none');
         }
+    };
+
+    FlyScreen.prototype.addcell = function (cell) {
+        var div = this.createCellDiv(cell);
+        this.screen.append(div);
     };
 
     var allowedMethods = [
@@ -310,7 +346,8 @@
         'save',
         'showmsg',
         'showdelete',
-        'showarrow'
+        'showadjust',
+        'addcell'
     ];
 
     $.fn.screen = function (option) {
