@@ -168,7 +168,6 @@
 </body>
 <script type="text/javascript">
     var cellurl = "{:url('/api/cell')}";
-    var pagecellurl = "{:url('/api/pagecell')}";
     var pageId = "{$item.pageId}";
 
     //定义全局变量
@@ -440,7 +439,7 @@
         flyscreen.innerHTML = '<div class="flyscreenmsg"></div>';
         if (flyscreen) {
             $.ajax({
-                url: pagecellurl,
+                url: "{:url('/api/pagecell')}",
                 type: "GET",
                 data: "pageId=" + tabId,
                 dataType: 'html',
@@ -599,7 +598,7 @@
         }
         var celljson = JSON.stringify(pageCellArr);
         $.ajax({
-            url: pagecellurl,
+            url: "{:url('/api/pagecell')}",
             type: "POST",
             data: "jsondata=" + celljson + "&pageId=" + pageId,
             dataType: 'html',

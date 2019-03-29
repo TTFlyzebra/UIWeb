@@ -12,6 +12,10 @@
         margin: 0;
         padding: 0;
         font-size: 20px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
     }
 
     a:link {
@@ -81,73 +85,6 @@
         border-width: 1px;
         border-color: #000000;
     }
-
-    .position {
-        position: absolute;
-        padding-left: 2px;
-        text-align: left;
-        color: #FF00FF;
-    }
-
-    .arrow-down {
-        position: absolute;
-        top: 80px;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 24px;
-        height: 24px;
-        margin: auto;
-        display: inline-block;
-        border-left: 24px solid transparent;
-        border-right: 24px solid transparent;
-        border-top: 24px solid #FFB800;
-    }
-
-    .arrow-up {
-        position: absolute;
-        top: 0;
-        bottom: 80px;
-        left: 0;
-        right: 0;
-        width: 24px;
-        height: 24px;
-        margin: auto;
-        display: inline-block;
-        border-bottom: 24px solid #FFB800;
-        border-left: 24px solid transparent;
-        border-right: 24px solid transparent;
-    }
-
-    .arrow-left {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 80px;
-        width: 24px;
-        height: 24px;
-        margin: auto;
-        display: inline-block;
-        border-top: 24px solid transparent;
-        border-bottom: 24px solid transparent;
-        border-right: 24px solid #FFB800;
-    }
-
-    .arrow-right {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 80px;
-        right: 0;
-        width: 24px;
-        height: 24px;
-        margin: auto;
-        display: inline-block;
-        border-top: 24px solid transparent;
-        border-bottom: 24px solid transparent;
-        border-left: 24px solid #FFB800;
-    }
 </style>
 <body>
 <div class="flycenter">
@@ -157,8 +94,7 @@
     <div class="flyscreen"></div>
     <div class="flycellmenu"></div>
     <div class="flycontrlmenu">
-        <label>显示删除</label><input id="showdel" type="checkbox">
-        <!--<label>显示网格</label><input id="showgrid" type="checkbox">-->
+        <label>显示删除</label><input id="showdel" type="checkbox" checked="checked">
         <label>位置微调</label><input id="showposition" type="checkbox" checked="checked">
         <button type="button" onclick="refreshPagecell()" class="btn btn-lg">重新加载</button>
         <button type="button" onclick="savePagecell()" class="btn btn-lg">保存设置</button>
@@ -181,10 +117,6 @@
     var addMenuCell = null;
     var MENUCELL_WIDTH = "120px";
     var MENUCELL_HEIGHT = "120px";
-
-    var SHOW_DEL = false;
-    var SHOW_POSITION = true;
-
     var flycenterwidth = trimPX("{$item.width}px") + 380;
 
     $('.flycenter').css('width', flycenterwidth + 'px');
@@ -225,137 +157,6 @@
         }
     }
 
-    function createScreenCellDiv(cell, num) {
-        var div = $('<div></div>');
-        div.css('position', 'absolute');
-        div.css('width', cell.width + 'px');
-        div.css('height', cell.height + 'px');
-        div.css('left', cell.x + 'px');
-        div.css('top', cell.y + 'px');
-        div.css('background', '#efefff');
-        switch (cell.celltype) {
-            default:
-                //图像
-                if (!isTextEmpty(cell.imageurl1)) {
-                    var image = $('<img>');
-                    image.css('position', 'absolute');
-                    image.css('width', cell.width + 'px');
-                    image.css('height', cell.height + 'px');
-                    image.css('left', 0 + 'px');
-                    image.css('top', 0 + 'px');
-                    image.attr('src', cell.imageurl1);
-                    image.attr('ondragstart', 'return false;');
-                    div.get(0).append(image.get(0));
-                }
-                //文字
-                var text = $('<div></div>');
-                text.css('position', 'absolute');
-                text.css('text-align', 'center');
-                text.css('width', cell.width + 'px');
-                text.css('font-size', cell.textSize + 'px');
-                text.css('color', cell.textColor);
-                text.css('marginTop', (cell.height - 48) + 'px');
-                try {
-                    var data = JSON.parse(cell.textTitle);
-                    var content = data.zh;
-                    if (content) {
-                        cell.textTitle = content.replace('\n', '<br/>');
-                    }
-                } catch (e) {
-                    // console.log(e);
-                }
-                if (isTextEmpty(cell.textTitle)) {
-                    text.css('marginTop', (cell.height - 36)/2 + 'px');
-                    text.css('font-size', '24px');
-                }
-                text.get(0).innerHTML = isTextEmpty(cell.textTitle) ? cell.celltypeName : cell.textTitle;
-                div.get(0).append(text.get(0));
-                //位置调节
-                if (SHOW_POSITION) {
-                    var positon = $('<div></div>');
-                    var arrow_up = $('<div class="arrow-up"></div>');
-                    var arrow_down = $('<div class="arrow-down"></div>');
-                    var arrow_left = $('<div class="arrow-left"></div>');
-                    var arrow_right = $('<div class="arrow-right"></div>');
-                    arrow_up.on("click", function (event) {
-                        var y = trimPX(div.get(0).style.top);
-                        div.get(0).style.top = (y - 1) + 'px';
-                        cell.y = y - 1;
-                        show_position.get(0).innerHTML = cell.x + "X" + cell.y;
-                    });
-                    arrow_down.on("click", function (event) {
-                        var y = trimPX(div.get(0).style.top);
-                        div.get(0).style.top = (y + 1) + 'px';
-                        cell.y = y + 1;
-                        show_position.get(0).innerHTML = cell.x + "X" + cell.y;
-                    });
-                    arrow_left.on("click", function (event) {
-                        var x = trimPX(div.get(0).style.left);
-                        div.get(0).style.left = (x - 1) + 'px';
-                        cell.x = x - 1;
-                        show_position.get(0).innerHTML = cell.x + "X" + cell.y;
-                    });
-                    arrow_right.on("click", function (event) {
-                        var x = trimPX(div.get(0).style.left);
-                        div.get(0).style.left = (x + 1) + 'px';
-                        cell.x = x + 1;
-                        show_position.get(0).innerHTML = cell.x + "X" + cell.y;
-                    });
-                    positon.css('position', 'absolute');
-                    positon.css('width', '100%');
-                    positon.css('height', '100%');
-                    positon.get(0).append(arrow_up.get(0));
-                    positon.get(0).append(arrow_down.get(0));
-                    positon.get(0).append(arrow_left.get(0));
-                    positon.get(0).append(arrow_right.get(0));
-                    div.get(0).append(positon.get(0));
-                }
-                //删除按钮
-                if (SHOW_DEL) {
-                    var del = $('<div>X</div>');
-                    del.css('position', 'absolute');
-                    del.css('left', (cell.width - 22) + 'px');
-                    del.css('top', '2px');
-                    del.css('width', '20px');
-                    del.css('height', '20px');
-                    del.css('background', '#FAF000');
-                    del.css('font-size', '18px');
-
-                    del.on("click", function (event) {
-                        $('.flyscreen').get(0).removeChild(div.get(0));
-                        screenCellArr.splice(num, 1);
-                    });
-                    div.get(0).append(del.get(0));
-                }
-                break;
-        }
-        if (SHOW_POSITION) {
-            var show_position = $('<div id="position" class="position"></div>');
-            show_position.get(0).innerHTML = cell.x + "X" + cell.y;
-            div.get(0).append(show_position.get(0));
-        }
-        div.on('mousedown', function (event) {
-            Ev = event || window.event;
-            //鼠标点击的绝对位置
-            var mousePos = mouseCoords(event);
-            var x = mousePos.x;
-            var y = mousePos.y;
-            //获取div在body中的绝对位置
-            var x1 = this.offsetLeft;
-            var y1 = this.offsetTop;
-            //鼠标点击位置相对于div的坐标
-            var x2 = x - x1;
-            var y2 = y - y1;
-            if (addMenuCell === null) {
-                screenMoveCell = cell;
-                screenMoveDiv = div.get(0);
-                screenMoveDivPoint.x = x2;
-                screenMoveDivPoint.y = y2;
-            }
-        });
-        return div.get(0);
-    }
-
     /**
      * @param cell
      * @returns {*|jQuery|HTMLElement}
@@ -375,10 +176,10 @@
                 //图像
                 var image = $('<img>');
                 image.css('position', 'absolute');
-                if(isTextEmpty(cell.imageurl1)||cell.celltype===6){
+                if (isTextEmpty(cell.imageurl1) || cell.celltype === 6) {
                     if (cell.width > cell.height) {
                         image.attr('width', MENUCELL_WIDTH);
-                        image.attr('height',cell.height * trimPX(MENUCELL_WIDTH) / cell.width + 'px');
+                        image.attr('height', cell.height * trimPX(MENUCELL_WIDTH) / cell.width + 'px');
                         image.css('left', '0px');
                         image.css('top', (cell.width - cell.height) * trimPX(MENUCELL_WIDTH) / cell.width / 2 + 'px');
                     } else {
@@ -387,7 +188,7 @@
                         image.css('left', (cell.height - cell.width) * trimPX(MENUCELL_HEIGHT) / cell.height / 2 + 'px');
                         image.css('top', '0px')
                     }
-                }else if (cell.width > cell.height) {
+                } else if (cell.width > cell.height) {
                     image.attr('width', MENUCELL_WIDTH);
                     image.attr('height', 'auto');
                     image.css('left', '0px');
@@ -398,7 +199,7 @@
                     image.css('left', (cell.height - cell.width) * trimPX(MENUCELL_HEIGHT) / cell.height / 2 + 'px');
                     image.css('top', '0px')
                 }
-                isTextEmpty(cell.imageurl1)||cell.celltype===6 ? image.attr('src', '__RES__/flyui/img/default_cellmenu.png') : image.attr('src', cell.imageurl1);
+                isTextEmpty(cell.imageurl1) || cell.celltype === 6 ? image.attr('src', '__RES__/flyui/img/default_cellmenu.png') : image.attr('src', cell.imageurl1);
                 image.attr('ondragstart', 'return false;');
                 div.get(0).append(image.get(0));
                 //文字
@@ -446,13 +247,11 @@
                     try {
                         var data = JSON.parse(result);
                         screenCellArr.splice(0, screenCellArr.length);
-                        for (i = 0; i < data.cellList.length; i++) {
+                        for (var i = 0; i < data.cellList.length; i++) {
                             var num = screenCellArr.length;
                             var div = createScreenCellDiv(data.cellList[i], num);
-                            if (div) {
-                                screenCellArr[num] = data.cellList[i];
-                                flyscreen.append(div);
-                            }
+                            screenCellArr[num] = data.cellList[i];
+                            flyscreen.append(div);
                         }
                     } catch (e) {
                         console.log(e);
@@ -562,9 +361,7 @@
                     screenMoveCell.y = y;
                     screenMoveDiv.style.left = x + 'px';
                     screenMoveDiv.style.top = y + 'px';
-                    if (SHOW_POSITION) {
-                        screenMoveDiv.lastChild.innerHTML = x + "X" + y;
-                    }
+                    screenMoveCell.positiontext_div.get(0).innerHTML = x + "X" + y;
                 } else {
                     x = x - $(this).offset().left;
                     y = y - $(this).offset().top;
@@ -586,16 +383,7 @@
     }
 
     function savePagecell() {
-        var pageCellArr = [];
-        for (var i = 0; i < screenCellArr.length; i++) {
-            pageCellArr[i] = {};
-            pageCellArr[i].cellId = screenCellArr[i].cellId;
-            pageCellArr[i].width = screenCellArr[i].width;
-            pageCellArr[i].height = screenCellArr[i].height;
-            pageCellArr[i].x = screenCellArr[i].x;
-            pageCellArr[i].y = screenCellArr[i].y;
-        }
-        var celljson = JSON.stringify(pageCellArr);
+        var celljson = JSON.stringify(screenCellArr);
         $.ajax({
             url: pagecellurl,
             type: "POST",
@@ -615,13 +403,12 @@
     });
 
     $('#showdel').change(function () {
-        SHOW_DEL = $(this).prop('checked');
-        refreshPagecell();
+        showDelete(screenCellArr, $(this).prop('checked'))
     });
     $('#showposition').change(function () {
-        SHOW_POSITION = $(this).prop('checked');
-        refreshPagecell();
+        showPositionArrow(screenCellArr, $(this).prop('checked'))
     });
 </script>
+<script type="text/javascript" src="__RES__/flyui/js/flyscreen.js"></script>
 </html>
 

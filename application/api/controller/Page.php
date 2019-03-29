@@ -6,7 +6,7 @@ class Page extends BaseRestful
 {
     public function index()
     {
-        $this->handle('page');
+        $this->handle('page', 'edittime desc');
     }
 
 }

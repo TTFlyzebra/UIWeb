@@ -41,13 +41,13 @@ $.fn.flyinput = function (option) {
                  * XMLHttpRequest会对 formdata 进行正确的处理
                  */
                 processData: false,
-                success: function (data) {
-                    self.trigger("success",data);
+                success: function (result) {
+                    self.trigger("success",result);
                     try {
-                        var result = JSON.parse(data);
-                        if (result.code === 0) {
-                            divimg.attr('src', result.data.saveName);
-                            var a = result.data.width / result.data.height;
+                        var obj = JSON.parse(result);
+                        if (obj.code === 0) {
+                            divimg.attr('src', obj.data.saveName);
+                            var a = obj.data.width / obj.data.height;
                             var b = divparent.width() / divparent.height();
                             if (a > b) {
                                 divimg.css("width", option.width);
@@ -58,14 +58,14 @@ $.fn.flyinput = function (option) {
                             }
                         } else {
                             divimg.attr('src', option.image);
-                            alert(result.msg+result.data);
+                            alert(obj.msg+"data"+obj.data);
                         }
                     } catch (e) {
                         divimg.attr('src', option.image);
                         alert("catch error:"+e);
                     }
                 },
-                error: function () {
+                error: function (result) {
                     alert("上传图片失败！");
                     divimg.attr('src', option.image);
                 }
