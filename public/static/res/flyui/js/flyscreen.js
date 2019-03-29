@@ -126,8 +126,7 @@ var childposion = function (cell, cell_div, bshow) {
     position_div.get(0).append(arrow_down.get(0));
     position_div.get(0).append(arrow_left.get(0));
     position_div.get(0).append(arrow_right.get(0));
-    cell.position_text_div = positiontext;
-    cell.position_div = position_div;
+    cell.posmsg = positiontext.get(0);
     return position_div
 };
 
@@ -141,7 +140,6 @@ var _delete = function (cell, bshow) {
     del_div.css('height', '20px');
     del_div.css('background', '#FAF000');
     del_div.css('font-size', '18px');
-    cell.del_div = del_div;
     return del_div;
 };
 
@@ -200,8 +198,10 @@ var _delete = function (cell, bshow) {
             self.movePos = {x: x2, y: y2};
             if (!self.moveMuneCell) {
                 self.moveCell = cell_div.get(0);
+                self.posmsg = cell.posmsg;
             } else {
                 self.moveCell = null;
+                self.posmsg = null;
             }
         });
         return cell_div.get(0);
@@ -307,8 +307,11 @@ var _delete = function (cell, bshow) {
             var x = event.clientX;
             var y = event.clientY;
             if (self.moveCell) {
-                self.moveCell.style.left = x - self.movePos.x + 'px';
-                self.moveCell.style.top = y - self.movePos.y + 'px';
+                x = x - self.movePos.x;
+                y = y - self.movePos.y;
+                self.moveCell.style.left = x + 'px';
+                self.moveCell.style.top = y + 'px';
+                self.posmsg.innerHTML = x + "X" + y;
             } else {
                 x = x - $(this).offset().left;
                 y = y - $(this).offset().top;
@@ -316,6 +319,7 @@ var _delete = function (cell, bshow) {
             self.showmsg(Math.round(x) + ',' + Math.round(y));
         }).on('mouseup', function (event) {
             self.moveCell = null;
+            self.posmsg = null;
         });
     };
 
