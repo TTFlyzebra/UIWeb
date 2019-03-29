@@ -94,8 +94,8 @@
     <div class="flyscreen"></div>
     <div class="flycellmenu"></div>
     <div class="flycontrlmenu">
-        <label>显示删除</label><input id="showdel" type="checkbox" checked="checked">
-        <label>位置微调</label><input id="showposition" type="checkbox" checked="checked">
+        <label>显示删除</label><input id="showdel" type="checkbox">
+        <label>位置微调</label><input id="showposition" type="checkbox">
         <button type="button" onclick="refreshPagecell()" class="btn btn-lg">重新加载</button>
         <button type="button" onclick="savePagecell()" class="btn btn-lg">保存设置</button>
     </div>
@@ -150,10 +150,10 @@
         };
     }
 
-    function showMSG(x, y) {
+    function showMSG(text) {
         var flyscreenmsg = $('.flyscreenmsg').get(0);
         if (flyscreenmsg) {
-            flyscreenmsg.innerHTML = Math.round(x) + ',' + Math.round(y);
+            flyscreenmsg.innerHTML = text;
         }
     }
 
@@ -361,12 +361,12 @@
                     screenMoveCell.y = y;
                     screenMoveDiv.style.left = x + 'px';
                     screenMoveDiv.style.top = y + 'px';
-                    screenMoveCell.positiontext_div.get(0).innerHTML = x + "X" + y;
+                    screenMoveCell.position_text_div.get(0).innerHTML = x + "X" + y;
                 } else {
                     x = x - $(this).offset().left;
                     y = y - $(this).offset().top;
                 }
-                showMSG(x, y);
+                showMSG(Math.round(x) + ',' + Math.round(y));
             }).on('mouseup', function (event) {
                 if (screenMoveDiv) {
                     screenMoveDiv = null;

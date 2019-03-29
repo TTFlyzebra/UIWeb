@@ -53,7 +53,7 @@ function createCellText(cell) {
 
 function createPositionArrow(cell) {
     var cell_div = cell.cell_div;
-    var positon_arrow_div = $('<div></div>');
+    var positon_div = $('<div></div>');
     var arrow_up = $('<div style="position: absolute;left:0;right:0;top: 0;bottom: 80px;width: 24px;height: 24px;margin: auto;' +
         'border-bottom: 24px solid #FFB800;border-left: 24px solid transparent;border-right: 24px solid transparent;"></div>');
     var arrow_down = $('<div style="position: absolute;top: 80px;bottom: 0;left: 0;right: 0;width: 24px;height: 24px;margin: auto;' +
@@ -88,28 +88,30 @@ function createPositionArrow(cell) {
         cell.x = x + 1;
         positiontext.get(0).innerHTML = cell.x + "X" + cell.y;
     });
-    positon_arrow_div.css('position', 'absolute');
-    positon_arrow_div.css('width', '100%');
-    positon_arrow_div.css('height', '100%');
-    positon_arrow_div.get(0).append(positiontext.get(0));
-    positon_arrow_div.get(0).append(arrow_up.get(0));
-    positon_arrow_div.get(0).append(arrow_down.get(0));
-    positon_arrow_div.get(0).append(arrow_left.get(0));
-    positon_arrow_div.get(0).append(arrow_right.get(0));
-    cell.positiontext_div = positiontext;
-    cell.positionarrow_div = positon_arrow_div;
-    return positon_arrow_div
+    positon_div.css('position', 'absolute');
+    positon_div.css('display', 'none');
+    positon_div.css('width', '100%');
+    positon_div.css('height', '100%');
+    positon_div.get(0).append(positiontext.get(0));
+    positon_div.get(0).append(arrow_up.get(0));
+    positon_div.get(0).append(arrow_down.get(0));
+    positon_div.get(0).append(arrow_left.get(0));
+    positon_div.get(0).append(arrow_right.get(0));
+    cell.position_text_div = positiontext;
+    cell.position_div = positon_div;
+    return positon_div
 }
 
 function showPositionArrow(cellArr, bshow) {
     for (var i = 0; i < cellArr.length; i++) {
-        cellArr[i].positionarrow_div.css('opacity', bshow ? '1' : '0');
+        cellArr[i].position_div.css('display', bshow ? 'block' : 'none');
     }
 }
 
 function createCellDel(cell) {
     var del_div = $('<div>X</div>');
     del_div.css('position', 'absolute');
+    del_div.css('display', 'none');
     del_div.css('left', (cell.width - 22) + 'px');
     del_div.css('top', '2px');
     del_div.css('width', '20px');
@@ -122,7 +124,7 @@ function createCellDel(cell) {
 
 function showDelete(cellArr, bshow) {
     for (var i = 0; i < cellArr.length; i++) {
-        cellArr[i].del_div.css('opacity', bshow ? '1' : '0');
+        cellArr[i].del_div.css('display', bshow ? 'block' : 'none');
     }
 }
 
