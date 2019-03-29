@@ -102,11 +102,10 @@
 
 </div>
 </body>
+<script type="text/javascript" src="__RES__/flyui/js/flyscreen.js"></script>
 <script type="text/javascript">
     var cellurl = "{:url('/api/cell')}";
-    var pagecellurl = "{:url('/api/pagecell')}";
     var pageId = "{$item.pageId}";
-
     //定义全局变量
     var screenCellArr = [];
     var menuCellArr = [];
@@ -121,13 +120,18 @@
 
     $('.flycenter').css('width', flycenterwidth + 'px');
     $('.flycontrlmenu').css('width', flycenterwidth + 'px');
-    $('.flyscreen').css('width', '{$item.width}px');
-    $('.flyscreen').css('height', '{$item.height}px');
     $('.flycellmenu').css('width', '380px');
     $('.flycellmenu').css('height', '{$item.height}px');
 
+    $('.flyscreen').flyscreen({
+        width: "{$item.width}",
+        height: "{$item.height}",
+        pageId: "{$item.pageId}",
+        url:"{:url('/api/pagecell')}"
+    });
+
     upMenuCell();
-    refreshPagecell();
+    // refreshPagecell();
 
     function isTextEmpty(obj) {
         return typeof obj == "undefined" || obj == null || obj === "";
@@ -137,17 +141,6 @@
         if (_px === null || _px === "")
             return 0;
         return parseInt(_px.substr(0, _px.lastIndexOf("px")));
-    }
-
-    //获取鼠标点击区域在Html绝对位置坐标
-    function mouseCoords(event) {
-        if (event.pageX || event.pageY) {
-            return {x: event.pageX, y: event.pageY};
-        }
-        return {
-            x: event.clientX + document.body.scrollLeft - document.body.clientLeft,
-            y: event.clientY + document.body.scrollTop - document.body.clientTop
-        };
     }
 
     function showMSG(text) {
@@ -239,7 +232,7 @@
         flyscreen.innerHTML = '<div class="flyscreenmsg"></div>';
         if (flyscreen) {
             $.ajax({
-                url: pagecellurl,
+                url: "{:url('/api/pagecell')}",
                 type: "GET",
                 data: "pageId=" + tabId,
                 dataType: 'html',
@@ -249,7 +242,7 @@
                         screenCellArr.splice(0, screenCellArr.length);
                         for (var i = 0; i < data.cellList.length; i++) {
                             var num = screenCellArr.length;
-                            var div = createScreenCellDiv(data.cellList[i], num);
+                            var div = createScreenCellDiv($('.flyscreen'),data.cellList[i]);
                             screenCellArr[num] = data.cellList[i];
                             flyscreen.append(div);
                         }
@@ -299,7 +292,7 @@
                 if (addMenuCell) {
                     addMenuCell.imgUrl = addMenuCell.imageurl1;
                     if (bodyMoveDiv === null) {
-                        bodyMoveDiv = createScreenCellDiv(addMenuCell);
+                        bodyMoveDiv = createScreenCellDiv($('.flyscreen'),addMenuCell);
                         document.body.appendChild(bodyMoveDiv);
                     }
                     bodyMoveDiv.style.left = (event.clientX - addMenuCell.width / 2) + 'px';
@@ -333,7 +326,7 @@
                         addMenuCell.imgUrl = addMenuCell.imageurl1;
                         var num = screenCellArr.length;
                         screenCellArr[num] = addMenuCell;
-                        flyscreen.append(createScreenCellDiv(screenCellArr[num], num));
+                        flyscreen.append(createScreenCellDiv($('.flyscreen'),screenCellArr[num]));
                     }
                 }
             }
@@ -381,13 +374,23 @@
     function refreshPagecell() {
         upScreenCell(pageId);
     }
-
     function savePagecell() {
-        var celljson = JSON.stringify(screenCellArr);
+        var list = $(".cell");
+        var cellList = [];
+        for (var i = 0; i < list.length; i++) {
+            var cell = {};
+            cell.cellId = list[i].getAttribute('cellId')
+            cell.x = trimPX(list[i].style.left);
+            cell.y = trimPX(list[i].style.top);
+            cell.width = trimPX(list[i].style.width);
+            cell.height = trimPX(list[i].style.height);
+            cellList[i] = cell;
+        }
+        var cellListJson = JSON.stringify(cellList);
         $.ajax({
-            url: pagecellurl,
+            url: "{:url('/api/pagecell')}",
             type: "POST",
-            data: "jsondata=" + celljson + "&pageId=" + pageId,
+            data: "jsondata=" + cellListJson + "&pageId=" + pageId,
             dataType: 'html',
             error: function (request) {
                 alert("向服务器提交页面数据更新失败!");
@@ -409,6 +412,5 @@
         showPositionArrow(screenCellArr, $(this).prop('checked'))
     });
 </script>
-<script type="text/javascript" src="__RES__/flyui/js/flyscreen.js"></script>
 </html>
 

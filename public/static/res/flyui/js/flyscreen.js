@@ -1,5 +1,16 @@
+//获取鼠标点击区域在Html绝对位置坐标
+function mouseCoords(event) {
+    if (event.pageX || event.pageY) {
+        return {x: event.pageX, y: event.pageY};
+    }
+    return {
+        x: event.clientX + document.body.scrollLeft - document.body.clientLeft,
+        y: event.clientY + document.body.scrollTop - document.body.clientTop
+    };
+}
+
 function createCell(cell) {
-    var cell_div = $('<div class="cell"></div>');
+    var cell_div = $('<div class="cell" cellId="'+cell.cellId+'"></div>');
     cell_div.css('position', 'absolute');
     cell_div.css('width', cell.width + 'px');
     cell_div.css('height', cell.height + 'px');
@@ -89,7 +100,7 @@ function createPositionArrow(cell) {
         positiontext.get(0).innerHTML = cell.x + "X" + cell.y;
     });
     positon_div.css('position', 'absolute');
-    positon_div.css('display', 'none');
+    // positon_div.css('display', 'none');
     positon_div.css('width', '100%');
     positon_div.css('height', '100%');
     positon_div.get(0).append(positiontext.get(0));
@@ -111,7 +122,7 @@ function showPositionArrow(cellArr, bshow) {
 function createCellDel(cell) {
     var del_div = $('<div>X</div>');
     del_div.css('position', 'absolute');
-    del_div.css('display', 'none');
+    // del_div.css('display', 'none');
     del_div.css('left', (cell.width - 22) + 'px');
     del_div.css('top', '2px');
     del_div.css('width', '20px');
@@ -129,7 +140,7 @@ function showDelete(cellArr, bshow) {
 }
 
 
-function createScreenCellDiv(cell, num) {
+function createScreenCellDiv(flyscreen, cell) {
     var cell_div = createCell(cell);
     //图像
     var image = createCellImage(cell, cell_div);
@@ -145,8 +156,7 @@ function createScreenCellDiv(cell, num) {
     cell_div.get(0).append(del.get(0));
 
     del.on("click", function (event) {
-        $('.flyscreen').get(0).removeChild(cell_div.get(0));
-        screenCellArr.splice(num, 1);
+        flyscreen.get(0).removeChild(cell_div.get(0));
     });
     cell_div.on('mousedown', function (event) {
         Ev = event || window.event;
@@ -172,9 +182,73 @@ function createScreenCellDiv(cell, num) {
 
 $.fn.flyscreen = function (option) {
     var self = this;
-    var width = option.width;
-    var height = option.height;
-    self.css('width', width);
-    self.css('height', height);
+    var screenCellArr = [];
+    var menuCellArr = [];
+    var screenMoveDiv = null;
+    var screenMoveDivPoint = {};
+    var screenMoveCell = null;
+    var bodyMoveDiv = null;
+    var addMenuCell = null;
+    self.css('width', option.width);
+    self.css('height', option.height);
+    self.innerHTML = '<div class="flyscreenmsg"></div>';
+    $.ajax({
+        url: option.url,
+        type: "GET",
+        data: "pageId=" + option.pageId,
+        dataType: 'html',
+        success: function (result) {
+            var data = JSON.parse(result);
+            for (var i = 0; i < data.cellList.length; i++) {
+                var div = createScreenCellDiv(self, data.cellList[i]);
+                self.append(div);
+            }
+        }
+    });
     return this;
+};
+
+$.fn.flyscreen = function (option) {
+    var self = this;
+    var screenCellArr = [];
+    var menuCellArr = [];
+    var screenMoveDiv = null;
+    var screenMoveDivPoint = {};
+    var screenMoveCell = null;
+    var bodyMoveDiv = null;
+    var addMenuCell = null;
+    self.css('width', option.width);
+    self.css('height', option.height);
+    self.innerHTML = '<div class="flyscreenmsg"></div>';
+    $.ajax({
+        url: option.url,
+        type: "GET",
+        data: "pageId=" + option.pageId,
+        dataType: 'html',
+        success: function (result) {
+            var data = JSON.parse(result);
+            for (var i = 0; i < data.cellList.length; i++) {
+                var div = createScreenCellDiv(self, data.cellList[i]);
+                self.append(div);
+            }
+        }
+    });
+    return this;
+};
+
+$.fn.upview = function (option) {
+    var self = this;
+    $.ajax({
+        url: option.url,
+        type: "GET",
+        data: "pageId=" + option.pageId,
+        dataType: 'html',
+        success: function (result) {
+            var data = JSON.parse(result);
+            for (var i = 0; i < data.cellList.length; i++) {
+                var div = createScreenCellDiv(self, data.cellList[i]);
+                self.append(div);
+            }
+        }
+    });
 };
