@@ -27,16 +27,16 @@ class Pagecell
                     $pagecell['pageId'] = $pageId;
                     $db->insert($pagecell);
                 }
+                echo retJsonMsg();
             } else {
-                echo "error thinkPHP";
+                echo retJsonMsg("error!", -1);
             }
         } elseif ($request->isGet()) {
             if ($request->has('pageId', 'get')) {
                 $pagedata = getPagecell((int)$_GET['pageId']);
-                $result['cellList'] = $pagedata;
-                $result['msg'] = '成功';
-                $result['ret'] = 0;
-                echo json_encode($result);
+                echo retJsonMsg("success!", 0, $pagedata);
+            } else {
+                echo retJsonMsg("error!", -1);
             }
         }
     }
