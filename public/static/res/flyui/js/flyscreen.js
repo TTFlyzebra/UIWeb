@@ -10,7 +10,7 @@ function mouseCoords(event) {
 }
 
 function createCell(cell) {
-    var cell_div = $('<div class="cell" cellId="'+cell.cellId+'"></div>');
+    var cell_div = $('<div class="cell" cellId="' + cell.cellId + '"></div>');
     cell_div.css('position', 'absolute');
     cell_div.css('width', cell.width + 'px');
     cell_div.css('height', cell.height + 'px');
@@ -207,7 +207,6 @@ $.fn.flyscreen = function (option) {
     });
     return this;
 };
-
 $.fn.flyscreen = function (option) {
     var self = this;
     var screenCellArr = [];
@@ -235,20 +234,32 @@ $.fn.flyscreen = function (option) {
     });
     return this;
 };
-
-$.fn.upview = function (option) {
-    var self = this;
-    $.ajax({
-        url: option.url,
-        type: "GET",
-        data: "pageId=" + option.pageId,
-        dataType: 'html',
-        success: function (result) {
-            var data = JSON.parse(result);
-            for (var i = 0; i < data.cellList.length; i++) {
-                var div = createScreenCellDiv(self, data.cellList[i]);
-                self.append(div);
+(function ($) {
+    $.fn.flyinit = function (option) {
+        var value, args = Array.prototype.slice.call(arguments, 1);
+        var self = this;
+        this.each(function () {
+            var $this = $(this),
+                data = $this.data('flyscreen'),
+                options = $.extend({}, FlyScreen.DEFAULTS, $this.data(),
+                    typeof option === 'object' && option);
+            if (typeof option === 'string') {
+                if ($.inArray(option, allowedMethods) < 0) {
+                    throw new Error("Unknown method: " + option);
+                }
+                if (!data) {
+                    return;
+                }
+                value = data[option].apply(data, args);
+                if (option === 'destroy') {
+                    $this.removeData('flyscreen');
+                }
             }
-        }
-    });
-};
+            if (!data) {
+                $this.data('flyscreen', (data = new FlyScreen(this, options)));
+            }
+        });
+    };
+})(jQuery);
+
+
