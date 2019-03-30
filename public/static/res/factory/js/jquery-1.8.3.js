@@ -41,7 +41,7 @@ var
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {
 		// The jQuery object is actually just the init constructor 'enhanced'
-		return new jQuery.fn.init( selector, context, rootjQuery );
+		return new jQuery.fn.initcss( selector, context, rootjQuery );
 	},
 
 	// Used for matching numbers
@@ -94,7 +94,7 @@ var
 
 jQuery.fn = jQuery.prototype = {
 	constructor: jQuery,
-	init: function( selector, context, rootjQuery ) {
+	initcss: function(selector, context, rootjQuery ) {
 		var match, elem, ret, doc;
 
 		// Handle $(""), $(null), $(undefined), $(false)
@@ -286,7 +286,7 @@ jQuery.fn = jQuery.prototype = {
 };
 
 // Give the init function the jQuery prototype for later instantiation
-jQuery.fn.init.prototype = jQuery.fn;
+jQuery.fn.initcss.prototype = jQuery.fn;
 
 jQuery.extend = jQuery.fn.extend = function() {
 	var options, name, src, copy, copyIsArray, clone,
@@ -6515,21 +6515,21 @@ jQuery.browser = browser;
 
 jQuery.sub = function() {
 	function jQuerySub( selector, context ) {
-		return new jQuerySub.fn.init( selector, context );
+		return new jQuerySub.fn.initcss( selector, context );
 	}
 	jQuery.extend( true, jQuerySub, this );
 	jQuerySub.superclass = this;
 	jQuerySub.fn = jQuerySub.prototype = this();
 	jQuerySub.fn.constructor = jQuerySub;
 	jQuerySub.sub = this.sub;
-	jQuerySub.fn.init = function init( selector, context ) {
+	jQuerySub.fn.initcss = function init(selector, context ) {
 		if ( context && context instanceof jQuery && !(context instanceof jQuerySub) ) {
 			context = jQuerySub( context );
 		}
 
-		return jQuery.fn.init.call( this, selector, context, rootjQuerySub );
+		return jQuery.fn.initcss.call( this, selector, context, rootjQuerySub );
 	};
-	jQuerySub.fn.init.prototype = jQuerySub.fn;
+	jQuerySub.fn.initcss.prototype = jQuerySub.fn;
 	var rootjQuerySub = jQuerySub(document);
 	return jQuerySub;
 };
@@ -8913,13 +8913,13 @@ function defaultPrefilter( elem, props, opts ) {
 }
 
 function Tween( elem, options, prop, end, easing ) {
-	return new Tween.prototype.init( elem, options, prop, end, easing );
+	return new Tween.prototype.initcss( elem, options, prop, end, easing );
 }
 jQuery.Tween = Tween;
 
 Tween.prototype = {
 	constructor: Tween,
-	init: function( elem, options, prop, end, easing, unit ) {
+	initcss: function(elem, options, prop, end, easing, unit ) {
 		this.elem = elem;
 		this.prop = prop;
 		this.easing = easing || "swing";
@@ -8961,7 +8961,7 @@ Tween.prototype = {
 	}
 };
 
-Tween.prototype.init.prototype = Tween.prototype;
+Tween.prototype.initcss.prototype = Tween.prototype;
 
 Tween.propHooks = {
 	_default: {
@@ -9172,7 +9172,7 @@ jQuery.easing = {
 };
 
 jQuery.timers = [];
-jQuery.fx = Tween.prototype.init;
+jQuery.fx = Tween.prototype.initcss;
 jQuery.fx.tick = function() {
 	var timer,
 		timers = jQuery.timers,

@@ -42,19 +42,15 @@ var cellitem = function (cell) {
 };
 
 var childimage = function (cell) {
-    if (!isTextEmpty(cell.imageurl1)) {
-        var image_div = $('<img>');
-        image_div.css('position', 'absolute');
-        image_div.css('width', cell.width + 'px');
-        image_div.css('height', cell.height + 'px');
-        image_div.css('left', 0 + 'px');
-        image_div.css('top', 0 + 'px');
-        image_div.attr('src', cell.imageurl1);
-        image_div.attr('ondragstart', 'return false;');
-        return image_div;
-    } else {
-        return "";
-    }
+    var image_div = $('<img>');
+    image_div.css('position', 'absolute');
+    image_div.css('width', cell.width + 'px');
+    image_div.css('height', cell.height + 'px');
+    image_div.css('left', 0 + 'px');
+    image_div.css('top', 0 + 'px');
+    image_div.attr('src', cell.imageurl1);
+    image_div.attr('ondragstart', 'return false;');
+    return image_div;
 };
 
 var childtext = function (cell) {
@@ -83,13 +79,16 @@ var childtext = function (cell) {
 
 var childposion = function (cell, cell_div, bshow) {
     var position_div = $('<div class="position"></div>');
-    var arrow_up = $('<div style="position: absolute;left:0;right:0;top: 0;bottom: 80px;width: 24px;height: 24px;margin: auto;' +
+    var arrow_up = $('<div style="position: absolute;left:0;right:0;top: -40px;bottom: 40px;width: 24px;height: 24px;margin: auto;' +
         'border-bottom: 24px solid #FFB800;border-left: 24px solid transparent;border-right: 24px solid transparent;"></div>');
-    var arrow_down = $('<div style="position: absolute;top: 80px;bottom: 0;left: 0;right: 0;width: 24px;height: 24px;margin: auto;' +
+
+    var arrow_down = $('<div style="position: absolute;left: 0;right: 0;top: 40px;bottom: -40px;width: 24px;height: 24px;margin: auto;' +
         'border-left: 24px solid transparent;border-right: 24px solid transparent;border-top: 24px solid #FFB800;"></div>');
-    var arrow_left = $('<div style="position: absolute;top: 0;bottom: 0;left: 0;right: 80px;width: 24px;height: 24px;margin: auto;' +
+
+    var arrow_left = $('<div style="position: absolute;left: 0;right: 80px;top: -40px;bottom: -40px;width: 24px;height: 24px;margin: auto;' +
         'border-top: 24px solid transparent;border-bottom: 24px solid transparent;border-right: 24px solid #FFB800;"></div>');
-    var arrow_right = $('<div style=" position: absolute;top: 0;bottom: 0;left: 80px;right: 0;width: 24px;height: 24px;margin: auto;' +
+
+    var arrow_right = $('<div style=" position: absolute;left: 80px;right: 0;top: -40px;bottom: -40px;width: 24px;height: 24px;margin: auto;' +
         'border-top: 24px solid transparent;border-bottom: 24px solid transparent;border-left: 24px solid #FFB800;"></div>');
     var positiontext = $('<div id="position" style=" position: absolute;padding-left: 2px;text-align: left;color: #FF00FF;"></div>');
     positiontext.get(0).innerHTML = cell.x + "X" + cell.y;
@@ -148,10 +147,12 @@ var _delete = function (cell, bshow) {
         this.screen = screen;
         this.$srceen = $(screen);
         this.options = options;
-        this.init();
+        this.initcss();
         this.initevent();
         this.refresh();
-        this.eventinit();
+        if(options.moveevent){
+            this.screenclicklisenter();
+        }
     };
 
     FlyScreen.DEFAULTS = {
@@ -159,8 +160,10 @@ var _delete = function (cell, bshow) {
         height: 600,
         pageId: undefined,
         url: undefined,
+        defimgurl: "",
         showdelete: $('.showdelete').prop('checked'),
         showadjust: $('.showadjust').prop('checked'),
+        moveevent:true
     };
 
     FlyScreen.prototype.createCellDiv = function (cell) {
@@ -207,18 +210,36 @@ var _delete = function (cell, bshow) {
         return cell_div.get(0);
     };
 
-    FlyScreen.prototype.init = function () {
+    FlyScreen.prototype.initcss = function () {
+        $(document.body).css("font-size", "20px");
+        $(document.body).css("-webkit-user-select", "none");
+        $(document.body).css("-moz-user-select", "none");
+        $(document.body).css("-ms-user-select", "none");
+        $(document.body).css("user-select", "none");
+        this.$srceen.css("position", "relative");
+        this.$srceen.css("float", "left");
+        this.$srceen.css("overflow", "auto");
+        this.$srceen.css("background", "#1b6d85");
         this.$srceen.css("width", this.options.width);
         this.$srceen.css("height", this.options.height);
+        var flycontent = $('.flycontent');
+        flycontent.css("margin", "auto");
+        flycontent.css("background", "lightsteelblue");
+        flycontent.css("width", this.options.width);
+        var flycontrl = $('.flycontrl');
+        flycontrl.css("display", "table-cell");
+        flycontrl.css("vertical-align", "middle");
+        flycontrl.css("width", this.options.width);
+        flycontrl.css("height", "60px");
     };
 
     FlyScreen.prototype.initevent = function () {
         var self = this;
-        $('.refresh').click(function () {
+        $('.screenrefresh').click(function () {
             self.refresh();
         });
 
-        $('.save').click(function () {
+        $('.screensave').click(function () {
             self.save();
         });
 
@@ -300,7 +321,7 @@ var _delete = function (cell, bshow) {
         }
     };
 
-    FlyScreen.prototype.eventinit = function () {
+    FlyScreen.prototype.screenclicklisenter = function () {
         var self = this;
         var screen = this.$srceen;
         screen.on('mousemove', function (event) {
@@ -382,4 +403,269 @@ var _delete = function (cell, bshow) {
     };
 })(jQuery);
 
+(function ($) {
+    var bodyMoveDiv = null;
+    var addMenuCell = null;
+    var FlyMenu = function (menu, options) {
+        this.menu = menu;
+        this.$menu = $(menu);
+        this.options = options;
+        this.initcss();
+        this.refresh();
+        this.initevent();
+    };
+
+    FlyMenu.prototype.createMenuCellDiv = function (cell) {
+        var cell_div = $('<div class="menucell"></div>');
+        cell_div.css('position', 'relative');
+        cell_div.css('float', 'left');
+        cell_div.css('text-align', 'center');
+        cell_div.css('width', this.options.childw + 'px');
+        cell_div.css('height', this.options.childh + 'px');
+        cell_div.css('border', 'solid');
+        cell_div.css('border-width', '1px');
+        cell_div.css('border-color', '#707F00');
+        //图像
+        var image = $('<img>');
+        image.css('position', 'absolute');
+        if (isTextEmpty(cell.imageurl1) || cell.celltype === 6) {
+            if (cell.width > cell.height) {
+                image.attr('width', this.options.childw + 'px');
+                image.attr('height', cell.height * this.options.childw / cell.width + 'px');
+                image.css('left', '0px');
+                image.css('top', (cell.width - cell.height) * this.options.childw / cell.width / 2 + 'px');
+            } else {
+                image.attr('width', cell.width * this.options.childh / cell.height + 'px');
+                image.attr('height', this.options.childh + 'px');
+                image.css('left', (cell.height - cell.width) * this.options.childh / cell.height / 2 + 'px');
+                image.css('top', '0px')
+            }
+        } else if (cell.width > cell.height) {
+            image.attr('width', this.options.childw + 'px');
+            image.attr('height', 'auto');
+            image.css('left', '0px');
+            image.css('top', (cell.width - cell.height) * this.options.childw / cell.width / 2 + 'px');
+        } else {
+            image.attr('width', 'auto');
+            image.attr('height', this.options.childh + 'px');
+            image.css('left', (cell.height - cell.width) * this.options.childh / cell.height / 2 + 'px');
+            image.css('top', '0px')
+        }
+        isTextEmpty(cell.imageurl1) || cell.celltype === 6 ? image.attr('src', this.options.defimgurl) : image.attr('src', cell.imageurl1);
+        image.attr('ondragstart', 'return false;');
+        cell_div.get(0).append(image.get(0));
+        //文字
+        var text = $('<div></div>');
+        text.css('position', 'absolute');
+        text.css('text-align', 'center');
+        text.css('width', this.options.childw + 'px');
+        text.css('top', (this.options.childh - 24) + 'px')
+        text.css('font-size', '16px');
+        text.css('color', '#ffffff');
+        try {
+            var data = JSON.parse(cell.textTitle);
+            var content = data.zh;
+            if (content) {
+                cell.textTitle = content.replace('\n', '<br/>');
+            }
+        } catch (e) {
+        }
+        text.get(0).innerHTML = isTextEmpty(cell.textTitle) ? cell.celltypeName : cell.textTitle;
+        cell_div.get(0).append(text.get(0));
+        cell_div.on('mousedown', function (event) {
+            //添加点击事件
+            addMenuCell = cell;
+        });
+        return cell_div.get(0);
+    };
+
+    FlyMenu.DEFAULTS = {
+        width: 380,
+        height: 600,
+        url: undefined,
+        defimgurl: "",
+        childw: 120,
+        childh: 120
+    };
+
+
+    FlyMenu.prototype.initcss = function () {
+        this.$menu.css("position", "relative");
+        this.$menu.css("float", "left");
+        this.$menu.css("overflow-y", "scroll");
+        this.$menu.css("background", "#009688");
+        this.$menu.css("width", this.options.width);
+        this.$menu.css("height", this.options.height);
+        var flycontent = $('.flycontent');
+        flycontent.css("width", flycontent.width() + this.options.width);
+        var flycontrl = $('.flycontrl');
+        flycontrl.css("width", flycontent.width() + this.options.width);
+
+    };
+
+    FlyMenu.prototype.refresh = function (searchStr) {
+        var self = this;
+        var menu = this.$menu;
+        $.ajax({
+            url: this.options.url,
+            type: "GET",
+            data: searchStr,
+            dataType: 'html',
+            success: function (result) {
+                var data = JSON.parse(result);
+                menu.empty();
+                for (var i = 0; i < data.rows.length; i++) {
+                    var div = self.createMenuCellDiv(data.rows[i]);
+                    menu.append(div);
+                }
+            }
+        });
+    };
+
+    FlyMenu.prototype.initevent = function () {
+        $(document).on('mousemove', function (event) {
+            if (addMenuCell) {
+                if (bodyMoveDiv === null) {
+                    bodyMoveDiv = createCellDiv(addMenuCell);
+                    document.body.appendChild(bodyMoveDiv);
+                }
+                bodyMoveDiv.style.left = (event.clientX - addMenuCell.width / 2) + 'px';
+                bodyMoveDiv.style.top = (event.clientY - addMenuCell.height / 2) + 'px';
+            }
+        }).on('mouseleave', function (event) {
+            if (bodyMoveDiv) {
+                document.body.removeChild(bodyMoveDiv);
+                bodyMoveDiv = null;
+            }
+            if (addMenuCell) {
+                addMenuCell = null;
+            }
+        }).on('mouseup', function (event) {
+            var flyscreen = $('.flyscreen');
+            var left = flyscreen.offset().left;
+            var top = flyscreen.offset().top;
+            var width = flyscreen.width();
+            var height = flyscreen.height();
+            if (event.clientX >= left
+                && event.clientX <= (width + left) && event.clientY >= top && event.clientY <= (height + top)) {
+                if (addMenuCell) {
+                    var x = event.clientX - addMenuCell.width / 2 - left + flyscreen.get(0).scrollLeft;
+                    var y = event.clientY - addMenuCell.height / 2 - top + flyscreen.get(0).scrollTop;
+                    addMenuCell.x = Math.round(x);
+                    addMenuCell.y = Math.round(y);
+                    flyscreen.screen("addcell", addMenuCell);
+                }
+            }
+            if (bodyMoveDiv) {
+                bodyMoveDiv.remove();
+                bodyMoveDiv = null;
+            }
+            if (addMenuCell) {
+                addMenuCell = null;
+            }
+        });
+
+    };
+
+    var allowedMethods = [
+        'refresh'
+    ];
+
+    $.fn.menu = function (option) {
+        this.self = this;
+        var value;
+        var args = Array.prototype.slice.call(arguments, 1);
+        this.each(function () {
+            var $this = $(this);
+            var data = $this.data('menu');
+            var options = $.extend({}, FlyMenu.DEFAULTS, $this.data(), typeof option === 'object' && option);
+            if (typeof option === 'string') {
+                if ($.inArray(option, allowedMethods) < 0) {
+                    throw new Error("Unknown method: " + option);
+                }
+                if (!data) {
+                    return;
+                }
+                value = data[option].apply(data, args);
+                if (option === 'destroy') {
+                    $this.removeData('menu');
+                }
+            }
+            if (!data) {
+                $this.data('menu', (new FlyMenu(this, options)));
+            }
+        });
+        return typeof value === 'undefined' ? this : value;
+    };
+})(jQuery);
+
+
+(function ($) {
+    var FlyPage = function (page, options) {
+        this.page = page;
+        this.$page = $(page);
+        this.options = options;
+        this.initcss();
+        this.refresh();
+        this.initevent();
+    };
+
+    FlyPage.DEFAULTS = {
+        width: 380,
+        height: 600,
+        url: undefined
+    };
+
+    FlyPage.prototype.initcss = function () {
+        this.$page.css("position", "relative");
+        this.$page.css("float", "left");
+        this.$page.css("overflow-y", "scroll");
+        this.$page.css("background", "#009688");
+        this.$page.css("width", this.options.width);
+        this.$page.css("height", this.options.height);
+        var flycontent = $('.flycontent');
+        flycontent.css("width", flycontent.width() + this.options.width);
+        var flycontrl = $('.flycontrl');
+        flycontrl.css("width", flycontent.width() + this.options.width);
+
+    };
+
+    FlyPage.prototype.refresh = function (searchStr) {
+    };
+
+    FlyPage.prototype.initevent = function () {
+
+    };
+
+    var allowedMethods = [
+        'refresh'
+    ];
+
+    $.fn.page = function (option) {
+        this.self = this;
+        var value;
+        var args = Array.prototype.slice.call(arguments, 1);
+        this.each(function () {
+            var $this = $(this);
+            var data = $this.data('page');
+            var options = $.extend({}, FlyPage.DEFAULTS, $this.data(), typeof option === 'object' && option);
+            if (typeof option === 'string') {
+                if ($.inArray(option, allowedMethods) < 0) {
+                    throw new Error("Unknown method: " + option);
+                }
+                if (!data) {
+                    return;
+                }
+                value = data[option].apply(data, args);
+                if (option === 'destroy') {
+                    $this.removeData('page');
+                }
+            }
+            if (!data) {
+                $this.data('page', (new FlyPage(this, options)));
+            }
+        });
+        return typeof value === 'undefined' ? this : value;
+    };
+})(jQuery);
 

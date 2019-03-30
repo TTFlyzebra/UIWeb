@@ -11,8 +11,7 @@ class Cell extends BaseRestful
 {
     public function index()
     {
-
-//        try {
+        try {
             $tableName = 'cell';
             $order = 'edittime desc';
             $joins = [
@@ -111,9 +110,9 @@ class Cell extends BaseRestful
                     echo json_encode($tables);
                 }
             }
-//        }catch (Exception $e){
-//            echo retJsonMsg('exception',-1,$e);
-//        }
+        }catch (Exception $e){
+            echo retJsonMsg('exception',-1,$e);
+        }
     }
 
     private function getCell($data, $str=''){

@@ -41,7 +41,7 @@
 
     prettyMaps.prototype = {
 
-        init: function() {
+        initcss: function() {
             var that = this,
                 geocoder = new google.maps.Geocoder();
 
@@ -77,7 +77,7 @@
         if ( this.length ) {
             this.each(function() {
                 var rev = new prettyMaps(this, options);
-                rev.init();
+                rev.initcss();
                 $(this).data('prettyMaps', rev);
             });
         }

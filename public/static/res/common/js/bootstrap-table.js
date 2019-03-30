@@ -274,7 +274,7 @@
         this.timeoutId_ = 0;
         this.timeoutFooter_ = 0;
 
-        this.init();
+        this.initcss();
     };
 
     BootstrapTable.DEFAULTS = {
@@ -559,7 +559,7 @@
         'refresh.bs.table': 'onRefresh'
     };
 
-    BootstrapTable.prototype.init = function () {
+    BootstrapTable.prototype.initcss = function () {
         this.initLocale();
         this.initContainer();
         this.initTable();
@@ -2916,7 +2916,7 @@
         this.options = $.extend(this.options, options);
         this.trigger('refresh-options', this.options);
         this.destroy();
-        this.init();
+        this.initcss();
     };
 
     BootstrapTable.prototype.resetSearch = function (text) {

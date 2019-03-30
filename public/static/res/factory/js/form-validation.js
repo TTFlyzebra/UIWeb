@@ -137,7 +137,7 @@ function vindicateField($element, formId, options) {
     console.warn("Vindicate - Unknown element", this.element);
   }
   // Object Methods
-  this.init = function(options) {
+  this.initcss = function(options) {
     // Process Options
     for (option in this.data) {
       var input_option = this.data[option];
@@ -195,7 +195,7 @@ function vindicateField($element, formId, options) {
     return true;
   }
 
-  this.init(options);
+  this.initcss(options);
 
   this.validatePrep = function() {
     this.formFeedback.text("");

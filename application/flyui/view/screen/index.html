@@ -7,295 +7,39 @@
 <link rel="stylesheet" type="text/css" href="__RES__/common/css/bootstrap.css">
 <script type="text/javascript" src="__RES__/common/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="__RES__/common/js/bootstrap.js"></script>
-<style type="text/css">
-    body {
-        margin: 0;
-        padding: 0;
-        font-size: 20px;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-    }
-
-    a:link {
-        color: #0000ff;
-        text-decoration: none;
-    }
-
-    a:visited {
-        color: #0000ff;
-        text-decoration: none;
-    }
-
-    a:hover, a:active, a:focus {
-        color: #999999;
-        text-decoration: none;
-    }
-
-    .flycenter {
-        margin: 0 auto;
-        width: 1580px;
-        background: lightsteelblue;
-    }
-
-    .flyscreen {
-        position: relative;
-        float: left;
-        width: 1280px;
-        height: 720px;
-        overflow: auto;
-        border: solid;
-        box-sizing: border-box;
-        border-width: 0px;
-        border-color: #000000;
-        background: #1b6d85;
-    }
-
-    .flyscreenmsg {
-        text-align: right;
-        float: left;
-        width: 100%;
-        position: relative;
-        font-size: 24px;
-        color: #FF00FF;
-    }
-
-    .flycellmenu {
-        position: relative;
-        float: left;
-        width: 380px;
-        height: 720px;
-        overflow-x: hidden;
-        overflow-y: scroll;
-        border: solid;
-        box-sizing: border-box;
-        border-width: 0px;
-        border-color: #000000;
-        background: #009688;
-    }
-
-    .flycontrlmenu {
-        display: table-cell;
-        vertical-align: middle;
-        width: 100%;
-        height: 60px;
-        border: solid;
-        box-sizing: border-box;
-        border-width: 1px;
-        border-color: #000000;
-    }
-</style>
 <body>
-<div class="flycenter">
+<div class="flycontent">
     <div style="text-align: left;">
         &nbsp;&nbsp;{$item.pageName}&nbsp;&nbsp;[{$item.width}X{$item.height}][{$item.remark}]
     </div>
     <div class="flyscreen"></div>
-    <div class="flycellmenu"></div>
-    <div class="flycontrlmenu">
+    <div class="flymenu"></div>
+    <div class="flycontrl">
         <label>显示删除</label><input class="showdelete" type="checkbox" checked="checked">
         <label>位置微调</label><input class="showadjust" type="checkbox" checked="checked">
-        <button type="button" class="refresh" class="btn btn-lg">重新加载</button>
-        <button type="button" class="save" class="btn btn-lg">保存设置</button>
+        <button type="button" class="screenrefresh" class="btn btn-lg">重新加载</button>
+        <button type="button" class="screensave" class="btn btn-lg">保存设置</button>
     </div>
-
 </div>
 </body>
 <script type="text/javascript" src="__RES__/flyui/js/flyscreen.js"></script>
 <script type="text/javascript">
-    var cellurl = "{:url('/api/cell')}";
-    //定义全局变量
-    var screenCellArr = [];
-    var menuCellArr = [];
-    var bodyMoveDiv = null;
-    var addMenuCell = null;
-    var MENUCELL_WIDTH = "120px";
-    var MENUCELL_HEIGHT = "120px";
-    var flycenterwidth = trimPX("{$item.width}px") + 380;
-
-    $('.flycenter').css('width', flycenterwidth + 'px');
-    $('.flycontrlmenu').css('width', flycenterwidth + 'px');
-    $('.flycellmenu').css('width', '380px');
-    $('.flycellmenu').css('height', '{$item.height}px');
-
-
-    function isTextEmpty(obj) {
-        return typeof obj == "undefined" || obj == null || obj === "";
-    }
-
-    function trimPX(_px) {
-        if (_px === null || _px === "")
-            return 0;
-        return parseInt(_px.substr(0, _px.lastIndexOf("px")));
-    }
-
-    /**
-     * @param cell
-     * @returns {*|jQuery|HTMLElement}
-     */
-    function createMenuCellDiv(cell) {
-        var div = $('<div></div>');
-        div.css('position', 'relative');
-        div.css('float', 'left');
-        div.css('text-align', 'center');
-        div.css('width', MENUCELL_WIDTH);
-        div.css('height', MENUCELL_HEIGHT);
-        div.css('border', 'solid');
-        div.css('border-width', '1px');
-        div.css('border-color', '#707F00');
-        switch (cell.celltype) {
-            default:
-                //图像
-                var image = $('<img>');
-                image.css('position', 'absolute');
-                if (isTextEmpty(cell.imageurl1) || cell.celltype === 6) {
-                    if (cell.width > cell.height) {
-                        image.attr('width', MENUCELL_WIDTH);
-                        image.attr('height', cell.height * trimPX(MENUCELL_WIDTH) / cell.width + 'px');
-                        image.css('left', '0px');
-                        image.css('top', (cell.width - cell.height) * trimPX(MENUCELL_WIDTH) / cell.width / 2 + 'px');
-                    } else {
-                        image.attr('width', cell.width * trimPX(MENUCELL_HEIGHT) / cell.height + 'px');
-                        image.attr('height', MENUCELL_HEIGHT);
-                        image.css('left', (cell.height - cell.width) * trimPX(MENUCELL_HEIGHT) / cell.height / 2 + 'px');
-                        image.css('top', '0px')
-                    }
-                } else if (cell.width > cell.height) {
-                    image.attr('width', MENUCELL_WIDTH);
-                    image.attr('height', 'auto');
-                    image.css('left', '0px');
-                    image.css('top', (cell.width - cell.height) * trimPX(MENUCELL_WIDTH) / cell.width / 2 + 'px');
-                } else {
-                    image.attr('width', 'auto');
-                    image.attr('height', MENUCELL_HEIGHT);
-                    image.css('left', (cell.height - cell.width) * trimPX(MENUCELL_HEIGHT) / cell.height / 2 + 'px');
-                    image.css('top', '0px')
-                }
-                isTextEmpty(cell.imageurl1) || cell.celltype === 6 ? image.attr('src', '__RES__/flyui/img/default_cellmenu.png') : image.attr('src', cell.imageurl1);
-                image.attr('ondragstart', 'return false;');
-                div.get(0).append(image.get(0));
-                //文字
-                var text = $('<div></div>');
-                text.css('position', 'absolute');
-                text.css('text-align', 'center');
-                text.css('width', MENUCELL_WIDTH);
-                text.css('top', (trimPX(MENUCELL_HEIGHT) - 24) + 'px')
-                text.css('font-size', '16px');
-                text.css('color', '#ffffff');
-                try {
-                    var data = JSON.parse(cell.textTitle);
-                    var content = data.zh;
-                    if (content) {
-                        cell.textTitle = content.replace('\n', '<br/>');
-                    }
-                } catch (e) {
-                    // console.log(e);
-                }
-                text.get(0).innerHTML = isTextEmpty(cell.textTitle) ? cell.celltypeName : cell.textTitle;
-                div.get(0).append(text.get(0));
-                break;
-        }
-        div.on('mousedown', function (event) {
-            //添加点击事件
-            addMenuCell = cell;
-        });
-        return div.get(0);
-    }
-
-
-    /**
-     * 获取添加的所有cell样板数据
-     */
-    function upMenuCell(searchStr) {
-        var flycellmenu = $('.flycellmenu').get(0);
-        flycellmenu.innerHTML = "";
-        if (flycellmenu) {
-            $.ajax({
-                url: cellurl,
-                type: "GET",
-                data: "search=" + searchStr,
-                dataType: 'html',
-                success: function (result) {
-                    try {
-                        var data = JSON.parse(result);
-                        menuCellArr.splice(0, menuCellArr.length);
-                        flycellmenu.innerHTML = '';
-                        for (i = 0; i < data.rows.length; i++) {
-                            var num = screenCellArr.length;
-                            menuCellArr[num] = data.rows[i];
-                            flycellmenu.append(createMenuCellDiv(menuCellArr[num]));
-                        }
-                    } catch (e) {
-                        console.log(e);
-                    }
-                }
-            });
-        }
-    }
-
-    function documentEventInit() {
-        $(document).on('mousedown', function (event) {
-            //
-        }).on('mousemove', function (event) {
-            try {
-                if (addMenuCell) {
-                    addMenuCell.imgUrl = addMenuCell.imageurl1;
-                    if (bodyMoveDiv === null) {
-                        bodyMoveDiv = createCellDiv(addMenuCell);
-                        document.body.appendChild(bodyMoveDiv);
-                    }
-                    bodyMoveDiv.style.left = (event.clientX - addMenuCell.width / 2) + 'px';
-                    bodyMoveDiv.style.top = (event.clientY - addMenuCell.height / 2) + 'px';
-                }
-            } catch (e) {
-                console.log(e);
-            }
-        }).on('mouseleave', function (event) {
-            if (bodyMoveDiv) {
-                document.body.removeChild(bodyMoveDiv);
-                bodyMoveDiv = null;
-            }
-            if (addMenuCell) {
-                addMenuCell = null;
-            }
-        }).on('mouseup', function (event) {
-            var flyscreen = $('.flyscreen').get(0);
-            var left = flyscreen.offsetLeft;
-            var top = flyscreen.offsetTop;
-            var width = flyscreen.offsetWidth;
-            var height = flyscreen.offsetHeight;
-
-            if (event.clientX >= left && event.clientX <= (width + left) && event.clientY >= top && event.clientY <= (height + top)) {
-                if (addMenuCell) {
-                    var x = event.clientX - addMenuCell.width / 2 - left + flyscreen.scrollLeft;
-                    var y = event.clientY - addMenuCell.height / 2 - top + flyscreen.scrollTop;
-                    addMenuCell.x = Math.round(x);
-                    addMenuCell.y = Math.round(y);
-                    addMenuCell.imgUrl = addMenuCell.imageurl1;
-                    $('.flyscreen').screen("addcell", addMenuCell);
-                }
-            }
-            if (bodyMoveDiv) {
-                bodyMoveDiv.remove();
-                bodyMoveDiv = null;
-            }
-            if (addMenuCell) {
-                addMenuCell = null;
-            }
-        });
-
-    }
-
     $('.flyscreen').screen({
         width: "{$item.width}",
         height: "{$item.height}",
         pageId: "{$item.pageId}",
-        url: "{:url('/api/pagecell')}"
+        url: "{:url('/api/pagecell')}",
+        defimgurl: "__RES__/flyui/img/default_cellmenu.png"
     });
-    upMenuCell();
-    documentEventInit();
-    //    flyscreenClassEventInit();
+
+    $('.flymenu').menu({
+        width: 380,
+        height: "{$item.height}",
+        url: "{:url('/api/cell')}",
+        defimgurl: "__RES__/flyui/img/default_cellmenu.png",
+        childw:120,
+        childh:120
+    });
 </script>
 </html>
 
