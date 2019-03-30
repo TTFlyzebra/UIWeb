@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>管理系统</title>
-    <link rel="stylesheet" type="text/css" href="__RES__/auth/css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="__RES__/auth/css/auth.css"/>
     <link rel="stylesheet" type="text/css" href="__RES__/common/css/bootstrap.css">
     <script type="text/javascript" src="__RES__/common/js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="__RES__/common/js/bootstrap.js"></script>
@@ -46,115 +46,107 @@
 <div class="node-mask"></div>
 <!--添加菜单 Start-->
 <div class="node-dlg-add">
-    <form name="addFrom" id="addFrom" accept-charset="utf-8" action="{:url('/auth/permission/add')}" method="post">
-        <table class="flytable" width="100%">
-            <tbody>
+    <form class="form-horizontal" name="addFrom" id="addFrom" accept-charset="utf-8" action="{:url('/auth/permission/add')}" method="post">
+        <div class="modal-header">
             <div class="node-dlg-title">添加节点
                 <div class="node-dlg-title-close"><a href="javascript:closeAddDlg();" title="关闭">×</a></div>
             </div>
-            <tr>
-                <th>节点名称：</th>
-                <td>
-                    <input class="common-text" type="text" id="node_name" name="name" size="30" value="">
-                </td>
-            </tr>
-            <tr>
-                <th>节点路径：</th>
-                <td>
-                    <input type="hidden" id="node_path2" name="path" size="30" value="">
-                    <input class="common-text" type="text" id="node_path" size="30" value="">
-                </td>
-            </tr>
-            <tr>
-                <th>是否启用：</th>
-                <td>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">节点名称：</label>
+                <div class="col-sm-8">
+                    <input class="form-control" type="text" id="node_name" name="name" value="">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">节点路径：</label>
+                <div class="col-sm-8">
+                    <input type="hidden" id="node_path2" name="path" value="">
+                    <input class="form-control" type="text" id="node_path" value="">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">是否启用：</label>
+                <div class="col-sm-4">
                     <input class="common-text" name="status" value="1" type="radio" checked="checked">开启
+                </div>
+                <div class="col-sm-4">
                     <input class="common-text" name="status" value="0" type="radio">关闭
-                </td>
-            </tr>
-            <tr>
-                <th>父&ensp;节&ensp;点：</th>
-                <td>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">父&ensp;节&ensp;点：</label>
+                <div class="col-sm-8">
                     <input type="hidden" id="node_pid" name="pid" value="">
                     <div id="parent_name1"></div>
-                </td>
-            </tr>
-            <tr>
-                <th>节点描述：</th>
-                <td>
-                    <input class="common-text" type="text" id="node_description" name="description" size="30" value="">
-                </td>
-            </tr>
-            <tr>
-                <th colspan="2">
-                    <div id="messageadd">&emsp;</div>
-                </th>
-            </tr>
-            <tr>
-                <th colspan="2">
-                    <input type="button" class="btn btn-primary btn6 mr10" value="添加" id="add">
-                    <input type="reset" class="btn btn-primary btn6 mr10" value="重置" id="reset1">
-                </th>
-            </tr>
-            </tbody>
-        </table>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">节点描述：</label>
+                <div class="col-sm-8">
+                    <input class="form-control" type="text" id="node_description" name="description" value="">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="col-sm-6" style="margin-top:10px;text-align: center" id="messageadd">&emsp;</div>
+            <input type="button" class="btn btn-primary btn6 mr10" value="添加" id="add">
+            <input type="reset" class="btn btn-primary btn6 mr10" value="重置" id="reset1">
+        </div>
     </form>
 </div>
 <!--修改菜单 Start-->
 <div class="node-dlg-edit">
-    <form name="editForm" id="editForm" accept-charset="utf-8" action="{:url('/auth/permission/edit')}" method="post">
+    <form class="form-horizontal" name="editForm" id="editForm" accept-charset="utf-8" action="{:url('/auth/permission/edit')}" method="post">
         <input type="hidden" id="edit_id" name="id" value="0">
-        <table class="flytable" width="100%">
-            <tbody>
+        <div class="modal-header">
             <div class="node-dlg-title">修改节点
                 <div class="node-dlg-title-close"><a href="javascript:closeEditDlg();" title="关闭">×</a></div>
             </div>
-            <tr>
-                <th>节点名称：</th>
-                <td>
-                    <input class="common-text" type="text" id="edit_name" name="name" size="30" value="">
-                </td>
-            </tr>
-            <tr>
-                <th>节点路径：</th>
-                <td>
-                    <input type="hidden" id="edit_path2" name="path" size="30" value="">
-                    <input class="common-text" type="text" id="edit_path" size="30" value="">
-                </td>
-            </tr>
-            <tr>
-                <th>是否启用：</th>
-                <td>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">节点名称：</label>
+                <div class="col-sm-8">
+                    <input class="form-control" type="text" id="edit_name" name="name" value="">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">节点路径：</label>
+                <div class="col-sm-8">
+                    <input type="hidden" id="edit_path2" name="path" value="">
+                    <input class="form-control" type="text" id="edit_path" value="">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">是否启用：</label>
+                <div class="col-sm-4">
                     <input id="edit_radio1" class="common-text" name="status" value="1" type="radio" checked="checked">开启
+                </div>
+                <div>
                     <input id="edit_radio2" class="common-text" name="status" value="0" type="radio">关闭
-                </td>
-            </tr>
-            <tr>
-                <th>父&ensp;节&ensp;点：</th>
-                <td>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">父&ensp;节&ensp;点：</label>
+                <div class="col-sm-8">
                     <input type="hidden" id="edit_pid" name="pid" value="">
                     <div id="parent_name2"></div>
-                </td>
-            </tr>
-            <tr>
-                <th>节点描述：</th>
-                <td>
-                    <input class="common-text" type="text" id="edit_description" name="description" size="30">
-                </td>
-            </tr>
-            <tr>
-                <th colspan="2">
-                    <div id="messageedit">&emsp;</div>
-                </th>
-            </tr>
-            <tr>
-                <th colspan="2">
-                    <input type="button" class="btn btn-primary btn6 mr10" value="修改" id="edit">
-                    <input type="reset" class="btn btn-primary btn6 mr10" value="重置" id="reset2">
-                </th>
-            </tr>
-            </tbody>
-        </table>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">节点描述：</label>
+                <div class="col-sm-8">
+                    <input class="form-control" type="text" id="edit_description" name="description">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="col-sm-6" style="margin-top:10px;text-align: center" id="messageedit">&emsp;</div>
+            <input type="button" class="btn btn-primary btn6 mr10" value="修改" id="edit">
+            <input type="reset" class="btn btn-primary btn6 mr10" value="重置" id="reset2">
+        </div>
     </form>
 </div>
 <!--弹出菜单 End-->
