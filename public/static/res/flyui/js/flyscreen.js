@@ -79,6 +79,13 @@ var childtext = function (cell) {
 
 var childposion = function (cell, cell_div, bshow) {
     var position_div = $('<div class="position"></div>');
+    var size_div = $('<div style="position: absolute;">' + cell.width+'X'+cell.height + '</div>');
+    size_div.css('text-align','right');
+    size_div.css('top', cell.height-28);
+    size_div.css('width', cell.width - 4);
+    size_div.css('height', '24px');
+    size_div.css('color', '#FF00FF');
+    var positiontext = $('<div id="position" style=" position: absolute;padding-left: 2px;text-align: left;color: #FF00FF;"></div>');
     var arrow_up = $('<div style="position: absolute;left:0;right:0;top: -40px;bottom: 40px;width: 24px;height: 24px;margin: auto;' +
         'border-bottom: 24px solid #FFB800;border-left: 24px solid transparent;border-right: 24px solid transparent;"></div>');
 
@@ -90,36 +97,36 @@ var childposion = function (cell, cell_div, bshow) {
 
     var arrow_right = $('<div style=" position: absolute;left: 80px;right: 0;top: -40px;bottom: -40px;width: 24px;height: 24px;margin: auto;' +
         'border-top: 24px solid transparent;border-bottom: 24px solid transparent;border-left: 24px solid #FFB800;"></div>');
-    var positiontext = $('<div id="position" style=" position: absolute;padding-left: 2px;text-align: left;color: #FF00FF;"></div>');
-    positiontext.get(0).innerHTML = cell.x + "X" + cell.y;
+    positiontext.get(0).innerHTML = cell.x + "、" + cell.y;
     arrow_up.on("click", function (event) {
         var y = trimPX(cell_div.get(0).style.top);
         cell_div.get(0).style.top = (y - 1) + 'px';
         cell.y = y - 1;
-        positiontext.get(0).innerHTML = cell.x + "X" + cell.y;
+        positiontext.get(0).innerHTML = cell.x + "、" + cell.y;
     });
     arrow_down.on("click", function (event) {
         var y = trimPX(cell_div.get(0).style.top);
         cell_div.get(0).style.top = (y + 1) + 'px';
         cell.y = y + 1;
-        positiontext.get(0).innerHTML = cell.x + "X" + cell.y;
+        positiontext.get(0).innerHTML = cell.x + "、" + cell.y;
     });
     arrow_left.on("click", function (event) {
         var x = trimPX(cell_div.get(0).style.left);
         cell_div.get(0).style.left = (x - 1) + 'px';
         cell.x = x - 1;
-        positiontext.get(0).innerHTML = cell.x + "X" + cell.y;
+        positiontext.get(0).innerHTML = cell.x + "、" + cell.y;
     });
     arrow_right.on("click", function (event) {
         var x = trimPX(cell_div.get(0).style.left);
         cell_div.get(0).style.left = (x + 1) + 'px';
         cell.x = x + 1;
-        positiontext.get(0).innerHTML = cell.x + "X" + cell.y;
+        positiontext.get(0).innerHTML = cell.x + "、" + cell.y;
     });
     position_div.css('position', 'absolute');
     position_div.css('display', bshow ? 'block' : 'none');
     position_div.css('width', '100%');
     position_div.css('height', '100%');
+    position_div.get(0).append(size_div.get(0));
     position_div.get(0).append(positiontext.get(0));
     position_div.get(0).append(arrow_up.get(0));
     position_div.get(0).append(arrow_down.get(0));
@@ -133,8 +140,8 @@ var _delete = function (cell, bshow) {
     var del_div = $('<div class="delete">X</div>');
     del_div.css('position', 'absolute');
     del_div.css('display', bshow ? 'block' : 'none');
-    del_div.css('left', (cell.width - 22) + 'px');
-    del_div.css('top', '2px');
+    del_div.css('left', (cell.width - 24) + 'px');
+    del_div.css('top', '4px');
     del_div.css('width', '20px');
     del_div.css('height', '20px');
     del_div.css('background', '#FAF000');
@@ -150,7 +157,7 @@ var _delete = function (cell, bshow) {
         this.initcss();
         this.initevent();
         this.refresh();
-        if(options.moveevent){
+        if (options.moveevent) {
             this.screenclicklisenter();
         }
     };
@@ -163,7 +170,7 @@ var _delete = function (cell, bshow) {
         defimgurl: "",
         showdelete: $('.showdelete').prop('checked'),
         showadjust: $('.showadjust').prop('checked'),
-        moveevent:true
+        moveevent: true
     };
 
     FlyScreen.prototype.createCellDiv = function (cell) {
@@ -332,12 +339,12 @@ var _delete = function (cell, bshow) {
                 y = y - self.movePos.y;
                 self.moveCell.style.left = x + 'px';
                 self.moveCell.style.top = y + 'px';
-                self.posmsg.innerHTML = x + "X" + y;
+                self.posmsg.innerHTML = x + "、" + y;
             } else {
                 x = x - $(this).offset().left;
                 y = y - $(this).offset().top;
             }
-            self.showmsg(Math.round(x) + ',' + Math.round(y));
+            self.showmsg(Math.round(x) + '、' + Math.round(y));
         }).on('mouseup', function (event) {
             self.moveCell = null;
             self.posmsg = null;
