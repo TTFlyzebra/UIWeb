@@ -24,12 +24,41 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="col-sm-1 control-label">主题特效</label>
+            <div class="col-sm-5" style="height: 32px">
+                <div style="padding-left:4px;padding-right:4px;border:solid;border-width:1px;border-color: #EEEEEE;float: left;height: 30px">
+                    显示镜像
+                    <input type="checkbox" style="margin-top:6px;" id="checkMirror">
+                    <input type="hidden" name="isMirror" id="isMirror" value="fasle">
+                </div>
+                <div style="padding-left:4px;margin-left:20px;border:solid;border-width:1px;border-color: #EEEEEE;float: left;height: 30px">
+                    动画
+                    <select id="animType" style="height: 28px" name="animType">
+                        <option value="0" selected="selected" >无动画</option>
+                        <option value="1">立方体旋转</option>
+                        <option value="2">翻页效果</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">主题图片</label>
+            <div class="col-sm-5">
+                <input type="file" accept="image/*" id="flyimageup" name="imagefile">
+                <input type="hidden" id="imageurl" name="imageurl" value="{$item.imageurl}">
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-sm-1 control-label">分&nbsp辨&nbsp率&nbsp</label>
             <div class="col-sm-1">
                 <input id="screenWidth" name="screenWidth" type="text" class="form-control" value="{$item.screenWidth}" placeholder="宽(像素)">
             </div>
             <div class="col-sm-1">
                 <input id="screenHeight" name="screenHeight" type="text" class="form-control" value="{$item.screenHeight}" placeholder="高(像素)">
+            </div>
+            <label class="col-sm-1 control-label">背景颜色</label>
+            <div class="col-sm-2">
+                <input id="backcolor" name="backcolor" type="text" class="form-control" value="{$item.backcolor}" placeholder="格式：#FFFFFFFF">
             </div>
         </div>
         <div class="form-group">
@@ -48,32 +77,6 @@
             <div class="col-sm-1">
                 <input id="bottom" class="form-control" name="bottom" type="text" value="{$item.bottom}"
                        placeholder="BOTTOM">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-1 control-label">显示镜像</label>
-            <div class="col-sm-1">
-                <input type="checkbox" style="margin-top:6px;" id="checkMirror">
-                <input type="hidden" name="isMirror" id="isMirror" value="fasle">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-1 control-label">换页动画</label>
-            <div class="col-sm-4">
-                <h4 class="modal-title">
-                    <select id="animType" name="animType">
-                        <option value="0" selected="selected">无动画</option>
-                        <option value="1">立方体旋转</option>
-                        <option value="2">翻页效果</option>
-                    </select>
-                </h4>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-1 control-label">背景图片</label>
-            <div class="col-sm-5">
-                <input type="file" accept="image/*" id="flyimageup" name="imagefile">
-                <input type="hidden" id="imageurl" name="imageurl" value="{$item.imageurl}">
             </div>
         </div>
         <div class="form-group">

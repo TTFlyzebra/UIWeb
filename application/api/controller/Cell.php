@@ -23,7 +23,8 @@ class Cell extends BaseRestful
             ];
             $field = ['a.cellId', 'a.width', 'a.height', 'a.imageurl1', 'a.imageurl2', 'a.textTitle', 'a.textSize', 'a.textColor',
                 'a.textAlign', 'a.textFont', 'a.textLeft', 'a.textTop', 'a.textRight', 'a.launchAction','a.acceptAction',
-                'a.textBottom', 'a.event',  'a.status', 'a.remark', 'a.extend', 'a.edittime', 'b.celltype','b.celltypeName'];
+                'a.textBottom', 'a.event',  'a.status', 'a.remark', 'a.extend', 'a.edittime',
+                'b.celltype','b.celltypeName','b.imageurl'=>'typeimageurl'];
             $request = Request::instance();
             if ($request->isPost()) {
                 $table = $request->post();
