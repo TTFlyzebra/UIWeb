@@ -73,54 +73,67 @@ var childtext = function (cell) {
         text_div.css('marginTop', (cell.height - 36) / 2 + 'px');
         text_div.css('font-size', '24px');
     }
-    text_div.get(0).innerHTML = isTextEmpty(cell.textTitle) ? cell.celltypeName : cell.textTitle;
+    switch (cell.celltype) {
+        case 0:
+            text_div.get(0).innerHTML = "";
+            break;
+        default:
+            text_div.get(0).innerHTML = isTextEmpty(cell.textTitle) ? cell.celltypeName : cell.textTitle;
+            break;
+
+    }
     return text_div;
 };
 
 var childposion = function (cell, cell_div, bshow) {
     var position_div = $('<div class="position"></div>');
-    var size_div = $('<div style="position: absolute;">' + cell.width+'X'+cell.height + '</div>');
+    var size_div = $('<div style="position: absolute;">' + cell.width+'-'+cell.height + '</div>');
     size_div.css('text-align','right');
     size_div.css('top', cell.height-28);
     size_div.css('width', cell.width - 4);
-    size_div.css('height', '24px');
+    size_div.css('height', 24);
     size_div.css('color', '#FF00FF');
     var positiontext = $('<div id="position" style=" position: absolute;padding-left: 2px;text-align: left;color: #FF00FF;"></div>');
-    var arrow_up = $('<div style="position: absolute;left:0;right:0;top: -40px;bottom: 40px;width: 24px;height: 24px;margin: auto;' +
+    positiontext.css('white-space','nowrap')
+    positiontext.css('text-align','left');
+    positiontext.css('minwidth', 100);
+    positiontext.css('height', 24);
+    positiontext.css('color', '#FF00FF');
+    var arrow_up = $('<div style="opacity:0.5;position: absolute;left:0;right:0;top: -40px;bottom: 40px;width: 24px;height: 24px;margin: auto;' +
         'border-bottom: 24px solid #FFB800;border-left: 24px solid transparent;border-right: 24px solid transparent;"></div>');
 
-    var arrow_down = $('<div style="position: absolute;left: 0;right: 0;top: 40px;bottom: -40px;width: 24px;height: 24px;margin: auto;' +
+    var arrow_down = $('<div style="opacity:0.5;position: absolute;left: 0;right: 0;top: 40px;bottom: -40px;width: 24px;height: 24px;margin: auto;' +
         'border-left: 24px solid transparent;border-right: 24px solid transparent;border-top: 24px solid #FFB800;"></div>');
 
-    var arrow_left = $('<div style="position: absolute;left: 0;right: 80px;top: -40px;bottom: -40px;width: 24px;height: 24px;margin: auto;' +
+    var arrow_left = $('<div style="opacity:0.5;position: absolute;left: -40px;right: 40px;top: -40px;bottom: -40px;width: 24px;height: 24px;margin: auto;' +
         'border-top: 24px solid transparent;border-bottom: 24px solid transparent;border-right: 24px solid #FFB800;"></div>');
 
-    var arrow_right = $('<div style=" position: absolute;left: 80px;right: 0;top: -40px;bottom: -40px;width: 24px;height: 24px;margin: auto;' +
+    var arrow_right = $('<div style="opacity:0.5;position: absolute;left: 40px;right: -40px;top: -40px;bottom: -40px;width: 24px;height: 24px;margin: auto;' +
         'border-top: 24px solid transparent;border-bottom: 24px solid transparent;border-left: 24px solid #FFB800;"></div>');
-    positiontext.get(0).innerHTML = cell.x + "、" + cell.y;
+    positiontext.get(0).innerHTML = cell.x + "-" + cell.y;
     arrow_up.on("click", function (event) {
         var y = trimPX(cell_div.get(0).style.top);
         cell_div.get(0).style.top = (y - 1) + 'px';
         cell.y = y - 1;
-        positiontext.get(0).innerHTML = cell.x + "、" + cell.y;
+        positiontext.get(0).innerHTML = cell.x + "-" + cell.y;
     });
     arrow_down.on("click", function (event) {
         var y = trimPX(cell_div.get(0).style.top);
         cell_div.get(0).style.top = (y + 1) + 'px';
         cell.y = y + 1;
-        positiontext.get(0).innerHTML = cell.x + "、" + cell.y;
+        positiontext.get(0).innerHTML = cell.x + "-" + cell.y;
     });
     arrow_left.on("click", function (event) {
         var x = trimPX(cell_div.get(0).style.left);
         cell_div.get(0).style.left = (x - 1) + 'px';
         cell.x = x - 1;
-        positiontext.get(0).innerHTML = cell.x + "、" + cell.y;
+        positiontext.get(0).innerHTML = cell.x + "-" + cell.y;
     });
     arrow_right.on("click", function (event) {
         var x = trimPX(cell_div.get(0).style.left);
         cell_div.get(0).style.left = (x + 1) + 'px';
         cell.x = x + 1;
-        positiontext.get(0).innerHTML = cell.x + "、" + cell.y;
+        positiontext.get(0).innerHTML = cell.x + "-" + cell.y;
     });
     position_div.css('position', 'absolute');
     position_div.css('display', bshow ? 'block' : 'none');
@@ -138,13 +151,14 @@ var childposion = function (cell, cell_div, bshow) {
 
 var _delete = function (cell, bshow) {
     var del_div = $('<div class="delete">X</div>');
+    del_div.css('opacity', '0.5');
     del_div.css('position', 'absolute');
     del_div.css('display', bshow ? 'block' : 'none');
     del_div.css('left', (cell.width - 24) + 'px');
     del_div.css('top', '4px');
     del_div.css('width', '20px');
     del_div.css('height', '20px');
-    del_div.css('background', '#FAF000');
+    del_div.css('background', '#00FF00');
     del_div.css('font-size', '18px');
     return del_div;
 };
@@ -339,12 +353,12 @@ var _delete = function (cell, bshow) {
                 y = y - self.movePos.y;
                 self.moveCell.style.left = x + 'px';
                 self.moveCell.style.top = y + 'px';
-                self.posmsg.innerHTML = x + "、" + y;
+                self.posmsg.innerHTML = x + "-" + y;
             } else {
                 x = x - $(this).offset().left;
                 y = y - $(this).offset().top;
             }
-            self.showmsg(Math.round(x) + '、' + Math.round(y));
+            self.showmsg(Math.round(x) + '-' + Math.round(y));
         }).on('mouseup', function (event) {
             self.moveCell = null;
             self.posmsg = null;

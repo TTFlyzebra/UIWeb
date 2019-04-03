@@ -33,6 +33,19 @@ class App
                 $cellList[$n]['textTitle'] = array(
                     'zh' => $cellList[$n]['textTitle']
                 );
+                $subCells = Db::name('cellsub')
+                    ->where('cellId', $cellList[$n]['cellId'])
+                    ->where('status', 1)
+                    ->field(["cellId", "celltypeId", "textLeft" => "x", "textTop" => "y", "width", "height",
+                        "imageurl1", "imageurl2", "backcolor", "textTitle", "textSize", "textColor",
+                        "textAlign", "textFont", "launchAction", "acceptAction","event", "remark", "extend"])
+                    ->select();
+                for ($t = 0; $t < sizeof($subCells); $t++) {
+                    $subCells[$t]['textTitle'] = array(
+                        'zh' => $subCells[$t]['textTitle']
+                    );
+                }
+                $cellList[$n]['subCells'] = $subCells;
             }
             $result['topPage']['pageId'] = $theme['topPageId'];
             $result['topPage']['cellList'] = $cellList;
@@ -51,6 +64,19 @@ class App
                 $cellList[$j]['textTitle'] = array(
                     'zh' => $cellList[$j]['textTitle']
                 );
+                $subCells = Db::name('cellsub')
+                    ->where('cellId', $cellList[$j]['cellId'])
+                    ->where('status', 1)
+                    ->field(["cellId", "celltypeId", "textLeft" => "x", "textTop" => "y", "width", "height",
+                        "imageurl1", "imageurl2", "backcolor", "textTitle", "textSize", "textColor",
+                        "textAlign", "textFont", "launchAction", "acceptAction","event", "remark", "extend"])
+                    ->select();
+                for ($t = 0; $t < sizeof($subCells); $t++) {
+                    $subCells[$t]['textTitle'] = array(
+                        'zh' => $subCells[$t]['textTitle']
+                    );
+                }
+                $cellList[$j]['subCells'] = $subCells;
             }
             $pageList[$i]['cellList'] = $cellList;
         }

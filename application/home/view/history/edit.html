@@ -87,8 +87,7 @@
         autoup: true,
         showPreview: true,
         width: "240px",
-        height: "240px",
-        background: "#101010"
+        height: "240px"
     }).on("success", function (event, data) {
         var result = JSON.parse(data);
         $('#imageurl').val(result.data.saveName);

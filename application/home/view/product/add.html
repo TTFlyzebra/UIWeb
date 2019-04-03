@@ -92,8 +92,7 @@
         autoup: true,
         showPreview: true,
         width: "128px",
-        height: "128px",
-        background: "#101010"
+        height: "128px"
     }).on("success", function (event, data) {
         var result = JSON.parse(data);
         $('#iconurl').val(result.data.saveName);
@@ -103,8 +102,7 @@
         autoup: true,
         showPreview: true,
         width: "100%",
-        height: "240px",
-        background: "#101010"
+        height: "240px"
     }).on("success", function (event, data) {
         var result = JSON.parse(data);
         $('#imageurl').val(result.data.saveName);

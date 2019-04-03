@@ -6,17 +6,12 @@ $.fn.flyinput = function (option) {
      */
     if (option.showPreview === true) {
         this.css("display", "none");
-        var divparent = $('<div onclick="" style="text-align:center;overflow:hidden;width:' +
-            option.width + ';height:' + option.height +
-            ';line-height:' + option.height +
-            ';background:' + option.background +
-            '"></div>');
-        divparent.on('click',function () {
+        var divparent = $('<div onclick="" style="display: flex;align-items:center;justify-content:center;overflow:hidden;width:' +
+            option.width + ';height:' + option.height + ';background:#0f0f0f"></div>');
+        divparent.on('click', function () {
             self.click();
         });
-        divimg = $('<img style="vertical-align:middle" src="">');
-        divimg.css("width", "auto");
-        divimg.css("height", option.height);
+        divimg = $('<img style="max-width: ' + option.width + ';max-height:' + option.height + ';width: auto;height: auto"  alt="">');
         divimg.attr('src', option.image);
         divparent.append(divimg);
         this.after(divparent);
@@ -42,27 +37,27 @@ $.fn.flyinput = function (option) {
                  */
                 processData: false,
                 success: function (result) {
-                    self.trigger("success",result);
+                    self.trigger("success", result);
                     try {
                         var obj = JSON.parse(result);
                         if (obj.code === 0) {
                             divimg.attr('src', obj.data.saveName);
-                            var a = obj.data.width / obj.data.height;
-                            var b = divparent.width() / divparent.height();
-                            if (a > b) {
-                                divimg.css("width", option.width);
-                                divimg.css("height", "auto");
-                            } else {
-                                divimg.css("width", "auto");
-                                divimg.css("height", option.height);
-                            }
+                            // var a = obj.data.width / obj.data.height;
+                            // var b = divparent.width() / divparent.height();
+                            // if (a > b) {
+                            //     divimg.css("width", option.width);
+                            //     divimg.css("height", "auto");
+                            // } else {
+                            //     divimg.css("width", "auto");
+                            //     divimg.css("height", option.height);
+                            // }
                         } else {
                             divimg.attr('src', option.image);
-                            alert(obj.msg+"data"+obj.data);
+                            alert(obj.msg + "data" + obj.data);
                         }
                     } catch (e) {
                         divimg.attr('src', option.image);
-                        alert("catch error:"+e);
+                        alert("catch error:" + e);
                     }
                 },
                 error: function (result) {

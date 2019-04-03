@@ -4,6 +4,7 @@ namespace app\api\controller;
 
 use think\Config;
 use think\Db;
+use think\Exception;
 use think\Request;
 use think\Session;
 
@@ -21,8 +22,8 @@ class Cell extends BaseRestful
                     'INNER'
                 ]
             ];
-            $field = ['a.cellId', 'a.width', 'a.height', 'a.imageurl1', 'a.imageurl2', 'a.textTitle', 'a.textSize', 'a.textColor',
-                'a.textAlign', 'a.textFont', 'a.textLeft', 'a.textTop', 'a.textRight', 'a.launchAction','a.acceptAction',
+            $field = ['a.cellId', 'a.width', 'a.height', 'a.imageurl1', 'a.imageurl2', 'a.backcolor','a.textTitle', 'a.textSize',
+                'a.textColor','a.textAlign', 'a.textFont', 'a.textLeft', 'a.textTop', 'a.textRight', 'a.launchAction','a.acceptAction',
                 'a.textBottom', 'a.event',  'a.status', 'a.remark', 'a.extend', 'a.edittime',
                 'b.celltype','b.celltypeName','b.imageurl'=>'typeimageurl'];
             $request = Request::instance();
@@ -121,6 +122,7 @@ class Cell extends BaseRestful
         $subcell["celltypeId"] = $data[$str."celltypeId"];
         $subcell["imageurl1"] = $data[$str."imageurl1"];
         $subcell["imageurl2"] = $data[$str."imageurl2"];
+        $subcell["backcolor"] = $data[$str."backcolor"];
         $subcell["width"] = (int)$data[$str."width"];
         $subcell["height"]= (int)$data[$str."height"];
         $subcell["textTitle"] = $data[$str."textTitle"];
