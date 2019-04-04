@@ -140,7 +140,12 @@
                         <h4 class="modal-title">
                             <select name="sub_{$n}_celltypeId">
                                 {volist name="list1" id="celltype" key="k"}
+                                {if condition="$subcell['celltypeId'] eq $celltype['celltypeId']"}
+                                <option value="{$celltype.celltypeId}" selected="selected">{$celltype.celltypeName}
+                                </option>
+                                {else /}
                                 <option value="{$celltype.celltypeId}">{$celltype.celltypeName}</option>
+                                {/if}
                                 {/volist}
                             </select>
                         </h4>
