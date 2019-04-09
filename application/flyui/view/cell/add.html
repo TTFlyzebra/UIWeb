@@ -84,26 +84,26 @@
                 <div class="form-group">
                     <label class="col-sm-1 control-label">文本位置</label>
                     <div class="col-sm-1">
-                        <input id="textLeft" class="form-control" name="textLeft" type="text" value=""
+                        <input id="mLeft" class="form-control" name="mLeft" type="text" value=""
                                placeholder="LEFT">
                     </div>
                     <div class="col-sm-1">
-                        <input id="textTop" class="form-control" name="textTop" type="text" value="" placeholder="TOP">
+                        <input id="mTop" class="form-control" name="mTop" type="text" value="" placeholder="TOP">
                     </div>
                     <div class="col-sm-1">
-                        <input id="textRight" class="form-control" name="textRight" type="text" value="" placeholder="RIGHT">
+                        <input id="mRight" class="form-control" name="mRight" type="text" value="" placeholder="RIGHT">
                     </div>
                     <div class="col-sm-1">
-                        <input id="textBottom" class="form-control" name="textBottom" type="text" value="" placeholder="BOTTOM">
+                        <input id="mBottom" class="form-control" name="mBottom" type="text" value="" placeholder="BOTTOM">
                     </div>
                     <div class="col-sm-1">
-                        <input id="textAlign" class="form-control" name="textAlign" type="text" value="" placeholder="ALIGN">
+                        <input id="gravity" class="form-control" name="gravity" type="text" value="" placeholder="ALIGN">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-1 control-label">控件事件</label>
                     <div class="col-sm-8">
-                        <input id="event" class="form-control" name="event" type="text" value=""
+                        <input id="clickevent" class="form-control" name="clickevent" type="text" value=""
                                placeholder="例如：activity=AAAA||service=BBBB">
                     </div>
                     <div class="col-sm-1">
@@ -114,11 +114,11 @@
                 <div class="form-group">
                     <label class="col-sm-1 control-label">发送标识</label>
                     <div class="col-sm-4">
-                        <input id="launchAction" class="form-control" name="launchAction" type="text" value="" placeholder="发送数据标识">
+                        <input id="sendAction" class="form-control" name="sendAction" type="text" value="" placeholder="发送数据标识">
                     </div>
                     <label class="col-sm-1 control-label">接受标识</label>
                     <div class="col-sm-4">
-                        <input id="acceptAction" class="form-control" name="acceptAction" type="text" value="" placeholder="接收数据标识">
+                        <input id="recvAction" class="form-control" name="recvAction" type="text" value="" placeholder="接收数据标识">
                     </div>
                 </div>
                 <div class="form-group">
@@ -260,25 +260,25 @@
             '<div class="form-group">\n' +
             '<label class="col-sm-1 control-label">文本位置</label>\n' +
             '<div class="col-sm-1">\n' +
-            '<input id="' + name + 'textLeft" class="form-control" name="' + name + 'textLeft" type="text" value="" placeholder="LEFT">\n' +
+            '<input id="' + name + 'mLeft" class="form-control" name="' + name + 'mLeft" type="text" value="" placeholder="LEFT">\n' +
             '</div>\n' +
             '<div class="col-sm-1">\n' +
-            '<input id="' + name + 'textTop" class="form-control" name="' + name + 'textTop" type="text" value="" placeholder="TOP">\n' +
+            '<input id="' + name + 'mTop" class="form-control" name="' + name + 'mTop" type="text" value="" placeholder="TOP">\n' +
             '</div>\n' +
             '<div class="col-sm-1">\n' +
-            '<input id="' + name + 'textRight" class="form-control" name="' + name + 'textRight" type="text" value="" placeholder="RIGHT">\n' +
+            '<input id="' + name + 'mRight" class="form-control" name="' + name + 'mRight" type="text" value="" placeholder="RIGHT">\n' +
             '</div>\n' +
             '<div class="col-sm-1">\n' +
-            '<input id="' + name + 'textBottom" class="form-control" name="' + name + 'textBottom" type="text" value="" placeholder="BOTTOM">\n' +
+            '<input id="' + name + 'mBottom" class="form-control" name="' + name + 'mBottom" type="text" value="" placeholder="BOTTOM">\n' +
             '</div>\n' +
             '<div class="col-sm-1">\n' +
-            '<input id="' + name + 'textAlign" class="form-control" name="' + name + 'textAlign" type="text" value="" placeholder="ALIGN">\n' +
+            '<input id="' + name + 'gravity" class="form-control" name="' + name + 'gravity" type="text" value="" placeholder="ALIGN">\n' +
             '</div>\n' +
             '</div>\n' +
             '<div class="form-group">\n' +
             '<label class="col-sm-1 control-label">控件事件</label>\n' +
             '<div class="col-sm-8">\n' +
-            '<input id="' + name + 'event" class="form-control" name="' + name + 'event" type="text" value="" placeholder="例如：activity=AAAA||service=BBBB">\n' +
+            '<input id="' + name + 'clickevent" class="form-control" name="' + name + 'clickevent" type="text" value="" placeholder="例如：activity=AAAA||service=BBBB">\n' +
             '</div>\n' +
             '<div class="col-sm-1">\n' +
             '<button type="button" class="btn btn-default" onclick="createEventDialog(\'' + name + 'event\')">生成事件辅助</button>\n' +
@@ -287,11 +287,11 @@
             '<div class="form-group">\n' +
             '<label class="col-sm-1 control-label">发送标识</label>\n' +
             '<div class="col-sm-4">\n' +
-            '<input id="launchAction" class="form-control" name="launchAction" type="text" value="" placeholder="发送数据标识">\n' +
+            '<input id="sendAction" class="form-control" name="sendAction" type="text" value="" placeholder="发送数据标识">\n' +
             '</div>\n' +
             '<label class="col-sm-1 control-label">接受标识</label>\n' +
             '<div class="col-sm-4">\n' +
-            '<input id="acceptAction" class="form-control" name="acceptAction" type="text" value="" placeholder="接收数据标识">\n' +
+            '<input id="recvAction" class="form-control" name="recvAction" type="text" value="" placeholder="接收数据标识">\n' +
             '</div>\n' +
             '</div>\n' +
             '<div class="form-group">\n' +

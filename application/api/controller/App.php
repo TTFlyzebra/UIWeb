@@ -36,9 +36,9 @@ class App
                 $subCells = Db::name('cellsub')
                     ->where('cellId', $cellList[$n]['cellId'])
                     ->where('status', 1)
-                    ->field(["cellId", "celltypeId", "textLeft" => "x", "textTop" => "y", "width", "height",
+                    ->field(["cellId", "celltypeId", "mLeft" => "x", "mTop" => "y", "width", "height",
                         "imageurl1", "imageurl2", "backcolor", "textTitle", "textSize", "textColor",
-                        "textAlign", "textFont", "launchAction", "acceptAction","event", "remark", "extend"])
+                        "gravity", "textFont", "sendAction", "recvAction","clickevent", "remark", "extend"])
                     ->select();
                 for ($t = 0; $t < sizeof($subCells); $t++) {
                     $subCells[$t]['textTitle'] = array(
@@ -67,9 +67,9 @@ class App
                 $subCells = Db::name('cellsub')
                     ->where('cellId', $cellList[$j]['cellId'])
                     ->where('status', 1)
-                    ->field(["cellId", "celltypeId", "textLeft" => "x", "textTop" => "y", "width", "height",
+                    ->field(["cellId", "celltypeId", "mLeft" => "x", "mTop" => "y", "width", "height",
                         "imageurl1", "imageurl2", "backcolor", "textTitle", "textSize", "textColor",
-                        "textAlign", "textFont", "launchAction", "acceptAction","event", "remark", "extend"])
+                        "gravity", "textFont", "sendAction", "recvAction","clickevent", "remark", "extend"])
                     ->select();
                 for ($t = 0; $t < sizeof($subCells); $t++) {
                     $subCells[$t]['textTitle'] = array(

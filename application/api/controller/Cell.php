@@ -4,7 +4,6 @@ namespace app\api\controller;
 
 use think\Config;
 use think\Db;
-use think\Exception;
 use think\Request;
 use think\Session;
 
@@ -12,7 +11,7 @@ class Cell extends BaseRestful
 {
     public function index()
     {
-        try {
+//        try {
             $tableName = 'cell';
             $order = 'edittime desc';
             $joins = [
@@ -23,8 +22,8 @@ class Cell extends BaseRestful
                 ]
             ];
             $field = ['a.cellId', 'a.width', 'a.height', 'a.imageurl1', 'a.imageurl2', 'a.backcolor','a.textTitle', 'a.textSize',
-                'a.textColor','a.textAlign', 'a.textFont', 'a.textLeft', 'a.textTop', 'a.textRight', 'a.launchAction','a.acceptAction',
-                'a.textBottom', 'a.event',  'a.status', 'a.remark', 'a.extend', 'a.edittime',
+                'a.textColor','a.gravity', 'a.textFont', 'a.mLeft', 'a.mTop', 'a.mRight', 'a.sendAction','a.recvAction',
+                'a.mBottom', 'a.clickevent',  'a.status', 'a.remark', 'a.extend', 'a.edittime',
                 'b.celltype','b.celltypeName','b.imageurl'=>'typeimageurl'];
             $request = Request::instance();
             if ($request->isPost()) {
@@ -112,9 +111,9 @@ class Cell extends BaseRestful
                     echo json_encode($tables);
                 }
             }
-        }catch (Exception $e){
-            echo retJsonMsg('exception',-1,$e);
-        }
+//        }catch (Exception $e){
+//            echo retJsonMsg('exception',-1,$e);
+//        }
     }
 
     private function getCell($data, $str=''){
@@ -129,14 +128,14 @@ class Cell extends BaseRestful
         $subcell["textSize"] = empty($data[$str."textSize"])?24:$data[$str."textSize"];
         $subcell["textColor"]= $data[$str."textColor"];
         $subcell["textFont"]= $data[$str."textFont"];
-        $subcell["textLeft"] = empty($data[$str."textLeft"])?0:$data[$str."textLeft"];
-        $subcell["textTop"] = empty($data[$str."textTop"])?0:$data[$str."textTop"];
-        $subcell["textRight"] = empty($data[$str."textRight"])?0:$data[$str."textRight"];
-        $subcell["textBottom"] = empty($data[$str."textBottom"])?0:$data[$str."textBottom"];
-        $subcell["textAlign"] = $data[$str."textAlign"];
-        $subcell["launchAction"] = $data[$str."launchAction"];
-        $subcell["acceptAction"] = $data[$str."acceptAction"];
-        $subcell["event"] = $data[$str."event"];
+        $subcell["mLeft"] = empty($data[$str."mLeft"])?0:$data[$str."mLeft"];
+        $subcell["mTop"] = empty($data[$str."mTop"])?0:$data[$str."mTop"];
+        $subcell["mRight"] = empty($data[$str."mRight"])?0:$data[$str."mRight"];
+        $subcell["mBottom"] = empty($data[$str."mBottom"])?0:$data[$str."mBottom"];
+        $subcell["gravity"] = $data[$str."gravity"];
+        $subcell["sendAction"] = empty($data[$str."sendAction"])?0:$data[$str."sendAction"];
+        $subcell["recvAction"] = empty($data[$str."recvAction"])?0:$data[$str."recvAction"];
+        $subcell["clickevent"] = $data[$str."clickevent"];
         $subcell["remark"] = $data[$str."remark"];
         $subcell['ip'] = request()->ip();
         $subcell['userid'] = Session::get('userid');
