@@ -132,7 +132,7 @@ class Cell extends BaseRestful
         $subcell["mTop"] = empty($data[$str."mTop"])?0:$data[$str."mTop"];
         $subcell["mRight"] = empty($data[$str."mRight"])?0:$data[$str."mRight"];
         $subcell["mBottom"] = empty($data[$str."mBottom"])?0:$data[$str."mBottom"];
-        $subcell["gravity"] = $data[$str."gravity"];
+        $subcell["gravity"] = (int)$data[$str."gravity"];
         $subcell["sendAction"] = empty($data[$str."sendAction"])?0:$data[$str."sendAction"];
         $subcell["recvAction"] = empty($data[$str."recvAction"])?0:$data[$str."recvAction"];
         $subcell["clickevent"] = $data[$str."clickevent"];

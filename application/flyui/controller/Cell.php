@@ -24,13 +24,14 @@ class Cell extends Auth
     public function add()
     {
         $this->assign('list1', Db::name('celltype')->select());
+        $this->assign('actions', getAction());
         return $this->fetch();
     }
 
     public function edit()
     {
         $this->assign('list1', Db::name('celltype')->select());
-
+        $this->assign('actions', getAction());
         $request = Request::instance();
         if ($request->has('id', 'get')) {
             $item = Db::name('cell')->where('cellId', $_GET['id'])->find();
