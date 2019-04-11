@@ -17,7 +17,7 @@
     <ul id="myTab" class="nav nav-tabs">
         <li class="active"><a href="#home" data-toggle="tab">主控件</a></li>
         {volist name="list2" id="subcell" key="n"}
-        <li><a href="#sub_{$n}_" data-toggle="tab">子控件</a></li>
+        <li id="sub_{$n}_tab"><a href="#sub_{$n}_" data-toggle="tab">子控件</a></li>
         {/volist}
     </ul>
     <div id="myTabContent" class="tab-content">
@@ -155,7 +155,7 @@
             <div class="modal-body">
                 <input type="hidden" name="subcell[]" value="sub_{$n}_">
                 <button type="button" style="width:40px;height:40px;position: absolute;top:10px;right: 10px;font-size: 24px;" onclick="addSub()">+</button>
-                <button id="delsub_{$n}_" type="button" style="width:40px;height:40px;position: absolute;top:10px;right: 50px;font-size: 24px;">-</button>
+                <button id="delsub_{$n}_" onclick="delSub('{$n}')" type="button" style="width:40px;height:40px;position: absolute;top:10px;right: 50px;font-size: 24px;">-</button>
                 <div class="form-group">
                     <label class="col-sm-1 control-label">控件类型</label>
                     <div class="col-sm-4">
@@ -492,6 +492,12 @@
     function addSub() {
         createTabContent('sub_' + subcellnum + '_');
         subcellnum = subcellnum + 1;
+    }
+
+    function delSub(num) {
+        $('#myTab').get(0).removeChild( $('#sub_'+num+"_tab").get(0));
+        $('#myTab a:last').click();
+        $('#myTabContent').get(0).removeChild($('#sub_'+num+"_").get(0));
     }
 
     function createEventDialog(eventtext) {

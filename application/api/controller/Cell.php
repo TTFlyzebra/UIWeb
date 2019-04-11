@@ -4,6 +4,7 @@ namespace app\api\controller;
 
 use think\Config;
 use think\Db;
+use think\Exception;
 use think\Request;
 use think\Session;
 
@@ -11,7 +12,7 @@ class Cell extends BaseRestful
 {
     public function index()
     {
-//        try {
+        try {
             $tableName = 'cell';
             $order = 'edittime desc';
             $joins = [
@@ -23,7 +24,7 @@ class Cell extends BaseRestful
             ];
             $field = ['a.cellId', 'a.width', 'a.height', 'a.imageurl1', 'a.imageurl2', 'a.backcolor','a.textTitle', 'a.textSize',
                 'a.textColor','a.gravity', 'a.textFont', 'a.mLeft', 'a.mTop', 'a.mRight', 'a.sendAction','a.recvAction',
-                'a.mBottom', 'a.clickevent',  'a.status', 'a.remark', 'a.extend', 'a.edittime',
+                'a.mBottom', 'a.clickevent',  'a.status', 'a.remark', 'a.extend', 'a.edittime','a.cellpageId',
                 'b.celltype','b.celltypeName','b.imageurl'=>'typeimageurl'];
             $request = Request::instance();
             if ($request->isPost()) {
@@ -66,9 +67,10 @@ class Cell extends BaseRestful
                 $result = Db::name($tableName)->update($cell);
                 if ($result>=0) {
                     //修改子控件
+                    //先删除子控件
+                    Db::name('cellsub')->where('cellId', $table['cellId'])->delete();
+                    //添加子控件
                     if ($request->has('subcell')) {
-                        //先删除子控件
-                        Db::name('cellsub')->where('cellId', $table['cellId'])->delete();
                         $subs = $table['subcell'];
                         for ($i = 0; $i < sizeof($subs); $i++) {
                             $subcell = $this->getCell($table, $subs[$i]);
@@ -111,9 +113,9 @@ class Cell extends BaseRestful
                     echo json_encode($tables);
                 }
             }
-//        }catch (Exception $e){
-//            echo retJsonMsg('exception',-1,$e);
-//        }
+        }catch (Exception $e){
+            echo retJsonMsg('exception',-1,$e);
+        }
     }
 
     private function getCell($data, $str=''){

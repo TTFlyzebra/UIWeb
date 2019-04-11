@@ -28,27 +28,7 @@ class App
         unset($result['topPageId']);
         //获取topPage
         if (!empty($theme['topPageId'])) {
-            $cellList = getPagecell($theme['topPageId']);
-            for ($n = 0; $n < sizeof($cellList); $n++) {
-                $cellList[$n]['textTitle'] = array(
-                    'zh' => $cellList[$n]['textTitle']
-                );
-                $subCells = Db::name('cellsub')
-                    ->where('cellId', $cellList[$n]['cellId'])
-                    ->where('status', 1)
-                    ->field(["cellId", "celltypeId", "mLeft" => "x", "mTop" => "y", "width", "height",
-                        "imageurl1", "imageurl2", "backcolor", "textTitle", "textSize", "textColor",
-                        "gravity", "textFont", "sendAction", "recvAction","clickevent", "remark", "extend"])
-                    ->select();
-                for ($t = 0; $t < sizeof($subCells); $t++) {
-                    $subCells[$t]['textTitle'] = array(
-                        'zh' => $subCells[$t]['textTitle']
-                    );
-                }
-                $cellList[$n]['subCells'] = $subCells;
-            }
-            $result['topPage']['pageId'] = $theme['topPageId'];
-            $result['topPage']['cellList'] = $cellList;
+            $result['topPage'] = getPageBean($theme['topPageId']);
         }
         //获取pageList
         $pageList = Db::name('themepage')
@@ -64,12 +44,19 @@ class App
                 $cellList[$j]['textTitle'] = array(
                     'zh' => $cellList[$j]['textTitle']
                 );
+                //cellpage
+                if (!empty($cellList[$j]['cellpageId'])) {
+                    $cellList[$j]['page'] = getPageBean($cellList[$j]['cellpageId']);
+                }
+
                 $subCells = Db::name('cellsub')
-                    ->where('cellId', $cellList[$j]['cellId'])
-                    ->where('status', 1)
-                    ->field(["cellId", "celltypeId", "mLeft" => "x", "mTop" => "y", "width", "height",
-                        "imageurl1", "imageurl2", "backcolor", "textTitle", "textSize", "textColor",
-                        "gravity", "textFont", "sendAction", "recvAction","clickevent", "remark", "extend"])
+                    ->alias('a')
+                    ->join("fly_celltype b", "a.celltypeId=b.celltypeId")
+                    ->where('a.cellId', $cellList[$j]['cellId'])
+                    ->where('a.status', 1)
+                    ->field(["a.cellId", "a.mLeft" => "x", "a.mTop" => "y", "a.width", "a.height",
+                        "a.imageurl1", "a.imageurl2", "a.backcolor", "a.textTitle", "a.textSize", "a.textColor",
+                        "a.gravity", "a.textFont", "a.sendAction", "a.recvAction", "a.clickevent", "a.remark", "a.extend","b.celltype"])
                     ->select();
                 for ($t = 0; $t < sizeof($subCells); $t++) {
                     $subCells[$t]['textTitle'] = array(

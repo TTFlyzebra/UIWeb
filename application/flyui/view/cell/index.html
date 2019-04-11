@@ -110,6 +110,18 @@
                             '</div>';
                     }
                 }, {
+                    field: 'cellpageId',
+                    title: '包含页面',
+                    halign: "center",
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        if (isTextEmpty(value)) {
+                            return '<a  href="{:url(\'/flyui/cell/subpage\')}?id=' + row.cellId + '">[添加页面]</a>';
+                        } else {
+                            return '<a  href="{:url(\'/flyui/cell/subpage\')}?id=' + row.cellId + '">[编辑页面]</a>';
+                        }
+                    }
+                }, {
                     field: 'edittime',
                     title: '修改时间',
                     halign: "center",
