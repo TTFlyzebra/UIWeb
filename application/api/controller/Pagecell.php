@@ -33,7 +33,7 @@ class Pagecell
             }
         } elseif ($request->isGet()) {
             if ($request->has('pageId', 'get')) {
-                $pagedata = getPagecell((int)$_GET['pageId']);
+                $pagedata = getAllPagecell((int)$_GET['pageId']);
                 echo retJsonMsg("success!", 0, $pagedata);
             } else {
                 echo retJsonMsg("error!", -1);

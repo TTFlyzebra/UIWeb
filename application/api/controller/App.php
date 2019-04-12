@@ -49,15 +49,7 @@ class App
                     $cellList[$j]['page'] = getPageBean($cellList[$j]['cellpageId']);
                 }
 
-                $subCells = Db::name('cellsub')
-                    ->alias('a')
-                    ->join("fly_celltype b", "a.celltypeId=b.celltypeId")
-                    ->where('a.cellId', $cellList[$j]['cellId'])
-                    ->where('a.status', 1)
-                    ->field(["a.cellId", "a.mLeft" => "x", "a.mTop" => "y", "a.width", "a.height",
-                        "a.imageurl1", "a.imageurl2", "a.backcolor", "a.textTitle", "a.textSize", "a.textColor",
-                        "a.gravity", "a.textFont", "a.sendAction", "a.recvAction", "a.clickevent", "a.remark", "a.extend","b.celltype"])
-                    ->select();
+                $subCells = getSubCells($cellList[$j]['cellId']);
                 for ($t = 0; $t < sizeof($subCells); $t++) {
                     $subCells[$t]['textTitle'] = array(
                         'zh' => $subCells[$t]['textTitle']

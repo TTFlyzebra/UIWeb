@@ -97,7 +97,11 @@
                         <input id="mBottom" class="form-control" name="mBottom" type="text" value="" placeholder="BOTTOM">
                     </div>
                     <div class="col-sm-1">
-                        <input id="gravity" class="form-control" name="gravity" type="text" value="" placeholder="ALIGN">
+                        <select style="width:99%;height: 34px;font-size: 16px" id="gravity" name="gravity" >
+                            {volist name="gravitys" id="gravity" key="x"}
+                            <option value="{$gravity.value}">{$gravity.tag}</option>
+                            {/volist}
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">
@@ -286,7 +290,11 @@
             '<input id="' + name + 'mBottom" class="form-control" name="' + name + 'mBottom" type="text" value="" placeholder="BOTTOM">\n' +
             '</div>\n' +
             '<div class="col-sm-1">\n' +
-            '<input id="' + name + 'gravity" class="form-control" name="' + name + 'gravity" type="text" value="" placeholder="ALIGN">\n' +
+            '<select style="width:99%;height: 34px;font-size: 16px" id="gravity" name="gravity" >\n' +
+            '{volist name="gravitys" id="gravity" key="x"}\n' +
+            '<option value="{$gravity.value}">{$gravity.tag}</option>\n' +
+            '{/volist}\n' +
+            '</select>\n'+
             '</div>\n' +
             '</div>\n' +
             '<div class="form-group">\n' +

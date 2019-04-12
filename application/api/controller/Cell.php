@@ -4,7 +4,6 @@ namespace app\api\controller;
 
 use think\Config;
 use think\Db;
-use think\Exception;
 use think\Request;
 use think\Session;
 
@@ -12,7 +11,7 @@ class Cell extends BaseRestful
 {
     public function index()
     {
-        try {
+//        try {
             $tableName = 'cell';
             $order = 'edittime desc';
             $joins = [
@@ -113,9 +112,9 @@ class Cell extends BaseRestful
                     echo json_encode($tables);
                 }
             }
-        }catch (Exception $e){
-            echo retJsonMsg('exception',-1,$e);
-        }
+//        }catch (Exception $e){
+//            echo retJsonMsg('exception',-1,$e);
+//        }
     }
 
     private function getCell($data, $str=''){

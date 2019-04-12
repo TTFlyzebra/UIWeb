@@ -27,6 +27,7 @@ class Cell extends Auth
     {
         $this->assign('list1', Db::name('celltype')->select());
         $this->assign('actions', getAction());
+        $this->assign('gravitys', getGravity());
         return $this->fetch();
     }
 
@@ -34,6 +35,7 @@ class Cell extends Auth
     {
         $this->assign('list1', Db::name('celltype')->select());
         $this->assign('actions', getAction());
+        $this->assign('gravitys', getGravity());
         $request = Request::instance();
         if ($request->has('id', 'get')) {
             $item = Db::name('cell')->where('cellId', $_GET['id'])->find();
