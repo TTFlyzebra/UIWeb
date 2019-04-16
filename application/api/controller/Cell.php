@@ -21,7 +21,7 @@ class Cell extends BaseRestful
                     'INNER'
                 ]
             ];
-            $field = ['a.cellId', 'a.width', 'a.height', 'a.imageurl1', 'a.imageurl2', 'a.backcolor','a.textTitle', 'a.textSize',
+            $field = ['a.cellId', 'a.resId','a.width', 'a.height', 'a.imageurl1', 'a.imageurl2', 'a.backcolor','a.textTitle', 'a.textSize',
                 'a.textColor','a.gravity', 'a.textFont', 'a.mLeft', 'a.mTop', 'a.mRight', 'a.sendAction','a.recvAction',
                 'a.mBottom', 'a.clickevent',  'a.status', 'a.remark', 'a.extend', 'a.edittime','a.cellpageId',
                 'b.celltype','b.celltypeName','b.imageurl'=>'typeimageurl'];
@@ -120,6 +120,7 @@ class Cell extends BaseRestful
     private function getCell($data, $str=''){
         $subcell = array();
         $subcell["celltypeId"] = $data[$str."celltypeId"];
+        $subcell["resId"] = $data[$str."resId"];
         $subcell["imageurl1"] = $data[$str."imageurl1"];
         $subcell["imageurl2"] = $data[$str."imageurl2"];
         $subcell["backcolor"] = $data[$str."backcolor"];

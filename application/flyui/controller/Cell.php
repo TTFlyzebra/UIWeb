@@ -86,6 +86,12 @@ class Cell extends Auth
                 }
             } else {
                 $item = Db::name('page')->where('pageId', $cell['cellpageId'])->where('status', 3)->find();
+                $item['width'] = $cell['width'];
+                $item['height'] = $cell['height'];
+                $result3 = Db::name('page')->update($item);
+                if($result3){
+                    saveLog(Config::get('event')['edit'], 'page', $item);
+                }
                 $item['themeName'] = "";
                 $this->assign('item', $item);
                 return $this->fetch();

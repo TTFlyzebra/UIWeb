@@ -35,6 +35,10 @@
                             </select>
                         </h4>
                     </div>
+                    <label class="col-sm-1 control-label">控&nbsp&nbsp件&nbsp&nbspID</label>
+                    <div class="col-sm-4">
+                        <input id="resId" class="form-control" name="resId" type="text" value="" placeholder="控件ID，可以在Activity中引用">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-1 control-label">图&nbsp&nbsp片&nbsp&nbsp一</label>
@@ -233,6 +237,10 @@
             '</select>\n' +
             '</h4>\n' +
             '</div>\n' +
+            '<label class="col-sm-1 control-label">控&nbsp&nbsp件&nbsp&nbspID</label>\n' +
+            '<div class="col-sm-4">\n' +
+            '<input id="' + name + 'resId" class="form-control" name="' + name + 'resId" type="text" value="" placeholder="控件ID，可以在Activity中引用">\n' +
+            '</div>\n'+
             '</div>\n' +
             '<div class="form-group">\n' +
             '<label class="col-sm-1 control-label">图&nbsp&nbsp片&nbsp&nbsp一</label>\n' +
@@ -290,7 +298,7 @@
             '<input id="' + name + 'mBottom" class="form-control" name="' + name + 'mBottom" type="text" value="" placeholder="BOTTOM">\n' +
             '</div>\n' +
             '<div class="col-sm-1">\n' +
-            '<select style="width:99%;height: 34px;font-size: 16px" id="gravity" name="gravity" >\n' +
+            '<select style="width:99%;height: 34px;font-size: 16px" id="' + name + 'gravity" name="' + name + 'gravity" >\n' +
             '{volist name="gravitys" id="gravity" key="x"}\n' +
             '<option value="{$gravity.value}">{$gravity.tag}</option>\n' +
             '{/volist}\n' +

@@ -46,7 +46,7 @@ class App
                 );
                 //cellpage
                 if (!empty($cellList[$j]['cellpageId'])) {
-                    $cellList[$j]['page'] = getPageBean($cellList[$j]['cellpageId']);
+                    $cellList[$j]['cellpage'] = getPageBean($cellList[$j]['cellpageId']);
                 }
 
                 $subCells = getSubCells($cellList[$j]['cellId']);
