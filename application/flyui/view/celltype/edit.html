@@ -107,6 +107,8 @@
     }).on("success", function (event, data) {
         var result = JSON.parse(data);
         $('#imageurl1').val(result.data.saveName);
+    }).bind("del",function (e) {
+        $('#imageurl1').val("");
     });
 
     function onCancel() {

@@ -351,6 +351,8 @@
             $('#' + name + 'imageurl1').val(retmsg.data.saveName);
             $('#' + name + 'width').val(retmsg.data.width);
             $('#' + name + 'height').val(retmsg.data.height);
+        }).bind("del",function (e) {
+            $('#' + name + 'imageurl1').val("");
         });
     }
 
@@ -366,6 +368,8 @@
         }).bind("success", function (e, data) {
             var retmsg = JSON.parse(data);
             $('#' + name + 'imageurl2').val(retmsg.data.saveName);
+        }).bind("del",function (e) {
+            $('#' + name + 'imageurl2').val("");
         });
     }
 

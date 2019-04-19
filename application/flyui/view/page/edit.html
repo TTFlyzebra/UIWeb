@@ -98,6 +98,8 @@
     }).on("success", function (event, data) {
         var result = JSON.parse(data);
         $('#imageurl').val(result.data.saveName);
+    }).bind("del",function (e) {
+        $('#imageurl').val("");
     });
 
     function onCancel() {

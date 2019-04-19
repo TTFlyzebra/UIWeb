@@ -7,7 +7,7 @@ class Action
 {
     public function index()
     {
-        echo json_encode(getAction());
+        echo json_encode(getSendAction());
     }
 
 }

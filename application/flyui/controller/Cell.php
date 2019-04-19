@@ -26,7 +26,8 @@ class Cell extends Auth
     public function add()
     {
         $this->assign('list1', Db::name('celltype')->select());
-        $this->assign('actions', getAction());
+        $this->assign('actions2', getRecvAction());
+        $this->assign('actions', getSendAction());
         $this->assign('gravitys', getGravity());
         return $this->fetch();
     }
@@ -34,16 +35,16 @@ class Cell extends Auth
     public function edit()
     {
         $this->assign('list1', Db::name('celltype')->select());
-        $this->assign('actions', getAction());
+        $this->assign('actions', getSendAction());
         $this->assign('gravitys', getGravity());
         $request = Request::instance();
         if ($request->has('id', 'get')) {
             $item = Db::name('cell')->where('cellId', $_GET['id'])->find();
             $this->assign('item', $item);
-            $subcells = Db::name('cellsub')->where('cellId', $_GET['id'])->where('status',1)->select();
+            $subcells = Db::name('cellsub')->where('cellId', $_GET['id'])->where('status', 1)->select();
             $this->assign('list2', $subcells);
             $this->assign('subnum', sizeof($subcells));
-        }else{
+        } else {
             $this->assign('list2', []);
             $this->assign('subnum', 0);
         }
@@ -89,7 +90,7 @@ class Cell extends Auth
                 $item['width'] = $cell['width'];
                 $item['height'] = $cell['height'];
                 $result3 = Db::name('page')->update($item);
-                if($result3){
+                if ($result3) {
                     saveLog(Config::get('event')['edit'], 'page', $item);
                 }
                 $item['themeName'] = "";
