@@ -4,6 +4,7 @@ namespace app\api\controller;
 
 use think\Config;
 use think\Db;
+use think\Exception;
 use think\Request;
 use think\Session;
 
@@ -11,7 +12,7 @@ class Cell extends BaseRestful
 {
     public function index()
     {
-//        try {
+        try {
             $tableName = 'cell';
             $order = 'edittime desc';
             $joins = [
@@ -105,16 +106,16 @@ class Cell extends BaseRestful
                 $db->where('a.status', 1);
                 $tables = $db->select();
                 if ($request->isAjax()) {
-                    $resultdata['total'] = $db->count();
+                    $resultdata['total'] = $db->where('status', 1)->count();
                     $resultdata['rows'] = $tables;
                     echo json_encode($resultdata);
                 } else {
                     echo json_encode($tables);
                 }
             }
-//        }catch (Exception $e){
-//            echo retJsonMsg('exception',-1,$e);
-//        }
+        }catch (Exception $e){
+            echo retJsonMsg('exception',-1,$e);
+        }
     }
 
     private function getCell($data, $str=''){

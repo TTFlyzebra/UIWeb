@@ -11,7 +11,22 @@ class App
     {
         $request = Request::instance();
 
-        $themeName = "Test-AP1";
+        if($request->has('type', 'get')) {
+            switch ($request->param('type')){
+                case "music":
+                    $themeName = "Music-AP1";
+                    break;
+                case "video":
+                    $themeName = "Video-AP1";
+                    break;
+                case "photo":
+                    $themeName = "Photo-AP1";
+                    break;
+                default:
+                    $themeName = "Launcher-AP1";
+                    break;
+            }
+        }
 
         if ($request->has('appname', 'get')) {
             $themeName = $request->param('appname');
