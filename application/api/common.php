@@ -10,7 +10,7 @@ function getAllPagecell($pageId)
         ->join("fly_cell b", "a.cellId=b.cellId")
         ->join("fly_celltype c", "b.celltypeId=c.celltypeId")
         ->field(['a.cellId','b.resId', 'x', 'y', 'a.width', 'a.height', 'celltype', 'imageurl1',
-            'imageurl2', 'b.backcolor', 'textTitle', 'textSize', 'textColor', 'gravity',
+            'imageurl2', 'b.backcolor', 'textTitle', 'textSize', 'textColor', 'textLine','gravity',
             'textFont', 'mTop', 'mBottom', 'mLeft', 'mRight', "acceptAction", "launchAction",
             'sendAction', 'recvAction', 'clickevent', 'b.extend', 'b.remark', 'b.cellpageId',
             'c.celltypeName', 'c.imageurl' => 'typeimageurl'])
@@ -26,7 +26,7 @@ function getPagecell($pageId)
         ->join("fly_cell b", "a.cellId=b.cellId")
         ->join("fly_celltype c", "b.celltypeId=c.celltypeId")
         ->field(['a.cellId','b.resId',  'x', 'y', 'a.width', 'a.height', 'celltype', 'imageurl1',
-            'imageurl2', 'b.backcolor', 'textTitle', 'textSize', 'textColor', 'gravity',
+            'imageurl2', 'b.backcolor', 'textTitle', 'textSize', 'textColor','textLine', 'gravity',
             'textFont', 'mTop', 'mBottom', 'mLeft', 'mRight', "acceptAction", "launchAction",
             'sendAction', 'recvAction', 'clickevent', 'b.cellpageId','b.extend', 'b.remark'])
         ->select();
@@ -40,9 +40,9 @@ function getSubCells($cellId)
         ->join("fly_celltype b", "a.celltypeId=b.celltypeId")
         ->where('a.cellId', $cellId)
         ->where('a.status', 1)
-        ->field(["a.cellId", 'a.resId', "a.width", "a.height","a.imageurl1", "a.imageurl2", "a.backcolor",
+        ->field(["a.cellsubId"=>"cellId", 'a.resId', "a.width", "a.height","a.imageurl1", "a.imageurl2", "a.backcolor",
             "a.textTitle", "a.textSize", "a.textColor", 'a.mTop', 'a.mBottom', 'a.mLeft',
-            'a.mRight',"a.gravity", "a.textFont",  "a.sendAction", "a.recvAction", "a.clickevent",
+            'a.mRight','textLine',"a.gravity", "a.textFont",  "a.sendAction", "a.recvAction", "a.clickevent",
             "a.remark","a.extend", "b.celltype"])
         ->select();
     return $subcells;

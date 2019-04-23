@@ -101,6 +101,9 @@
                         <input id="mBottom" class="form-control" name="mBottom" type="text" value="" placeholder="BOTTOM">
                     </div>
                     <div class="col-sm-1">
+                        <input id="textLine" class="form-control" name="textLine" type="text" value="" placeholder="文本行数">
+                    </div>
+                    <div class="col-sm-1">
                         <select style="width:99%;height: 34px;font-size: 16px" id="gravity" name="gravity" >
                             {volist name="gravitys" id="gravity" key="x"}
                             <option value="{$gravity.value}">{$gravity.tag}</option>
@@ -301,6 +304,9 @@
             '<div class="col-sm-1">\n' +
             '<input id="' + name + 'mBottom" class="form-control" name="' + name + 'mBottom" type="text" value="" placeholder="BOTTOM">\n' +
             '</div>\n' +
+            '<div class="col-sm-1">\n' +
+            '<input id="' + name + 'textLine" class="form-control" name="' + name + 'textLine" type="text" value="" placeholder="文本行数">\n' +
+            '</div>'+
             '<div class="col-sm-1">\n' +
             '<select style="width:99%;height: 34px;font-size: 16px" id="' + name + 'gravity" name="' + name + 'gravity" >\n' +
             '{volist name="gravitys" id="gravity" key="x"}\n' +

@@ -26,6 +26,8 @@ class App
                     $themeName = "Launcher-AP1";
                     break;
             }
+        }else{
+            $themeName = "Launcher-AP1";
         }
 
         if ($request->has('appname', 'get')) {
