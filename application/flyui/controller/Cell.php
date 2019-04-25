@@ -12,20 +12,20 @@ class Cell extends Auth
 {
     public function index()
     {
-        $celltypes = Db::name('celltype')->select();
+        $celltypes = Db::name('celltype')->where('status',1)->select();
         $this->assign('list', $celltypes);
         return $this->fetch();
     }
 
     public function oldadd()
     {
-        $this->assign('list1', Db::name('celltype')->select());
+        $this->assign('list1', Db::name('celltype')->where('status',1)->select());
         return $this->fetch();
     }
 
     public function add()
     {
-        $this->assign('list1', Db::name('celltype')->select());
+        $this->assign('list1', Db::name('celltype')->where('status',1)->select());
         $this->assign('actions2', getRecvAction());
         $this->assign('actions', getSendAction());
         $this->assign('gravitys', getGravity());
@@ -34,7 +34,7 @@ class Cell extends Auth
 
     public function edit()
     {
-        $this->assign('list1', Db::name('celltype')->select());
+        $this->assign('list1', Db::name('celltype')->where('status',1)->select());
         $this->assign('actions', getSendAction());
         $this->assign('gravitys', getGravity());
         $request = Request::instance();
