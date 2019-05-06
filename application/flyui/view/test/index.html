@@ -7,7 +7,7 @@
 <script type="text/javascript" src="__RES__/common/js/bootstrap.js"></script>
 <script type="text/javascript" src="__RES__/common/js/bootstrap-table.js"></script>
 <script type="text/javascript" src="__RES__/common/js/bootstrap-table-zh-CN.min.js"></script>
-<script type="text/javascript" src="__RES__/flyui/js/flyinput.js"></script>
+<script type="text/javascript" src="__RES__/flyui/js/flyimage.js"></script>
 <body>
 <div class="modal-header">
     <h4 class="modal-title">添加控件</h4>
@@ -116,15 +116,3 @@
 </form>
 </body>
 </html>
-
-<script type="text/javascript">
-    $('.flyimage').flyinput({
-        url: "{:url('/api/imagefile')}",
-        autoup: true,
-        showPreview: true,
-        width: "100%",
-        height: "240px"
-    }).bind("success", function (e, data) {
-    }).bind("del",function (e) {
-    });
-</script>
