@@ -12,12 +12,12 @@
 <form class="form-horizontal" name="celltypeform" id="celltypeform" method="post" role="form"
       action="{:url('/admin/test')}" enctype="multipart/form-data">
     <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">修改控件&nbsp</h4>
+        <h4 class="modal-title" id="myModalLabel">修改组件&nbsp</h4>
     </div>
     <ul id="myTab" class="nav nav-tabs">
-        <li class="active"><a href="#home" data-toggle="tab">主控件</a></li>
+        <li class="active"><a href="#home" data-toggle="tab">主组件</a></li>
         {volist name="list2" id="subcell" key="n"}
-        <li id="sub_{$n}_tab"><a href="#sub_{$n}_" data-toggle="tab">子控件</a></li>
+        <li id="sub_{$n}_tab"><a href="#sub_{$n}_" data-toggle="tab">子组件</a></li>
         {/volist}
     </ul>
     <div id="myTabContent" class="tab-content">
@@ -25,7 +25,7 @@
             <div class="modal-body">
                 <button type="button" style="width:40px;height:40px;position: absolute;top:10px;right: 10px;font-size: 24px;" onclick="addSub()">+</button>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label">控件类型</label>
+                    <label class="col-sm-1 control-label">组件类型</label>
                     <div class="col-sm-4">
                         <h4 class="modal-title">
                             <select id="celltypeId" name="celltypeId">
@@ -42,7 +42,7 @@
                     </div>
                     <label class="col-sm-1 control-label">控&nbsp&nbsp件&nbsp&nbspID</label>
                     <div class="col-sm-4">
-                        <input id="resId" class="form-control" name="resId" type="text" value="{$item.resId}" placeholder="控件ID，可以在Activity中引用">
+                        <input id="resId" class="form-control" name="resId" type="text" value="{$item.resId}" placeholder="组件ID，可以在Activity中引用">
                     </div>
                 </div>
                 <div class="form-group">
@@ -58,7 +58,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label">控件大小</label>
+                    <label class="col-sm-1 control-label">组件大小</label>
                     <div class="col-sm-2">
                         <input id="width" name="width" type="text" class="form-control" value="{$item.width}" placeholder="宽度(像素)">
                     </div>
@@ -148,7 +148,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label">控件事件</label>
+                    <label class="col-sm-1 control-label">组件事件</label>
                     <div class="col-sm-8">
                         <input id="clickevent" class="form-control" name="clickevent" type="text" value="{$item.clickevent}" placeholder="例如：activity=AAAA||service=BBBB">
                     </div>
@@ -172,7 +172,7 @@
                 <button type="button" style="width:40px;height:40px;position: absolute;top:10px;right: 10px;font-size: 24px;" onclick="addSub()">+</button>
                 <button id="delsub_{$n}_" onclick="delSub('{$n}')" type="button" style="width:40px;height:40px;position: absolute;top:10px;right: 50px;font-size: 24px;">-</button>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label">控件类型</label>
+                    <label class="col-sm-1 control-label">组件类型</label>
                     <div class="col-sm-4">
                         <h4 class="modal-title">
                             <select name="sub_{$n}_celltypeId">
@@ -189,7 +189,7 @@
                     </div>
                     <label class="col-sm-1 control-label">控&nbsp&nbsp件&nbsp&nbspID</label>
                     <div class="col-sm-4">
-                        <input id="sub_{$n}_resId" class="form-control" name="sub_{$n}_resId" type="text" value="{$subcell.resId}" placeholder="控件ID，可以在Activity中引用">
+                        <input id="sub_{$n}_resId" class="form-control" name="sub_{$n}_resId" type="text" value="{$subcell.resId}" placeholder="组件ID，可以在Activity中引用">
                     </div>
                 </div>
                 <div class="form-group">
@@ -205,7 +205,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label">控件大小</label>
+                    <label class="col-sm-1 control-label">组件大小</label>
                     <div class="col-sm-2">
                         <input id="sub_{$n}_width" name="sub_{$n}_width" type="text" class="form-control" value="{$subcell.width}" placeholder="宽度(像素)">
                     </div>
@@ -295,7 +295,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label">控件事件</label>
+                    <label class="col-sm-1 control-label">组件事件</label>
                     <div class="col-sm-8">
                         <input id="sub_{$n}_clickevent" class="form-control" name="sub_{$n}_clickevent" type="text" value="{$subcell.clickevent}" placeholder="例如：activity=AAAA||service=BBBB">
                     </div>
@@ -393,14 +393,14 @@
     }
 
     function createTabContent(name) {
-        var tab = $(" <li ><a href=\"#" + name + "\" data-toggle=\"tab\">子控件</a></li>");
+        var tab = $(" <li ><a href=\"#" + name + "\" data-toggle=\"tab\">子组件</a></li>");
         var tabContent = $('<div class="tab-pane fade" id="' + name + '">\n' +
             '<div class="modal-body">\n' +
             '<input type="hidden" name="subcell[]" value="' + name + '">\n' +
             '<button type="button" style="width:40px;height:40px;position: absolute;top:10px;right: 10px;font-size: 24px;" onclick="addSub()">+</button>' +
             '<button id="del' + name + '" type="button" style="width:40px;height:40px;position: absolute;top:10px;right: 50px;font-size: 24px;">-</button>' +
             '<div class="form-group">\n' +
-            '<label class="col-sm-1 control-label">控件类型</label>\n' +
+            '<label class="col-sm-1 control-label">组件类型</label>\n' +
             '<div class="col-sm-4">\n' +
             '<h4 class="modal-title">\n' +
             '<select name="' + name + 'celltypeId">\n' +
@@ -412,7 +412,7 @@
             '</div>\n' +
             '<label class="col-sm-1 control-label">控&nbsp&nbsp件&nbsp&nbspID</label>\n' +
             '<div class="col-sm-4">\n' +
-            '<input id="' + name + 'resId" class="form-control" name="' + name + 'resId" type="text" value="" placeholder="控件ID，可以在Activity中引用">\n' +
+            '<input id="' + name + 'resId" class="form-control" name="' + name + 'resId" type="text" value="" placeholder="组件ID，可以在Activity中引用">\n' +
             '</div>\n' +
             '</div>\n' +
             '<div class="form-group">\n' +
@@ -428,7 +428,7 @@
             '</div>\n' +
             '</div>\n' +
             '<div class="form-group">\n' +
-            '<label class="col-sm-1 control-label">控件大小</label>\n' +
+            '<label class="col-sm-1 control-label">组件大小</label>\n' +
             '<div class="col-sm-2">\n' +
             '<input id="' + name + 'width" name="' + name + 'width" type="text" class="form-control" value="" placeholder="宽度(像素)">\n' +
             '</div>\n' +
@@ -506,7 +506,7 @@
             '</div>\n' +
             '</div>' +
             '<div class="form-group">\n' +
-            '<label class="col-sm-1 control-label">控件事件</label>\n' +
+            '<label class="col-sm-1 control-label">组件事件</label>\n' +
             '<div class="col-sm-8">\n' +
             '<input id="' + name + 'clickevent" class="form-control" name="' + name + 'clickevent" type="text" value="" placeholder="例如：activity=AAAA||service=BBBB">\n' +
             '</div>\n' +

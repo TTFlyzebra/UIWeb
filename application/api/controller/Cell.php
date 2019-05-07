@@ -32,7 +32,7 @@ class Cell extends BaseRestful
                 $cell = $this->getCell($table);
                 $result = Db::name($tableName)->insert($cell, false, true);
                 if ($result) {
-                    //添加子控件
+                    //添加子组件
                     if ($request->has('subcell')) {
                         $subs = $table['subcell'];
                         for ($i = 0; $i < sizeof($subs); $i++) {
@@ -50,7 +50,7 @@ class Cell extends BaseRestful
                 }
             } elseif ($request->isDelete()) {
                 $deltable = $request->delete();
-                //TODO:先删除子控件,考虑以后需不需要修改
+                //TODO:先删除子组件,考虑以后需不需要修改
 //                Db::name('cellsub')->where('cellId', $deltable['cellId'])->update(array('status' => 0));
                 $deltable['status'] = 0;
                 $result = Db::name($tableName)->update($deltable);
@@ -66,10 +66,10 @@ class Cell extends BaseRestful
                 $cell['cellId'] = $table['cellId'];
                 $result = Db::name($tableName)->update($cell);
                 if ($result>=0) {
-                    //修改子控件
-                    //先删除子控件
+                    //修改子组件
+                    //先删除子组件
                     Db::name('cellsub')->where('cellId', $table['cellId'])->delete();
-                    //添加子控件
+                    //添加子组件
                     if ($request->has('subcell')) {
                         $subs = $table['subcell'];
                         for ($i = 0; $i < sizeof($subs); $i++) {

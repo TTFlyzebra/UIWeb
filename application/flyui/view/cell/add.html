@@ -10,10 +10,10 @@
 <script type="text/javascript" src="__RES__/flyui/js/flyinput.js"></script>
 <body>
 <div class="modal-header">
-    <h4 class="modal-title">添加控件</h4>
+    <h4 class="modal-title">添加组件</h4>
 </div>
 <ul id="myTab" class="nav nav-tabs">
-    <li class="active"><a href="#home" data-toggle="tab">主控件</a></li>
+    <li class="active"><a href="#home" data-toggle="tab">主组件</a></li>
 </ul>
 <form class="form-horizontal" name="celltypeform" id="celltypeform" method="post" role="form"
       action="{:url('/admin/test')}" enctype="multipart/form-data">
@@ -25,7 +25,7 @@
                         onclick="addSub()">+
                 </button>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label">控件类型</label>
+                    <label class="col-sm-1 control-label">组件类型</label>
                     <div class="col-sm-4">
                         <h4 class="modal-title">
                             <select style="height: 34px;font-size: 16px" id="celltypeId" name="celltypeId">
@@ -37,7 +37,7 @@
                     </div>
                     <label class="col-sm-1 control-label">控&nbsp&nbsp件&nbsp&nbspID</label>
                     <div class="col-sm-4">
-                        <input id="resId" class="form-control" name="resId" type="text" value="" placeholder="控件ID，可以在Activity中引用">
+                        <input id="resId" class="form-control" name="resId" type="text" value="" placeholder="组件ID，可以在Activity中引用">
                     </div>
                 </div>
                 <div class="form-group">
@@ -53,7 +53,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label">控件大小</label>
+                    <label class="col-sm-1 control-label">组件大小</label>
                     <div class="col-sm-2">
                         <input id="width" name="width" type="text" class="form-control" value="" placeholder="宽度(像素)">
                     </div>
@@ -227,14 +227,14 @@
     }
 
     function createTabContent(name) {
-        var tab = $(" <li ><a href=\"#" + name + "\" data-toggle=\"tab\">子控件</a></li>");
+        var tab = $(" <li ><a href=\"#" + name + "\" data-toggle=\"tab\">子组件</a></li>");
         var tabContent = $('<div class="tab-pane fade" id="' + name + '">\n' +
             '<div class="modal-body">\n' +
             '<input type="hidden" name="subcell[]" value="' + name + '">\n' +
             '<button type="button" style="width:40px;height:40px;position: absolute;top:10px;right: 10px;font-size: 24px;" onclick="addSub()">+</button>' +
             '<button id="del' + name + '" type="button" style="width:40px;height:40px;position: absolute;top:10px;right: 50px;font-size: 24px;">-</button>' +
             '<div class="form-group">\n' +
-            '<label class="col-sm-1 control-label">控件类型</label>\n' +
+            '<label class="col-sm-1 control-label">组件类型</label>\n' +
             '<div class="col-sm-4">\n' +
             '<h4 class="modal-title">\n' +
             '<select name="' + name + 'celltypeId">\n' +
@@ -246,7 +246,7 @@
             '</div>\n' +
             '<label class="col-sm-1 control-label">控&nbsp&nbsp件&nbsp&nbspID</label>\n' +
             '<div class="col-sm-4">\n' +
-            '<input id="' + name + 'resId" class="form-control" name="' + name + 'resId" type="text" value="" placeholder="控件ID，可以在Activity中引用">\n' +
+            '<input id="' + name + 'resId" class="form-control" name="' + name + 'resId" type="text" value="" placeholder="组件ID，可以在Activity中引用">\n' +
             '</div>\n'+
             '</div>\n' +
             '<div class="form-group">\n' +
@@ -262,7 +262,7 @@
             '</div>\n' +
             '</div>\n' +
             '<div class="form-group">\n' +
-            '<label class="col-sm-1 control-label">控件大小</label>\n' +
+            '<label class="col-sm-1 control-label">组件大小</label>\n' +
             '<div class="col-sm-2">\n' +
             '<input id="' + name + 'width" name="' + name + 'width" type="text" class="form-control" value="" placeholder="宽度(像素)">\n' +
             '</div>\n' +
@@ -291,7 +291,7 @@
             '</div>\n' +
             '</div>\n' +
             '<div class="form-group">\n' +
-            '<label class="col-sm-1 control-label">控件位置</label>\n' +
+            '<label class="col-sm-1 control-label">组件位置</label>\n' +
             '<div class="col-sm-1">\n' +
             '<input id="' + name + 'mLeft" class="form-control" name="' + name + 'mLeft" type="text" value="" placeholder="LEFT">\n' +
             '</div>\n' +
@@ -340,7 +340,7 @@
             '</div>\n' +
             '</div>' +
             '<div class="form-group">\n' +
-            '<label class="col-sm-1 control-label">控件事件</label>\n' +
+            '<label class="col-sm-1 control-label">组件事件</label>\n' +
             '<div class="col-sm-8">\n' +
             '<input id="' + name + 'clickevent" class="form-control" name="' + name + 'clickevent" type="text" value="" placeholder="例如：activity=AAAA||service=BBBB">\n' +
             '</div>\n' +
