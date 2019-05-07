@@ -41,7 +41,7 @@
     function addImage(subcount, imageUrl, imageWidth, imageHeight) {
         subcount = verify(subcount);
         var imageTab = $('<li><a href="#image_' + subcount + '_' + cellsimagenum[subcount] + '" data-toggle="tab">' + cellsimagenum[subcount] + '</a></li>');
-        var imageTabContent = $('' +
+        var imageTabContent = $(
             '<div class="tab-pane fade in" id="image_' + subcount + '_' + cellsimagenum[subcount] + '">' +
             '    <input class="FlyImageInput" type="file" accept="image/*" name="imagefile" ' +
             '     subnum="' + subcount + '"imageUrl="' + verify(imageUrl) + '" ' +
@@ -57,28 +57,61 @@
     function addText(num) {
         num = verify(num);
         var textTab = $('<li><a href="#text_' + num + '_' + cellstextnum[num] + '" data-toggle="tab">' + cellstextnum[num] + '</a></li>');
-        var textTabContent = $('' +
+        var textTabContent = $(
             '<div class="tab-pane fade in" id="text_' + num + '_' + cellstextnum[num] + '">' +
             '   <div style="margin:2px 10px 2px 2px;height:30px;float: left;">' +
+            '       字体大小:' +
+            '       <input name="' + num + '_textSize[]" style="width: 90px;height: 30px;" type="text" value="" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 10px 2px 2px;height:30px;float: left;">' +
+            '       文本行数:' +
+            '       <input name="' + num + '_textLines[]" style="width: 90px;height: 30px;" type="text" value="" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 10px 2px 2px;height:30px;float: left;">' +
+            '       文本颜色:' +
+            '       <input name="' + num + '_textColor[]" style="width: 90px;height: 30px;" type="text" value="" placeholder="#FFFFFFFF">' +
+            '   </div>' +
+            '   <div style="margin:2px 10px 2px 2px;height:30px;float: left;">' +
+            '       过滤颜色:' +
+            '       <input name="' + num + '_textFilter[]" style="width: 90px;height: 30px;" type="text" value="" placeholder="#FF0000FF">' +
+            '   </div>' +
+            '   <div style="margin:2px 10px 2px 2px;width:100%;height:30px;float: left;">' +
             '       文本内容:' +
-            '       <input name="' + num + '_text[]" style="width:610px;height: 30px;" type="text" value="" placeholder="">' +
+            '       <input name="' + num + '_text[]" style="width: calc(100% - 80px);;height: 30px;" type="text" value="" placeholder="">' +
             '   </div>' +
             '   <div style="margin:2px 10px 2px 2px;height:30px;float: left;">' +
             '       文本位置:&nbsp&nbsp&nbsp&nbsp;左' +
-            '       <input name="' + num + '_mLeft[]" style="width:80px;height: 30px;" type="text" value="" placeholder="">' +
+            '       <input name="' + num + '_textLeft[]" style="width:80px;height: 30px;" type="text" value="" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 10px 2px 2px;height:30px;float: left;">' +
             '       上' +
-            '       <input name="' + num + '_mTop[]" style="width:80px;height: 30px;" type="text" value="" placeholder="">' +
+            '       <input name="' + num + '_textTop[]" style="width:80px;height: 30px;" type="text" value="" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 10px 2px 2px;height:30px;float: left;">' +
             '       右' +
-            '       <input name="' + num + '_mRight[]" style="width:80px;height: 30px;" type="text" value="" placeholder="">' +
+            '       <input name="' + num + '_textRight[]" style="width:80px;height: 30px;" type="text" value="" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 10px 2px 2px;height:30px;float: left;">' +
             '       下' +
-            '       <input name="' + num + '_mBottom[]" style="width:80px;height: 30px;" type="text" value="" placeholder="">' +
+            '       <input name="' + num + '_textBottom[]" style="width:80px;height: 30px;" type="text" value="" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 10px 2px 2px;height:30px;float: left;">' +
             '       对齐方式' +
-            '       <select name="' + num + '_gravity[]" style="height: 30px;border:solid;border-width:1px;border-color: #000000;">' +
+            '       <select name="' + num + '_textGravity[]" style="height: 30px;border:solid;border-width:1px;border-color: #000000;">' +
             '           <option value="0">居中对齐</option>' +
             '           <option value="1">左边对齐</option>' +
             '           <option value="2">右边对齐</option>' +
             '       </select>' +
-            '   </div>' +            '</div>');
+            '   </div>' +
+            '   <div style="margin:2px 10px 2px 2px;height:30px;float: left;">' +
+            '       接受消息:' +
+            '       <input name="' + num + '_textRecv[]" style="width: 90px;height: 30px;" type="text" value="" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 10px 2px 2px;height:30px;float: left;">' +
+            '       点击事件:' +
+            '       <input name="' + num + '_textRecv[]" style="width: 90px;height: 30px;" type="text" value="" placeholder="">' +
+            '   </div>' +
+            '</div>');
         $('#textTab' + num).get(0).append(textTab.get(0));
         $('#textTabContent' + num).get(0).append(textTabContent.get(0));
         $('#textTab' + num + ' a:last').click();
@@ -95,10 +128,10 @@
         var cellTabContent = $(
             '<div class="tab-pane fade in" id="cell' + num + '">' +
             '    <div class="modal-body">' +
-            '        <div class="form-group" style="margin-bottom: 0px">' +
+            '        <div class="form-group">' +
             '            <input type="hidden" name="cell[]" value="' + num + '_">' +
             '            <label class="col-sm-1 control-label" >基本属性</label>' +
-            '            <div class="col-sm-5" style="padding:2px 2px 2px 2px;border:solid;border-width:1px;border-color: #EEEEEE;">' +
+            '            <div class="col-sm-5" style="padding:2px 2px 2px 2px;border:solid;border-width:1px;border-color: #000000;">' +
             '                <div style="margin:2px 10px 2px 2px;height:30px;float: left;">' +
             '                    关联模板:' +
             '                    <select name="' + num + '_themeId" style="height: 30px;border:solid;border-width:1px;border-color: #000000;">' +
@@ -139,7 +172,7 @@
             '        </div>' +
             '        <div class="form-group">' +
             '            <label class="col-sm-1 control-label" style="margin:5px 0 5px 0">添加文本</label>' +
-            '            <div class="col-sm-5" style="padding:2px 2px 2px 2px;border:solid;border-width:1px;border-color: #EEEEEE;">' +
+            '            <div class="col-sm-5" style="padding:2px 2px 2px 2px;border:solid;border-width:1px;border-color: #000000;">' +
             '                <ul id="textTab' + num + '" class="nav nav-tabs">' +
             '                    <li style="float: right"><a href="javascript:addText(' + num + ');">+</a></li>' +
             '                </ul>' +
@@ -149,7 +182,7 @@
             '        </div>' +
             '        <div class="form-group">' +
             '            <label class="col-sm-1 control-label" style="margin:5px 0 5px 0">添加图片</label>' +
-            '            <div class="col-sm-5" style="padding:2px 2px 2px 2px;border:solid;border-width:1px;border-color: #EEEEEE;">' +
+            '            <div class="col-sm-5" style="padding:2px 2px 2px 2px;border:solid;border-width:1px;border-color: #000000;">' +
             '                <ul id="imageTab' + num + '" class="nav nav-tabs">' +
             '                    <li style="float: right"><a href="javascript:addImage(' + num + ');">+</a></li>' +
             '                </ul>' +
