@@ -85,7 +85,7 @@ class Role extends Auth
                 $resultdata['rows'] = $roles;
                 echo json_encode($resultdata);
             } else {
-                echo retJsonMsg( $roles);
+                echo retJsonMsg("list ok!",0, $roles);
             }
         } else {
             echo retJsonMsg('error', -1);

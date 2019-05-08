@@ -13,8 +13,8 @@
         this.options = options;
         this.options.subnum = verify(this.$FlyImageInput.attr("subnum"));
         this.options.imageUrl = verify(this.$FlyImageInput.attr("imageUrl"));
-        this.options.imageUrl = verify(this.$FlyImageInput.attr("imageWidth"));
-        this.options.imageUrl = verify(this.$FlyImageInput.attr("imageHeight"));
+        this.options.imageWidth = verify(this.$FlyImageInput.attr("imageWidth"));
+        this.options.imageHeight = verify(this.$FlyImageInput.attr("imageHeight"));
         this.initcss();
         this.refresh();
         this.initevent();
@@ -82,8 +82,8 @@
             this.image = image;
             self.after(image_div);
 
-            var del = $('<div style="cursor:pointer;position:absolute;right:16px;top:44px;' +
-                'width: 28px;heidth:28px;font-size: 20px;color:#000000;background: #FFFFFF">&nbsp;X</div>');
+            var del = $('<div style="padding:3px 3px 3px 3px;cursor:pointer;position:absolute;right:12px;top:48px;' +
+                'width: 30px;line-height:28px;font-size: 24px;color:#000000;background: #FFFFFF">╳</div>');
             del.on("click", function (event) {
                 image.attr('src', "");
                 if (options.postData) {

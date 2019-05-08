@@ -38,7 +38,7 @@ class User extends Auth
                 $resultdata['rows'] = $users;
                 echo json_encode($resultdata);
             } else {
-                echo retJsonMsg($users);
+                echo retJsonMsg("list ok",0,$users);
             }
         } else {
             echo retJsonMsg('error', -1);

@@ -1,16 +1,15 @@
 <?php
 
-namespace app\admin\controller;
+namespace app\api\controller;
 
-use think\Controller;
 use think\Request;
 
-class Test extends Controller
+class Test
 {
     public function index()
     {
         $request = Request::instance();
-//        dump($request->param());
+        dump($request->param());
         if ($request->isPost()) {
             $table = $request->post();
             $cell = getCell($table);

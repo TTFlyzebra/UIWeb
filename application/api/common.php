@@ -1,6 +1,7 @@
 <?php
 
 use think\Db;
+use think\Session;
 
 function getAllPagecell($pageId)
 {
@@ -69,4 +70,53 @@ function getPageBean($pageId, $getsub = true)
     $pageBean['pageId'] = $pageId;
     $pageBean['cellList'] = $cellList;
     return $pageBean;
+}
+
+function getCell($data, $str='0_'){
+    $cell = array();
+    $cell["description"] = $data[$str."description"];
+    $cell["themeId"] = $data[$str."themeId"];
+    $cell["celltypeId"] = $data[$str."celltypeId"];
+    $cell["resId"] = $data[$str."resId"];
+    $cell["width"] = (int)$data[$str."width"];
+    $cell["height"]= (int)$data[$str."height"];
+    $cell["backColor"] = $data[$str."backColor"];
+    $cell["filterColor"] = $data[$str."filterColor"];
+    $cell["recv"] = $data[$str."recv"];
+    $cell["send"] = $data[$str."send"];
+    for($i=0;$i<sizeof($data[$str."text"]);$i++){
+        $texts[$i]['text'] = $data[$str."text"][$i];
+        $texts[$i]['textSize'] = $data[$str."textSize"][$i];
+        $texts[$i]['textLines'] = $data[$str."textLines"][$i];
+        $texts[$i]['textColor'] = $data[$str."textColor"][$i];
+        $texts[$i]['textFilter'] = $data[$str."textFilter"][$i];
+        $texts[$i]['left'] = $data[$str."textLeft"][$i];
+        $texts[$i]['top'] = $data[$str."textTop"][$i];
+        $texts[$i]['right'] = $data[$str."textRight"][$i];
+        $texts[$i]['bottom'] = $data[$str."textBottom"][$i];
+        $texts[$i]['gravity'] = $data[$str."textGravity"][$i];
+        $texts[$i]['recv'] = $data[$str."textRecv"][$i];
+        $texts[$i]['send'] = $data[$str."textSend"][$i];
+    }
+    $cell["texts"] = json_encode($texts);
+    for($i=0;$i<sizeof($data[$str."imageUrl"]);$i++){
+        $images[$i]['width'] = $data[$str."imageWidth"][$i];
+        $images[$i]['height'] = $data[$str."imageHeight"][$i];
+        $images[$i]['url'] = $data[$str."imageUrl"][$i];
+        $images[$i]['filterColor'] = $data[$str."imageFilter"][$i];
+        $images[$i]['left'] = $data[$str."imageLeft"][$i];
+        $images[$i]['top'] = $data[$str."imageTop"][$i];
+        $images[$i]['right'] = $data[$str."imageRight"][$i];
+        $images[$i]['bottom'] = $data[$str."imageBottom"][$i];
+        $images[$i]['scaleType'] = $data[$str."scaleType"][$i];
+        $images[$i]['recv'] = $data[$str."imageRecv"][$i];
+        $images[$i]['send'] = $data[$str."imageSend"][$i];
+    }
+    $cell["images"] = json_encode($images);
+    $pages = [];
+    $cell["pages"] = json_encode($pages);
+    $cell["remark"] = $data[$str."remark"];
+    $cell['userid'] = Session::get('userid');
+    $cell['ip'] = request()->ip();
+    return $cell;
 }

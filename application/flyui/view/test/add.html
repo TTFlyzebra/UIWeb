@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<link rel="stylesheet" type="text/css" href="__RES__/common/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="__RES__/common/css/bootstrap-theme.css">
+<link rel="stylesheet" type="text/css" href="__RES__/common/css/bootstrap-table.css">
+<script type="text/javascript" src="__RES__/common/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="__RES__/common/js/jquery.serializejson.js"></script>
+<script type="text/javascript" src="__RES__/common/js/bootstrap.js"></script>
+<script type="text/javascript" src="__RES__/common/js/bootstrap-table.js"></script>
+<script type="text/javascript" src="__RES__/common/js/bootstrap-table-zh-CN.min.js"></script>
+<script type="text/javascript" src="__RES__/flyui/js/flyimage.js"></script>
+<body>
+<div class="modal-header">
+    <h4 class="modal-title">添加组件</h4>
+</div>
+<form class="form-horizontal" id="flyform" method="post" action="{:url('/api/test')}" enctype="multipart/form-data">
+    <ul id="cellTab" class="nav nav-tabs">
+        <li style="float:right;"><a href="javascript:addNewCell();">╋</a></li>
+    </ul>
+    <div id="cellTabContent" class="tab-content"></div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" onclick="onCancel()">取消</button>
+        <button type="reset" class="btn btn-default">重置</button>
+        <button type="button" class="btn btn-primary" onclick="postform()">提交</button>
+    </div>
+</form>
+</body>
+</html>
+<script type="text/javascript">
+    var cellsimagenum = new Array();
+    var cellstextnum = new Array();
+    var cellnum = 0;
+
+    function verify(value) {
+        if (value === undefined) {
+            return "";
+        } else {
+            return value;
+        }
+    }
+
+    function addImage(num, imageUrl, imageWidth, imageHeight) {
+        num = verify(num);
+        var imageTab = $('<li><a href="#image_' + num + '_' + cellsimagenum[num] + '" data-toggle="tab">' + cellsimagenum[num] + '</a></li>');
+        var imageTabContent = $(
+            '<div class="tab-pane fade in" id="image_' + num + '_' + cellsimagenum[num] + '">' +
+            '   <div>' +
+            '       <input class="FlyImageInput" type="file" accept="image/*" name="imagefile" ' +
+            '       subnum="' + num + '"imageUrl="' + verify(imageUrl) + '" ' +
+            '       imageWidth="' + verify(imageWidth) + '" imageHeight="' + verify(imageHeight) + '">' +
+            '   </div>'+
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       图片位置:&nbsp&nbsp&nbsp&nbsp;左' +
+            '       <input name="' + num + '_imageLeft[]" style="width:80px;height:30px;" type="text" value="" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       上' +
+            '       <input name="' + num + '_imageTop[]" style="width:80px;height:30px;" type="text" value="" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       右' +
+            '       <input name="' + num + '_imageRight[]" style="width:80px;height:30px;" type="text" value="" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       下' +
+            '       <input name="' + num + '_imageBottom[]" style="width:80px;height:30px;" type="text" value="" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       缩放模式:' +
+            '       <select name="' + num + '_scaleType[]" style="height:30px;border:solid;border-width:1px;border-color:#000000;">' +
+            '           <option value="0">FitXY</option>' +
+            '           <option value="1">FitCenter</option>' +
+            '           <option value="2">CenrerCrop</option>' +
+            '           <option value="3">CenrerInside</option>' +
+            '       </select>' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       过滤颜色:' +
+            '       <input name="' + num + '_imageFilter[]" style="width:95px;height:30px;" type="text" value="" placeholder="#FF0000FF">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
+            '       接受消息:' +
+            '       <input name="' + num + '_imageRecv[]" style="width:calc(100% - 80px);height:30px;" type="text" value="" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
+            '       点击事件:' +
+            '       <input name="' + num + '_imageSend[]" style="width:calc(100% - 80px);height:30px;" type="text" value="" placeholder="">' +
+            '   </div>' +
+            '</div>');
+        $('#imageTab' + num).get(0).append(imageTab.get(0));
+        $('#imageTabContent' + num).get(0).append(imageTabContent.get(0));
+        $('#imageTab' + num + ' a:last').click();
+        refreshFlyImage();
+        cellsimagenum[num]++;
+    }
+
+    function addText(num) {
+        num = verify(num);
+        var textTab = $('<li><a href="#text_' + num + '_' + cellstextnum[num] + '" data-toggle="tab">' + cellstextnum[num] + '</a></li>');
+        var textTabContent = $(
+            '<div class="tab-pane fade in" id="text_' + num + '_' + cellstextnum[num] + '">' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       字体大小:' +
+            '       <input name="' + num + '_textSize[]" style="width:95px;height:30px;" type="text" value="" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       文本行数:' +
+            '       <input name="' + num + '_textLines[]" style="width:95px;height:30px;" type="text" value="" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       文本颜色:' +
+            '       <input name="' + num + '_textColor[]" style="width:95px;height:30px;" type="text" value="" placeholder="#FFFFFFFF">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       过滤颜色:' +
+            '       <input name="' + num + '_textFilter[]" style="width:95px;height:30px;" type="text" value="" placeholder="#FF0000FF">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;width:100%;height:30px;float:left;">' +
+            '       文本内容:' +
+            '       <input name="' + num + '_text[]" style="width:calc(100% - 80px);height:30px;" type="text" value="" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       文本位置:&nbsp&nbsp&nbsp&nbsp;左' +
+            '       <input name="' + num + '_textLeft[]" style="width:80px;height:30px;" type="text" value="" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       上' +
+            '       <input name="' + num + '_textTop[]" style="width:80px;height:30px;" type="text" value="" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       右' +
+            '       <input name="' + num + '_textRight[]" style="width:80px;height:30px;" type="text" value="" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       下' +
+            '       <input name="' + num + '_textBottom[]" style="width:80px;height:30px;" type="text" value="" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       对齐方式:' +
+            '       <select name="' + num + '_textGravity[]" style="height:30px;border:solid;border-width:1px;border-color:#000000;">' +
+            '           <option value="0">居中对齐</option>' +
+            '           <option value="1">左边对齐</option>' +
+            '           <option value="2">右边对齐</option>' +
+            '       </select>' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
+            '       接受消息:' +
+            '       <input name="' + num + '_textRecv[]" style="width:calc(100% - 80px);height:30px;" type="text" value="" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
+            '       点击事件:' +
+            '       <input name="' + num + '_textSend[]" style="width:calc(100% - 80px);height:30px;" type="text" value="" placeholder="">' +
+            '   </div>' +
+            '</div>');
+        $('#textTab' + num).get(0).append(textTab.get(0));
+        $('#textTabContent' + num).get(0).append(textTabContent.get(0));
+        $('#textTab' + num + ' a:last').click();
+        cellstextnum[num]++;
+    }
+
+    function addNewCell() {
+        addCell(cellnum);
+        cellnum++;
+    }
+
+    function addCell(num) {
+        var cellTab = $('<li><a href="#cell' + num + '" data-toggle="tab">View-' + num + '</a></li>');
+        var cellTabContent = $(
+            '<div class="tab-pane fade in" id="cell' + num + '">' +
+            '    <div class="modal-body">' +
+            '        <div class="form-group">' +
+            '            <input type="hidden" name="cell[]" value="' + num + '_">' +
+            '            <label class="col-sm-1 control-label" >基本属性</label>' +
+            '            <div class="col-sm-5" style="padding:2px 2px 2px 2px;border:solid;border-width:1px;border-color:#000000;">' +
+            '                <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '                    组件描述:' +
+            '                    <input name="' + num + '_description" style="width:95px;height:30px;" type="text" value="" placeholder="">' +
+            '                </div>' +
+            '                <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '                    关联模板:' +
+            '                    <select name="' + num + '_themeId" style="height:30px;border:solid;border-width:1px;border-color:#000000;">' +
+            '                       {volist name="themes" id="theme" key="k"}' +
+            '                        <option value="{$theme.themeId}">{$theme.themeName}</option>' +
+            '                       {/volist}' +
+            '                    </select>' +
+            '                </div>' +
+            '                <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '                    组件类型:' +
+            '                    <select name="' + num + '_celltypeId" style="height:30px;border:solid;border-width:1px;border-color:#000000;">' +
+            '                       {volist name="celltypes" id="celltype" key="k"}' +
+            '                        <option value="{$celltype.celltypeId}">{$celltype.celltypeName}</option>' +
+            '                       {/volist}' +
+            '                    </select>' +
+            '                </div>' +
+            '                <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '                    RESID:' +
+            '                    <input name="' + num + '_resId" style="width:60px;height:30px;" type="text" value="" placeholder="">' +
+            '                </div>' +
+            '                <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '                    组件宽度:' +
+            '                    <input name="' + num + '_width" id="' + num + '_width" style="width:95px;height:30px;" type="text" value="" placeholder="">' +
+            '                </div>' +
+            '                <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '                    组件高度:' +
+            '                    <input name="' + num + '_height" id="' + num + '_height" style="width:95px;height:30px;" type="text" value="" placeholder="">' +
+            '                </div>' +
+            '                <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '                    背景颜色:' +
+            '                    <input name="' + num + '_backColor" style="width:95px;height:30px;" type="text" value="" placeholder="#FFFFFFFF">' +
+            '                </div>' +
+            '                <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '                    过滤颜色:' +
+            '                    <input name="' + num + '_filterColor" style="width:95px;height:30px;" type="text" value="" placeholder="#FFFFFFFF">' +
+            '                </div>' +
+            '                <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
+            '                    接受消息:' +
+            '                    <input name="' + num + '_recv" style="width:calc(100% - 80px);height:30px;" type="text" value="" placeholder="">' +
+            '                </div>' +
+            '                <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
+            '                    点击事件:' +
+            '                    <input name="' + num + '_send" style="width:calc(100% - 80px);height:30px;" type="text" value="" placeholder="">' +
+            '                </div>' +
+            '                <div style="margin:2px 2px 2px 2px;width:100%;float:left;">' +
+            '                    备注扩展:' +
+            '                    <textarea name="' + num + '_remark" style="width:calc(100% - 80px);" value="" placeholder=""></textarea>' +
+            '                </div>'+
+            '            </div>' +
+            '        </div>' +
+            '        <div id="textTab" class="form-group">' +
+            '            <label class="col-sm-1 control-label" style="margin:5px 0 5px 0">文本配置</label>' +
+            '            <div class="col-sm-5" style="padding:2px 2px 2px 2px;border:solid;border-width:1px;border-color:#000000;">' +
+            '                <ul id="textTab' + num + '" class="nav nav-tabs">' +
+            '                    <li style="float:right"><a href="javascript:addText(' + num + ');">╋</a></li>' +
+            '                </ul>' +
+            '                <div id ="textTabContent' + num + '" class="tab-content">' +
+            '                </div>' +
+            '            </div>' +
+            '        </div>' +
+            '        <div id="imageTab" class="form-group">' +
+            '            <label class="col-sm-1 control-label" style="margin:5px 0 5px 0">图片配置</label>' +
+            '            <div class="col-sm-5" style="padding:2px 2px 2px 2px;border:solid;border-width:1px;border-color:#000000;">' +
+            '                <ul id="imageTab' + num + '" class="nav nav-tabs">' +
+            '                    <li style="float:right"><a href="javascript:addImage(' + num + ');">╋</a></li>' +
+            '                </ul>' +
+            '                <div id ="imageTabContent' + num + '" class="tab-content">' +
+            '                </div>' +
+            '            </div>' +
+            '        </div>' +
+            '    </div>' +
+            '</div>');
+        $('#cellTab').get(0).append(cellTab.get(0));
+        $('#cellTabContent').get(0).append(cellTabContent.get(0));
+        $('#cellTab a:last').click();
+        cellsimagenum[num] = 0;
+        cellstextnum[num] = 0;
+        addImage(num);
+        addText(num);
+    }
+
+    function refreshFlyImage() {
+        $('.FlyImageInput').flyinput({
+            ajaxurl: "/uiweb/api/imagefile",
+            postData: true,
+            width: "100%",
+            height: "240px"
+        }).bind("success", function (e, data) {
+        }).bind("del", function (e) {
+        });
+    }
+
+    addNewCell();
+
+    function postform() {
+        // var cellPro = $('#flyform').serializeJSON();
+        // var cell = {};
+        // var jsonStr = JSON.stringify(cellPro);
+        // console.log(jsonStr);
+        // $('#flyform').submit();
+        $.ajax({
+            type: "POST",
+            url: "{:url('/api/cellPro')}",
+            data: $('#flyform').serialize(),
+            error: function (request) {
+                alert("error code:" + request.readyState);
+            },
+            success: function (data) {
+                var obj = JSON.parse(data);
+                if (obj.code === 0) {
+                    alert("AddOK")
+                    // window.history.back();
+                } else {
+                    alert(obj.msg);
+                }
+            }
+        });
+    }
+</script>
