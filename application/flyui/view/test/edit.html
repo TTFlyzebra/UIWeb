@@ -40,14 +40,14 @@
     }
 
     function addCell(num, cell) {
-        var cellTab = $('<li><a href="#cell' + num + '" data-toggle="tab">View-' + num + '</a></li>');
+        var cellTab = $('<li><a href="#cell' + num + '" data-toggle="tab">view' + num + '</a></li>');
         var cellTabContent = $(
             '<div class="tab-pane fade in" id="cell' + num + '">' +
             '    <div class="modal-body">' +
             '        <div class="form-group">' +
             '            <input type="hidden" name="cell[]" value="' + num + '_">' +
-            '            <label class="col-sm-1 control-label" >基本属性</label>' +
-            '            <div class="col-sm-5" style="padding:2px 2px 2px 2px;border:solid;border-width:1px;border-color:#000000;">' +
+            '            <div class="col-sm-5" style="margin:0px 0px 0px 50px;padding:2px 2px 2px 2px;border:solid;border-width:1px;border-color:#000000;">' +
+            '                <label style="padding:8px 9px 9px 14px;width: 100%" >基本属性</label>' +
             '                <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
             '                    组件描述:' +
             '                    <input name="' + num + '_description" style="width:95px;height:30px;" type="text" value="' + verify(cell.description) + '" placeholder="">' +
@@ -98,24 +98,20 @@
             '                </div>' +
             '                <div style="margin:2px 2px 2px 2px;width:100%;float:left;">' +
             '                    备注扩展:' +
-            '                    <textarea name="' + num + '_remark" style="width:calc(100% - 80px);" placeholder="">' + verify(cell.remark) + '</textarea>' +
+            '                    <input name="' + num + '_remark" style="width:calc(100% - 80px);height:30px;" type="text" value="' + verify(cell.remark) + '" placeholder="">' +
             '                </div>' +
             '            </div>' +
-            '        </div>' +
-            '        <div id="textTab" class="form-group">' +
-            '            <label class="col-sm-1 control-label" style="margin:5px 0 5px 0">文本配置</label>' +
-            '            <div class="col-sm-5" style="padding:2px 2px 2px 2px;border:solid;border-width:1px;border-color:#000000;">' +
+            '            <div class="col-sm-5" style="margin:0px 0px 0px 50px;padding:2px 2px 2px 2px;border:solid;border-width:1px;border-color:#000000;">' +
             '                <ul id="textTab' + num + '" class="nav nav-tabs">' +
+            '                    <li><a style="font-weight:bold;color: #000000">文本</a></li>' +
             '                    <li style="float:right"><a href="javascript:addText(' + num + ');">╋</a></li>' +
             '                </ul>' +
             '                <div id ="textTabContent' + num + '" class="tab-content">' +
             '                </div>' +
             '            </div>' +
-            '        </div>' +
-            '        <div id="imageTab" class="form-group">' +
-            '            <label class="col-sm-1 control-label" style="margin:5px 0 5px 0">图片配置</label>' +
-            '            <div class="col-sm-5" style="padding:2px 2px 2px 2px;border:solid;border-width:1px;border-color:#000000;">' +
+            '            <div class="col-sm-5" style="margin:10px 0px 0px 50px;padding:2px 2px 2px 2px;border:solid;border-width:1px;border-color:#000000;">' +
             '                <ul id="imageTab' + num + '" class="nav nav-tabs">' +
+            '                    <li><a style="font-weight:bold;color: #000000">图像</a></li>' +
             '                    <li style="float:right"><a href="javascript:addImage(' + num + ');">╋</a></li>' +
             '                </ul>' +
             '                <div id ="imageTabContent' + num + '" class="tab-content">' +
