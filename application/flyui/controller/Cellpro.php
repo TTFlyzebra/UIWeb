@@ -6,7 +6,7 @@ use app\auth\controller\Auth;
 use think\Db;
 use think\Request;
 
-class Test extends Auth
+class Cellpro extends Auth
 {
     public function index()
     {
