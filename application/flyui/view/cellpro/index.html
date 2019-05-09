@@ -65,14 +65,14 @@
                     title: '组件类型',
                     halign: "center",
                     formatter: function (value, row, index) {
-                        return '<a  href="{:url(\'/flyui/test/edit\')}?id=' + row.cellId + '">'+value+'</a>';
+                        return '<a  href="{:url(\'/flyui/cellpro/edit\')}?id=' + row.cellId + '">'+value+'</a>';
                     }
                 }, {
                     field: 'description',
                     title: '组件描述',
                     halign: "center",
                     formatter: function (value, row, index) {
-                        return '<a  href="{:url(\'/flyui/test/edit\')}?id=' + row.cellId + '">'+value+'</a>';
+                        return '<a  href="{:url(\'/flyui/cellpro/edit\')}?id=' + row.cellId + '">'+value+'</a>';
                     }
                 }, {
                     field: 'themeName',
@@ -93,7 +93,7 @@
                         }catch (e) {
                             value = "";
                         }
-                        return '<a  href="{:url(\'/flyui/test/edit\')}?id=' + row.cellId + '">'+value+'</a>';;
+                        return '<a  href="{:url(\'/flyui/cellpro/edit\')}?id=' + row.cellId + '">'+value+'</a>';;
                     }
                 }, {
                     field: 'images',
@@ -130,13 +130,13 @@
     };
 
     $('#btn_add').on("click", function (event) {
-        window.location.href = "{:url('/flyui/test/edit')}?id=-1";
+        window.location.href = "{:url('/flyui/cellpro/edit')}?id=-1";
     });
 
     $('#btn_edit').on("click", function (event) {
         var a = $('#flytable').bootstrapTable('getSelections');
         if (a.length > 0) {
-            window.location.href = "{:url('/flyui/test/edit')}?id=" + a[0].cellId;
+            window.location.href = "{:url('/flyui/cellpro/edit')}?id=" + a[0].cellId;
         }
     });
 
