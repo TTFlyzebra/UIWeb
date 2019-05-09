@@ -10,8 +10,8 @@ function getAllPagecell($pageId)
         ->alias('a')
         ->join("fly_cell b", "a.cellId=b.cellId")
         ->join("fly_celltype c", "b.celltypeId=c.celltypeId")
-        ->field(['a.cellId','b.resId', 'x', 'y', 'a.width', 'a.height', 'celltype', 'imageurl1',
-            'imageurl2', 'b.backcolor', 'textTitle', 'textSize', 'textColor', 'textLine','gravity',
+        ->field(['a.cellId', 'b.resId', 'x', 'y', 'a.width', 'a.height', 'celltype', 'imageurl1',
+            'imageurl2', 'b.backcolor', 'textTitle', 'textSize', 'textColor', 'textLine', 'gravity',
             'textFont', 'mTop', 'mBottom', 'mLeft', 'mRight', "acceptAction", "launchAction",
             'sendAction', 'recvAction', 'clickevent', 'b.extend', 'b.remark', 'b.cellpageId',
             'c.celltypeName', 'c.imageurl' => 'typeimageurl'])
@@ -26,10 +26,10 @@ function getPagecell($pageId)
         ->alias('a')
         ->join("fly_cell b", "a.cellId=b.cellId")
         ->join("fly_celltype c", "b.celltypeId=c.celltypeId")
-        ->field(['a.cellId','b.resId',  'x', 'y', 'a.width', 'a.height', 'celltype', 'imageurl1',
-            'imageurl2', 'b.backcolor', 'textTitle', 'textSize', 'textColor','textLine', 'gravity',
+        ->field(['a.cellId', 'b.resId', 'x', 'y', 'a.width', 'a.height', 'celltype', 'imageurl1',
+            'imageurl2', 'b.backcolor', 'textTitle', 'textSize', 'textColor', 'textLine', 'gravity',
             'textFont', 'mTop', 'mBottom', 'mLeft', 'mRight', "acceptAction", "launchAction",
-            'sendAction', 'recvAction', 'clickevent', 'b.cellpageId','b.extend', 'b.remark'])
+            'sendAction', 'recvAction', 'clickevent', 'b.cellpageId', 'b.extend', 'b.remark'])
         ->select();
     return $pagedata;
 }
@@ -41,10 +41,10 @@ function getSubCells($cellId)
         ->join("fly_celltype b", "a.celltypeId=b.celltypeId")
         ->where('a.cellId', $cellId)
         ->where('a.status', 1)
-        ->field(["a.cellsubId"=>"cellId", 'a.resId', "a.width", "a.height","a.imageurl1", "a.imageurl2", "a.backcolor",
+        ->field(["a.cellsubId" => "cellId", 'a.resId', "a.width", "a.height", "a.imageurl1", "a.imageurl2", "a.backcolor",
             "a.textTitle", "a.textSize", "a.textColor", 'a.mTop', 'a.mBottom', 'a.mLeft',
-            'a.mRight','textLine',"a.gravity", "a.textFont",  "a.sendAction", "a.recvAction", "a.clickevent",
-            "a.remark","a.extend", "b.celltype"])
+            'a.mRight', 'textLine', "a.gravity", "a.textFont", "a.sendAction", "a.recvAction", "a.clickevent",
+            "a.remark", "a.extend", "b.celltype"])
         ->select();
     return $subcells;
 }
@@ -72,50 +72,66 @@ function getPageBean($pageId, $getsub = true)
     return $pageBean;
 }
 
-function getCell($data, $str='0_'){
+function getCell($data, $str = '0_')
+{
     $cell = array();
-    $cell["description"] = $data[$str."description"];
-    $cell["themeId"] = $data[$str."themeId"];
-    $cell["celltypeId"] = $data[$str."celltypeId"];
-    $cell["resId"] = $data[$str."resId"];
-    $cell["width"] = (int)$data[$str."width"];
-    $cell["height"]= (int)$data[$str."height"];
-    $cell["backColor"] = $data[$str."backColor"];
-    $cell["filterColor"] = $data[$str."filterColor"];
-    $cell["recv"] = $data[$str."recv"];
-    $cell["send"] = $data[$str."send"];
-    for($i=0;$i<sizeof($data[$str."text"]);$i++){
-        $texts[$i]['text'] = $data[$str."text"][$i];
-        $texts[$i]['textSize'] = $data[$str."textSize"][$i];
-        $texts[$i]['textLines'] = $data[$str."textLines"][$i];
-        $texts[$i]['textColor'] = $data[$str."textColor"][$i];
-        $texts[$i]['textFilter'] = $data[$str."textFilter"][$i];
-        $texts[$i]['left'] = $data[$str."textLeft"][$i];
-        $texts[$i]['top'] = $data[$str."textTop"][$i];
-        $texts[$i]['right'] = $data[$str."textRight"][$i];
-        $texts[$i]['bottom'] = $data[$str."textBottom"][$i];
-        $texts[$i]['gravity'] = $data[$str."textGravity"][$i];
-        $texts[$i]['recv'] = $data[$str."textRecv"][$i];
-        $texts[$i]['send'] = $data[$str."textSend"][$i];
+    if (isset($data[$str . "cellId"]) && $data[$str . "cellId"] > 0) {
+        if ($str == '0_') {
+            $cell["cellId"] = $data[$str . "cellId"];
+        } else {
+            $cell["subcellId"] = $data[$str . "cellId"];
+        }
     }
-    $cell["texts"] = json_encode($texts);
-    for($i=0;$i<sizeof($data[$str."imageUrl"]);$i++){
-        $images[$i]['width'] = $data[$str."imageWidth"][$i];
-        $images[$i]['height'] = $data[$str."imageHeight"][$i];
-        $images[$i]['url'] = $data[$str."imageUrl"][$i];
-        $images[$i]['filterColor'] = $data[$str."imageFilter"][$i];
-        $images[$i]['left'] = $data[$str."imageLeft"][$i];
-        $images[$i]['top'] = $data[$str."imageTop"][$i];
-        $images[$i]['right'] = $data[$str."imageRight"][$i];
-        $images[$i]['bottom'] = $data[$str."imageBottom"][$i];
-        $images[$i]['scaleType'] = $data[$str."scaleType"][$i];
-        $images[$i]['recv'] = $data[$str."imageRecv"][$i];
-        $images[$i]['send'] = $data[$str."imageSend"][$i];
+    $cell["description"] = $data[$str . "description"];
+    $cell["themeId"] = $data[$str . "themeId"];
+    $cell["celltypeId"] = $data[$str . "celltypeId"];
+    $cell["resId"] = $data[$str . "resId"];
+    $cell["width"] = (int)$data[$str . "width"];
+    $cell["height"] = (int)$data[$str . "height"];
+    $cell["backColor"] = $data[$str . "backColor"];
+    $cell["filterColor"] = $data[$str . "filterColor"];
+    $cell["recv"] = $data[$str . "recv"];
+    $cell["send"] = $data[$str . "send"];
+    if (isset($data[$str . "text"])) {
+        for ($i = 0; $i < sizeof($data[$str . "text"]); $i++) {
+            $texts[$i]['text'] = $data[$str . "text"][$i];
+            $texts[$i]['textSize'] = $data[$str . "textSize"][$i];
+            $texts[$i]['textLines'] = $data[$str . "textLines"][$i];
+            $texts[$i]['textColor'] = $data[$str . "textColor"][$i];
+            $texts[$i]['textFilter'] = $data[$str . "textFilter"][$i];
+            $texts[$i]['left'] = $data[$str . "textLeft"][$i];
+            $texts[$i]['top'] = $data[$str . "textTop"][$i];
+            $texts[$i]['right'] = $data[$str . "textRight"][$i];
+            $texts[$i]['bottom'] = $data[$str . "textBottom"][$i];
+            $texts[$i]['gravity'] = $data[$str . "textGravity"][$i];
+            $texts[$i]['recv'] = $data[$str . "textRecv"][$i];
+            $texts[$i]['send'] = $data[$str . "textSend"][$i];
+        }
+        $cell["texts"] = json_encode($texts);
+    }else{
+        $cell["texts"] = "[]";
     }
-    $cell["images"] = json_encode($images);
+    if (isset($data[$str . "imageUrl"])) {
+        for ($i = 0; $i < sizeof($data[$str . "imageUrl"]); $i++) {
+            $images[$i]['width'] = $data[$str . "imageWidth"][$i];
+            $images[$i]['height'] = $data[$str . "imageHeight"][$i];
+            $images[$i]['url'] = $data[$str . "imageUrl"][$i];
+            $images[$i]['filterColor'] = $data[$str . "imageFilter"][$i];
+            $images[$i]['left'] = $data[$str . "imageLeft"][$i];
+            $images[$i]['top'] = $data[$str . "imageTop"][$i];
+            $images[$i]['right'] = $data[$str . "imageRight"][$i];
+            $images[$i]['bottom'] = $data[$str . "imageBottom"][$i];
+            $images[$i]['scaleType'] = $data[$str . "scaleType"][$i];
+            $images[$i]['recv'] = $data[$str . "imageRecv"][$i];
+            $images[$i]['send'] = $data[$str . "imageSend"][$i];
+        }
+        $cell["images"] = json_encode($images);
+    }else{
+        $cell["images"] = "[]";
+    }
     $pages = [];
     $cell["pages"] = json_encode($pages);
-    $cell["remark"] = $data[$str."remark"];
+    $cell["remark"] = $data[$str . "remark"];
     $cell['userid'] = Session::get('userid');
     $cell['ip'] = request()->ip();
     return $cell;

@@ -1,16 +1,13 @@
 (function ($) {
     function verify(value) {
-        if (value === undefined) {
-            return "";
-        } else {
-            return value;
-        }
+        return value === undefined ? "" : value;
     }
 
     var FlyImageInput = function (FlyImageInput, options) {
         this.FlyImageInput = FlyImageInput;
         this.$FlyImageInput = $(FlyImageInput);
         this.options = options;
+        this.options.num = verify(this.$FlyImageInput.attr("num"));
         this.options.subnum = verify(this.$FlyImageInput.attr("subnum"));
         this.options.imageUrl = verify(this.$FlyImageInput.attr("imageUrl"));
         this.options.imageWidth = verify(this.$FlyImageInput.attr("imageWidth"));
@@ -36,31 +33,21 @@
         var self = this.$FlyImageInput;
         var options = this.options;
         if (options.postData) {
-            var imageurl_div = $(
-                '<div style="margin:2px 0px 2px 0px;width:' + options.width + ';height:32px;float: left;">' +
-                '   <span style="width:80px;line-height:30px;vertical-align:middle;font-size: 15px">图片地址：</span>\n' +
-                '</div>');
-            var imageurl = $('<input name="' + options.subnum + '_imageUrl[]" value="' + options.imageUrl +
-                '"  style="width: calc(100% - 90px);height: 30px;border-width: 1px;border-color: #EFEFEF;" type="text" readonly>');
-            this.imageurl = imageurl;
-            imageurl_div.append(imageurl);
-            self.after(imageurl_div);
-
             var imageSize_div = $('<div style="width:' + options.width + ';">');
             var imageWidth_div = $(
-                '<div style="margin:2px 0px 2px 0px;width:50%;height:32px;float: left;">' +
+                '<div style="margin:2px 0px 2px 0px;width:33%;height:30px;float: left;">' +
                 '   <span style="width:80px;line-height:30px;vertical-align:middle;font-size: 15px">图片高度：</span>\n' +
                 '</div>');
-            var imageWidth = $('<input name="' + options.subnum + '_imageWidth[]" value="' + options.imageWidth +
+            var imageWidth = $('<input name="' + options.num + '_imageWidth[]" value="' + options.imageWidth +
                 '"  style="width: calc(100% - 90px);height: 30px;border-width: 1px;border-color: #EFEFEF;" type="text" readonly>');
             this.imageWidth = imageWidth;
             imageWidth_div.append(imageWidth);
 
             var imageHeight_div = $(
-                '<div style="margin:2px 0px 2px 0px;width:50%;height:32px;float: left;">' +
+                '<div style="margin:2px 0px 2px 0px;width:33%;height:30px;float: left;">' +
                 '   <span style="width:80px;line-height:30px;vertical-align:middle;font-size: 15px">图片高度：</span>\n' +
                 '</div>');
-            var imageHeight = $('<input name="' + options.subnum + '_imageHeight[]" value="' + options.imageHeight +
+            var imageHeight = $('<input name="' + options.num + '_imageHeight[]" value="' + options.imageHeight +
                 '" style="width: calc(100% - 90px);height: 30px;border-width: 1px;border-color: #EFEFEF;" type="text" readonly>');
             this.imageHeight = imageHeight;
             imageHeight_div.append(imageHeight);
@@ -71,7 +58,7 @@
         }
         if (options.showView) {
             self.css("display", "none");
-            var image_div = $('<div style="display: flex;align-items:center;justify-content:center;overflow:hidden;width:' +
+            var image_div = $('<div style="margin 0 30px 0 30px;display: flex;align-items:center;justify-content:center;overflow:hidden;width:' +
                 options.width + ';height:' + options.height + ';background:#9F9F9F"></div>');
             image_div.on('click', function () {
                 self.click();
@@ -81,20 +68,32 @@
             image_div.append(image);
             this.image = image;
             self.after(image_div);
-
-            var del = $('<div style="padding:3px 3px 3px 3px;cursor:pointer;position:absolute;right:12px;top:48px;' +
-                'width: 30px;line-height:28px;font-size: 24px;color:#000000;background: #FFFFFF">╳</div>');
-            del.on("click", function (event) {
-                image.attr('src', "");
-                if (options.postData) {
-                    imageurl.val("");
-                    imageWidth.val("");
-                    imageHeight.val("");
-                }
-                self.trigger("del", event);
-            });
-            self.after(del);
         }
+
+        if (options.postData) {
+            var imageurl_div = $(
+                '<div style="margin:2px 2px 2px 2px;width:calc(100% - 40px);height:32px;float: left;">' +
+                '   <span style="width:80px;line-height:30px;vertical-align:middle;font-size: 15px">图片地址：</span>\n' +
+                '</div>');
+            var imageurl = $('<input name="' + options.num + '_imageUrl[]" value="' + options.imageUrl +
+                '"  style="width: calc(100% - 90px);height: 30px;border-width: 1px;border-color: #EFEFEF;" type="text" readonly>');
+            this.imageurl = imageurl;
+            imageurl_div.append(imageurl);
+            self.after(imageurl_div);
+        }
+
+        var del = $('<button  id="imageDel_'+options.num+'_'+options.subnum+'" type="button" style="width:36px;line-height: 30px;float: right">╳</button>');
+        del.on("click", function (event) {
+            image.attr('src', "");
+            if (options.postData) {
+                imageurl.val("");
+                imageWidth.val("");
+                imageHeight.val("");
+            }
+            var data = {event: event, num: options.num, subnum: options.subnum};
+            self.trigger("del", data);
+        });
+        self.after(del);
     };
 
     FlyImageInput.prototype.initevent = function () {
@@ -124,13 +123,15 @@
                                     imageWidth.val(obj.data.width);
                                     imageHeight.val(obj.data.height);
                                 }
+                                obj.data.num = options.num;
+                                obj.data.subnum = options.subnum;
+                                self.trigger("success", obj.data);
                             } else {
                                 alert(obj.msg + "data" + obj.data);
                             }
                         } catch (e) {
                             alert("catch error:" + e);
                         }
-                        self.trigger("success", result);
                     },
                     error: function (result) {
                         alert("上传图片失败！");
