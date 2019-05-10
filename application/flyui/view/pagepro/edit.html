@@ -7,7 +7,7 @@
 <script type="text/javascript" src="__RES__/common/js/bootstrap.js"></script>
 <script type="text/javascript" src="__RES__/common/js/bootstrap-table.js"></script>
 <script type="text/javascript" src="__RES__/common/js/bootstrap-table-zh-CN.min.js"></script>
-<script type="text/javascript" src="__RES__/flyui/js/flyinput.js"></script>
+<script type="text/javascript" src="__RES__/flyui/js/flyimage.js"></script>
 <body>
 
 <form class="form-horizontal" name="celltypeform" id="celltypeform" method="post" role="form"
@@ -25,9 +25,9 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="imageinput" class="col-sm-1 control-label">背景图片</label>
+            <label class="col-sm-1 control-label">背景图片</label>
             <div class="col-sm-5">
-                <input type="file" accept="image/*" id="imageinput" name="imagefile">
+                <input class="FlyImageInput" type="file" accept="image/*" name="imagefile" imageUrl="{$item.imageurl}">
                 <input type="hidden" id="imageurl" name="imageurl" value="{$item.imageurl}">
             </div>
         </div>
@@ -62,8 +62,6 @@
 
 <script type="text/javascript">
     var pageurl = "{:url('/api/page')}";
-    var upimageurl = "{:url('/api/imagefile')}";
-    var imageurl = $('#imageurl').val();
     //POST提交数据
     function postform() {
         if ($('#pageName').val() === "") {
@@ -88,17 +86,14 @@
         });
     }
 
-    $('#imageinput').flyinput({
-        url: upimageurl,
-        image: imageurl,
-        autoup: true,
-        showPreview: true,
+    $('.FlyImageInput').flyinput({
+        ajaxurl: "{:url('/api/imagefile')}",
+        postData: false,
         width: "100%",
         height: "300px"
-    }).on("success", function (event, data) {
-        var result = JSON.parse(data);
-        $('#imageurl').val(result.data.saveName);
-    }).bind("del",function (e) {
+    }).bind("success", function (e, data) {
+        $('#imageurl').val(data.saveName);
+    }).bind("del", function (e, data) {
         $('#imageurl').val("");
     });
 

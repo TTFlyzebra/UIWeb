@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>页面编辑</title>
+</head>
+<link rel="stylesheet" type="text/css" href="__RES__/common/css/bootstrap.css">
+<script type="text/javascript" src="__RES__/common/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="__RES__/common/js/bootstrap.js"></script>
+<body>
+<div class="flycontent">
+    <div style="text-align: left;">
+        &nbsp;&nbsp;{$item.pageName}&nbsp;&nbsp;[{$item.width}X{$item.height}][{$item.remark}]
+    </div>
+    <div class="flyscreen"></div>
+    <div class="flymenu"></div>
+    <div class="flycontrl">
+        <label>显示删除</label><input class="showdelete" type="checkbox" checked="checked">
+        <label>位置微调</label><input class="showadjust" type="checkbox" checked="checked">
+        <button type="button" class="screenrefresh" class="btn btn-lg">重新加载</button>
+        <button type="button" class="screensave" class="btn btn-lg">保存设置</button>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="__RES__/flyui/js/flyscreenpro.js"></script>
+<script type="text/javascript">
+    $('.flyscreen').screen({
+        width: "{$item.width}",
+        height: "{$item.height}",
+        pageId: "{$item.pageId}",
+        url: "{:url('/api/pagecell')}",
+        defimgurl: "__RES__/flyui/img/default_cellmenu.png"
+    });
+
+    $('.flymenu').menu({
+        width: 380,
+        height: "{$item.height}",
+        url: "{:url('/api/cellpro')}",
+        defimgurl: "__RES__/flyui/img/default_cellmenu.png",
+        childw:120,
+        childh:120
+    });
+</script>
+</html>
+

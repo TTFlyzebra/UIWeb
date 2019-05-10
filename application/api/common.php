@@ -76,16 +76,15 @@ function getCell($data, $str = '0_')
 {
     $cell = array();
     if (isset($data[$str . "cellId"]) && $data[$str . "cellId"] > 0) {
-        if ($str == '0_') {
-            $cell["cellId"] = $data[$str . "cellId"];
-        } else {
-            $cell["subcellId"] = $data[$str . "cellId"];
-        }
+        $cell["cellId"] = $data[$str . "cellId"];
+    }
+    if (isset($data[$str . "subcellId"]) && $data[$str . "subcellId"] > 0) {
+        $cell["subcellId"] = $data[$str . "subcellId"];
     }
     $cell["description"] = $data[$str . "description"];
-    $cell["themeId"] = $data[$str . "themeId"];
-    $cell["celltypeId"] = $data[$str . "celltypeId"];
-    $cell["resId"] = $data[$str . "resId"];
+    $cell["themeId"] = (int)$data[$str . "themeId"];
+    $cell["celltypeId"] = (int)$data[$str . "celltypeId"];
+    $cell["resId"] = (int)$data[$str . "resId"];
     $cell["width"] = (int)$data[$str . "width"];
     $cell["height"] = (int)$data[$str . "height"];
     $cell["backColor"] = $data[$str . "backColor"];
@@ -95,38 +94,38 @@ function getCell($data, $str = '0_')
     if (isset($data[$str . "text"])) {
         for ($i = 0; $i < sizeof($data[$str . "text"]); $i++) {
             $texts[$i]['text'] = $data[$str . "text"][$i];
-            $texts[$i]['textSize'] = $data[$str . "textSize"][$i];
-            $texts[$i]['textLines'] = $data[$str . "textLines"][$i];
+            $texts[$i]['textSize'] = (int)$data[$str . "textSize"][$i];
+            $texts[$i]['textLines'] = (int)$data[$str . "textLines"][$i];
             $texts[$i]['textColor'] = $data[$str . "textColor"][$i];
             $texts[$i]['textFilter'] = $data[$str . "textFilter"][$i];
-            $texts[$i]['left'] = $data[$str . "textLeft"][$i];
-            $texts[$i]['top'] = $data[$str . "textTop"][$i];
-            $texts[$i]['right'] = $data[$str . "textRight"][$i];
-            $texts[$i]['bottom'] = $data[$str . "textBottom"][$i];
-            $texts[$i]['gravity'] = $data[$str . "textGravity"][$i];
+            $texts[$i]['left'] = (int)$data[$str . "textLeft"][$i];
+            $texts[$i]['top'] = (int)$data[$str . "textTop"][$i];
+            $texts[$i]['right'] = (int)$data[$str . "textRight"][$i];
+            $texts[$i]['bottom'] = (int)$data[$str . "textBottom"][$i];
+            $texts[$i]['gravity'] = (int)$data[$str . "textGravity"][$i];
             $texts[$i]['recv'] = $data[$str . "textRecv"][$i];
             $texts[$i]['send'] = $data[$str . "textSend"][$i];
         }
         $cell["texts"] = json_encode($texts);
-    }else{
+    } else {
         $cell["texts"] = "[]";
     }
     if (isset($data[$str . "imageUrl"])) {
         for ($i = 0; $i < sizeof($data[$str . "imageUrl"]); $i++) {
-            $images[$i]['width'] = $data[$str . "imageWidth"][$i];
-            $images[$i]['height'] = $data[$str . "imageHeight"][$i];
+            $images[$i]['width'] = (int)$data[$str . "imageWidth"][$i];
+            $images[$i]['height'] =(int) $data[$str . "imageHeight"][$i];
             $images[$i]['url'] = $data[$str . "imageUrl"][$i];
             $images[$i]['filterColor'] = $data[$str . "imageFilter"][$i];
-            $images[$i]['left'] = $data[$str . "imageLeft"][$i];
-            $images[$i]['top'] = $data[$str . "imageTop"][$i];
-            $images[$i]['right'] = $data[$str . "imageRight"][$i];
-            $images[$i]['bottom'] = $data[$str . "imageBottom"][$i];
-            $images[$i]['scaleType'] = $data[$str . "scaleType"][$i];
+            $images[$i]['left'] = (int)$data[$str . "imageLeft"][$i];
+            $images[$i]['top'] = (int)$data[$str . "imageTop"][$i];
+            $images[$i]['right'] = (int)$data[$str . "imageRight"][$i];
+            $images[$i]['bottom'] =(int) $data[$str . "imageBottom"][$i];
+            $images[$i]['scaleType'] =(int) $data[$str . "scaleType"][$i];
             $images[$i]['recv'] = $data[$str . "imageRecv"][$i];
             $images[$i]['send'] = $data[$str . "imageSend"][$i];
         }
         $cell["images"] = json_encode($images);
-    }else{
+    } else {
         $cell["images"] = "[]";
     }
     $pages = [];

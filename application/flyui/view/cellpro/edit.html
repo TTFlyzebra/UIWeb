@@ -35,9 +35,9 @@
 </body>
 </html>
 <script type="text/javascript">
-    var cellnum = 0;
-    var imagesNum = [];
-    var textsNum = [];
+    cellnum = 0;
+    imagesNum = [];
+    textsNum = [];
 
     function verify(value) {
         return value === undefined ? '' : value;
@@ -51,11 +51,20 @@
         return num > 0 ? '<button  id="cellDel_' + num + '" type="button" style="width:36px;line-height: 30px;float: right">╳</button>' : '';
     }
 
-    function inputCellId(cellId, num) {
-        if (undefined === cellId || cellId <= 0) {
-            return "";
+    function inputCellId(cell, num) {
+        if (num > 0) {
+            if (undefined === cell.subcellId || cell.subcellId <= 0) {
+                return "";
+            } else {
+                return '<input type="hidden" name="' + num + '_cellId" value="' + cell.cellId + '">' +
+                    '<input type="hidden" name="' + num + '_subcellId" value="' + cell.subcellId + '"> ';
+            }
         } else {
-            return '<input type="hidden" name="' + num + '_cellId" value="' + cellId + '"> ';
+            if (undefined === cell.cellId || cell.cellId <= 0) {
+                return "";
+            } else {
+                return '<input type="hidden" name="' + num + '_cellId" value="' + cell.cellId + '"> ';
+            }
         }
     }
 
@@ -66,21 +75,22 @@
                 filterColor: "", recv: "", send: "", remark: "", texts: [], images: [], newcreate: true
             };
         }
+        var display = num > 0 ? "display:none" : "";
         var cellTab = $('<li><a href="#cell' + num + '" data-toggle="tab">组件</a></li>');
         var cellTabContent = $(
             '<div class="tab-pane fade in" id="cell' + num + '">' +
             '    <div class="modal-body">' + inputDelButton(num) +
             '        <div class="form-group">' +
-            '            <input type="hidden" name="cell[]" value="' + num + '_">' + inputCellId(cell.cellId, num) +
+            '            <input type="hidden" name="prefix[]" value="' + num + '_">' + inputCellId(cell, num) +
             '            <div style="margin-right:50px;width: 45%;height: 100%;float: left;">' +
             '               <div class="col-sm-12" style="margin:0px 0px 0px 50px;padding:2px 2px 2px 2px;border:solid;border-width:1px;border-color:#000000;">' +
             '                   <label style="padding:9px 9px 9px 14px;width: 100%" >基本属性</label>' +
-            '                   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '                   <div style="margin:2px 2px 2px 2px;height:30px;float:left;'+display+'">' +
             '                       组件描述:' +
             '                       <input name="' + num + '_description" style="width:95px;height:30px;" type="text" ' +
             '                              value="' + verify(cell.description) + '" placeholder="">' +
             '                   </div>' +
-            '                   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '                   <div style="margin:2px 2px 2px 2px;height:30px;float:left;'+display+'">' +
             '                       关联模板:' +
             '                       <select name="' + num + '_themeId" style="height:30px;border:solid;border-width:1px;border-color:#000000;">' +
             '                          {volist name="themes" id="theme" key="k"}' +
@@ -88,7 +98,7 @@
             '                          {/volist}' +
             '                       </select>' +
             '                   </div>' +
-            '                   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '                   <div style="margin:2px 2px 2px 2px;height:30px;float:left;'+display+'">' +
             '                       组件类型:' +
             '                       <select name="' + num + '_celltypeId" style="height:30px;border:solid;border-width:1px;border-color:#000000;">' +
             '                          {volist name="celltypes" id="celltype" key="k"}' +
@@ -96,7 +106,7 @@
             '                          {/volist}' +
             '                       </select>' +
             '                   </div>' +
-            '                   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '                   <div style="margin:2px 2px 2px 2px;height:30px;float:left;'+display+'">' +
             '                       RESID:' +
             '                       <input name="' + num + '_resId" style="width:60px;height:30px;" type="text" ' +
             '                              value="' + verify(cell.resId) + '" placeholder="">' +
@@ -163,7 +173,11 @@
             '</div>');
         $('#cellTab').get(0).append(cellTab.get(0));
         $('#cellTabContent').get(0).append(cellTabContent.get(0));
-        $('#cellTab a:last').click();
+
+        if (cell.newcreate || num === 0) {
+            $('#cellTab a:last').click();
+        }
+
         textsNum[num] = (cell.texts === null || cell.texts === undefined) ? 0 : cell.texts.length;
         imagesNum[num] = (cell.images === null || cell.images === undefined) ? 0 : cell.images.length;
         if (!cell.newcreate) {
@@ -392,7 +406,12 @@
                 $('#loading').fadeOut(100);
                 var obj = JSON.parse(data);
                 if (obj.code === 0) {
-                    window.history.back();
+                    if (id > 0) {
+                        refreshCell(id);
+                        // window.history.back();
+                    } else {
+                        window.history.back();
+                    }
                 } else {
                     alert(obj.msg);
                 }
@@ -401,6 +420,15 @@
     }
 
     function refreshCell(id) {
+        cellnum = 0;
+        imagesNum = [];
+        textsNum = [];
+        $('#cellTab').get(0).innerHTML =
+            '<li style="float:right;">' +
+            '   <button type="button" onclick="addNewCell();" style="width:36px;line-height: 30px;float: right">╋</button>' +
+            '</li>';
+        $('#cellTabContent').get(0).innerHTML = "";
+
         $.ajax({
             type: "GET",
             url: "{:url('/api/cellPro')}?id=" + id,
@@ -413,7 +441,13 @@
                 if (obj.code === 0) {
                     var cell = obj.data;
                     addCell(0, cell);
-                    cellnum = 1;
+                    cellnum++;
+                    if (cell.subCells !== undefined && cell.subCells.length > 0) {
+                        for (var i = 0; i < cell.subCells.length; i++) {
+                            addCell(i + 1, cell.subCells[i]);
+                            cellnum++;
+                        }
+                    }
                 }
             }
         });

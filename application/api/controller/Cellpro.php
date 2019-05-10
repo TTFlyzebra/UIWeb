@@ -11,7 +11,7 @@ class Cellpro extends BaseRestful
     public function index()
     {
         $tableName = 'cellpro';
-        $order = 'cellId asc';
+        $order = 'uptime desc';
         $joins = [
             [
                 "fly_celltype b",
@@ -26,49 +26,101 @@ class Cellpro extends BaseRestful
         ];
         $field = ['a.cellId', 'a.description', 'a.themeId', 'a.celltypeId', 'c.themeName', 'a.resId', 'a.width', 'a.height',
             'a.backColor', 'a.filterColor', 'a.recv', 'a.send', 'a.texts', 'a.images', 'a.pages', 'a.remark', 'a.uptime',
-            'b.celltype', 'b.celltypeName', 'b.imageurl' => 'typeimageurl'];
+            'b.celltype', 'b.celltypeName'];
         $request = Request::instance();
         if ($request->isPost()) {
             $table = $request->post();
-            $cell = getCell($table);
-            $result = Db::name($tableName)->insert($cell, false, true);
-            if ($result) {
-                //TODO:添加子组件
-//                if ($request->has('subcell')) {
-//                    $subs = $table['subcell'];
-//                    for ($i = 1; $i < sizeof($subs); $i++) {
-//                        $subcell = getCell($table, $subs[$i]);
-//                        $subcell['cellId'] = $result;
-//                        $subcells[] = $subcell;
-//                    }
-//                    Db::name('cellsub')->insertAll($subcells);
-//                }
-                echo retJsonMsg();
-                $table['cellId'] = $result;
-                saveLog(Config::get('event')['add'], $tableName, $cell);
+            $prefixs = $table['prefix'];
+            $prefixSize = is_array($prefixs) ? sizeof($prefixs) : 0;
+            if ($prefixSize > 0) {
+                $maincell = getCell($table, $prefixs[0]);
+                $result = Db::name($tableName)->insert($maincell, false, true);
+                if ($result) {
+                    //添加子组件
+                    if ($prefixSize > 1) {
+                        for ($pi = 1; $pi < $prefixSize; $pi++) {
+                            $subcell = getCell($table, $prefixs[$pi]);
+                            $subcell['cellId'] = $result;
+                            $subcells[] = $subcell;
+                        }
+                        $subresult = Db::name('subcell')->insertAll($subcells);
+                        if ($subresult) {
+                            saveLog(Config::get('event')['add'], "subcell", $subcells);
+                        } else {
+                            saveLog(Config::get('event')['error'], "subcell", $subcells);
+                        }
+                    }
+                    $maincell['cellId'] = $result;
+                    saveLog(Config::get('event')['add'], $tableName, $maincell);
+                    echo retJsonMsg();
+                } else {
+                    saveLog(Config::get('event')['error'], $tableName, $maincell);
+                    echo retJsonMsg('add failed', -1, $result);
+                }
             } else {
-                echo retJsonMsg('add failed', -1, $result);
+                echo retJsonMsg('parameter error', -1);
             }
         } elseif ($request->isPut()) {
             $table = $request->put();
-            $cell = getCell($table);
-            $result = Db::name($tableName)->update($cell);
-            if ($result >= 0) {
-                //TODO:添加子组件
-//                Db::name('cellsub')->where('cellId', $table['cellId'])->delete();
-//                if ($request->has('subcell')) {
-//                    $subs = $table['subcell'];
-//                    for ($i = 0; $i < sizeof($subs); $i++) {
-//                        $subcell = $this->getCell($table, $subs[$i]);
-//                        $subcell['cellId'] = $table['cellId'];
-//                        $subcells[] = $subcell;
-//                    }
-//                    Db::name('cellsub')->insertAll($subcells);
-//                }
-                echo retJsonMsg();
-                saveLog(Config::get('event')['edit'], $tableName, $table);
+            $prefixs = $table['prefix'];
+            $prefixSize = is_array($prefixs) ? sizeof($prefixs) : 0;
+            if ($prefixSize > 0) {
+                $maincell = getCell($table, $prefixs[0]);
+                //TODO:编辑子组件 有时间优化操作，只更新不删除，性能优化
+                if ($prefixSize > 1) {
+                    //删除要删除的
+                    $subcellIds = Db::name('subcell')->field('subcellId')->where('cellId', $maincell['cellId'])->select();
+                    if ($subcellIds) {
+                        for ($si = 0; $si < sizeof($subcellIds); $si++) {
+                            $subId = $subcellIds[$si]['subcellId'];
+                            $find = false;
+                            for ($pi = 1; $pi < $prefixSize; $pi++) {
+                                if (isset($table[$prefixs[$pi] . "subcellId"]) && ($table[$prefixs[$pi] . "subcellId"] == $subId)) {
+                                    $find = true;
+                                    break;
+                                }
+                            }
+                            if (!$find) {
+                                $subresult = Db::name('subcell')->where('subcellId', $subId)->delete();
+                                if ($subresult) {
+                                    saveLog(Config::get('event')['del'], "subcell", $subId);
+                                } else {
+                                    saveLog(Config::get('event')['error'], "subcell", $subId);
+                                }
+                            }
+                        }
+                    }
+                    //更新添加子组件
+                    for ($pi = 1; $pi < $prefixSize; $pi++) {
+                        $subcell = getCell($table, $prefixs[$pi]);
+                        $subcell['cellId'] = $maincell['cellId'];
+                        if (isset($subcell["subcellId"])) {
+                            $subresult = Db::name('subcell')->update($subcell);
+                            if ($subresult) {
+                                saveLog(Config::get('event')['edit'], "subcell", $subcell);
+                            } else {
+                                saveLog(Config::get('event')['error'], "subcell", $subcell);
+                            }
+                        } else {
+                            $subresult = Db::name('subcell')->insert($subcell);
+                            if ($subresult) {
+                                saveLog(Config::get('event')['add'], "subcell", $subcell);
+                            } else {
+                                saveLog(Config::get('event')['error'], "subcell", $subcell);
+                            }
+                        }
+                    }
+                }
+                $result = Db::name($tableName)->update($maincell);
+                if ($result >= 0) {
+                    saveLog(Config::get('event')['edit'], $tableName, $maincell);
+                    echo retJsonMsg();
+                } else {
+                    saveLog(Config::get('event')['error'], $tableName, $maincell);
+                    echo retJsonMsg('edit failed', -1, $result);
+                }
             } else {
-                echo retJsonMsg('edit failed', -1, $result);
+                echo retJsonMsg('parameter error', -1);
             }
         } elseif ($request->isDelete()) {
             $deltable = $request->delete();
@@ -103,21 +155,17 @@ class Cellpro extends BaseRestful
             }
             $db->where('a.status', 1);
             if ($request->has('id', 'get')) {
-                $cell = $db->where('cellId', $_GET['id'])->find();
-                if ($cell) {
-                    $cell['texts'] = json_decode($cell['texts']);
-                    $cell['images'] = json_decode($cell['images']);
-                    $cell['pages'] = json_decode($cell['pages']);
-                    echo retJsonMsg("find ok!", 0, $cell);
+                $maincell = $db->where('cellId', $_GET['id'])->find();
+                if ($maincell) {
+                    $maincell = $this->completeCell($maincell);
+                    echo retJsonMsg("find ok!", 0, $maincell);
                 } else {
                     echo retJsonMsg('find failed!', -1);
                 }
             } else {
                 $cells = $db->select();
-                for ($i = 0; $i < sizeof($cells); $i++) {
-                    $cells[$i]['texts'] = json_decode($cells[$i]['texts']);
-                    $cells[$i]['images'] = json_decode($cells[$i]['images']);
-                    $cells[$i]['pages'] = json_decode($cells[$i]['pages']);
+                for ($pi = 0; $pi < sizeof($cells); $pi++) {
+                    $cells[$pi] = $this->completeCell($cells[$pi]);
                 }
                 if ($cells) {
                     if ($request->isAjax() && $request->has('limit', 'get') && $request->has('offset', 'get')) {
@@ -127,7 +175,7 @@ class Cellpro extends BaseRestful
                         $resultdata['code'] = 0;
                         echo json_encode($resultdata);
                     } else {
-                        echo retJsonMsg("list ok", 0, json_encode($cells));
+                        echo retJsonMsg("list ok", 0, $cells);
                     }
                 } else {
                     echo retJsonMsg('error!', -1, $cells);
@@ -136,5 +184,30 @@ class Cellpro extends BaseRestful
 
         }
 
+    }
+
+    public function completeCell($cell)
+    {
+        $cell['texts'] = json_decode($cell['texts']);
+        $cell['images'] = json_decode($cell['images']);
+        $cell['pages'] = json_decode($cell['pages']);
+        $subfield = ['a.subcellId', 'a.cellId', 'a.description', 'a.themeId', 'a.celltypeId', 'c.themeName', 'a.resId', 'a.width', 'a.height',
+            'a.backColor', 'a.filterColor', 'a.recv', 'a.send', 'a.texts', 'a.images', 'a.pages', 'a.remark', 'a.uptime',
+            'b.celltype', 'b.celltypeName'];
+        $db = Db::name('subcell');
+        $db->alias('a');
+        $db->join("fly_celltype b", "a.celltypeId=b.celltypeId", 'INNER');
+        $db->join("fly_theme c", "a.themeId=c.themeId", 'INNER');
+        $db->field($subfield);
+        $subcells = $db->where('cellId', $cell['cellId'])->select();
+        if ($subcells) {
+            for ($i = 0; $i < sizeof($subcells); $i++) {
+                $subcells[$i]['texts'] = json_decode($subcells[$i]['texts']);
+                $subcells[$i]['images'] = json_decode($subcells[$i]['images']);
+                $subcells[$i]['pages'] = json_decode($subcells[$i]['pages']);
+            }
+            $cell['subCells'] = $subcells;
+        }
+        return $cell;
     }
 }

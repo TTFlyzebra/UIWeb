@@ -281,6 +281,10 @@ return [
         'logout'=>[
             'name'=>'logout',
             'text'=>'离开了 。'
+        ],
+        'error'=>[
+            'name'=>'error',
+            'text'=>'数据库操作失败 。'
         ]
     ]
 

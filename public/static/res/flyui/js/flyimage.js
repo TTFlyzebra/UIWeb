@@ -21,7 +21,7 @@
         ajaxurl: undefined,
         autoup: true,
         showView: true,
-        postData: true,
+        postData: false,
         imageUrl: "",
         imageWidth: "",
         imageHeight: "",
@@ -39,7 +39,7 @@
                 '   <span style="width:80px;line-height:30px;vertical-align:middle;font-size: 15px">图片高度：</span>\n' +
                 '</div>');
             var imageWidth = $('<input name="' + options.num + '_imageWidth[]" value="' + options.imageWidth +
-                '"  style="width: calc(100% - 90px);height: 30px;border-width: 1px;border-color: #EFEFEF;" type="text" readonly>');
+                '"  style="width: calc(100% - 90px);height: 30px;border-width: 1px;border-color: #EFEFEF;" type="text">');
             this.imageWidth = imageWidth;
             imageWidth_div.append(imageWidth);
 
@@ -48,7 +48,7 @@
                 '   <span style="width:80px;line-height:30px;vertical-align:middle;font-size: 15px">图片高度：</span>\n' +
                 '</div>');
             var imageHeight = $('<input name="' + options.num + '_imageHeight[]" value="' + options.imageHeight +
-                '" style="width: calc(100% - 90px);height: 30px;border-width: 1px;border-color: #EFEFEF;" type="text" readonly>');
+                '" style="width: calc(100% - 90px);height: 30px;border-width: 1px;border-color: #EFEFEF;" type="text">');
             this.imageHeight = imageHeight;
             imageHeight_div.append(imageHeight);
 
@@ -82,7 +82,8 @@
             self.after(imageurl_div);
         }
 
-        var del = $('<button  id="imageDel_'+options.num+'_'+options.subnum+'" type="button" style="width:36px;line-height: 30px;float: right">╳</button>');
+        var del = $('<button  id="imageDel_'+options.num+'_'+options.subnum+'" type="button" ' +
+            'style="width:36px;line-height: 30px;float: right;right:16px;top:1px;">╳</button>');
         del.on("click", function (event) {
             image.attr('src', "");
             if (options.postData) {
@@ -93,6 +94,10 @@
             var data = {event: event, num: options.num, subnum: options.subnum};
             self.trigger("del", data);
         });
+        if(!options.postData){
+            del.css("width")
+            del.css("position","absolute");
+        }
         self.after(del);
     };
 
