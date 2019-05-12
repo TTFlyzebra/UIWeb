@@ -323,7 +323,7 @@ var _delete = function (cell, bshow) {
         $.ajax({
             url: this.options.url,
             type: "POST",
-            data: "jsondata=" + cellListJson + "&pageId=" + id,
+            data: {jsondata:cellListJson,pageId:id},
             dataType: 'html',
             error: function (request) {
                 alert("向服务器提交页面数据更新失败!");

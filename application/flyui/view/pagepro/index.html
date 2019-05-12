@@ -7,7 +7,6 @@
 <script type="text/javascript" src="__RES__/common/js/bootstrap.js"></script>
 <script type="text/javascript" src="__RES__/common/js/bootstrap-table.js"></script>
 <script type="text/javascript" src="__RES__/common/js/bootstrap-table-zh-CN.min.js"></script>
-<script type="text/javascript" src="__RES__/flyui/js/flyinput.js"></script>
 <body>
 
 <div id="toolbar" class="btn-group">
@@ -82,6 +81,22 @@
                         }
                     }
                 }, {
+                    field: 'width',
+                    title: '分辨率',
+                    halign: "center",
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        return value + "X" + row.height;
+                    }
+                }, {
+                    field: 'pageId',
+                    title: '操作',
+                    halign: "center",
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        return '<a  href="{:url(\'/flyui/screen/pro\')}?id=' + value + '">编辑页面</a>';
+                    }
+                }, {
                     field: 'imageurl',
                     title: '背景图片',
                     halign: "center",
@@ -92,25 +107,9 @@
                             '</div>';
                     }
                 }, {
-                    field: 'width',
-                    title: '分辨率',
-                    halign: "center",
-                    align: 'center',
-                    formatter: function (value, row, index) {
-                        return value + "X" + row.height;
-                    }
-                }, {
                     field: 'remark',
                     title: '备注',
                     halign: "center"
-                }, {
-                    field: 'pageId',
-                    title: '操作',
-                    halign: "center",
-                    align: 'center',
-                    formatter: function (value, row, index) {
-                        return '<a  href="{:url(\'/flyui/screen/pro\')}?id=' + value + '">编辑页面</a>';
-                    }
                 }, {
                     field: 'edittime',
                     title: '修改时间',

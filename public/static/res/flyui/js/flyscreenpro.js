@@ -22,8 +22,8 @@ var trimPX = function (_px) {
 var createCellDiv = function (cell) {
     var cell_div = cellitem(cell);
     //图像
-    var image = childimage(cell);
-    cell_div.get(0).append(image.get(0));
+    // var image = childimage(cell);
+    // cell_div.get(0).append(image.get(0));
     //文字
     var text = childtext(cell);
     cell_div.get(0).append(text.get(0));
@@ -38,6 +38,22 @@ var cellitem = function (cell) {
     cell_div.css('height', cell.height + 'px');
     cell_div.css('left', cell.x + 'px');
     cell_div.css('top', cell.y + 'px');
+    //添加所有图像
+    if (cell.images !== undefined && cell.images.length > 0) {
+        for (var i = cell.images.length -1; i >=0; i--) {
+            var obj = cell.images[i];
+            var image = $('<img style="position: absolute;margin: auto;">');
+            image.css('left', obj.left + 'px');
+            image.css('top', obj.top + 'px');
+            image.css('right', obj.right + 'px');
+            image.css('bottom', obj.bottom + 'px');
+            image.attr('width', Math.min(cell.width, obj.width)  + 'px');
+            image.attr('height', Math.min(cell.height, obj.height)  + 'px');
+            image.attr('src', obj.url);
+            image.attr('ondragstart', 'return false;');
+            cell_div.get(0).append(image.get(0));
+        }
+    }
     return cell_div;
 };
 
@@ -48,7 +64,8 @@ var childimage = function (cell) {
     image_div.css('height', cell.height + 'px');
     image_div.css('left', 0 + 'px');
     image_div.css('top', 0 + 'px');
-    image_div.attr('src', cell.imageurl1);
+    image_div.attr('src', cell.images[0].url);
+    console.log(cell.images[0].url);
     image_div.attr('ondragstart', 'return false;');
     return image_div;
 };
@@ -191,9 +208,9 @@ var _delete = function (cell, bshow) {
         var self = this;
         var screen = this.screen;
         var cell_div = cellitem(cell);
-        //图像
-        var image = childimage(cell);
-        cell_div.get(0).append(image.get(0));
+        // //图像
+        // var image = childimage(cell);
+        // cell_div.get(0).append(image.get(0));
         //文字
         var text = childtext(cell);
         cell_div.get(0).append(text.get(0));
@@ -323,7 +340,7 @@ var _delete = function (cell, bshow) {
         $.ajax({
             url: this.options.url,
             type: "POST",
-            data: "jsondata=" + cellListJson + "&pageId=" + id,
+            data: {jsondata:cellListJson,pageId:id},
             dataType: 'html',
             error: function (request) {
                 alert("向服务器提交页面数据更新失败!");
