@@ -17,7 +17,7 @@
     正在提交请求......
 </div>
 <div class="modal-header">
-    <h4 class="modal-title">添加组件</h4>
+    <h4 class="modal-title" id="myModalLabel">{if condition="$id gt 0"}修改组件{else/}添加组件{/if}</h4>
 </div>
 <form class="form-horizontal" id="flyform" method="post" action="{:url('/api/test')}" enctype="multipart/form-data">
     <ul id="cellTab" class="nav nav-tabs">
