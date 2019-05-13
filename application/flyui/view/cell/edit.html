@@ -29,7 +29,7 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-default" onclick="onCancel()">取消</button>
         <button type="reset" class="btn btn-default">重置</button>
-        <button type="button" class="btn btn-primary" onclick="submitForm({$id})">提交</button>
+        <button type="button" class="btn btn-primary" onclick="postForm({$id})">提交</button>
     </div>
 </form>
 </body>
@@ -148,6 +148,17 @@
             '                   </div>' +
             '               </div>' +
             '               <div class="col-sm-12" style="height:392px;margin:10px 0px 0px 50px;padding:2px 2px 2px 2px;border:solid;border-width:1px;border-color:#000000;">' +
+            '                   <ul id="otherTab" class="nav nav-tabs">' +
+            '                       <li class="active"><a href="#other_1" data-toggle="tab">操作说明</a></li>' +
+            '                       <li><a href="#other_2" data-toggle="tab">控件预览</a></li>' +
+            '                   </ul>' +
+            '                   <div id ="otherContent' + num + '" class="tab-content">' +
+            '                       <div class="tab-pane fade in active" style="margin: 20px;" id="other_1">' +
+            '                       </div>' +
+            '                       <div class="tab-pane fade in" style="margin: 20px;" id="other_2">' +
+            '                           功能开发中......' +
+            '                       </div>' +
+            '                   </div>' +
             '               </div>' +
             '            </div>' +
             '            <div style="width: 45%;height: 100%;float: left;">' +
@@ -392,7 +403,7 @@
         window.history.back();
     }
 
-    function submitForm(id) {
+    function postForm(id) {
         $('#loading').fadeIn(100);
         $.ajax({
             type: id > 0 ? "PUT" : "POST",
