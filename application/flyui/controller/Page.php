@@ -11,12 +11,6 @@ class Page extends Auth {
 		return $this->fetch ();
 	}
 
-    public function add()
-    {
-        $this->assign('list',Db::name('theme')->select());
-        return $this->fetch();
-    }
-
     public function edit()
     {
         $this->assign('list',Db::name('theme')->select());

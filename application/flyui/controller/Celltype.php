@@ -13,11 +13,6 @@ class Celltype extends Auth
         return $this->fetch();
     }
 
-    public function add()
-    {
-        return $this->fetch();
-    }
-
     public function edit()
     {
         $request = Request::instance();
