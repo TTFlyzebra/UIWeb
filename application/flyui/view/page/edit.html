@@ -7,14 +7,14 @@
 <script type="text/javascript" src="__RES__/common/js/bootstrap.js"></script>
 <script type="text/javascript" src="__RES__/common/js/bootstrap-table.js"></script>
 <script type="text/javascript" src="__RES__/common/js/bootstrap-table-zh-CN.min.js"></script>
-<script type="text/javascript" src="__RES__/flyui/js/flyinput.js"></script>
+<script type="text/javascript" src="__RES__/flyui/js/flyimage.js"></script>
 <body>
 
 <form class="form-horizontal" name="celltypeform" id="celltypeform" method="post" role="form"
       action="{:url('/api/page')}"
       enctype="multipart/form-data">
     <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">修改页面</h4>
+        <h4 class="modal-title" id="myModalLabel">{if condition="$item['pageId'] gt 0"}修改页面{else/}添加页面{/if}</h4>
     </div>
     <div class="modal-body">
         <div class="form-group">
@@ -25,9 +25,9 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="imageinput" class="col-sm-1 control-label">背景图片</label>
+            <label class="col-sm-1 control-label">背景图片</label>
             <div class="col-sm-5">
-                <input type="file" accept="image/*" id="imageinput" name="imagefile">
+                <input class="FlyImageInput" type="file" accept="image/*" name="imagefile" imageUrl="{$item.imageurl}">
                 <input type="hidden" id="imageurl" name="imageurl" value="{$item.imageurl}">
             </div>
         </div>
@@ -47,14 +47,21 @@
         <div class="form-group">
             <label for="remark" class="col-sm-1 control-label">备注</label>
             <div class="col-sm-5">
-                 <textarea class="form-control" name="remark" id="remark" placeholder="添加页面描述，可用于检索。">{$item.remark}</textarea>
+                <textarea class="form-control" name="remark" id="remark" placeholder="添加页面描述，可用于检索。">{$item.remark}</textarea>
             </div>
         </div>
+        {if condition="$item['pageId'] gt 0"}
         <input type="hidden" name="pageId" id="pageId" value="{$item.pageId}">
+        {/if}
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" onclick="onCancel()">取消</button>
+        {if condition="$item['pageId'] gt 0"}
         <button type="button" class="btn btn-primary" onclick="postform()">修改</button>
+        {else/}
+        <button type="reset" class="btn btn-default">重置</button>
+        <button type="button" class="btn btn-primary" onclick="postform()">提交</button>
+        {/if}
     </div>
 </form>
 </body>
@@ -62,8 +69,7 @@
 
 <script type="text/javascript">
     var pageurl = "{:url('/api/page')}";
-    var upimageurl = "{:url('/api/imagefile')}";
-    var imageurl = $('#imageurl').val();
+
     //POST提交数据
     function postform() {
         if ($('#pageName').val() === "") {
@@ -71,7 +77,7 @@
             return;
         }
         $.ajax({
-            type: "PUT",
+            type: "{$item.pageId}" <= 0 ? "POST" : "PUT",
             url: pageurl,
             data: $('#celltypeform').serialize(),
             error: function (request) {
@@ -88,22 +94,19 @@
         });
     }
 
-    $('#imageinput').flyinput({
-        url: upimageurl,
-        image: imageurl,
-        autoup: true,
-        showPreview: true,
+    $('.FlyImageInput').flyinput({
+        ajaxurl: "{:url('/api/imagefile')}",
+        postData: false,
         width: "100%",
         height: "300px"
-    }).on("success", function (event, data) {
-        var result = JSON.parse(data);
-        $('#imageurl').val(result.data.saveName);
-    }).bind("del",function (e) {
+    }).bind("success", function (e, data) {
+        $('#imageurl').val(data.saveName);
+    }).bind("del", function (e, data) {
         $('#imageurl').val("");
     });
 
     function onCancel() {
-        window.location.href="{:url('/flyui/page')}";
+        window.location.href = "{:url('/flyui/page')}";
     }
 
 </script>

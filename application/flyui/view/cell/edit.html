@@ -4,338 +4,414 @@
 <link rel="stylesheet" type="text/css" href="__RES__/common/css/bootstrap-theme.css">
 <link rel="stylesheet" type="text/css" href="__RES__/common/css/bootstrap-table.css">
 <script type="text/javascript" src="__RES__/common/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="__RES__/common/js/jquery.serializejson.js"></script>
 <script type="text/javascript" src="__RES__/common/js/bootstrap.js"></script>
 <script type="text/javascript" src="__RES__/common/js/bootstrap-table.js"></script>
 <script type="text/javascript" src="__RES__/common/js/bootstrap-table-zh-CN.min.js"></script>
-<script type="text/javascript" src="__RES__/flyui/js/flyinput.js"></script>
+<script type="text/javascript" src="__RES__/flyui/js/flyimage.js"></script>
 <body>
-<form class="form-horizontal" name="celltypeform" id="celltypeform" method="post" role="form"
-      action="{:url('/admin/test')}" enctype="multipart/form-data">
-    <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">修改组件&nbsp</h4>
-    </div>
-    <ul id="myTab" class="nav nav-tabs">
-        <li class="active"><a href="#home" data-toggle="tab">主组件</a></li>
-        {volist name="list2" id="subcell" key="n"}
-        <li id="sub_{$n}_tab"><a href="#sub_{$n}_" data-toggle="tab">子组件</a></li>
-        {/volist}
+<!-- loading -->
+<div id="loading" style="z-index: 9999;position:absolute;left:0;right:0;top:80%;bottom:0;width:180px;height:30px;margin: auto;
+    border: solid 1px #666;background-color: #FFFFFF;box-shadow: 0 0 3px #666;display: none;
+    font-size: 20px;text-align: center;vertical-align:middle;">
+    正在提交请求......
+</div>
+<div class="modal-header">
+    <h4 class="modal-title">添加组件</h4>
+</div>
+<form class="form-horizontal" id="flyform" method="post" action="{:url('/api/test')}" enctype="multipart/form-data">
+    <ul id="cellTab" class="nav nav-tabs">
+        <li style="float:right;">
+            <button type="button" onclick="addNewCell();" style="width:36px;line-height: 30px;float: right">╋</button>
+        </li>
     </ul>
-    <div id="myTabContent" class="tab-content">
-        <div class="tab-pane fade in active" id="home">
-            <div class="modal-body">
-                <button type="button" style="width:40px;height:40px;position: absolute;top:10px;right: 10px;font-size: 24px;" onclick="addSub()">+</button>
-                <div class="form-group">
-                    <label class="col-sm-1 control-label">组件类型</label>
-                    <div class="col-sm-4">
-                        <h4 class="modal-title">
-                            <select id="celltypeId" name="celltypeId">
-                                {volist name="list1" id="celltype" key="k"}
-                                {if condition="$item['celltypeId'] eq $celltype['celltypeId']"}
-                                <option value="{$celltype.celltypeId}" selected="selected">{$celltype.celltypeName}
-                                </option>
-                                {else /}
-                                <option value="{$celltype.celltypeId}">{$celltype.celltypeName}</option>
-                                {/if}
-                                {/volist}
-                            </select>
-                        </h4>
-                    </div>
-                    <label class="col-sm-1 control-label">控&nbsp&nbsp件&nbsp&nbspID</label>
-                    <div class="col-sm-4">
-                        <input id="resId" class="form-control" name="resId" type="text" value="{$item.resId}" placeholder="组件ID，可以在Activity中引用">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-1 control-label">图&nbsp&nbsp片&nbsp&nbsp一</label>
-                    <div class="col-sm-4">
-                        <input type="file" accept="image/*" id="imageinput1" name="imagefile">
-                        <input type="hidden" id="imageurl1" name="imageurl1" value="{$item.imageurl1}">
-                    </div>
-                    <label class="col-sm-1 control-label">图&nbsp&nbsp片&nbsp&nbsp二</label>
-                    <div class="col-sm-4">
-                        <input type="file" accept="image/*" id="imageinput2" name="imagefile">
-                        <input type="hidden" id="imageurl2" name="imageurl2" value="{$item.imageurl2}">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-1 control-label">组件大小</label>
-                    <div class="col-sm-2">
-                        <input id="width" name="width" type="text" class="form-control" value="{$item.width}" placeholder="宽度(像素)">
-                    </div>
-                    <div class="col-sm-2">
-                        <input id="height" name="height" type="text" class="form-control" value="{$item.height}" placeholder="高度(像素)">
-                    </div>
-                    <label class="col-sm-1 control-label">背景颜色</label>
-                    <div class="col-sm-4">
-                        <input id="backcolor" name="backcolor" type="text" class="form-control" value="{$item.backcolor}" placeholder="设置了图片的情况下无效（设置格式为#FFFFFFFF）">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-1 control-label">文本内容</label>
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control" name="textTitle" id="textTitle" value="{$item.textTitle}" placeholder="文字显示">
-                    </div>
-                    <label class="col-sm-1 control-label">文本字体</label>
-                    <div class="col-sm-1">
-                        <input id="textSize" class="form-control" name="textSize" type="text" value="{$item.textSize}" placeholder="字体大小">
-                    </div>
-                    <div class="col-sm-1">
-                        <input id="textColor" class="form-control" name="textColor" type="text" value="{$item.textColor}" placeholder="字体颜色">
-                    </div>
-                    <div class="col-sm-2">
-                        <input id="textFont" class="form-control" name="textFont" type="text" value="{$item.textFont}" placeholder="字体样式">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-1 control-label">文本位置</label>
-                    <div class="col-sm-1">
-                        <input id="mLeft" class="form-control" name="mLeft" type="text" value="{$item.mLeft}" placeholder="LEFT">
-                    </div>
-                    <div class="col-sm-1">
-                        <input id="mTop" class="form-control" name="mTop" type="text" value="{$item.mTop}" placeholder="TOP">
-                    </div>
-                    <div class="col-sm-1">
-                        <input id="mRight" class="form-control" name="mRight" type="text" value="{$item.mRight}" placeholder="RIGHT">
-                    </div>
-                    <div class="col-sm-1">
-                        <input id="mBottom" class="form-control" name="mBottom" type="text" value="{$item.mBottom}" placeholder="BOTTOM">
-                    </div>
-                    <div class="col-sm-1">
-                        <input id="textLine" class="form-control" name="textLine" type="text" value="{$item.textLine}" placeholder="文本行数">
-                    </div>
-                    <div class="col-sm-1">
-                        <select style="width:99%;height: 34px;font-size: 16px" id="gravity" name="gravity">
-                            {volist name="gravitys" id="gravity" key="g"}
-                            {if condition="$item['gravity'] eq $gravity['value']"}
-                            <option value="{$gravity.value}" selected="selected">{$gravity.tag}</option>
-                            {else /}
-                            <option value="{$gravity.value}">{$gravity.tag}</option>
-                            {/if}
-                            {/volist}
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-1 control-label">发送事件</label>
-                    <div class="col-sm-4">
-                        <h4 class="modal-title">
-                            <select style="width:99%;height: 34px;font-size: 16px" id="sendAction" name="sendAction">
-                                <option value="0"></option>
-                                {volist name="actions" id="action" key="a"}
-                                {if condition="$item['sendAction'] eq $action['value']"}
-                                <option value="{$action.value}" selected="selected">{$action.tag}</option>
-                                {else /}
-                                <option value="{$action.value}">{$action.tag}</option>
-                                {/if}
-                                {/volist}
-                            </select>
-                        </h4>
-                    </div>
-                    <label class="col-sm-1 control-label">处理事件</label>
-                    <div class="col-sm-4">
-                        <h4 class="modal-title">
-                            <select style="width:99%;height: 34px;font-size: 16px" id="recvAction" name="recvAction">
-                                <option value="0"></option>
-                                {volist name="actions" id="action" key="a"}
-                                {if condition="$item['recvAction'] eq $action['value']"}
-                                <option value="{$action.value}" selected="selected">{$action.tag}</option>
-                                {else /}
-                                <option value="{$action.value}">{$action.tag}</option>
-                                {/if}
-                                {/volist}
-                            </select>
-                        </h4>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-1 control-label">组件事件</label>
-                    <div class="col-sm-8">
-                        <input id="clickevent" class="form-control" name="clickevent" type="text" value="{$item.clickevent}" placeholder="例如：activity=AAAA||service=BBBB">
-                    </div>
-                    <div class="col-sm-1">
-                        <button type="button" class="btn btn-default" onclick="createEventDialog('event')">生成事件辅助</button>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-1 control-label">备注</label>
-                    <div class="col-sm-9">
-                        <textarea class="form-control" name="remark" value="{$item.remark}" id="remark" placeholder="备注">{$item.remark}</textarea>
-                    </div>
-                </div>
-            </div>
-            <input type="hidden" name="cellId" id="cellId" value="{$item.cellId}">
-        </div>
-        {volist name="list2" id="subcell" key="n"}
-        <div class="tab-pane fade" id="sub_{$n}_">
-            <div class="modal-body">
-                <input type="hidden" name="subcell[]" value="sub_{$n}_">
-                <button type="button" style="width:40px;height:40px;position: absolute;top:10px;right: 10px;font-size: 24px;" onclick="addSub()">+</button>
-                <button id="delsub_{$n}_" onclick="delSub('{$n}')" type="button" style="width:40px;height:40px;position: absolute;top:10px;right: 50px;font-size: 24px;">-</button>
-                <div class="form-group">
-                    <label class="col-sm-1 control-label">组件类型</label>
-                    <div class="col-sm-4">
-                        <h4 class="modal-title">
-                            <select name="sub_{$n}_celltypeId">
-                                {volist name="list1" id="celltype" key="k"}
-                                {if condition="$subcell['celltypeId'] eq $celltype['celltypeId']"}
-                                <option value="{$celltype.celltypeId}" selected="selected">{$celltype.celltypeName}
-                                </option>
-                                {else /}
-                                <option value="{$celltype.celltypeId}">{$celltype.celltypeName}</option>
-                                {/if}
-                                {/volist}
-                            </select>
-                        </h4>
-                    </div>
-                    <label class="col-sm-1 control-label">控&nbsp&nbsp件&nbsp&nbspID</label>
-                    <div class="col-sm-4">
-                        <input id="sub_{$n}_resId" class="form-control" name="sub_{$n}_resId" type="text" value="{$subcell.resId}" placeholder="组件ID，可以在Activity中引用">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-1 control-label">图&nbsp&nbsp片&nbsp&nbsp一</label>
-                    <div class="col-sm-4">
-                        <input type="file" accept="image/*" id="sub_{$n}_imageinput1" name="imagefile">
-                        <input type="hidden" id="sub_{$n}_imageurl1" name="sub_{$n}_imageurl1" value="{$subcell.imageurl1}">
-                    </div>
-                    <label class="col-sm-1 control-label">图&nbsp&nbsp片&nbsp&nbsp二</label>
-                    <div class="col-sm-4">
-                        <input type="file" accept="image/*" id="sub_{$n}_imageinput2" name="imagefile">
-                        <input type="hidden" id="sub_{$n}_imageurl2" name="sub_{$n}_imageurl2" value="{$subcell.imageurl2}">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-1 control-label">组件大小</label>
-                    <div class="col-sm-2">
-                        <input id="sub_{$n}_width" name="sub_{$n}_width" type="text" class="form-control" value="{$subcell.width}" placeholder="宽度(像素)">
-                    </div>
-                    <div class="col-sm-2">
-                        <input id="sub_{$n}_height" name="sub_{$n}_height" type="text" class="form-control" value="{$subcell.height}" placeholder="高度(像素)">
-                    </div>
-                    <label class="col-sm-1 control-label">背景颜色</label>
-                    <div class="col-sm-4">
-                        <input id="sub_{$n}_backcolor" name="sub_{$n}_backcolor" type="text" class="form-control" value="{$subcell.backcolor}" placeholder="设置了图片的情况下无效（设置格式为#FFFFFFFF）">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-1 control-label">文本内容</label>
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control" name="sub_{$n}_textTitle" id="sub_{$n}_textTitle" value="{$subcell.textTitle}" placeholder="文字显示">
-                    </div>
-                    <label class="col-sm-1 control-label">文本字体</label>
-                    <div class="col-sm-1">
-                        <input id="sub_{$n}_textSize" class="form-control" name="sub_{$n}_textSize" type="text" value="{$subcell.textSize}" placeholder="字体大小">
-                    </div>
-                    <div class="col-sm-1">
-                        <input id="sub_{$n}_textColor" class="form-control" name="sub_{$n}_textColor" type="text" value="{$subcell.textColor}" placeholder="字体颜色">
-                    </div>
-                    <div class="col-sm-2">
-                        <input id="sub_{$n}_textFont" class="form-control" name="sub_{$n}_textFont" type="text" value="{$subcell.textFont}" placeholder="字体样式">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-1 control-label">文本位置</label>
-                    <div class="col-sm-1">
-                        <input id="sub_{$n}_mLeft" class="form-control" name="sub_{$n}_mLeft" type="text" value="{$subcell.mLeft}" placeholder="LEFT">
-                    </div>
-                    <div class="col-sm-1">
-                        <input id="sub_{$n}_mTop" class="form-control" name="sub_{$n}_mTop" type="text" value="{$subcell.mTop}" placeholder="TOP">
-                    </div>
-                    <div class="col-sm-1">
-                        <input id="sub_{$n}_mRight" class="form-control" name="sub_{$n}_mRight" type="text" value="{$subcell.mRight}" placeholder="RIGHT">
-                    </div>
-                    <div class="col-sm-1">
-                        <input id="sub_{$n}_mBottom" class="form-control" name="sub_{$n}_mBottom" type="text" value="{$subcell.mBottom}" placeholder="BOTTOM">
-                    </div>
-                    <div class="col-sm-1">
-                        <input id="sub_{$n}_textLine" class="form-control" name="sub_{$n}_textLine" type="text" value="{$item.textLine}" placeholder="文本行数">
-                    </div>
-                    <div class="col-sm-1">
-                        <select style="width:99%;height: 34px;font-size: 16px" id="sub_{$n}_gravity" name="sub_{$n}_gravity">
-                            {volist name="gravitys" id="gravity" key="g"}
-                            {if condition="$subcell['gravity'] eq $gravity['value']"}
-                            <option value="{$gravity.value}" selected="selected">{$gravity.tag}</option>
-                            {else /}
-                            <option value="{$gravity.value}">{$gravity.tag}</option>
-                            {/if}
-                            {/volist}
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-1 control-label">发送事件</label>
-                    <div class="col-sm-4">
-                        <h4 class="modal-title">
-                            <select style="width:99%;height: 34px;font-size: 16px" id="sub_{$n}_sendAction" name="sub_{$n}_sendAction">
-                                <option value="0"></option>
-                                {volist name="actions" id="action" key="a"}
-                                {if condition="$subcell['sendAction'] eq $action['value']"}
-                                <option value="{$action.value}" selected="selected">{$action.tag}</option>
-                                {else /}
-                                <option value="{$action.value}">{$action.tag}</option>
-                                {/if}
-                                {/volist}
-                            </select>
-                        </h4>
-                    </div>
-                    <label class="col-sm-1 control-label">处理事件</label>
-                    <div class="col-sm-4">
-                        <h4 class="modal-title">
-                            <select style="width:99%;height: 34px;font-size: 16px" id="sub_{$n}_recvAction" name="sub_{$n}_recvAction">
-                                <option value="0"></option>
-                                {volist name="actions" id="action" key="z"}
-                                {if condition="$subcell['recvAction'] eq $action['value']"}
-                                <option value="{$action.value}" selected="selected">{$action.tag}</option>
-                                {else /}
-                                <option value="{$action.value}">{$action.tag}</option>
-                                {/if}
-                                {/volist}
-                            </select>
-                        </h4>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-1 control-label">组件事件</label>
-                    <div class="col-sm-8">
-                        <input id="sub_{$n}_clickevent" class="form-control" name="sub_{$n}_clickevent" type="text" value="{$subcell.clickevent}" placeholder="例如：activity=AAAA||service=BBBB">
-                    </div>
-                    <div class="col-sm-1">
-                        <button type="button" class="btn btn-default" onclick="createEventDialog('sub_{$n}_event')">生成事件辅助</button>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-1 control-label">备注</label>
-                    <div class="col-sm-9">
-                        <textarea class="form-control" name="sub_{$n}_remark" value="" id="sub_{$n}_remark" placeholder="备注">{$subcell.remark}</textarea>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {/volist}
-    </div>
+    <div id="cellTabContent" class="tab-content"></div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" onclick="onCancel()">取消</button>
-        <button type="button" class="btn btn-primary" onclick="postform()">修改</button>
+        <button type="reset" class="btn btn-default">重置</button>
+        <button type="button" class="btn btn-primary" onclick="submitForm({$id})">提交</button>
     </div>
 </form>
 </body>
 </html>
-
 <script type="text/javascript">
-    var subcellnum = {$subnum} + 1;
+    cellnum = 0;
+    imagesNum = [];
+    textsNum = [];
 
-    function postform() {
+    function verify(value) {
+        return value === undefined ? '' : value;
+    }
+
+    function isSelect(v1, v2) {
+        return v1 == v2 ? ' selected="selected"' : '';
+    }
+
+    function inputDelButton(num) {
+        return num > 0 ? '<button  id="cellDel_' + num + '" type="button" style="width:36px;line-height: 30px;float: right">╳</button>' : '';
+    }
+
+    function inputCellId(cell, num) {
+        if (num > 0) {
+            if (undefined === cell.subcellId || cell.subcellId <= 0) {
+                return "";
+            } else {
+                return '<input type="hidden" name="' + num + '_cellId" value="' + cell.cellId + '">' +
+                    '<input type="hidden" name="' + num + '_subcellId" value="' + cell.subcellId + '"> ';
+            }
+        } else {
+            if (undefined === cell.cellId || cell.cellId <= 0) {
+                return "";
+            } else {
+                return '<input type="hidden" name="' + num + '_cellId" value="' + cell.cellId + '"> ';
+            }
+        }
+    }
+
+    function addCell(num, cell) {
+        if (cell === undefined) {
+            cell = {
+                description: "", themeId: "", celltypeId: "", width: "", height: "", backColor: "",
+                filterColor: "", recv: "", send: "", remark: "", texts: [], images: [], newcreate: true
+            };
+        }
+        var display = num > 0 ? "display:none" : "";
+        var cellTab = $('<li><a href="#cell' + num + '" data-toggle="tab">组件</a></li>');
+        var cellTabContent = $(
+            '<div class="tab-pane fade in" id="cell' + num + '">' +
+            '    <div class="modal-body">' + inputDelButton(num) +
+            '        <div class="form-group">' +
+            '            <input type="hidden" name="prefix[]" value="' + num + '_">' + inputCellId(cell, num) +
+            '            <div style="margin-right:50px;width: 45%;height: 100%;float: left;">' +
+            '               <div class="col-sm-12" style="margin:0px 0px 0px 50px;padding:2px 2px 2px 2px;border:solid;border-width:1px;border-color:#000000;">' +
+            '                   <label style="padding:9px 9px 9px 14px;width: 100%" >基本属性</label>' +
+            '                   <div style="margin:2px 2px 2px 2px;height:30px;float:left;'+display+'">' +
+            '                       组件描述:' +
+            '                       <input name="' + num + '_description" style="width:95px;height:30px;" type="text" ' +
+            '                              value="' + verify(cell.description) + '" placeholder="">' +
+            '                   </div>' +
+            '                   <div style="margin:2px 2px 2px 2px;height:30px;float:left;'+display+'">' +
+            '                       关联模板:' +
+            '                       <select name="' + num + '_themeId" style="height:30px;border:solid;border-width:1px;border-color:#000000;">' +
+            '                          {volist name="themes" id="theme" key="k"}' +
+            '                           <option value="{$theme.themeId}"' + isSelect("{$theme.themeId}", cell.themeId) + '>{$theme.themeName}</option>' +
+            '                          {/volist}' +
+            '                       </select>' +
+            '                   </div>' +
+            '                   <div style="margin:2px 2px 2px 2px;height:30px;float:left;'+display+'">' +
+            '                       组件类型:' +
+            '                       <select name="' + num + '_celltypeId" style="height:30px;border:solid;border-width:1px;border-color:#000000;">' +
+            '                          {volist name="celltypes" id="celltype" key="k"}' +
+            '                           <option value="{$celltype.celltypeId}" ' + isSelect("{$celltype.celltypeId}", cell.celltypeId) + '>{$celltype.celltypeName}</option>' +
+            '                          {/volist}' +
+            '                       </select>' +
+            '                   </div>' +
+            '                   <div style="margin:2px 2px 2px 2px;height:30px;float:left;'+display+'">' +
+            '                       RESID:' +
+            '                       <input name="' + num + '_resId" style="width:60px;height:30px;" type="text" ' +
+            '                              value="' + verify(cell.resId) + '" placeholder="">' +
+            '                   </div>' +
+            '                   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '                       组件宽度:' +
+            '                       <input name="' + num + '_width" id="' + num + '_width" style="width:95px;height:30px;" type="text" ' +
+            '                              value="' + verify(cell.width) + '" placeholder="">' +
+            '                   </div>' +
+            '                   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '                       组件高度:' +
+            '                       <input name="' + num + '_height" id="' + num + '_height" style="width:95px;height:30px;" type="text" ' +
+            '                              value="' + verify(cell.height) + '" placeholder="">' +
+            '                   </div>' +
+            '                   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '                       背景颜色:' +
+            '                       <input name="' + num + '_backColor" style="width:95px;height:30px;" type="text" ' +
+            '                              value="' + verify(cell.backColor) + '" placeholder="#FFFFFFFF">' +
+            '                   </div>' +
+            '                   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '                       过滤颜色:' +
+            '                       <input name="' + num + '_filterColor" style="width:95px;height:30px;" type="text" ' +
+            '                              value="' + verify(cell.filterColor) + '" placeholder="#FFFFFFFF">' +
+            '                   </div>' +
+            '                   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
+            '                       接受消息:' +
+            '                       <input name="' + num + '_recv" style="width:calc(100% - 80px);height:30px;" type="text" ' +
+            '                              value="' + verify(cell.recv) + '" placeholder="">' +
+            '                   </div>' +
+            '                   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
+            '                       点击事件:' +
+            '                       <input name="' + num + '_send" style="width:calc(100% - 80px);height:30px;" type="text" ' +
+            '                              value="' + verify(cell.send) + '" placeholder="">' +
+            '                   </div>' +
+            '                   <div style="margin:2px 2px 2px 2px;width:100%;float:left;">' +
+            '                       <span style="padding-right: 4px;float:left;">备注扩展:</span>' +
+            '                       <textarea name="' + num + '_remark" style="width:calc(100% - 84px);" ' +
+            '                              placeholder="">' + verify(cell.remark) + '</textarea>' +
+            '                   </div>' +
+            '               </div>' +
+            '               <div class="col-sm-12" style="height:392px;margin:10px 0px 0px 50px;padding:2px 2px 2px 2px;border:solid;border-width:1px;border-color:#000000;">' +
+            '               </div>' +
+            '            </div>' +
+            '            <div style="width: 45%;height: 100%;float: left;">' +
+            '               <div class="col-sm-12" style="margin:0px 0px 0px 50px;padding:2px 2px 2px 2px;border:solid;border-width:1px;border-color:#000000;">' +
+            '                   <ul id="textTab' + num + '" class="nav nav-tabs">' +
+            '                       <li><a style="font-weight:bold;color: #000000">文本</a></li>' +
+            '                       <li style="float:right"><button type="button" onclick="addNewText(' + num + ');" style="width:36px;line-height: 30px;float: right">╋</button></li>' +
+            '                   </ul>' +
+            '                   <div id ="textTabContent' + num + '" class="tab-content">' +
+            '                   </div>' +
+            '               </div>' +
+            '               <div class="col-sm-12" style="margin:10px 0px 0px 50px;padding:2px 2px 2px 2px;border:solid;border-width:1px;border-color:#000000;">' +
+            '                   <ul id="imageTab' + num + '" class="nav nav-tabs">' +
+            '                       <li><a style="font-weight:bold;color: #000000">图像</a></li>' +
+            '                       <li style="float:right"><button type="button" onclick="addNewImage(' + num + ');" style="width:36px;line-height: 30px;float: right">╋</button></li>' +
+            '                   </ul>' +
+            '                   <div id ="imageTabContent' + num + '" class="tab-content">' +
+            '                   </div>' +
+            '               </div>' +
+            '            </div>' +
+            '        </div>' +
+            '    </div>' +
+            '</div>');
+        $('#cellTab').get(0).append(cellTab.get(0));
+        $('#cellTabContent').get(0).append(cellTabContent.get(0));
+
+        if (cell.newcreate || num === 0) {
+            $('#cellTab a:last').click();
+        }
+
+        textsNum[num] = (cell.texts === null || cell.texts === undefined) ? 0 : cell.texts.length;
+        imagesNum[num] = (cell.images === null || cell.images === undefined) ? 0 : cell.images.length;
+        if (!cell.newcreate) {
+            for (var i = 0; i < textsNum[num]; i++) {
+                addText(num, i, cell.texts[i]);
+            }
+            for (var j = 0; j < imagesNum[num]; j++) {
+                addImage(num, j, cell.images[j]);
+            }
+        }
+        $('#cellDel_' + num).on("click", function (event) {
+            $('#cellTab').get(0).removeChild(cellTab.get(0));
+            $('#cellTab a:last').click();
+            $('#cellTabContent').get(0).removeChild(cellTabContent.get(0));
+        });
+    }
+
+    function addText(num, subnum, text) {
+        if (text === undefined) {
+            text = {
+                textSize: "24", textLines: "1", textColor: "#FFFFFF", textFilter: "", text: "", left: "",
+                top: "", right: "", bottom: "", recv: "", send: "", gravitiy: 0, newcreate: true
+            };
+        }
+        num = verify(num);
+        var textTab = $('<li><a href="#text_' + num + '_' + subnum + '" data-toggle="tab">' + subnum + '</a></li>');
+        var textTabContent = $(
+            '<div class="tab-pane fade in" id="text_' + num + '_' + subnum + '">' +
+            '   <button  id="textDel_' + num + '_' + subnum + '" type="button" style="width:36px;line-height: 30px;float: right">╳</button>' +
+            '   <div style="margin:2px 2px 2px 2px;width:calc(100% - 40px);height:30px;float:left;">' +
+            '       文本内容:' +
+            '       <input name="' + num + '_text[]" style="width:calc(100% - 80px);height:30px;" type="text" ' +
+            '              value="' + verify(text.text) + '" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       字体大小:' +
+            '       <input name="' + num + '_textSize[]" style="width:95px;height:30px;" type="text" ' +
+            '              value="' + verify(text.textSize) + '" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       文本行数:' +
+            '       <input name="' + num + '_textLines[]" style="width:95px;height:30px;" type="text" ' +
+            '              value="' + verify(text.textLines) + '" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       文本颜色:' +
+            '       <input name="' + num + '_textColor[]" style="width:95px;height:30px;" type="text" ' +
+            '              value="' + verify(text.textColor) + '" placeholder="#FFFFFFFF">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       过滤颜色:' +
+            '       <input name="' + num + '_textFilter[]" style="width:95px;height:30px;" type="text" ' +
+            '              value="' + verify(text.textFilter) + '" placeholder="#FF0000FF">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       文本位置:&nbsp&nbsp&nbsp&nbsp;左' +
+            '       <input name="' + num + '_textLeft[]" style="width:80px;height:30px;" type="text" ' +
+            '              value="' + verify(text.left) + '" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       上' +
+            '       <input name="' + num + '_textTop[]" style="width:80px;height:30px;" type="text" ' +
+            '              value="' + verify(text.top) + '" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       右' +
+            '       <input name="' + num + '_textRight[]" style="width:80px;height:30px;" type="text" ' +
+            '              value="' + verify(text.right) + '" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       下' +
+            '       <input name="' + num + '_textBottom[]" style="width:80px;height:30px;" type="text" ' +
+            '              value="' + verify(text.bottom) + '" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       对齐方式:' +
+            '       <select name="' + num + '_textGravity[]" style="height:30px;border:solid;border-width:1px;border-color:#000000;">' +
+            '           <option value="0"' + isSelect(0, verify(text.gravity)) + '>居中对齐</option>' +
+            '           <option value="1"' + isSelect(1, verify(text.gravity)) + '>左边对齐</option>' +
+            '           <option value="2"' + isSelect(2, verify(text.gravity)) + '>右边对齐</option>' +
+            '       </select>' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
+            '       接受消息:' +
+            '       <input name="' + num + '_textRecv[]" style="width:calc(100% - 80px);height:30px;" type="text" ' +
+            '              value="' + verify(text.recv) + '" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
+            '       点击事件:' +
+            '       <input name="' + num + '_textSend[]" style="width:calc(100% - 80px);height:30px;" type="text" ' +
+            '              value="' + verify(text.send) + '" placeholder="">' +
+            '   </div>' +
+            '</div>');
+        $('#textTab' + num).get(0).append(textTab.get(0));
+        $('#textTabContent' + num).get(0).append(textTabContent.get(0));
+        if (text.newcreate || subnum === 0) {
+            $('#textTab' + num + ' a:last').click();
+        }
+
+        $('#textDel_' + num + '_' + subnum).on("click", function (event) {
+            $('#textTab' + num).get(0).removeChild(textTab.get(0));
+            $('#textTab' + num + ' a:last').click();
+            $('#textTabContent' + num).get(0).removeChild(textTabContent.get(0));
+        });
+    }
+
+    function addImage(num, subnum, image) {
+        if (image === undefined) {
+            image = {
+                url: "", width: "", height: "", filterColor: "", left: "", top: "", right: "", bottom: "",
+                recv: "", send: "", scaleType: 0, newcreate: true
+            };
+        }
+        num = verify(num);
+        var imageTab = $('<li><a href="#image_' + num + '_' + subnum + '" data-toggle="tab">' + subnum + '</a></li>');
+        var imageTabContent = $(
+            '<div class="tab-pane fade in" id="image_' + num + '_' + subnum + '">' +
+            '   <div>' +
+            '       <input class="FlyImageInput" type="file" accept="image/*" name="imagefile" ' +
+            '       num="' + num + '" subnum="' + subnum + '"imageUrl="' + verify(image.url) + '" ' +
+            '       imageWidth="' + verify(image.width) + '" imageHeight="' + verify(image.height) + '">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       过滤颜色:' +
+            '       <input name="' + num + '_imageFilter[]" style="width:95px;height:30px;" type="text" ' +
+            '              value="' + verify(image.filterColor) + '" placeholder="#FF0000FF">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       图片位置:&nbsp&nbsp&nbsp&nbsp;左' +
+            '       <input name="' + num + '_imageLeft[]" style="width:80px;height:30px;" type="text" ' +
+            '              value="' + verify(image.left) + '" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       上' +
+            '       <input name="' + num + '_imageTop[]" style="width:80px;height:30px;" type="text" ' +
+            '              value="' + verify(image.top) + '" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       右' +
+            '       <input name="' + num + '_imageRight[]" style="width:80px;height:30px;" type="text" ' +
+            '              value="' + verify(image.right) + '" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       下' +
+            '       <input name="' + num + '_imageBottom[]" style="width:80px;height:30px;" type="text" ' +
+            '              value="' + verify(image.bottom) + '" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       缩放模式:' +
+            '       <select name="' + num + '_scaleType[]" style="height:30px;border:solid;border-width:1px;border-color:#000000;">' +
+            '           <option value="0"' + isSelect(0, verify(image.scaleType)) + '>FitXY</option>' +
+            '           <option value="1"' + isSelect(1, verify(image.scaleType)) + '>FitCenter</option>' +
+            '           <option value="2"' + isSelect(2, verify(image.scaleType)) + '>CenrerCrop</option>' +
+            '           <option value="3"' + isSelect(3, verify(image.scaleType)) + '>CenrerInside</option>' +
+            '       </select>' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
+            '       接受消息:' +
+            '       <input name="' + num + '_imageRecv[]" style="width:calc(100% - 80px);height:30px;" type="text" ' +
+            '              value="' + verify(image.recv) + '" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
+            '       点击事件:' +
+            '       <input name="' + num + '_imageSend[]" style="width:calc(100% - 80px);height:30px;" type="text" ' +
+            '              value="' + verify(image.send) + '" placeholder="">' +
+            '   </div>' +
+            '</div>');
+        $('#imageTab' + num).get(0).append(imageTab.get(0));
+        $('#imageTabContent' + num).get(0).append(imageTabContent.get(0));
+        if (image.newcreate || subnum === 0) {
+            $('#imageTab' + num + ' a:last').click();
+        }
+        refreshFlyImage();
+        $('#imageDel_' + num + '_' + subnum).on("click", function (event) {
+            $('#imageTab' + num).get(0).removeChild(imageTab.get(0));
+            $('#imageTab' + num + ' a:last').click();
+            $('#imageTabContent' + num).get(0).removeChild(imageTabContent.get(0));
+        });
+    }
+
+    function refreshFlyImage() {
+        $('.FlyImageInput').flyinput({
+            ajaxurl: "{:url('/api/imagefile')}",
+            postData: true,
+            width: "100%",
+            height: "240px"
+        }).bind("success", function (e, data) {
+            if (0 == data.subnum) {
+                $("#" + data.num + "_width").val(data.width);
+                $("#" + data.num + "_height").val(data.height);
+            }
+        }).bind("del", function (e, data) {
+        });
+    }
+
+    function addNewCell() {
+        addCell(cellnum);
+        cellnum++;
+    }
+
+    function addNewText(num) {
+        addText(num, textsNum[num]);
+        textsNum[num]++;
+    }
+
+    function addNewImage(num) {
+        addImage(num, imagesNum[num]);
+        imagesNum[num]++;
+    }
+
+    function onCancel() {
+        window.history.back();
+    }
+
+    function submitForm(id) {
+        $('#loading').fadeIn(100);
         $.ajax({
-            type: "PUT",
+            type: id > 0 ? "PUT" : "POST",
             url: "{:url('/api/cell')}",
-            data: $('#celltypeform').serialize(),
+            data: $('#flyform').serialize(),
             error: function (request) {
+                $('#loading').fadeOut(100);
                 alert("error code:" + request.readyState);
             },
             success: function (data) {
+                $('#loading').fadeOut(100);
                 var obj = JSON.parse(data);
                 if (obj.code === 0) {
-                    window.history.back();
+                    if (id > 0) {
+                        refreshCell(id);
+                        // window.history.back();
+                    } else {
+                        window.history.back();
+                    }
                 } else {
                     alert(obj.msg);
                 }
@@ -343,210 +419,45 @@
         });
     }
 
-    function flyinput1(name) {
-        var url = $('#' + name + 'imageurl1').val();
-        $('#' + name + 'imageinput1').flyinput({
-            url: "{:url('/api/imagefile')}",
-            autoup: true,
-            showPreview: true,
-            image: url,
-            width: "100%",
-            height: "240px"
-        }).bind("success", function (e, data) {
-            var retmsg = JSON.parse(data);
-            $('#' + name + 'imageurl1').val(retmsg.data.saveName);
-            $('#' + name + 'width').val(retmsg.data.width);
-            $('#' + name + 'height').val(retmsg.data.height);
-        }).bind("del", function (e) {
-            $('#' + name + 'imageurl1').val("");
+    function refreshCell(id) {
+        cellnum = 0;
+        imagesNum = [];
+        textsNum = [];
+        $('#cellTab').get(0).innerHTML =
+            '<li style="float:right;">' +
+            '   <button type="button" onclick="addNewCell();" style="width:36px;line-height: 30px;float: right">╋</button>' +
+            '</li>';
+        $('#cellTabContent').get(0).innerHTML = "";
+
+        $.ajax({
+            type: "GET",
+            url: "{:url('/api/cell')}?id=" + id,
+            data: $('#flyform').serialize(),
+            error: function (request) {
+                alert("error code:" + request.readyState);
+            },
+            success: function (data) {
+                var obj = JSON.parse(data);
+                if (obj.code === 0) {
+                    var cell = obj.data;
+                    addCell(0, cell);
+                    cellnum++;
+                    if (cell.subCells !== undefined && cell.subCells.length > 0) {
+                        for (var i = 0; i < cell.subCells.length; i++) {
+                            addCell(i + 1, cell.subCells[i]);
+                            cellnum++;
+                        }
+                    }
+                }
+            }
         });
     }
 
-    function flyinput2(name) {
-        var url = $('#' + name + 'imageurl2').val();
-        $('#' + name + 'imageinput2').flyinput({
-            url: "{:url('/api/imagefile')}",
-            autoup: true,
-            showPreview: true,
-            image: url,
-            width: "100%",
-            height: "240px"
-        }).bind("success", function (e, data) {
-            var retmsg = JSON.parse(data);
-            $('#' + name + 'imageurl2').val(retmsg.data.saveName);
-        }).bind("del", function (e) {
-            $('#' + name + 'imageurl2').val("");
-        });
-    }
-
-    flyinput1('');
-    flyinput2('');
-    $('#myTabContent').css('height', $('#myTabContent').height() + 'px');
-
-    for (var i = 1; i < subcellnum; i++) {
-        flyinput1('sub_' + i + '_');
-        flyinput2('sub_' + i + '_');
-    }
-
-    function onCancel() {
-        window.history.back();
-    }
-
-    function createTabContent(name) {
-        var tab = $(" <li ><a href=\"#" + name + "\" data-toggle=\"tab\">子组件</a></li>");
-        var tabContent = $('<div class="tab-pane fade" id="' + name + '">\n' +
-            '<div class="modal-body">\n' +
-            '<input type="hidden" name="subcell[]" value="' + name + '">\n' +
-            '<button type="button" style="width:40px;height:40px;position: absolute;top:10px;right: 10px;font-size: 24px;" onclick="addSub()">+</button>' +
-            '<button id="del' + name + '" type="button" style="width:40px;height:40px;position: absolute;top:10px;right: 50px;font-size: 24px;">-</button>' +
-            '<div class="form-group">\n' +
-            '<label class="col-sm-1 control-label">组件类型</label>\n' +
-            '<div class="col-sm-4">\n' +
-            '<h4 class="modal-title">\n' +
-            '<select name="' + name + 'celltypeId">\n' +
-            '{volist name="list1" id="celltype" key="k"}\n' +
-            '<option value="{$celltype.celltypeId}">{$celltype.celltypeName}</option>\n' +
-            '{/volist}\n' +
-            '</select>\n' +
-            '</h4>\n' +
-            '</div>\n' +
-            '<label class="col-sm-1 control-label">控&nbsp&nbsp件&nbsp&nbspID</label>\n' +
-            '<div class="col-sm-4">\n' +
-            '<input id="' + name + 'resId" class="form-control" name="' + name + 'resId" type="text" value="" placeholder="组件ID，可以在Activity中引用">\n' +
-            '</div>\n' +
-            '</div>\n' +
-            '<div class="form-group">\n' +
-            '<label class="col-sm-1 control-label">图&nbsp&nbsp片&nbsp&nbsp一</label>\n' +
-            '<div class="col-sm-4">\n' +
-            '<input type="file" accept="image/*" id="' + name + 'imageinput1" name="imagefile">\n' +
-            '<input type="hidden" id="' + name + 'imageurl1" name="' + name + 'imageurl1" value="">\n' +
-            '</div>\n' +
-            '<label class="col-sm-1 control-label">图&nbsp&nbsp片&nbsp&nbsp二</label>\n' +
-            '<div class="col-sm-4">\n' +
-            '<input type="file" accept="image/*" id="' + name + 'imageinput2" name="imagefile">\n' +
-            '<input type="hidden" id="' + name + 'imageurl2" name="' + name + 'imageurl2" value="">\n' +
-            '</div>\n' +
-            '</div>\n' +
-            '<div class="form-group">\n' +
-            '<label class="col-sm-1 control-label">组件大小</label>\n' +
-            '<div class="col-sm-2">\n' +
-            '<input id="' + name + 'width" name="' + name + 'width" type="text" class="form-control" value="" placeholder="宽度(像素)">\n' +
-            '</div>\n' +
-            '<div class="col-sm-2">\n' +
-            '<input id="' + name + 'height" name="' + name + 'height" type="text" class="form-control" value="" placeholder="高度(像素)">\n' +
-            '</div>\n' +
-            '<label class="col-sm-1 control-label">背景颜色</label>\n' +
-            '<div class="col-sm-4">\n' +
-            '<input id="' + name + 'backcolor" name="' + name + 'backcolor" type="text" class="form-control" value="{$item.backcolor}" placeholder="格式：#FFFFFFFF）">\n' +
-            '</div>' +
-            '</div>\n' +
-            '<div class="form-group">\n' +
-            '<label class="col-sm-1 control-label">文本内容</label>\n' +
-            '<div class="col-sm-4">\n' +
-            '<input type="text" class="form-control" name="' + name + 'textTitle" id="' + name + 'textTitle" value="" placeholder="文字显示">\n' +
-            '</div>\n' +
-            '<label class="col-sm-1 control-label">文本字体</label>\n' +
-            '<div class="col-sm-1">\n' +
-            '<input id="' + name + 'textSize" class="form-control" name="' + name + 'textSize" type="text" value="" placeholder="字体大小">\n' +
-            '</div>\n' +
-            '<div class="col-sm-1">\n' +
-            '<input id="' + name + 'textColor" class="form-control" name="' + name + 'textColor" type="text" value="" placeholder="字体颜色">\n' +
-            '</div>\n' +
-            '<div class="col-sm-2">\n' +
-            '<input id="' + name + 'textFont" class="form-control" name="' + name + 'textFont" type="text" value="" placeholder="字体样式">\n' +
-            '</div>\n' +
-            '</div>\n' +
-            '<div class="form-group">\n' +
-            '<label class="col-sm-1 control-label">文本位置</label>\n' +
-            '<div class="col-sm-1">\n' +
-            '<input id="' + name + 'mLeft" class="form-control" name="' + name + 'mLeft" type="text" value="" placeholder="LEFT">\n' +
-            '</div>\n' +
-            '<div class="col-sm-1">\n' +
-            '<input id="' + name + 'mTop" class="form-control" name="' + name + 'mTop" type="text" value="" placeholder="TOP">\n' +
-            '</div>\n' +
-            '<div class="col-sm-1">\n' +
-            '<input id="' + name + 'mRight" class="form-control" name="' + name + 'mRight" type="text" value="" placeholder="RIGHT">\n' +
-            '</div>\n' +
-            '<div class="col-sm-1">\n' +
-            '<input id="' + name + 'mBottom" class="form-control" name="' + name + 'mBottom" type="text" value="" placeholder="BOTTOM">\n' +
-            '</div>\n' +
-            '<div class="col-sm-1">\n' +
-            '<input id="' + name + 'textLine" class="form-control" name="' + name + 'textLine" type="text" value="" placeholder="文本行数">\n' +
-            '</div>' +
-            '<div class="col-sm-1">\n' +
-            '<select style="width:99%;height: 34px;font-size: 16px" id="' + name + 'gravity" name="' + name + 'gravity" >\n' +
-            '{volist name="gravitys" id="gravity" key="x"}\n' +
-            '<option value="{$gravity.value}">{$gravity.tag}</option>\n' +
-            '{/volist}\n' +
-            '</select>\n' +
-            '</div>\n' +
-            '</div>\n' +
-            '<div class="form-group">\n' +
-            '<label class="col-sm-1 control-label">发送事件</label>\n' +
-            '<div class="col-sm-4">\n' +
-            '<h4 class="modal-title">\n' +
-            '<select style="width:99%;height: 34px;font-size: 16px" id="' + name + 'sendAction" name="' + name + 'sendAction">\n' +
-            '<option value="0"></option>\n' +
-            '{volist name="actions" id="action" key="n"}\n' +
-            '<option value="{$action.value}">{$action.tag}</option>\n' +
-            '{/volist}\n' +
-            '</select>\n' +
-            '</h4>\n' +
-            '</div>\n' +
-            '<label class="col-sm-1 control-label">处理事件</label>\n' +
-            '<div class="col-sm-4">\n' +
-            '<h4 class="modal-title">\n' +
-            '<select style="width:99%;height: 34px;font-size: 16px" id="' + name + 'recvAction" name="' + name + 'recvAction">\n' +
-            '<option value="0"></option>\n' +
-            '{volist name="actions" id="action" key="n"}\n' +
-            '<option value="{$action.value}">{$action.tag}</option>\n' +
-            '{/volist}\n' +
-            '</select>\n' +
-            '</h4>\n' +
-            '</div>\n' +
-            '</div>' +
-            '<div class="form-group">\n' +
-            '<label class="col-sm-1 control-label">组件事件</label>\n' +
-            '<div class="col-sm-8">\n' +
-            '<input id="' + name + 'clickevent" class="form-control" name="' + name + 'clickevent" type="text" value="" placeholder="例如：activity=AAAA||service=BBBB">\n' +
-            '</div>\n' +
-            '<div class="col-sm-1">\n' +
-            ' <button type="button" class="btn btn-default" onclick="createEventDialog(\'' + name + 'event\')">生成事件辅助</button>\n' +
-            '</div>\n' +
-            '</div>\n' +
-            '<div class="form-group">\n' +
-            '<label class="col-sm-1 control-label">备注</label>\n' +
-            '<div class="col-sm-9">\n' +
-            '<textarea class="form-control" name="' + name + 'remark" value="" id="' + name + 'remark" placeholder="备注"></textarea>\n' +
-            '</div>\n' +
-            '</div>\n' +
-            '</div>\n' +
-            '</div>');
-        $('#myTab').get(0).append(tab.get(0));
-        $('#myTabContent').get(0).append(tabContent.get(0));
-        $('#myTab a:last').click();
-        flyinput1('sub_' + subcellnum + '_');
-        flyinput2('sub_' + subcellnum + '_');
-        $('#del' + 'sub_' + subcellnum + '_').on("click", function (event) {
-            $('#myTab').get(0).removeChild(tab.get(0));
-            $('#myTab a:last').click();
-            $('#myTabContent').get(0).removeChild(tabContent.get(0));
-        });
-    }
-
-    function addSub() {
-        createTabContent('sub_' + subcellnum + '_');
-        subcellnum = subcellnum + 1;
-    }
-
-    function delSub(num) {
-        $('#myTab').get(0).removeChild($('#sub_' + num + "_tab").get(0));
-        $('#myTab a:last').click();
-        $('#myTabContent').get(0).removeChild($('#sub_' + num + "_").get(0));
-    }
-
-    function createEventDialog(eventtext) {
-        alert(eventtext);
-    }
+    $(function () {
+        if ("{$id}" <= 0) {
+            addNewCell();
+        } else {
+            refreshCell("{$id}");
+        }
+    });
 </script>
-

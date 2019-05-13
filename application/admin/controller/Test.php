@@ -15,7 +15,7 @@ class Test extends Controller
             $table = $request->post();
             $cell = getCell($table);
             dump($cell);
-//            $result = Db::name("cellPro")->insert($cell, false, true);
+//            $result = Db::name("cell")->insert($cell, false, true);
 //            if ($result) {
 //                //添加子组件
 //                if ($request->has('subcell')) {

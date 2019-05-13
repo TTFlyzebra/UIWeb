@@ -22,8 +22,8 @@ var trimPX = function (_px) {
 var createCellDiv = function (cell) {
     var cell_div = cellitem(cell);
     //图像
-    var image = childimage(cell);
-    cell_div.get(0).append(image.get(0));
+    // var image = childimage(cell);
+    // cell_div.get(0).append(image.get(0));
     //文字
     var text = childtext(cell);
     cell_div.get(0).append(text.get(0));
@@ -38,19 +38,23 @@ var cellitem = function (cell) {
     cell_div.css('height', cell.height + 'px');
     cell_div.css('left', cell.x + 'px');
     cell_div.css('top', cell.y + 'px');
+    //添加所有图像
+    if (cell.images !== undefined && cell.images.length > 0) {
+        for (var i = cell.images.length -1; i >=0; i--) {
+            var obj = cell.images[i];
+            var image = $('<img style="position: absolute;margin: auto;">');
+            image.css('left', obj.left + 'px');
+            image.css('top', obj.top + 'px');
+            image.css('right', obj.right + 'px');
+            image.css('bottom', obj.bottom + 'px');
+            image.attr('width', Math.min(cell.width, obj.width)  + 'px');
+            image.attr('height', Math.min(cell.height, obj.height)  + 'px');
+            image.attr('src', obj.url);
+            image.attr('ondragstart', 'return false;');
+            cell_div.get(0).append(image.get(0));
+        }
+    }
     return cell_div;
-};
-
-var childimage = function (cell) {
-    var image_div = $('<img>');
-    image_div.css('position', 'absolute');
-    image_div.css('width', cell.width + 'px');
-    image_div.css('height', cell.height + 'px');
-    image_div.css('left', 0 + 'px');
-    image_div.css('top', 0 + 'px');
-    image_div.attr('src', cell.imageurl1);
-    image_div.attr('ondragstart', 'return false;');
-    return image_div;
 };
 
 var childtext = function (cell) {
@@ -87,15 +91,15 @@ var childtext = function (cell) {
 
 var childposion = function (cell, cell_div, bshow) {
     var position_div = $('<div class="position"></div>');
-    var size_div = $('<div style="position: absolute;">' + cell.width+'-'+cell.height + '</div>');
-    size_div.css('text-align','right');
-    size_div.css('top', cell.height-28);
+    var size_div = $('<div style="position: absolute;">' + cell.width + '-' + cell.height + '</div>');
+    size_div.css('text-align', 'right');
+    size_div.css('top', cell.height - 28);
     size_div.css('width', cell.width - 4);
     size_div.css('height', 24);
     size_div.css('color', '#FF00FF');
     var positiontext = $('<div id="position" style=" position: absolute;padding-left: 2px;text-align: left;color: #FF00FF;"></div>');
-    positiontext.css('white-space','nowrap')
-    positiontext.css('text-align','left');
+    positiontext.css('white-space', 'nowrap')
+    positiontext.css('text-align', 'left');
     positiontext.css('minwidth', 100);
     positiontext.css('height', 24);
     positiontext.css('color', '#FF00FF');
@@ -191,9 +195,9 @@ var _delete = function (cell, bshow) {
         var self = this;
         var screen = this.screen;
         var cell_div = cellitem(cell);
-        //图像
-        var image = childimage(cell);
-        cell_div.get(0).append(image.get(0));
+        // //图像
+        // var image = childimage(cell);
+        // cell_div.get(0).append(image.get(0));
         //文字
         var text = childtext(cell);
         cell_div.get(0).append(text.get(0));
@@ -437,74 +441,52 @@ var _delete = function (cell, bshow) {
     };
 
     FlyMenu.prototype.createMenuCellDiv = function (cell) {
-        var cell_div = $('<div class="menucell"></div>');
-        cell_div.css('position', 'relative');
-        cell_div.css('float', 'left');
-        cell_div.css('text-align', 'center');
-        cell_div.css('width', this.options.childw + 'px');
-        cell_div.css('height', this.options.childh + 'px');
-        cell_div.css('border', 'solid');
-        cell_div.css('border-width', '1px');
-        cell_div.css('border-color', '#707F00');
-        //图像
-        var image = $('<img>');
-        image.css('position', 'absolute');
-        if (isTextEmpty(cell.imageurl1) || cell.celltype === 6) {
-            if (cell.width > cell.height) {
-                image.attr('width', this.options.childw + 'px');
-                image.attr('height', cell.height * this.options.childw / cell.width + 'px');
-                image.css('left', '0px');
-                image.css('top', (cell.width - cell.height) * this.options.childw / cell.width / 2 + 'px');
-            } else {
-                image.attr('width', cell.width * this.options.childh / cell.height + 'px');
-                image.attr('height', this.options.childh + 'px');
-                image.css('left', (cell.height - cell.width) * this.options.childh / cell.height / 2 + 'px');
-                image.css('top', '0px')
+        var scalew = cell.width / (this.options.childw - 4);
+        var scaleh = cell.height / (this.options.childh - 4);
+        var scale = scalew > scaleh ? scalew : scaleh;
+        var menucell_div = $('<div style=" position:relative;float:left;text-align:center;' +
+            'width:' + this.options.childw + 'px;height:' + this.options.childh + 'px;' +
+            'border:solid;border-width:1px;border-color:#707F00;"></div>');
+        menucell_div.css('width', this.options.childw + 'px');
+        menucell_div.css('height', this.options.childh + 'px');
+        var menucell = $('<div style="position: absolute;left:0;right:0;top:0;bottom:0;margin: auto;' +
+            'border-width;0px;background:#000000;background-color:rgba(0,0,0,0.1);"></div>');
+        menucell.css('width', cell.width / scale + 'px');
+        menucell.css('height', cell.height / scale + 'px');
+        menucell_div.get(0).append(menucell.get(0));
+        //添加所有图像
+        if (cell.images !== undefined && cell.images.length > 0) {
+            for (var i = cell.images.length -1; i >=0; i--) {
+                var obj = cell.images[i];
+                var image = $('<img style="position: absolute;margin: auto;">');
+                image.css('left', obj.left/scale + 'px');
+                image.css('top', obj.top/scale + 'px');
+                image.css('right', obj.right/scale + 'px');
+                image.css('bottom', obj.bottom/scale + 'px');
+                image.attr('width', Math.min(cell.width, obj.width) / scale + 'px');
+                image.attr('height', Math.min(cell.height, obj.height) / scale + 'px');
+                image.attr('src', obj.url);
+                image.attr('ondragstart', 'return false;');
+                menucell.get(0).append(image.get(0));
             }
-        } else if (cell.width > cell.height) {
-            image.attr('width', this.options.childw + 'px');
-            image.attr('height', 'auto');
-            image.css('left', '0px');
-            image.css('top', (cell.width - cell.height) * this.options.childw / cell.width / 2 + 'px');
-        } else {
-            image.attr('width', 'auto');
-            image.attr('height', this.options.childh + 'px');
-            image.css('left', (cell.height - cell.width) * this.options.childh / cell.height / 2 + 'px');
-            image.css('top', '0px')
         }
-        isTextEmpty(cell.imageurl1) || cell.celltype === 6 ? image.attr('src', this.options.defimgurl) : image.attr('src', cell.imageurl1);
-        image.attr('ondragstart', 'return false;');
-        cell_div.get(0).append(image.get(0));
-        //文字
-        var text = $('<div></div>');
-        text.css('position', 'absolute');
-        text.css('text-align', 'center');
-        text.css('width', this.options.childw + 'px');
-        text.css('top', (this.options.childh - 24) + 'px')
-        text.css('font-size', '16px');
-        text.css('color', '#ffffff');
-        try {
-            var data = JSON.parse(cell.textTitle);
-            var content = data.zh;
-            if (content) {
-                cell.textTitle = content.replace('\n', '<br/>');
-            }
-        } catch (e) {
-        }
-        text.get(0).innerHTML = isTextEmpty(cell.textTitle) ? cell.celltypeName : cell.textTitle;
-        cell_div.get(0).append(text.get(0));
-        cell_div.on('mousedown', function (event) {
+        //控件描述
+        var text = $('<div style="position: absolute;text-align:center;font-size:14px;color:#FFFFFF;' +
+            'width: ' + this.options.childw + 'px;top:' + (this.options.childh - 24) + 'px;' +
+            '">' + cell.description + '</div>');
+        menucell_div.get(0).append(text.get(0));
+        menucell_div.on('mousedown', function (event) {
             //添加点击事件
             addMenuCell = cell;
         });
-        return cell_div.get(0);
+        return menucell_div.get(0);
     };
 
     FlyMenu.DEFAULTS = {
         width: 380,
         height: 600,
         url: undefined,
-        defimgurl: "",
+        defimgurl: "./default_cellmenu.png",
         childw: 120,
         childh: 120
     };
@@ -533,10 +515,11 @@ var _delete = function (cell, bshow) {
             data: searchStr,
             dataType: 'html',
             success: function (result) {
-                var data = JSON.parse(result);
+                var obj = JSON.parse(result);
+                var data = obj.data;
                 menu.empty();
-                for (var i = 0; i < data.rows.length; i++) {
-                    var div = self.createMenuCellDiv(data.rows[i]);
+                for (var i = 0; i < data.length; i++) {
+                    var div = self.createMenuCellDiv(data[i]);
                     menu.append(div);
                 }
             }

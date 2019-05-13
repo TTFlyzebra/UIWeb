@@ -33,9 +33,9 @@ function retJsonMsg($message = "success!", $code = 0, $data = "")
  * @param $tableName
  * @param $data
  */
-function saveLog($event, $tableName='', $data='')
+function saveLog($event, $tableName = '', $data = '')
 {
-    if(!empty($data)){
+    if (!empty($data)) {
         $data = json_encode($data);
     }
     \think\Db::name('user_log')->insert(array(

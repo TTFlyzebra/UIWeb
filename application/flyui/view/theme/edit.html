@@ -7,13 +7,13 @@
 <script type="text/javascript" src="__RES__/common/js/bootstrap.js"></script>
 <script type="text/javascript" src="__RES__/common/js/bootstrap-table.js"></script>
 <script type="text/javascript" src="__RES__/common/js/bootstrap-table-zh-CN.min.js"></script>
-<script type="text/javascript" src="__RES__/flyui/js/flyinput.js"></script>
+<script type="text/javascript" src="__RES__/flyui/js/flyimage.js"></script>
 <body>
 <form class="form-horizontal" name="themeform" id="themeform" method="post" role="form"
       action="{:url('/api/theme')}"
       enctype="multipart/form-data">
     <div class="modal-header">
-        <h4 class="modal-title" id="">修改模板</h4>
+        <h4 class="modal-title" id="myModalLabel">{if condition="$item['themeId'] gt 0"}修改模板{else/}添加模板{/if}</h4>
     </div>
     <div class="modal-body">
         <div class="form-group">
@@ -34,7 +34,7 @@
                 <div style="padding-left:4px;margin-left:20px;border:solid;border-width:1px;border-color: #EEEEEE;float: left;height: 30px">
                     动画
                     <select id="animType" style="height: 28px" name="animType">
-                        <option value="0" selected="selected" >无动画</option>
+                        <option value="0" selected="selected">无动画</option>
                         <option value="1">立方体旋转</option>
                         <option value="2">翻页效果</option>
                     </select>
@@ -44,7 +44,7 @@
         <div class="form-group">
             <label class="col-sm-1 control-label">主题图片</label>
             <div class="col-sm-5">
-                <input type="file" accept="image/*" id="flyimageup" name="imagefile">
+                <input class="FlyImageInput" type="file" accept="image/*" name="imagefile" imageUrl="{$item.imageurl}">
                 <input type="hidden" id="imageurl" name="imageurl" value="{$item.imageurl}">
             </div>
         </div>
@@ -86,11 +86,18 @@
                                       placeholder="备注">{$item.remark}</textarea>
             </div>
         </div>
+        {if condition="$item['themeId'] gt 0"}
         <input type="hidden" name="themeId" id="themeId" value="{$item.themeId}">
+        {/if}
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default"  onclick="onCancel()" >取消</button>
-        <button type="button" class="btn btn-primary" onclick="posttheme()">修改</button>
+        <button type="button" class="btn btn-default" onclick="onCancel()">取消</button>
+        {if condition="$item['themeId'] gt 0"}
+        <button type="button" class="btn btn-primary" onclick="postform()">修改</button>
+        {else/}
+        <button type="reset" class="btn btn-default">重置</button>
+        <button type="button" class="btn btn-primary" onclick="postform()">提交</button>
+        {/if}
     </div>
 </form>
 </body>
@@ -98,29 +105,27 @@
 
 <script type="text/javascript">
     var themeurl = "{:url('/api/theme')}";
-    var upimageurl = "{:url('/api/imagefile')}";
-    var imageurl = $('#imageurl').val();
 
-    if('{$item.isMirror}'==='1'){
-        $('#checkMirror').prop("checked",true);
+    if ('{$item.isMirror}' === '1') {
+        $('#checkMirror').prop("checked", true);
         $('#isMirror').val(1);
-    }else{
-        $('#checkMirror').prop("checked",false);
+    } else {
+        $('#checkMirror').prop("checked", false);
         $('#isMirror').val(0);
     }
 
-    document.getElementById("animType")['{$item.animType}'].selected=true;
+    document.getElementById("animType")['{$item.animType}'].selected = true;
 
     //POST提交数据
-    function posttheme() {
+    function postform() {
         if ($('#themeName').val() === "") {
             $('#themeName').focus();
             return;
         }
 
-        $('#isMirror').val($('#checkMirror').prop("checked")===true?1:0);
+        $('#isMirror').val($('#checkMirror').prop("checked") === true ? 1 : 0);
         $.ajax({
-            type: "PUT",
+            type: "{$item.themeId}" <= 0 ? "POST" : "PUT",
             url: themeurl,
             data: $('#themeform').serialize(),
             error: function (request) {
@@ -137,22 +142,20 @@
         });
     }
 
-    $('#flyimageup').flyinput({
-        url: upimageurl,
-        image:imageurl,
-        autoup: true,
-        showPreview: true,
+
+    $('.FlyImageInput').flyinput({
+        ajaxurl: "{:url('/api/imagefile')}",
+        postData: false,
         width: "100%",
-        height: "240px"
-    }).on("success", function (event, data) {
-        var result = JSON.parse(data);
-        $('#imageurl').val(result.data.saveName);
-    }).bind("del",function (e) {
+        height: "300px"
+    }).bind("success", function (e, data) {
+        $('#imageurl').val(data.saveName);
+    }).bind("del", function (e, data) {
         $('#imageurl').val("");
     });
 
     function onCancel() {
-        window.location.href="{:url('/flyui/theme')}";
+        window.location.href = "{:url('/flyui/theme')}";
     }
 
 </script>

@@ -3,20 +3,26 @@
 use think\Db;
 use think\Session;
 
-function getAllPagecell($pageId)
+
+function getCellFiled()
 {
-    $pagedata = Db::name('pagecell')
-        ->where('pageId', $pageId)
-        ->alias('a')
-        ->join("fly_cell b", "a.cellId=b.cellId")
-        ->join("fly_celltype c", "b.celltypeId=c.celltypeId")
-        ->field(['a.cellId', 'b.resId', 'x', 'y', 'a.width', 'a.height', 'celltype', 'imageurl1',
-            'imageurl2', 'b.backcolor', 'textTitle', 'textSize', 'textColor', 'textLine', 'gravity',
-            'textFont', 'mTop', 'mBottom', 'mLeft', 'mRight', "acceptAction", "launchAction",
-            'sendAction', 'recvAction', 'clickevent', 'b.extend', 'b.remark', 'b.cellpageId',
-            'c.celltypeName', 'c.imageurl' => 'typeimageurl'])
-        ->select();
-    return $pagedata;
+    return ['a.cellId', 'a.description', 'a.themeId', 'a.celltypeId', 'c.themeName', 'a.resId', 'a.width', 'a.height',
+        'a.backColor', 'a.filterColor', 'a.recv', 'a.send', 'a.texts', 'a.images', 'a.pages', 'a.remark', 'a.uptime',
+        'b.celltype', 'b.celltypeName'];
+}
+
+function getSubCellFiled()
+{
+    return ['a.subcellId', 'a.cellId', 'a.description', 'a.themeId', 'a.celltypeId', 'c.themeName', 'a.resId', 'a.width',
+        'a.height', 'a.backColor', 'a.filterColor', 'a.recv', 'a.send', 'a.texts', 'a.images', 'a.pages', 'a.remark', 'a.uptime',
+        'b.celltype', 'b.celltypeName'];
+}
+
+function getPageCellFiled()
+{
+    return ['a.cellId', 'a.x', 'a.y', 'a.width', 'a.height', 'b.description', 'b.themeId', 'b.celltypeId',
+        'b.resId', 'b.backColor', 'b.filterColor', 'b.recv', 'b.send', 'b.texts', 'b.images', 'b.pages',
+        'b.remark', 'b.uptime', 'c.celltype', 'c.celltypeName', 'c.imageurl' => 'typeimageurl'];
 }
 
 function getPagecell($pageId)
@@ -26,10 +32,7 @@ function getPagecell($pageId)
         ->alias('a')
         ->join("fly_cell b", "a.cellId=b.cellId")
         ->join("fly_celltype c", "b.celltypeId=c.celltypeId")
-        ->field(['a.cellId', 'b.resId', 'x', 'y', 'a.width', 'a.height', 'celltype', 'imageurl1',
-            'imageurl2', 'b.backcolor', 'textTitle', 'textSize', 'textColor', 'textLine', 'gravity',
-            'textFont', 'mTop', 'mBottom', 'mLeft', 'mRight', "acceptAction", "launchAction",
-            'sendAction', 'recvAction', 'clickevent', 'b.cellpageId', 'b.extend', 'b.remark'])
+        ->field(getPageCellFiled())
         ->select();
     return $pagedata;
 }
@@ -113,14 +116,14 @@ function getCell($data, $str = '0_')
     if (isset($data[$str . "imageUrl"])) {
         for ($i = 0; $i < sizeof($data[$str . "imageUrl"]); $i++) {
             $images[$i]['width'] = (int)$data[$str . "imageWidth"][$i];
-            $images[$i]['height'] =(int) $data[$str . "imageHeight"][$i];
+            $images[$i]['height'] = (int)$data[$str . "imageHeight"][$i];
             $images[$i]['url'] = $data[$str . "imageUrl"][$i];
             $images[$i]['filterColor'] = $data[$str . "imageFilter"][$i];
             $images[$i]['left'] = (int)$data[$str . "imageLeft"][$i];
             $images[$i]['top'] = (int)$data[$str . "imageTop"][$i];
             $images[$i]['right'] = (int)$data[$str . "imageRight"][$i];
-            $images[$i]['bottom'] =(int) $data[$str . "imageBottom"][$i];
-            $images[$i]['scaleType'] =(int) $data[$str . "scaleType"][$i];
+            $images[$i]['bottom'] = (int)$data[$str . "imageBottom"][$i];
+            $images[$i]['scaleType'] = (int)$data[$str . "scaleType"][$i];
             $images[$i]['recv'] = $data[$str . "imageRecv"][$i];
             $images[$i]['send'] = $data[$str . "imageSend"][$i];
         }
@@ -134,4 +137,16 @@ function getCell($data, $str = '0_')
     $cell['userid'] = Session::get('userid');
     $cell['ip'] = request()->ip();
     return $cell;
+}
+
+function getAllPagecell($pageId)
+{
+    $pagedata = Db::name('pagecell')
+        ->where('pageId', $pageId)
+        ->alias('a')
+        ->join("fly_cell b", "a.cellId=b.cellId")
+        ->join("fly_celltype c", "b.celltypeId=c.celltypeId")
+        ->field(getPageCellFiled())
+        ->select();
+    return $pagedata;
 }

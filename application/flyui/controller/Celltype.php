@@ -24,8 +24,18 @@ class Celltype extends Auth
         if ($request->has('id', 'get')) {
             $db = Db::name('celltype');
             $item = $db->where('celltypeId', $_GET['id'])->find();
-            $this->assign('item', $item);
-            return $this->fetch();
         }
+        if (empty($item)) {
+            $item = [
+                'celltypeId' => -1,
+                "celltypeName" => "",
+                "celltype" => "",
+                "imageurl" => "",
+                "html" => "",
+                "description" => ""
+            ];
+        }
+        $this->assign('item', $item);
+        return $this->fetch();
     }
 }

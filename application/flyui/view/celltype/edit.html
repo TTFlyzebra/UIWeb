@@ -7,13 +7,13 @@
 <script type="text/javascript" src="__RES__/common/js/bootstrap.js"></script>
 <script type="text/javascript" src="__RES__/common/js/bootstrap-table.js"></script>
 <script type="text/javascript" src="__RES__/common/js/bootstrap-table-zh-CN.min.js"></script>
-<script type="text/javascript" src="__RES__/flyui/js/flyinput.js"></script>
+<script type="text/javascript" src="__RES__/flyui/js/flyimage.js"></script>
 <body>
 <form class="form-horizontal" name="celltypeform" id="celltypeform" method="post" role="form"
       action="{:url('/api/celltype')}"
       enctype="multipart/form-data">
     <div class="modal-header">
-        <h4 class="modal-title" id="">修改组件类型</h4>
+        <h4 class="modal-title" id="myModalLabel">{if condition="$item['celltypeId'] gt 0"}修改组件类型{else/}添加组件类型{/if}</h4>
     </div>
     <div class="modal-body">
         <div class="form-group">
@@ -34,30 +34,34 @@
         <div class="form-group">
             <label class="col-sm-1 control-label">图片示例</label>
             <div class="col-sm-5">
-                <input type="file" accept="image/*" id="imageinput1" name="imagefile">
-                <input type="hidden" id="imageurl1" name="imageurl" value="{$item.imageurl}">
+                <input class="FlyImageInput" type="file" accept="image/*" imageUrl="{$item.imageurl}" name="imagefile">
+                <input type="hidden" id="imageurl" name="imageurl" value="{$item.imageurl}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-1 control-label">特殊属性</label>
+            <label class="col-sm-1 control-label">显示脚本</label>
             <div class="col-sm-5">
-                <textarea class="form-control" name="extend" id="extend"
-                          placeholder="属性类别=属性名称，多个属性用#分隔，例如：新增一个图片属性和一个文本属性，image=child1#text=shay">{$item.extend}</textarea>
+                <textarea class="form-control" name="html" id="html" placeholder="html显示控件样式的脚本">{$item.html}</textarea>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-1 control-label">备注</label>
+            <label class="col-sm-1 control-label">组件说明</label>
             <div class="col-sm-5">
-                <textarea class="form-control" name="remark" id="remark"
-                          placeholder="描述说明组件信息">{$item.remark}</textarea>
+                <textarea class="form-control" name="description" id="description" placeholder="描述说明组件信息">{$item.description}</textarea>
             </div>
         </div>
+        {if condition="$item['celltypeId'] gt 0"}
         <input type="hidden" name="celltypeId" id="celltypeId" value="{$item.celltypeId}">
+        {/if}
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" onclick="onCancel()">取消</button>
-        <button type="button" class="btn btn-primary" onclick="postcelltype()">修改</button>
-        <!--<button type="submit" class="btn btn-primary">修改</button>-->
+        {if condition="$item['celltypeId'] gt 0"}
+        <button type="button" class="btn btn-primary" onclick="postform()">修改</button>
+        {else/}
+        <button type="reset" class="btn btn-default">重置</button>
+        <button type="button" class="btn btn-primary" onclick="postform()">提交</button>
+        {/if}
     </div>
 </form>
 </body>
@@ -65,11 +69,9 @@
 
 <script type="text/javascript">
     var celltypeurl = "{:url('/api/celltype')}";
-    var upimageurl = "{:url('/api/imagefile')}";
-    var imageurl1 = $('#imageurl1').val();
 
     //POST提交数据
-    function postcelltype() {
+    function postform() {
         if ($('#celltypeName').val() === "") {
             $('#celltypeName').focus();
             return
@@ -79,8 +81,9 @@
             $('#celltype').focus();
             return
         }
+
         $.ajax({
-            type: "PUT",
+            type: "{$item.celltypeId}" <= 0?"POST":"PUT",
             url: celltypeurl,
             data: $('#celltypeform').serialize(),
             error: function (request) {
@@ -97,22 +100,18 @@
         });
     }
 
-    $('#imageinput1').flyinput({
-        url: upimageurl,
-        image: imageurl1,
-        autoup: true,
-        showPreview: true,
+    $('.FlyImageInput').flyinput({
+        ajaxurl: "{:url('/api/imagefile')}",
+        postData: false,
         width: "100%",
-        height: "240px"
-    }).on("success", function (event, data) {
-        var result = JSON.parse(data);
-        $('#imageurl1').val(result.data.saveName);
-    }).bind("del",function (e) {
-        $('#imageurl1').val("");
+            height: "300px"
+    }).bind("success", function (e, data) {
+        $('#imageurl').val(data.saveName);
+    }).bind("del", function (e, data) {
+        $('#imageurl').val("");
     });
 
     function onCancel() {
         window.location.href = "{:url('/flyui/celltype')}";
     }
-
 </script>

@@ -24,9 +24,20 @@ class Page extends Auth {
         if ($request->has('id', 'get')) {
             $db = Db::name('page');
             $item = $db->where('pageId', $_GET['id'])->find();
-            $this->assign('item', $item);
-            return $this->fetch();
         }
+        if(empty($item)){
+            $item = [
+                'pageId' => -1,
+                "pageName" => "",
+                "imageurl" => "",
+                "backcolor" => "",
+                "width" => "",
+                "height" => "",
+                "remark" => ""
+            ];
+        }
+        $this->assign('item', $item);
+        return $this->fetch();
     }
 
     public function screen()

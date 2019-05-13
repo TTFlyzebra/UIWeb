@@ -24,14 +24,8 @@
 </html>
 
 <script type="text/javascript">
-    $(function () {
-        var oTable = new TableInit();
-        oTable.Init();
-    });
-
     var TableInit = function () {
         var oTableInit = new Object();
-        //初始化Table
         oTableInit.Init = function () {
             $('#flytable').bootstrapTable({
                 url: "{:url('/api/cell')}",     //请求后台的URL（*）
@@ -68,18 +62,53 @@
                     checkbox: true
                 }, {
                     field: 'celltypeName',
-                    title: '类型',
-                    halign: "center"
-                }, {
-                    field: 'textTitle',
-                    title: '组件名称',
+                    title: '组件类型',
                     halign: "center",
                     formatter: function (value, row, index) {
-                        if(!isTextEmpty(row.themeName)){
-                            return "[" + row.themeName + "]" + value;
-                        }else{
-                            return value;
+                        return '<a  href="{:url(\'/flyui/cell/edit\')}?id=' + row.cellId + '">'+value+'</a>';
+                    }
+                }, {
+                    field: 'description',
+                    title: '组件描述',
+                    halign: "center",
+                    formatter: function (value, row, index) {
+                        return '<a  href="{:url(\'/flyui/cell/edit\')}?id=' + row.cellId + '">'+value+'</a>';
+                    }
+                }, {
+                    field: 'themeName',
+                    title: '关联模板',
+                    halign: "center",
+                    formatter: function (value, row, index) {
+                        return value;
+                    }
+                }
+                , {
+                    field: 'texts',
+                    title: '文本',
+                    halign: "center",
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        try{
+                            value = value[0].text;
+                        }catch (e) {
+                            value = "";
                         }
+                        return '<a  href="{:url(\'/flyui/cell/edit\')}?id=' + row.cellId + '">'+value+'</a>';;
+                    }
+                }, {
+                    field: 'images',
+                    title: '图片',
+                    halign: "center",
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        try{
+                            value = value[0].url;
+                        }catch (e) {
+                            value = "";
+                        }
+                        return '<div style="display: flex;align-items:center;justify-content:center;height: 56px">' +
+                            '<img  style="max-width: 72px;max-height:56px;width: auto;height: auto" src="' + value + '">' +
+                            '</div>';
                     }
                 }, {
                     field: 'width',
@@ -90,57 +119,24 @@
                         return value + "X" + row.height;
                     }
                 }, {
-                    field: 'imageurl1',
-                    title: '图片一',
-                    halign: "center",
-                    align: 'center',
-                    formatter: function (value, row, index) {
-                        return '<div style="display: flex;align-items:center;justify-content:center;height: 56px">' +
-                            '<img  style="max-width: 72px;max-height:56px;width: auto;height: auto" src="' + value + '">' +
-                            '</div>';
-                    }
-                }, {
-                    field: 'imageurl2',
-                    title: '图片二',
-                    halign: "center",
-                    align: 'center',
-                    formatter: function (value, row, index) {
-                        return '<div style="display: flex;align-items:center;justify-content:center;height: 56px">' +
-                            '<img  style="max-width: 72px;max-height:56px;width: auto;height: auto" src="' + value + '">' +
-                            '</div>';
-                    }
-                }, {
-                    field: 'cellpageId',
-                    title: '包含页面',
-                    halign: "center",
-                    align: 'center',
-                    formatter: function (value, row, index) {
-                        if (isTextEmpty(value)) {
-                            return '<a  href="{:url(\'/flyui/cell/subpage\')}?id=' + row.cellId + '">[添加页面]</a>';
-                        } else {
-                            return '<a  href="{:url(\'/flyui/cell/subpage\')}?id=' + row.cellId + '">[编辑页面]</a>';
-                        }
-                    }
-                }, {
-                    field: 'edittime',
+                    field: 'uptime',
                     title: '修改时间',
                     halign: "center",
                     align: 'center'
                 }]
             });
         };
-        //得到查询的参数
         return oTableInit;
     };
 
     $('#btn_add').on("click", function (event) {
-        window.location.href = "{:url('/flyui/cell/add')}";
+        window.location.href = "{:url('/flyui/cell/edit')}?id=-1";
     });
 
     $('#btn_edit').on("click", function (event) {
         var a = $('#flytable').bootstrapTable('getSelections');
         if (a.length > 0) {
-            window.location.href = "{:url('/flyui/cell/edit')}?id="+a[0].cellId;
+            window.location.href = "{:url('/flyui/cell/edit')}?id=" + a[0].cellId;
         }
     });
 
@@ -150,9 +146,7 @@
             $.ajax({
                 type: "DELETE",
                 url: "{:url('/api/cell')}",
-                data: {
-                    cellId: a[i].cellId
-                },
+                data: {cellId: a[i].cellId},
                 error: function (request) {
                     alert("error code:" + request.readyState);
                 },
@@ -167,8 +161,12 @@
             });
         }
     });
-    function isTextEmpty(obj){
+    function isTextEmpty(obj) {
         return typeof obj == "undefined" || obj == null || obj === "";
     }
+    $(function () {
+        var oTable = new TableInit();
+        oTable.Init();
+    });
 </script>
 

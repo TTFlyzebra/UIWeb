@@ -22,8 +22,27 @@ class Theme extends Auth {
         if ($request->has('id', 'get')) {
             $db = Db::name('theme');
             $item = $db->where('themeId', $_GET['id'])->find();
-            $this->assign('item', $item);
         }
+        if(empty($item)){
+            $item = [
+                'themeId' => -1,
+                "themeName" => "",
+                "themeType" => "",
+                "screenWidth" => "",
+                "screenHeight" => "",
+                "left" => "",
+                "top" => "",
+                "right" => "",
+                "bottom" => "",
+                "imageurl" => "",
+                "backcolor" => "",
+                "isMirror" =>"",
+                "animType"=>0,
+                "remark"=>"",
+                "topPageId"=>"",
+            ];
+        }
+        $this->assign('item', $item);
         return $this->fetch();
     }
 }

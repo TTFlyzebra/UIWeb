@@ -3,10 +3,8 @@
 namespace app\flyui\controller;
 
 use app\auth\controller\Auth;
-use think\Config;
 use think\Db;
 use think\Request;
-use think\Session;
 
 class Cell extends Auth
 {
@@ -17,88 +15,28 @@ class Cell extends Auth
         return $this->fetch();
     }
 
-    public function oldadd()
-    {
-        $this->assign('list1', Db::name('celltype')->where('status',1)->select());
-        return $this->fetch();
-    }
-
     public function add()
     {
-        $this->assign('list1', Db::name('celltype')->where('status',1)->select());
-        $this->assign('actions2', getRecvAction());
-        $this->assign('actions', getSendAction());
-        $this->assign('gravitys', getGravity());
+        $celltypes = Db::name('celltype')->where('status',1)->select();
+        $this->assign('celltypes', $celltypes);
+        $themes = Db::name('theme')->where('status',1)->select();
+        $this->assign('themes', $themes);
         return $this->fetch();
     }
 
     public function edit()
     {
-        $this->assign('list1', Db::name('celltype')->where('status',1)->select());
-        $this->assign('actions', getSendAction());
-        $this->assign('gravitys', getGravity());
+        $celltypes = Db::name('celltype')->where('status',1)->select();
+        $this->assign('celltypes', $celltypes);
+        $themes = Db::name('theme')->where('status',1)->select();
+        $this->assign('themes', $themes);
         $request = Request::instance();
         if ($request->has('id', 'get')) {
-            $item = Db::name('cell')->where('cellId', $_GET['id'])->find();
-            $this->assign('item', $item);
-            $subcells = Db::name('cellsub')->where('cellId', $_GET['id'])->where('status', 1)->select();
-            $this->assign('list2', $subcells);
-            $this->assign('subnum', sizeof($subcells));
-        } else {
-            $this->assign('list2', []);
-            $this->assign('subnum', 0);
+            $this->assign('id',$_GET['id']);
+        }else{
+            $this->assign('id',-1);
         }
         return $this->fetch();
     }
 
-    public function subpage()
-    {
-        $db = Db::name('page');
-        $pages = $db->where('status', 3)->select();
-        $this->assign('list', $pages);
-        $request = Request::instance();
-        if ($request->has('id', 'get')) {
-            $cell = Db::name('cell')
-                ->where('cellId', $_GET['id'])
-                ->field('userid,ip,edittime', true)
-                ->find();
-            if (empty($cell['cellpageId'])) {
-                $page = [];
-                $page['pageName'] = 'CELL_PAGE';
-                $page['status'] = 3;
-                $page['width'] = $cell['width'];
-                $page['height'] = $cell['height'];
-                $page['userid'] = Session::get('userid');
-                $page['ip'] = $request->ip();
-                $result1 = Db::name('page')->insert($page, false, true);
-                if ($result1) {
-                    $page['pageId'] = $result1;
-                    saveLog(Config::get('event')['add'], 'page', $page);
-                    $cell['cellpageId'] = $result1;
-                    $result2 = Db::name('cell')->update($cell);
-                    if ($result2) {
-                        saveLog(Config::get('event')['edit'], 'cell', $cell);
-                    }
-                    $page['themeName'] = "";
-                    $this->assign('item', $page);
-                    return $this->fetch();
-                } else {
-                    echo retJsonMsg('add failed', -1, $result1);
-                }
-            } else {
-                $item = Db::name('page')->where('pageId', $cell['cellpageId'])->where('status', 3)->find();
-                $item['width'] = $cell['width'];
-                $item['height'] = $cell['height'];
-                $result3 = Db::name('page')->update($item);
-                if ($result3) {
-                    saveLog(Config::get('event')['edit'], 'page', $item);
-                }
-                $item['themeName'] = "";
-                $this->assign('item', $item);
-                return $this->fetch();
-            }
-        } else {
-            echo retJsonMsg('param error', -1);
-        }
-    }
 }
