@@ -9,13 +9,8 @@
 <script type="text/javascript" src="__RES__/common/js/bootstrap-table.js"></script>
 <script type="text/javascript" src="__RES__/common/js/bootstrap-table-zh-CN.min.js"></script>
 <script type="text/javascript" src="__RES__/flyui/js/flyimage.js"></script>
+<script type="text/javascript" src="__RES__/flyui/js/flyjsonedit.js"></script>
 <body>
-<!-- loading -->
-<div id="loading" style="z-index: 9999;position:absolute;left:0;right:0;top:80%;bottom:0;width:180px;height:30px;margin: auto;
-    border: solid 1px #666;background-color: #FFFFFF;box-shadow: 0 0 3px #666;display: none;
-    font-size: 20px;text-align: center;vertical-align:middle;">
-    正在提交请求......
-</div>
 <div class="modal-header">
     <h4 class="modal-title" id="myModalLabel">{if condition="$id gt 0"}修改组件{else/}添加组件{/if}</h4>
 </div>
@@ -32,6 +27,32 @@
         <button type="button" class="btn btn-primary" onclick="postForm({$id})">提交</button>
     </div>
 </form>
+<!-- loading -->
+<div id="loadingDialog" style="z-index: 9999;position:absolute;left:0;right:0;top:80%;bottom:0;width:180px;height:30px;margin: auto;
+    border: solid 1px #666;background-color: #FFFFFF;box-shadow: 0 0 3px #666;display: none;
+    font-size: 20px;text-align: center;vertical-align:middle;">
+    正在提交请求......
+</div>
+<!--事件编辑-->
+<div class="FlyJsonEdit">
+    <div class="modal-header">
+        <h4 class="modal-title">事件编辑器</h4>
+    </div>
+    <div class="modal-body">
+        <div style="margin:2px 2px 2px 2px;width: 100%;height:30px;">
+            <label style="padding:9px 9px 9px 14px;width: 100%">启动应用</label>
+            <div style="margin:2px 2px 2px 2px;height:30px;width:calc(50% - 4px);float:left;">
+                应用包名:<input id="packName" style="width:calc(100% - 80px);height:30px;" type="text">
+            </div>
+            <div style="margin:2px 2px 2px 2px;height:30px;width:calc(50% - 4px);float:left;">
+                应用类名:<input id="className" style="width:calc(100% - 80px);height:30px;" type="text">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="createEventJson()">生成事件</button>
+    </div>
+</div>
 </body>
 </html>
 <script type="text/javascript">
@@ -139,7 +160,8 @@
             '                   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
             '                       点击事件:' +
             '                       <input name="' + num + '_send" style="width:calc(100% - 80px);height:30px;" type="text" ' +
-            '                              value="' + verify(cell.send) + '" placeholder="">' +
+            '                              value="' + verify(cell.send) + '" placeholder=""' +
+            '                              onclick="openEventDialog(' + 0 + ',' + num + ')" readonly>' +
             '                   </div>' +
             '                   <div style="margin:2px 2px 2px 2px;width:100%;float:left;">' +
             '                       <span style="padding-right: 4px;float:left;">备注扩展:</span>' +
@@ -279,7 +301,8 @@
             '   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
             '       点击事件:' +
             '       <input name="' + num + '_textSend[]" style="width:calc(100% - 80px);height:30px;" type="text" ' +
-            '              value="' + verify(text.send) + '" placeholder="">' +
+            '              value="' + verify(text.send) + '" placeholder=""' +
+            '              onclick="openEventDialog(' + 1 + ',' + num + ',' + subnum + ')" readonly>' +
             '   </div>' +
             '</div>');
         $('#textTab' + num).get(0).append(textTab.get(0));
@@ -353,7 +376,8 @@
             '   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
             '       点击事件:' +
             '       <input name="' + num + '_imageSend[]" style="width:calc(100% - 80px);height:30px;" type="text" ' +
-            '              value="' + verify(image.send) + '" placeholder="">' +
+            '              value="' + verify(image.send) + '" placeholder=""' +
+            '              onclick="openEventDialog(' + 2 + ',' + num + ',' + subnum + ')" readonly>' +
             '   </div>' +
             '</div>');
         $('#imageTab' + num).get(0).append(imageTab.get(0));
@@ -399,22 +423,34 @@
         imagesNum[num]++;
     }
 
+    function openEventDialog(type, num, subnum) {
+        $('.FlyJsonEdit').show();
+    }
+
+    function createEventJson() {
+        var event = new Object();
+        event.packName = $('#packName').val();
+        event.className = $('#className').val();
+        var text = JSON.stringify(event);
+        alert(text);
+    }
+
     function onCancel() {
         window.history.back();
     }
 
     function postForm(id) {
-        $('#loading').fadeIn(100);
+        $('#loadingDialog').fadeIn(100);
         $.ajax({
             type: id > 0 ? "PUT" : "POST",
             url: "{:url('/api/cell')}",
             data: $('#flyform').serialize(),
             error: function (request) {
-                $('#loading').fadeOut(100);
+                $('#loadingDialog').fadeOut(100);
                 alert("error code:" + request.readyState);
             },
             success: function (data) {
-                $('#loading').fadeOut(100);
+                $('#loadingDialog').fadeOut(100);
                 var obj = JSON.parse(data);
                 if (obj.code === 0) {
                     if (id > 0) {
@@ -471,4 +507,12 @@
             refreshCell("{$id}");
         }
     });
+
+    $('.FlyJsonEdit').flyjsonedit({
+        inputName: [],
+        inputType: [],
+        inputVaule: [],
+        inputWidth: [],
+    });
+
 </script>

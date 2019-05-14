@@ -155,7 +155,7 @@ class Cell extends BaseRestful
             if ($request->has('id', 'get')) {
                 $maincell = $db->where('cellId', $_GET['id'])->find();
                 if ($maincell) {
-                    $maincell = $this->completeCell($maincell);
+                    $maincell = replaceJsonCell($maincell);
                     echo retJsonMsg("find ok!", 0, $maincell);
                 } else {
                     echo retJsonMsg('find failed!', -1);
@@ -164,7 +164,7 @@ class Cell extends BaseRestful
                 $cells = $db->select();
                 if ($cells) {
                     for ($pi = 0; $pi < sizeof($cells); $pi++) {
-                        $cells[$pi] = $this->completeCell($cells[$pi]);
+                        $cells[$pi] = replaceJsonCell($cells[$pi]);
                     }
                     if ($request->isAjax() && $request->has('limit', 'get') && $request->has('offset', 'get')) {
                         $resultdata['total'] = $db->where('status', 1)->count();
@@ -184,26 +184,4 @@ class Cell extends BaseRestful
 
     }
 
-    public function completeCell($cell)
-    {
-        $cell['texts'] = json_decode($cell['texts']);
-        $cell['images'] = json_decode($cell['images']);
-        $cell['pages'] = json_decode($cell['pages']);
-        $subfield = getSubCellFiled();
-        $db = Db::name('subcell');
-        $db->alias('a');
-        $db->join("fly_celltype b", "a.celltypeId=b.celltypeId", 'INNER');
-        $db->join("fly_theme c", "a.themeId=c.themeId", 'INNER');
-        $db->field($subfield);
-        $subcells = $db->where('cellId', $cell['cellId'])->select();
-        if ($subcells) {
-            for ($i = 0; $i < sizeof($subcells); $i++) {
-                $subcells[$i]['texts'] = json_decode($subcells[$i]['texts']);
-                $subcells[$i]['images'] = json_decode($subcells[$i]['images']);
-                $subcells[$i]['pages'] = json_decode($subcells[$i]['pages']);
-            }
-            $cell['subCells'] = $subcells;
-        }
-        return $cell;
-    }
 }
