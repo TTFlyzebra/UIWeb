@@ -14,7 +14,7 @@ function getCellFiled()
 function getSubCellFiled()
 {
     return ['a.subcellId', 'a.cellId', 'a.description', 'a.themeId', 'a.celltypeId', 'c.themeName', 'a.resId', 'a.width',
-        'a.height', 'a.backColor', 'a.filterColor', 'a.recv', 'a.send', 'a.texts', 'a.images', 'a.pages', 'a.remark', 'a.uptime',
+        'a.height', 'a.backColor', 'a.filterColor', 'a.recv', 'a.send', 'a.texts', 'a.images', 'a.pages', 'a.remark',
         'b.celltype', 'b.celltypeName'];
 }
 
@@ -22,7 +22,7 @@ function getPageCellFiled()
 {
     return ['a.cellId', 'a.x', 'a.y', 'a.width', 'a.height', 'b.description', 'b.themeId', 'b.celltypeId',
         'b.resId', 'b.backColor', 'b.filterColor', 'b.recv', 'b.send', 'b.texts', 'b.images', 'b.pages',
-        'b.remark', 'b.uptime', 'c.celltype', 'c.celltypeName', 'c.imageurl' => 'typeimageurl'];
+        'b.remark', 'c.celltype'];
 }
 
 function getPagecell($pageId)
@@ -34,20 +34,21 @@ function getPagecell($pageId)
         ->join("fly_celltype c", "b.celltypeId=c.celltypeId")
         ->field(getPageCellFiled())
         ->select();
+    for ($j = 0; $j < sizeof($pagedata); $j++) {
+        $pagedata[$j] = replaceJsonCell($pagedata[$j]);
+    }
     return $pagedata;
 }
 
 function getSubCells($cellId)
 {
-    $subcells = Db::name('cellsub')
+    $subcells = Db::name('subcell')
         ->alias('a')
-        ->join("fly_celltype b", "a.celltypeId=b.celltypeId")
+        ->join("fly_celltype b", "a.celltypeId=b.celltypeId", 'INNER')
+        ->join("fly_theme c", "a.themeId=c.themeId", 'INNER')
         ->where('a.cellId', $cellId)
         ->where('a.status', 1)
-        ->field(["a.cellsubId" => "cellId", 'a.resId', "a.width", "a.height", "a.imageurl1", "a.imageurl2", "a.backcolor",
-            "a.textTitle", "a.textSize", "a.textColor", 'a.mTop', 'a.mBottom', 'a.mLeft',
-            'a.mRight', 'textLine', "a.gravity", "a.textFont", "a.sendAction", "a.recvAction", "a.clickevent",
-            "a.remark", "a.extend", "b.celltype"])
+        ->field(getSubCellFiled())
         ->select();
     return $subcells;
 }
@@ -56,26 +57,16 @@ function getPageBean($pageId, $getsub = true)
 {
     $cellList = getPagecell($pageId);
     for ($n = 0; $n < sizeof($cellList); $n++) {
-        $cellList[$n]['textTitle'] = array(
-            'zh' => $cellList[$n]['textTitle']
-        );
         if (!empty($cellList[$n]['cellpageId']) && $getsub) {
             $cellList[$n]['cellpage'] = getPageBean($cellList[$n]['cellpageId'], false);
         }
-        $subCells = getSubCells($cellList[$n]['cellId']);
-        for ($t = 0; $t < sizeof($subCells); $t++) {
-            $subCells[$t]['textTitle'] = array(
-                'zh' => $subCells[$t]['textTitle']
-            );
-        }
-        $cellList[$n]['subCells'] = $subCells;
     }
     $pageBean['pageId'] = $pageId;
     $pageBean['cellList'] = $cellList;
     return $pageBean;
 }
 
-function getCell($data, $str = '0_')
+function getPostCell($data, $str = '0_')
 {
     $cell = array();
     if (isset($data[$str . "cellId"]) && $data[$str . "cellId"] > 0) {
@@ -94,9 +85,9 @@ function getCell($data, $str = '0_')
     $cell["filterColor"] = $data[$str . "filterColor"];
     $cell["recv"] = $data[$str . "recv"];
     $cell["send"] = $data[$str . "send"];
-    if (isset($data[$str . "text"])) {
+    if (isset($data[$str . "text"]) && !empty($data[$str . "text"])) {
         for ($i = 0; $i < sizeof($data[$str . "text"]); $i++) {
-            $texts[$i]['text'] = $data[$str . "text"][$i];
+            $texts[$i]['text'] = empty($data[$str . "text"][$i]) ? NULL : $data[$str . "text"][$i];
             $texts[$i]['textSize'] = (int)$data[$str . "textSize"][$i];
             $texts[$i]['textLines'] = (int)$data[$str . "textLines"][$i];
             $texts[$i]['textColor'] = $data[$str . "textColor"][$i];
@@ -106,14 +97,14 @@ function getCell($data, $str = '0_')
             $texts[$i]['right'] = (int)$data[$str . "textRight"][$i];
             $texts[$i]['bottom'] = (int)$data[$str . "textBottom"][$i];
             $texts[$i]['gravity'] = (int)$data[$str . "textGravity"][$i];
-            $texts[$i]['recv'] = $data[$str . "textRecv"][$i];
-            $texts[$i]['send'] = $data[$str . "textSend"][$i];
+            $texts[$i]['recv'] = empty($data[$str . "textRecv"][$i]) ? NULL : $data[$str . "textRecv"][$i];
+            $texts[$i]['send'] = empty($data[$str . "textSend"][$i]) ? NULL : $data[$str . "textSend"][$i];
         }
         $cell["texts"] = json_encode($texts);
     } else {
         $cell["texts"] = "[]";
     }
-    if (isset($data[$str . "imageUrl"])) {
+    if (isset($data[$str . "imageUrl"]) && !empty($data[$str . "imageUrl"])) {
         for ($i = 0; $i < sizeof($data[$str . "imageUrl"]); $i++) {
             $images[$i]['width'] = (int)$data[$str . "imageWidth"][$i];
             $images[$i]['height'] = (int)$data[$str . "imageHeight"][$i];
@@ -124,8 +115,8 @@ function getCell($data, $str = '0_')
             $images[$i]['right'] = (int)$data[$str . "imageRight"][$i];
             $images[$i]['bottom'] = (int)$data[$str . "imageBottom"][$i];
             $images[$i]['scaleType'] = (int)$data[$str . "scaleType"][$i];
-            $images[$i]['recv'] = $data[$str . "imageRecv"][$i];
-            $images[$i]['send'] = $data[$str . "imageSend"][$i];
+            $images[$i]['recv'] = empty($data[$str . "imageRecv"][$i]) ? NULL : $data[$str . "imageRecv"][$i];
+            $images[$i]['send'] = empty($data[$str . "imageSend"][$i]) ? NULL : $data[$str . "imageSend"][$i];
         }
         $cell["images"] = json_encode($images);
     } else {
@@ -141,21 +132,56 @@ function getCell($data, $str = '0_')
 
 function replaceJsonCell($cell)
 {
-    $cell['texts'] = json_decode($cell['texts']);
-    $cell['images'] = json_decode($cell['images']);
+    $cell['texts'] = json_decode($cell['texts'], true);
+    if (is_array($cell['texts'])) {
+        for ($ti = 0; $ti < sizeof($cell['texts']); $ti++) {
+            if (!empty($cell['texts'][$ti]['text'])) {
+                $cell['texts'][$ti]['text'] = json_decode($cell['texts'][$ti]['text'], true);
+            }
+            if (!empty($cell['texts'][$ti]['send'])) {
+                $cell['texts'][$ti]['send'] = json_decode($cell['texts'][$ti]['send'], true);
+            }
+        }
+    }
+    $cell['images'] = json_decode($cell['images'], true);
+    if (is_array($cell['images'])) {
+        for ($ii = 0; $ii < sizeof($cell['images']); $ii++) {
+            if (!empty($cell['images'][$ii]['send'])) {
+                $cell['images'][$ii]['send'] = json_decode($cell['images'][$ii]['send']);
+            }
+        }
+    }
     $cell['pages'] = json_decode($cell['pages']);
-    $subfield = getSubCellFiled();
+    $cell['send'] = json_decode($cell['send']);
     $db = Db::name('subcell');
     $db->alias('a');
     $db->join("fly_celltype b", "a.celltypeId=b.celltypeId", 'INNER');
     $db->join("fly_theme c", "a.themeId=c.themeId", 'INNER');
-    $db->field($subfield);
+    $db->field(getSubCellFiled());
     $subcells = $db->where('cellId', $cell['cellId'])->select();
     if ($subcells) {
         for ($i = 0; $i < sizeof($subcells); $i++) {
-            $subcells[$i]['texts'] = json_decode($subcells[$i]['texts']);
-            $subcells[$i]['images'] = json_decode($subcells[$i]['images']);
-            $subcells[$i]['pages'] = json_decode($subcells[$i]['pages']);
+            $subcells[$i]['texts'] = json_decode($subcells[$i]['texts'], true);
+            if (is_array($subcells[$i]['texts'])) {
+                for ($sti = 0; $sti < sizeof($subcells[$i]['texts']); $sti++) {
+                    if (!empty($subcells[$i]['texts'][$sti]['text'])) {
+                        $subcells[$i]['texts'][$sti]['text'] = json_decode($subcells[$i]['texts'][$sti]['text'], true);
+                    }
+                    if (!empty($subcells[$i]['texts'][$sti]['send'])) {
+                        $subcells[$i]['texts'][$sti]['send'] = json_decode($subcells[$i]['texts'][$sti]['send'], true);
+                    }
+                }
+            }
+            $subcells[$i]['images'] = json_decode($subcells[$i]['images'], true);
+            if (is_array($subcells[$i]['images'])) {
+                for ($sii = 0; $sii < sizeof($subcells[$i]['images']); $sii++) {
+                    if (!empty($subcells[$i]['images'][$sii]['send'])) {
+                        $subcells[$i]['images'][$sii]['send'] = json_decode($subcells[$i]['images'][$sii]['send']);
+                    }
+                }
+            }
+            $subcells[$i]['pages'] = json_decode($subcells[$i]['pages'], true);
+            $subcells[$i]['send'] = json_decode($subcells[$i]['send']);
         }
         $cell['subCells'] = $subcells;
     }

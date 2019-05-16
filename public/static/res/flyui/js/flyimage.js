@@ -182,12 +182,5 @@
 })(jQuery);
 
 $(function () {
-    $('.FlyImageInput').flyinput({
-        ajaxurl: "/uiweb/api/imagefile",
-        postData: true,
-        width: "100%",
-        height: "400px"
-    }).bind("success", function (e, data) {
-    }).bind("del", function (e) {
-    });
+    $('.FlyImageInput').flyinput();
 });

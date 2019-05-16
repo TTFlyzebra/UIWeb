@@ -31,13 +31,13 @@ class Cell extends BaseRestful
             $prefixs = $table['prefix'];
             $prefixSize = is_array($prefixs) ? sizeof($prefixs) : 0;
             if ($prefixSize > 0) {
-                $maincell = getCell($table, $prefixs[0]);
+                $maincell = getPostCell($table, $prefixs[0]);
                 $result = Db::name($tableName)->insert($maincell, false, true);
                 if ($result) {
                     //添加子组件
                     if ($prefixSize > 1) {
                         for ($pi = 1; $pi < $prefixSize; $pi++) {
-                            $subcell = getCell($table, $prefixs[$pi]);
+                            $subcell = getPostCell($table, $prefixs[$pi]);
                             $subcell['cellId'] = $result;
                             $subcells[] = $subcell;
                         }
@@ -63,7 +63,7 @@ class Cell extends BaseRestful
             $prefixs = $table['prefix'];
             $prefixSize = is_array($prefixs) ? sizeof($prefixs) : 0;
             if ($prefixSize > 0) {
-                $maincell = getCell($table, $prefixs[0]);
+                $maincell = getPostCell($table, $prefixs[0]);
                 //TODO:编辑子组件 有时间优化操作，只更新不删除，性能优化
                 if ($prefixSize > 1) {
                     //删除要删除的
@@ -90,7 +90,7 @@ class Cell extends BaseRestful
                     }
                     //更新添加子组件
                     for ($pi = 1; $pi < $prefixSize; $pi++) {
-                        $subcell = getCell($table, $prefixs[$pi]);
+                        $subcell = getPostCell($table, $prefixs[$pi]);
                         $subcell['cellId'] = $maincell['cellId'];
                         if (isset($subcell["subcellId"])) {
                             $subresult = Db::name('subcell')->update($subcell);
@@ -107,6 +107,13 @@ class Cell extends BaseRestful
                                 saveLog(Config::get('event')['error'], "subcell", $subcell);
                             }
                         }
+                    }
+                }else{
+                    $subdel = Db::name('subcell')->where('cellId', $maincell['cellId'])->delete();
+                    if ($subdel) {
+                        saveLog(Config::get('event')['del'], "subcell", $subdel);
+                    } else {
+                        saveLog(Config::get('event')['error'], "subcell", $subdel);
                     }
                 }
                 $result = Db::name($tableName)->update($maincell);

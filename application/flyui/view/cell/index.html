@@ -86,10 +86,10 @@
                     field: 'texts',
                     title: '文本',
                     halign: "center",
-                    align: 'center',
                     formatter: function (value, row, index) {
                         try{
-                            value = value[0].text;
+                            value = JSON.stringify(value[0].text);
+                            value= value=="null"?"":value;
                         }catch (e) {
                             value = "";
                         }

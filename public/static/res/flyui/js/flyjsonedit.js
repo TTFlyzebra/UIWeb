@@ -1,16 +1,21 @@
 (function ($) {
+    function isTextEmpty(obj) {
+        return typeof obj == "undefined" || obj == null || obj === "";
+    }
+
     var Flyjsonedit = function (jsonedit, options) {
         this.jsonedit = jsonedit;
         this.$jsonedit = $(jsonedit);
         this.options = options;
         this.initcss();
-        this.refresh();
         this.initevent();
     };
 
     Flyjsonedit.DEFAULTS = {
-        width: "240px",
-        height: "240px"
+        jsonInput: undefined,
+        width: "50%",
+        height: "70%",
+        inputs: undefined
     };
 
     Flyjsonedit.prototype.initcss = function () {
@@ -26,59 +31,75 @@
         self.css("border", "solid 1px #666");
         self.css("background-color", "#FFFFFF");
         self.css("box-shadow", "0 0 3px #666");
-        self.css("width", "50%");
-        self.css("height", "70%");
-        self.css("display","none");
+        self.css("width", options.width);
+        self.css("height", options.height);
+        self.css("display", "none");
         var closeDialog = $('<button type="button" style="width:36px;line-height: 30px;float: right">╳</button>');
+        var title = $('<div class="modal-header"><h4 class="modal-title">' + options.title + '</h4></div>');
+        var footer = $('<div class="modal-footer"></div>');
+        var button = $('<button type="button" class="btn btn-primary">确定</button>');
+        footer.append(button);
+        self.prepend(title.get(0))
+        self.prepend(closeDialog.get(0));
+        self.append(footer.get(0));
         closeDialog.on("click", function (event) {
             self.fadeOut(100);
         });
-        self.prepend(closeDialog.get(0));
+        button.on('click', function (event) {
+            if (options.inputIds !== undefined && options.inputIds.length > 0) {
+                var obj = {};
+                for (var i = 0; i < options.inputIds.length; i++) {
+                    var value = $('#' + options.inputIds[i]).val();
+                    if (!isTextEmpty(value)) {
+                        obj[options.inputIds[i]] = value;
+                    }
+                }
+                var jsonStr = JSON.stringify(obj);
+                if (jsonStr == "{}") {
+                    options.jsonInput.val("");
+                } else {
+                    options.jsonInput.val(JSON.stringify(obj));
+                }
+
+            }
+            self.trigger("confirm", options.jsonInput);
+            self.fadeOut(100);
+        });
+
     };
 
     Flyjsonedit.prototype.initevent = function () {
-        var divimg = this.divimg;
-        var self = this.$jsonedit;
-        var options = this.options;
-        if (options.autoup === true) {
-            this.$jsonedit.on("change", function () {
-                var formData = new FormData();
-                formData.append(this.name, this.files[0]);
-                $.ajax({
-                    url: options.url,
-                    type: "POST",
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function (result) {
-                        self.trigger("success", result);
-                        try {
-                            var obj = JSON.parse(result);
-                            if (obj.code === 0) {
-                                divimg.attr('src', obj.data.saveName);
-                            } else {
-                                divimg.attr('src', options.image);
-                                alert(obj.msg + "data" + obj.data);
-                            }
-                        } catch (e) {
-                            divimg.attr('src', options.image);
-                            alert("catch error:" + e);
-                        }
-                    },
-                    error: function (result) {
-                        alert("上传图片失败！");
-                        divimg.attr('src', options.image);
-                    }
-                });
-            });
-        }
     };
 
     Flyjsonedit.prototype.refresh = function () {
+        try {
+            if (this.options.inputIds !== undefined && this.options.inputIds.length > 0) {
+                if (isTextEmpty(this.options.jsonStr)) {
+                    for (var i = 0; i < this.options.inputIds.length; i++) {
+                        $('#' + this.options.inputIds[i]).val("");
+                    }
+                } else {
+                    var obj = JSON.parse(this.options.jsonStr);
+                    for (var i = 0; i < this.options.inputIds.length; i++) {
+                        if (!isTextEmpty(obj[this.options.inputIds[i]])) {
+                            $('#' + this.options.inputIds[i]).val(obj[this.options.inputIds[i]]);
+                        } else {
+                            $('#' + this.options.inputIds[i]).val("");
+                        }
+                    }
+                }
+            }
+        } catch (e) {
+            console.log("input jsonStr parse json error!")
+        }
     };
 
-    Flyjsonedit.prototype.show = function () {
+    Flyjsonedit.prototype.show = function (jsonInput, jsonStr) {
+        this.options.jsonInput = jsonInput;
+        this.options.jsonStr = jsonStr;
+        this.$jsonedit.trigger("create");
         this.$jsonedit.fadeIn(100);
+        this.refresh();
     };
 
     Flyjsonedit.prototype.hide = function () {
@@ -118,3 +139,7 @@
         return typeof value === 'undefined' ? this : value;
     };
 })(jQuery);
+
+$(function () {
+    $('.FlyJsonEdit').flyjsonedit();
+});

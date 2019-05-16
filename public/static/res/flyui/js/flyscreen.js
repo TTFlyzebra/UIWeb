@@ -21,13 +21,20 @@ var trimPX = function (_px) {
 
 var createCellDiv = function (cell) {
     var cell_div = cellitem(cell);
-    //图像
-    // var image = childimage(cell);
-    // cell_div.get(0).append(image.get(0));
+    // //图像
+    var image_divs = childimages(cell);
+    if (image_divs.length > 0) {
+        for (var i = 0; i < image_divs.length; i++) {
+            cell_div.get(0).append(image_divs[i].get(0));
+        }
+    }
     //文字
-    var text = childtext(cell);
-    cell_div.get(0).append(text.get(0));
-    //删除按钮
+    var text_divs = childtexts(cell);
+    if (text_divs.length > 0) {
+        for (var i = 0; i < text_divs.length; i++) {
+            cell_div.get(0).append(text_divs[i].get(0));
+        }
+    }
     return cell_div.get(0);
 };
 
@@ -38,55 +45,66 @@ var cellitem = function (cell) {
     cell_div.css('height', cell.height + 'px');
     cell_div.css('left', cell.x + 'px');
     cell_div.css('top', cell.y + 'px');
-    //添加所有图像
-    if (cell.images !== undefined && cell.images.length > 0) {
-        for (var i = cell.images.length -1; i >=0; i--) {
-            var obj = cell.images[i];
-            var image = $('<img style="position: absolute;margin: auto;">');
-            image.css('left', obj.left + 'px');
-            image.css('top', obj.top + 'px');
-            image.css('right', obj.right + 'px');
-            image.css('bottom', obj.bottom + 'px');
-            image.attr('width', Math.min(cell.width, obj.width)  + 'px');
-            image.attr('height', Math.min(cell.height, obj.height)  + 'px');
-            image.attr('src', obj.url);
-            image.attr('ondragstart', 'return false;');
-            cell_div.get(0).append(image.get(0));
-        }
-    }
     return cell_div;
 };
 
-var childtext = function (cell) {
-    var text_div = $('<div></div>');
-    text_div.css('position', 'absolute');
-    text_div.css('text-align', 'center');
-    text_div.css('width', cell.width + 'px');
-    text_div.css('font-size', cell.textSize + 'px');
-    text_div.css('color', cell.textColor);
-    text_div.css('marginTop', (cell.height - 48) + 'px');
-    try {
-        var data = JSON.parse(cell.textTitle);
-        var content = data.zh;
-        if (content) {
-            cell.textTitle = content.replace('\n', '<br/>');
+var childimages = function (cell) {
+    var image_divs = [];
+    if (cell.images !== undefined && cell.images.length > 0) {
+        for (var i = cell.images.length - 1; i >= 0; i--) {
+            var imageBean = cell.images[i];
+            image_divs[i] = $('<img style="position: absolute;margin: auto;">');
+            image_divs[i].css('left', imageBean.left + 'px');
+            image_divs[i].css('top', imageBean.top + 'px');
+            image_divs[i].css('right', imageBean.right + 'px');
+            image_divs[i].css('bottom', imageBean.bottom + 'px');
+            image_divs[i].attr('width', Math.min(cell.width, imageBean.width) + 'px');
+            image_divs[i].attr('height', Math.min(cell.height, imageBean.height) + 'px');
+            image_divs[i].attr('src', imageBean.url);
+            image_divs[i].attr('ondragstart', 'return false;');
         }
-    } catch (e) {
+    } else {
+        image_divs[0] = $('<img style="position: absolute;margin: auto;">');
+        image_divs[0].attr('width', cell.width + 'px');
+        image_divs[0].attr('height', cell.height + 'px');
+        image_divs[0].attr('ondragstart', 'return false;');
     }
-    if (isTextEmpty(cell.textTitle)) {
-        text_div.css('marginTop', (cell.height - 36) / 2 + 'px');
-        text_div.css('font-size', '24px');
-    }
-    switch (cell.celltype) {
-        case 0:
-            text_div.get(0).innerHTML = "";
-            break;
-        default:
-            text_div.get(0).innerHTML = isTextEmpty(cell.textTitle) ? cell.celltypeName : cell.textTitle;
-            break;
+    return image_divs;
+}
 
+var childtexts = function (cell) {
+    var text_divs = [];
+    var is_settext = false;
+    if (cell.texts !== undefined && cell.texts.length > 0) {
+        var count = 0;
+        for (var i = cell.texts.length - 1; i >= 0; i--) {
+            var textBean = cell.texts[i];
+            if (isTextEmpty(textBean.text)) continue;
+            text_divs[count] = $('<div></div>');
+            text_divs[count].css('position', 'absolute');
+            text_divs[count].css('text-align', 'center');
+            text_divs[count].css('width', cell.width + 'px');
+            text_divs[count].css('font-size', textBean.textSize + 'px');
+            text_divs[count].css('color', textBean.textColor);
+            text_divs[count].css('marginTop', (cell.height - 48) + 'px');
+            text_divs[count].get(0).innerHTML = isTextEmpty(textBean.text.zh_rCN) ? "" : textBean.text.zh_rCN;
+            if (!is_settext) {
+                is_settext = !isTextEmpty(textBean.text.zh_rCN);
+            }
+            count++;
+        }
     }
-    return text_div;
+    if (!is_settext) {
+        text_divs[0] = $('<div></div>');
+        text_divs[0].css('position', 'absolute');
+        text_divs[0].css('text-align', 'center');
+        text_divs[0].css('width', cell.width + 'px');
+        text_divs[0].css('font-size', '24px');
+        text_divs[0].css('color', "#000000");
+        text_divs[0].css('marginTop', (cell.height / 2 - 18) + 'px');
+        text_divs[0].get(0).innerHTML = isTextEmpty(cell.description) ? "" : cell.description;
+    }
+    return text_divs;
 };
 
 var childposion = function (cell, cell_div, bshow) {
@@ -116,12 +134,14 @@ var childposion = function (cell, cell_div, bshow) {
         'border-top: 24px solid transparent;border-bottom: 24px solid transparent;border-left: 24px solid #FFB800;"></div>');
     positiontext.get(0).innerHTML = cell.x + "-" + cell.y;
     arrow_up.on("click", function (event) {
+        cell.x = trimPX(cell_div.get(0).style.left);
         var y = trimPX(cell_div.get(0).style.top);
         cell_div.get(0).style.top = (y - 1) + 'px';
         cell.y = y - 1;
         positiontext.get(0).innerHTML = cell.x + "-" + cell.y;
     });
     arrow_down.on("click", function (event) {
+        cell.x = trimPX(cell_div.get(0).style.left);
         var y = trimPX(cell_div.get(0).style.top);
         cell_div.get(0).style.top = (y + 1) + 'px';
         cell.y = y + 1;
@@ -131,12 +151,14 @@ var childposion = function (cell, cell_div, bshow) {
         var x = trimPX(cell_div.get(0).style.left);
         cell_div.get(0).style.left = (x - 1) + 'px';
         cell.x = x - 1;
+        cell.y = trimPX(cell_div.get(0).style.top);
         positiontext.get(0).innerHTML = cell.x + "-" + cell.y;
     });
     arrow_right.on("click", function (event) {
         var x = trimPX(cell_div.get(0).style.left);
         cell_div.get(0).style.left = (x + 1) + 'px';
         cell.x = x + 1;
+        cell.y = trimPX(cell_div.get(0).style.top);
         positiontext.get(0).innerHTML = cell.x + "-" + cell.y;
     });
     position_div.css('position', 'absolute');
@@ -196,11 +218,19 @@ var _delete = function (cell, bshow) {
         var screen = this.screen;
         var cell_div = cellitem(cell);
         // //图像
-        // var image = childimage(cell);
-        // cell_div.get(0).append(image.get(0));
+        var image_divs = childimages(cell);
+        if (image_divs.length > 0) {
+            for (var i = 0; i < image_divs.length; i++) {
+                cell_div.get(0).append(image_divs[i].get(0));
+            }
+        }
         //文字
-        var text = childtext(cell);
-        cell_div.get(0).append(text.get(0));
+        var text_divs = childtexts(cell);
+        if (text_divs.length > 0) {
+            for (var i = 0; i < text_divs.length; i++) {
+                cell_div.get(0).append(text_divs[i].get(0));
+            }
+        }
         //位置调节
         var position = childposion(cell, cell_div, this.options.showadjust);
         cell_div.get(0).append(position.get(0));
@@ -327,7 +357,7 @@ var _delete = function (cell, bshow) {
         $.ajax({
             url: this.options.url,
             type: "POST",
-            data: {jsondata:cellListJson,pageId:id},
+            data: {jsondata: cellListJson, pageId: id},
             dataType: 'html',
             error: function (request) {
                 alert("向服务器提交页面数据更新失败!");
@@ -456,13 +486,13 @@ var _delete = function (cell, bshow) {
         menucell_div.get(0).append(menucell.get(0));
         //添加所有图像
         if (cell.images !== undefined && cell.images.length > 0) {
-            for (var i = cell.images.length -1; i >=0; i--) {
+            for (var i = cell.images.length - 1; i >= 0; i--) {
                 var obj = cell.images[i];
                 var image = $('<img style="position: absolute;margin: auto;">');
-                image.css('left', obj.left/scale + 'px');
-                image.css('top', obj.top/scale + 'px');
-                image.css('right', obj.right/scale + 'px');
-                image.css('bottom', obj.bottom/scale + 'px');
+                image.css('left', obj.left / scale + 'px');
+                image.css('top', obj.top / scale + 'px');
+                image.css('right', obj.right / scale + 'px');
+                image.css('bottom', obj.bottom / scale + 'px');
                 image.attr('width', Math.min(cell.width, obj.width) / scale + 'px');
                 image.attr('height', Math.min(cell.height, obj.height) / scale + 'px');
                 image.attr('src', obj.url);

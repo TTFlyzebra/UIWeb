@@ -34,23 +34,107 @@
     正在提交请求......
 </div>
 <!--事件编辑-->
-<div class="FlyJsonEdit">
-    <div class="modal-header">
-        <h4 class="modal-title">事件编辑器</h4>
-    </div>
-    <div class="modal-body">
-        <div style="margin:2px 2px 2px 2px;width: 100%;height:30px;">
-            <label style="padding:9px 9px 9px 14px;width: 100%">启动应用</label>
-            <div style="margin:2px 2px 2px 2px;height:30px;width:calc(50% - 4px);float:left;">
-                应用包名:<input id="packName" style="width:calc(100% - 80px);height:30px;" type="text">
-            </div>
-            <div style="margin:2px 2px 2px 2px;height:30px;width:calc(50% - 4px);float:left;">
-                应用类名:<input id="className" style="width:calc(100% - 80px);height:30px;" type="text">
-            </div>
+<div id="eventDialog" class="FlyJsonEdit">
+    <div style="margin:4px;padding:4px;width:calc(100% - 8px);;height: 130px;border:solid;border-width:1px;border-color:#AAAAAA;">
+        <label style="padding:9px;width: 100%;height:30px;">事件设置</label>
+        <div style="margin:4px;height:30px;width:calc(100% - 8px);float: left">
+            事件ID：&ensp;&ensp;<input id="eventId" style="width:calc(100% - 80px);height:30px;" type="text">
+        </div>
+        <div style="margin:4px;height:30px;width:calc(100% - 8px);float: left">
+            事件类容：<input id="eventContent" style="width:calc(100% - 80px);height:30px;" type="text">
         </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="createEventJson()">生成事件</button>
+    <div style="margin:4px;padding:4px;width:calc(100% - 8px);;height: 206px;border:solid;border-width:1px;border-color:#AAAAAA;">
+        <label style="padding:9px;width: 100%;height:30px;">启动应用</label>
+        <div style="margin:4px;height:30px;width:calc(100% - 8px);float: left">
+            应用包名：<input id="packName" style="width:calc(100% - 80px);height:30px;" type="text">
+        </div>
+        <div style="margin:4px;height:30px;width:calc(100% - 8px);float: left">
+            应用类名：<input id="className" style="width:calc(100% - 80px);height:30px;" type="text">
+        </div>
+        <div style="margin:4px;height:30px;width:calc(100% - 8px);float: left">
+            Intent：&ensp;&ensp;&ensp;<input id="intent" style="width:calc(100% - 80px);height:30px;" type="text">
+        </div>
+        <div style="margin:4px;height:30px;width:calc(100% - 8px);float: left">
+            自&ensp;定&ensp;义：<input id="flyAction" style="width:calc(100% - 80px);height:30px;" type="text">
+        </div>
+    </div>
+</div>
+<!--事件编辑-->
+<div id="languageDialog" class="FlyJsonEdit">
+    <div style="margin:4px;padding:4px;width:calc(100% - 8px);;height: 358px;border:solid;border-width:1px;border-color:#AAAAAA;;overflow-y:scroll;">
+        <div style="margin:4px;height:30px;width:calc(50% - 8px);float: left">
+            <label style="width: 94px;">中文|zh-rCN：</label>
+            <input id="zh_rCN" style="width:calc(100% - 100px);height:30px;" type="text">
+        </div>
+        <div style="margin:4px;height:30px;width:calc(50% - 8px);float: left">
+            <label style="width: 94px;">繁体|zh-rTW：</label>
+            <input id="zh_rTW" style="width:calc(100% - 100px);height:30px;" type="text">
+        </div>
+        <div style="margin:4px;height:30px;width:calc(50% - 8px);float: left">
+            <label style="width: 94px;">英语|en：</label>
+            <input id="en" style="width:calc(100% - 100px);height:30px;" type="text">
+        </div>
+        <div style="margin:4px;height:30px;width:calc(50% - 8px);float: left">
+            <label style="width: 94px;">俄语|ru：</label>
+            <input id="ru" style="width:calc(100% - 100px);height:30px;" type="text">
+        </div>
+        <div style="margin:4px;height:30px;width:calc(50% - 8px);float: left">
+            <label style="width: 94px;">希腊语|el：</label>
+            <input id="el" style="width:calc(100% - 100px);height:30px;" type="text">
+        </div>
+        <div style="margin:4px;height:30px;width:calc(50% - 8px);float: left">
+            <label style="width: 94px;">波兰语|pl：</label>
+            <input id="pl" style="width:calc(100% - 100px);height:30px;" type="text">
+        </div>
+        <div style="margin:4px;height:30px;width:calc(50% - 8px);float: left">
+            <label style="width: 94px;">土耳其语|tr：</label>
+            <input id="tr" style="width:calc(100% - 100px);height:30px;" type="text">
+        </div>
+        <div style="margin:4px;height:30px;width:calc(50% - 8px);float: left">
+            <label style="width: 94px;">阿拉伯文|ar：</label>
+            <input id="ar" style="width:calc(100% - 100px);height:30px;" type="text">
+        </div>
+        <div style="margin:4px;height:30px;width:calc(50% - 8px);float: left">
+            <label style="width: 94px;">波斯语|fa：</label>
+            <input id="fa" style="width:calc(100% - 100px);height:30px;" type="text">
+        </div>
+        <div style="margin:4px;height:30px;width:calc(50% - 8px);float: left">
+            <label style="width: 94px;">罗马尼亚|ro：</label>
+            <input id="ro" style="width:calc(100% - 100px);height:30px;" type="text">
+        </div>
+        <div style="margin:4px;height:30px;width:calc(50% - 8px);float: left">
+            <label style="width: 94px;">法语|fr：</label>
+            <input id="fr" style="width:calc(100% - 100px);height:30px;" type="text">
+        </div>
+        <div style="margin:4px;height:30px;width:calc(50% - 8px);float: left">
+            <label style="width: 94px;">匈牙利语|hu：</label>
+            <input id="hu" style="width:calc(100% - 100px);height:30px;" type="text">
+        </div>
+        <div style="margin:4px;height:30px;width:calc(50% - 8px);float: left">
+            <label style="width: 94px;">意大利语|it：</label>
+            <input id="it" style="width:calc(100% - 100px);height:30px;" type="text">
+        </div>
+        <div style="margin:4px;height:30px;width:calc(50% - 8px);float: left">
+            <label style="width: 94px;">泰语|th：</label>
+            <input id="th" style="width:calc(100% - 100px);height:30px;" type="text">
+        </div>
+        <div style="margin:4px;height:30px;width:calc(50% - 8px);float: left">
+            <label style="width: 94px;">德语|de：</label>
+            <input id="de" style="width:calc(100% - 100px);height:30px;" type="text">
+        </div>
+        <div style="margin:4px;height:30px;width:calc(50% - 8px);float: left">
+            <label style="width: 94px;">乌克兰语|uk：</label>
+            <input id="uk" style="width:calc(100% - 100px);height:30px;" type="text">
+        </div>
+        <div style="margin:4px;height:30px;width:calc(50% - 8px);float: left">
+            <label style="width: 94px;">西班牙|es：</label>
+            <input id="es" style="width:calc(100% - 100px);height:30px;" type="text">
+        </div>
+        <div style="margin:4px;height:30px;width:calc(50% - 8px);float: left">
+            <label style="width: 94px;">葡萄牙|pt：</label>
+            <input id="pt" style="width:calc(100% - 100px);height:30px;" type="text">
+        </div>
     </div>
 </div>
 </body>
@@ -60,8 +144,12 @@
     imagesNum = [];
     textsNum = [];
 
+    function isTextEmpty(obj) {
+        return typeof obj == "undefined" || obj == null || obj === "";
+    }
+
     function verify(value) {
-        return value === undefined ? '' : value;
+        return (value === undefined || value == null) ? "" : value;
     }
 
     function isSelect(v1, v2) {
@@ -93,7 +181,7 @@
         if (cell === undefined) {
             cell = {
                 description: "", themeId: "", celltypeId: "", width: "", height: "", backColor: "",
-                filterColor: "", recv: "", send: "", remark: "", texts: [], images: [], newcreate: true
+                filterColor: "", recv: "", send: null, remark: "", texts: null, images: null, newcreate: true
             };
         }
         var display = num > 0 ? "display:none" : "";
@@ -159,7 +247,7 @@
             '                   </div>' +
             '                   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
             '                       点击事件:' +
-            '                       <input name="' + num + '_send" style="width:calc(100% - 80px);height:30px;" type="text" ' +
+            '                       <input id="' + num + '_send" name="' + num + '_send" style="width:calc(100% - 80px);height:30px;" type="text" ' +
             '                              value="' + verify(cell.send) + '" placeholder=""' +
             '                              onclick="openEventDialog(' + 0 + ',' + num + ')" readonly>' +
             '                   </div>' +
@@ -226,13 +314,16 @@
             $('#cellTab a:last').click();
             $('#cellTabContent').get(0).removeChild(cellTabContent.get(0));
         });
+
+        var str = isTextEmpty(cell.send) ? cell.send : JSON.stringify(cell.send);
+        $('#' + num + "_send").val(str == "null" ? "" : str);
     }
 
     function addText(num, subnum, text) {
         if (text === undefined) {
             text = {
-                textSize: "24", textLines: "1", textColor: "#FFFFFF", textFilter: "", text: "", left: "",
-                top: "", right: "", bottom: "", recv: "", send: "", gravitiy: 0, newcreate: true
+                textSize: "24", textLines: "1", textColor: "#FFFFFF", textFilter: "", text: null, left: "",
+                top: "", right: "", bottom: "", recv: "", send: null, gravitiy: 0, newcreate: true
             };
         }
         num = verify(num);
@@ -242,8 +333,9 @@
             '   <button  id="textDel_' + num + '_' + subnum + '" type="button" style="width:36px;line-height: 30px;float: right">╳</button>' +
             '   <div style="margin:2px 2px 2px 2px;width:calc(100% - 40px);height:30px;float:left;">' +
             '       文本内容:' +
-            '       <input name="' + num + '_text[]" style="width:calc(100% - 80px);height:30px;" type="text" ' +
-            '              value="' + verify(text.text) + '" placeholder="">' +
+            '       <input id="' + num + '_' + subnum + '_text" name="' + num + '_text[]" style="width:calc(100% - 80px);height:30px;" type="text" ' +
+            '              value="' + verify(text.text) + '" placeholder=""' +
+            '              onclick="openLanguageDialog(' + num + ',' + subnum + ')" readonly>' +
             '   </div>' +
             '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
             '       字体大小:' +
@@ -300,7 +392,7 @@
             '   </div>' +
             '   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
             '       点击事件:' +
-            '       <input name="' + num + '_textSend[]" style="width:calc(100% - 80px);height:30px;" type="text" ' +
+            '       <input id="' + num + '_' + subnum + '_textSend" name="' + num + '_textSend[]" style="width:calc(100% - 80px);height:30px;" type="text" ' +
             '              value="' + verify(text.send) + '" placeholder=""' +
             '              onclick="openEventDialog(' + 1 + ',' + num + ',' + subnum + ')" readonly>' +
             '   </div>' +
@@ -316,13 +408,18 @@
             $('#textTab' + num + ' a:last').click();
             $('#textTabContent' + num).get(0).removeChild(textTabContent.get(0));
         });
+
+        var str1 = isTextEmpty(text.text) ? text.text : JSON.stringify(text.text);
+        $('#' + num + '_' + subnum + '_text').val(str1 == "null" ? "" : str1);
+        var str2 = isTextEmpty(text.send) ? text.send : JSON.stringify(text.send);
+        $('#' + num + '_' + subnum + '_textSend').val(str2 == "null" ? "" : str2);
     }
 
     function addImage(num, subnum, image) {
         if (image === undefined) {
             image = {
                 url: "", width: "", height: "", filterColor: "", left: "", top: "", right: "", bottom: "",
-                recv: "", send: "", scaleType: 0, newcreate: true
+                recv: "", send: null, scaleType: 0, newcreate: true
             };
         }
         num = verify(num);
@@ -375,7 +472,7 @@
             '   </div>' +
             '   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
             '       点击事件:' +
-            '       <input name="' + num + '_imageSend[]" style="width:calc(100% - 80px);height:30px;" type="text" ' +
+            '       <input id="' + num + '_' + subnum + '_imageSend" name="' + num + '_imageSend[]" style="width:calc(100% - 80px);height:30px;" type="text" ' +
             '              value="' + verify(image.send) + '" placeholder=""' +
             '              onclick="openEventDialog(' + 2 + ',' + num + ',' + subnum + ')" readonly>' +
             '   </div>' +
@@ -391,6 +488,8 @@
             $('#imageTab' + num + ' a:last').click();
             $('#imageTabContent' + num).get(0).removeChild(imageTabContent.get(0));
         });
+        var str = isTextEmpty(image.send) ? image.send : JSON.stringify(image.send);
+        $('#' + num + '_' + subnum + '_imageSend').val(str == "null" ? "" : str);
     }
 
     function refreshFlyImage() {
@@ -424,15 +523,13 @@
     }
 
     function openEventDialog(type, num, subnum) {
-        $('.FlyJsonEdit').show();
+        var jsonInput = type === 0 ? $('#' + num + '_send') : type === 1 ? $('#' + num + '_' + subnum + '_textSend') : $('#' + num + '_' + subnum + '_imageSend');
+        $('#eventDialog').flyjsonedit("show", jsonInput, jsonInput.val());
     }
 
-    function createEventJson() {
-        var event = new Object();
-        event.packName = $('#packName').val();
-        event.className = $('#className').val();
-        var text = JSON.stringify(event);
-        alert(text);
+    function openLanguageDialog(num, subnum) {
+        var jsonInput = $('#' + num + '_' + subnum + '_text');
+        $('#languageDialog').flyjsonedit("show", jsonInput, jsonInput.val());
     }
 
     function onCancel() {
@@ -508,11 +605,18 @@
         }
     });
 
-    $('.FlyJsonEdit').flyjsonedit({
-        inputName: [],
-        inputType: [],
-        inputVaule: [],
-        inputWidth: [],
+    $('#eventDialog').flyjsonedit({
+        title: "事件编辑",
+        width: "600px",
+        height: "480px",
+        inputIds: ["eventId", "eventContent", "packName", "className", "intent", "flyAction"]
+    });
+
+    $('#languageDialog').flyjsonedit({
+        title: "语言设置",
+        width: "800px",
+        height: "480px",
+        inputIds: ["en", "zh_rCN", "zh_rTW", "ru", "el", "pl", "tr", "ar", "fa", "ro", "fr", "hu", "it", "th", "de", "uk", "es", "pt"]
     });
 
 </script>

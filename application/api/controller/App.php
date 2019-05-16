@@ -11,8 +11,8 @@ class App
     {
         $request = Request::instance();
 
-        if($request->has('type', 'get')) {
-            switch ($request->param('type')){
+        if ($request->has('type', 'get')) {
+            switch ($request->param('type')) {
                 case "music":
                     $themeName = "Music-AP1";
                     break;
@@ -26,13 +26,15 @@ class App
                     $themeName = "Launcher-AP1";
                     break;
             }
-        }else{
+        } else {
             $themeName = "Launcher-AP1";
         }
-
         if ($request->has('appname', 'get')) {
             $themeName = $request->param('appname');
         }
+
+        $themeName = "Launcher-AP1";
+
         $theme = Db::name('theme')
             ->where('themeName', $themeName)
             ->field('edittime,status,userid,ip', true)
@@ -57,23 +59,6 @@ class App
         //获取cellList
         for ($i = 0; $i < sizeof($pageList); $i++) {
             $cellList = getPagecell($pageList[$i]['pageId']);
-            for ($j = 0; $j < sizeof($cellList); $j++) {
-                $cellList[$j]['textTitle'] = array(
-                    'zh' => $cellList[$j]['textTitle']
-                );
-                //cellpage
-                if (!empty($cellList[$j]['cellpageId'])) {
-                    $cellList[$j]['cellpage'] = getPageBean($cellList[$j]['cellpageId']);
-                }
-
-                $subCells = getSubCells($cellList[$j]['cellId']);
-                for ($t = 0; $t < sizeof($subCells); $t++) {
-                    $subCells[$t]['textTitle'] = array(
-                        'zh' => $subCells[$t]['textTitle']
-                    );
-                }
-                $cellList[$j]['subCells'] = $subCells;
-            }
             $pageList[$i]['cellList'] = $cellList;
         }
         $result['pageList'] = $pageList;
