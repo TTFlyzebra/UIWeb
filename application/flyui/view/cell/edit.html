@@ -34,14 +34,26 @@
     正在提交请求......
 </div>
 <!--事件编辑-->
-<div id="eventDialog" class="FlyJsonEdit">
+<div id="recvDialog" class="FlyJsonEdit">
+    <div style="margin:4px;padding:4px;width:calc(100% - 8px);;height: 130px;border:solid;border-width:1px;border-color:#AAAAAA;">
+        <label style="padding:9px;width: 100%;height:30px;">数据设置</label>
+        <div style="margin:4px;height:30px;width:calc(100% - 8px);float: left">
+            ID：&ensp;&ensp;<input id="recvId" style="width:calc(100% - 80px);height:30px;" type="text">
+        </div>
+        <div style="margin:4px;height:30px;width:calc(100% - 8px);float: left">
+            数据：<input id="recvContent" style="width:calc(100% - 80px);height:30px;" type="text">
+        </div>
+    </div>
+</div>
+<!--事件编辑-->
+<div id="sendDialog" class="FlyJsonEdit">
     <div style="margin:4px;padding:4px;width:calc(100% - 8px);;height: 130px;border:solid;border-width:1px;border-color:#AAAAAA;">
         <label style="padding:9px;width: 100%;height:30px;">事件设置</label>
         <div style="margin:4px;height:30px;width:calc(100% - 8px);float: left">
             事件ID：&ensp;&ensp;<input id="eventId" style="width:calc(100% - 80px);height:30px;" type="text">
         </div>
         <div style="margin:4px;height:30px;width:calc(100% - 8px);float: left">
-            事件类容：<input id="eventContent" style="width:calc(100% - 80px);height:30px;" type="text">
+            事件数据：<input id="eventContent" style="width:calc(100% - 80px);height:30px;" type="text">
         </div>
     </div>
     <div style="margin:4px;padding:4px;width:calc(100% - 8px);;height: 206px;border:solid;border-width:1px;border-color:#AAAAAA;">
@@ -60,7 +72,7 @@
         </div>
     </div>
 </div>
-<!--事件编辑-->
+<!--语言编辑-->
 <div id="languageDialog" class="FlyJsonEdit">
     <div style="margin:4px;padding:4px;width:calc(100% - 8px);;height: 358px;border:solid;border-width:1px;border-color:#AAAAAA;;overflow-y:scroll;">
         <div style="margin:4px;height:30px;width:calc(50% - 8px);float: left">
@@ -86,6 +98,10 @@
         <div style="margin:4px;height:30px;width:calc(50% - 8px);float: left">
             <label style="width: 94px;">波兰语|pl：</label>
             <input id="pl" style="width:calc(100% - 100px);height:30px;" type="text">
+        </div>
+        <div style="margin:4px;height:30px;width:calc(50% - 8px);float: left">
+            <label style="width: 94px;">葡萄牙|pt：</label>
+            <input id="pt" style="width:calc(100% - 100px);height:30px;" type="text">
         </div>
         <div style="margin:4px;height:30px;width:calc(50% - 8px);float: left">
             <label style="width: 94px;">土耳其语|tr：</label>
@@ -130,10 +146,6 @@
         <div style="margin:4px;height:30px;width:calc(50% - 8px);float: left">
             <label style="width: 94px;">西班牙|es：</label>
             <input id="es" style="width:calc(100% - 100px);height:30px;" type="text">
-        </div>
-        <div style="margin:4px;height:30px;width:calc(50% - 8px);float: left">
-            <label style="width: 94px;">葡萄牙|pt：</label>
-            <input id="pt" style="width:calc(100% - 100px);height:30px;" type="text">
         </div>
     </div>
 </div>
@@ -181,7 +193,7 @@
         if (cell === undefined) {
             cell = {
                 description: "", themeId: "", celltypeId: "", width: "", height: "", backColor: "",
-                filterColor: "", recv: "", send: null, remark: "", texts: null, images: null, newcreate: true
+                filterColor: "", recv: null, send: null, remark: "", texts: null, images: null, newcreate: true
             };
         }
         var display = num > 0 ? "display:none" : "";
@@ -241,15 +253,16 @@
             '                              value="' + verify(cell.filterColor) + '" placeholder="#FFFFFFFF">' +
             '                   </div>' +
             '                   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
-            '                       接受消息:' +
-            '                       <input name="' + num + '_recv" style="width:calc(100% - 80px);height:30px;" type="text" ' +
-            '                              value="' + verify(cell.recv) + '" placeholder="">' +
+            '                       接收数据:' +
+            '                       <input id="' + num + '_recv" name="' + num + '_recv" style="width:calc(100% - 80px);height:30px;" type="text" ' +
+            '                              value="' + verify(cell.recv) + '" placeholder=""'+
+            '                              onclick="openrecvDialog(' + 0 + ',' + num + ')" readonly>' +
             '                   </div>' +
             '                   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
             '                       点击事件:' +
             '                       <input id="' + num + '_send" name="' + num + '_send" style="width:calc(100% - 80px);height:30px;" type="text" ' +
             '                              value="' + verify(cell.send) + '" placeholder=""' +
-            '                              onclick="openEventDialog(' + 0 + ',' + num + ')" readonly>' +
+            '                              onclick="opensendDialog(' + 0 + ',' + num + ')" readonly>' +
             '                   </div>' +
             '                   <div style="margin:2px 2px 2px 2px;width:100%;float:left;">' +
             '                       <span style="padding-right: 4px;float:left;">备注扩展:</span>' +
@@ -315,15 +328,17 @@
             $('#cellTabContent').get(0).removeChild(cellTabContent.get(0));
         });
 
-        var str = isTextEmpty(cell.send) ? cell.send : JSON.stringify(cell.send);
-        $('#' + num + "_send").val(str == "null" ? "" : str);
+        var str1 = isTextEmpty(cell.recv) ? cell.recv : JSON.stringify(cell.recv);
+        $('#' + num + "_recv").val(str1 == "null" ? "" : str1);
+        var str2 = isTextEmpty(cell.send) ? cell.send : JSON.stringify(cell.send);
+        $('#' + num + "_send").val(str2 == "null" ? "" : str2);
     }
 
     function addText(num, subnum, text) {
         if (text === undefined) {
             text = {
                 textSize: "24", textLines: "1", textColor: "#FFFFFF", textFilter: "", text: null, left: "",
-                top: "", right: "", bottom: "", recv: "", send: null, gravitiy: 0, newcreate: true
+                top: "", right: "", bottom: "", recv: null, send: null, gravitiy: 0, newcreate: true
             };
         }
         num = verify(num);
@@ -386,15 +401,16 @@
             '       </select>' +
             '   </div>' +
             '   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
-            '       接受消息:' +
-            '       <input name="' + num + '_textRecv[]" style="width:calc(100% - 80px);height:30px;" type="text" ' +
-            '              value="' + verify(text.recv) + '" placeholder="">' +
+            '       接收数据:' +
+            '       <input id="' + num + '_' + subnum + '_textRecv" name="' + num + '_textRecv[]" style="width:calc(100% - 80px);height:30px;" type="text" ' +
+            '              value="' + verify(text.recv) + '" placeholder=""' +
+            '              onclick="openrecvDialog(' + 1 + ',' + num + ',' + subnum + ')" readonly>' +
             '   </div>' +
             '   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
             '       点击事件:' +
             '       <input id="' + num + '_' + subnum + '_textSend" name="' + num + '_textSend[]" style="width:calc(100% - 80px);height:30px;" type="text" ' +
             '              value="' + verify(text.send) + '" placeholder=""' +
-            '              onclick="openEventDialog(' + 1 + ',' + num + ',' + subnum + ')" readonly>' +
+            '              onclick="opensendDialog(' + 1 + ',' + num + ',' + subnum + ')" readonly>' +
             '   </div>' +
             '</div>');
         $('#textTab' + num).get(0).append(textTab.get(0));
@@ -411,15 +427,17 @@
 
         var str1 = isTextEmpty(text.text) ? text.text : JSON.stringify(text.text);
         $('#' + num + '_' + subnum + '_text').val(str1 == "null" ? "" : str1);
-        var str2 = isTextEmpty(text.send) ? text.send : JSON.stringify(text.send);
-        $('#' + num + '_' + subnum + '_textSend').val(str2 == "null" ? "" : str2);
+        var str2 = isTextEmpty(text.recv) ? text.recv : JSON.stringify(text.recv);
+        $('#' + num + '_' + subnum + '_textRecv').val(str2 == "null" ? "" : str2);
+        var str3 = isTextEmpty(text.send) ? text.send : JSON.stringify(text.send);
+        $('#' + num + '_' + subnum + '_textSend').val(str3 == "null" ? "" : str3);
     }
 
     function addImage(num, subnum, image) {
         if (image === undefined) {
             image = {
                 url: "", width: "", height: "", filterColor: "", left: "", top: "", right: "", bottom: "",
-                recv: "", send: null, scaleType: 0, newcreate: true
+                recv: null, send: null, scaleType: 0, newcreate: true
             };
         }
         num = verify(num);
@@ -466,15 +484,16 @@
             '       </select>' +
             '   </div>' +
             '   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
-            '       接受消息:' +
-            '       <input name="' + num + '_imageRecv[]" style="width:calc(100% - 80px);height:30px;" type="text" ' +
-            '              value="' + verify(image.recv) + '" placeholder="">' +
+            '       接收数据:' +
+            '       <input id="' + num + '_' + subnum + '_imageRecv" name="' + num + '_imageRecv[]" style="width:calc(100% - 80px);height:30px;" type="text" ' +
+            '              value="' + verify(image.recv) + '" placeholder=""' +
+            '              onclick="openrecvDialog(' + 2 + ',' + num + ',' + subnum + ')" readonly>' +
             '   </div>' +
             '   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
             '       点击事件:' +
             '       <input id="' + num + '_' + subnum + '_imageSend" name="' + num + '_imageSend[]" style="width:calc(100% - 80px);height:30px;" type="text" ' +
             '              value="' + verify(image.send) + '" placeholder=""' +
-            '              onclick="openEventDialog(' + 2 + ',' + num + ',' + subnum + ')" readonly>' +
+            '              onclick="opensendDialog(' + 2 + ',' + num + ',' + subnum + ')" readonly>' +
             '   </div>' +
             '</div>');
         $('#imageTab' + num).get(0).append(imageTab.get(0));
@@ -488,8 +507,10 @@
             $('#imageTab' + num + ' a:last').click();
             $('#imageTabContent' + num).get(0).removeChild(imageTabContent.get(0));
         });
-        var str = isTextEmpty(image.send) ? image.send : JSON.stringify(image.send);
-        $('#' + num + '_' + subnum + '_imageSend').val(str == "null" ? "" : str);
+        var str1 = isTextEmpty(image.recv) ? image.recv : JSON.stringify(image.recv);
+        $('#' + num + '_' + subnum + '_imageRecv').val(str1 == "null" ? "" : str1);
+        var str2 = isTextEmpty(image.send) ? image.send : JSON.stringify(image.send);
+        $('#' + num + '_' + subnum + '_imageSend').val(str2 == "null" ? "" : str2);
     }
 
     function refreshFlyImage() {
@@ -522,9 +543,14 @@
         imagesNum[num]++;
     }
 
-    function openEventDialog(type, num, subnum) {
+    function openrecvDialog(type, num, subnum) {
+        var jsonInput = type === 0 ? $('#' + num + '_recv') : type === 1 ? $('#' + num + '_' + subnum + '_textRecv') : $('#' + num + '_' + subnum + '_imageRecv');
+        $('#recvDialog').flyjsonedit("show", jsonInput, jsonInput.val());
+    }
+
+    function opensendDialog(type, num, subnum) {
         var jsonInput = type === 0 ? $('#' + num + '_send') : type === 1 ? $('#' + num + '_' + subnum + '_textSend') : $('#' + num + '_' + subnum + '_imageSend');
-        $('#eventDialog').flyjsonedit("show", jsonInput, jsonInput.val());
+        $('#sendDialog').flyjsonedit("show", jsonInput, jsonInput.val());
     }
 
     function openLanguageDialog(num, subnum) {
@@ -605,8 +631,15 @@
         }
     });
 
-    $('#eventDialog').flyjsonedit({
-        title: "事件编辑",
+    $('#recvDialog').flyjsonedit({
+        title: "接受数据",
+        width: "600px",
+        height: "280px",
+        inputIds: ["recvId", "recvContent"]
+    });
+
+    $('#sendDialog').flyjsonedit({
+        title: "点击事件",
         width: "600px",
         height: "480px",
         inputIds: ["eventId", "eventContent", "packName", "className", "intent", "flyAction"]

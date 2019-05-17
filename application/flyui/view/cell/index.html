@@ -88,7 +88,7 @@
                     halign: "center",
                     formatter: function (value, row, index) {
                         try{
-                            value = JSON.stringify(value[0].text);
+                            value = value[0].text.zh_rCN;
                             value= value=="null"?"":value;
                         }catch (e) {
                             value = "";

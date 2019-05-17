@@ -138,6 +138,9 @@ function replaceJsonCell($cell)
             if (!empty($cell['texts'][$ti]['text'])) {
                 $cell['texts'][$ti]['text'] = json_decode($cell['texts'][$ti]['text'], true);
             }
+            if (!empty($cell['texts'][$ti]['recv'])) {
+                $cell['texts'][$ti]['recv'] = json_decode($cell['texts'][$ti]['recv'], true);
+            }
             if (!empty($cell['texts'][$ti]['send'])) {
                 $cell['texts'][$ti]['send'] = json_decode($cell['texts'][$ti]['send'], true);
             }
@@ -146,12 +149,16 @@ function replaceJsonCell($cell)
     $cell['images'] = json_decode($cell['images'], true);
     if (is_array($cell['images'])) {
         for ($ii = 0; $ii < sizeof($cell['images']); $ii++) {
+            if (!empty($cell['images'][$ii]['recv'])) {
+                $cell['images'][$ii]['recv'] = json_decode($cell['images'][$ii]['recv']);
+            }
             if (!empty($cell['images'][$ii]['send'])) {
                 $cell['images'][$ii]['send'] = json_decode($cell['images'][$ii]['send']);
             }
         }
     }
     $cell['pages'] = json_decode($cell['pages']);
+    $cell['recv'] = json_decode($cell['recv']);
     $cell['send'] = json_decode($cell['send']);
     $db = Db::name('subcell');
     $db->alias('a');
@@ -167,6 +174,9 @@ function replaceJsonCell($cell)
                     if (!empty($subcells[$i]['texts'][$sti]['text'])) {
                         $subcells[$i]['texts'][$sti]['text'] = json_decode($subcells[$i]['texts'][$sti]['text'], true);
                     }
+                    if (!empty($subcells[$i]['texts'][$sti]['recv'])) {
+                        $subcells[$i]['texts'][$sti]['recv'] = json_decode($subcells[$i]['texts'][$sti]['recv'], true);
+                    }
                     if (!empty($subcells[$i]['texts'][$sti]['send'])) {
                         $subcells[$i]['texts'][$sti]['send'] = json_decode($subcells[$i]['texts'][$sti]['send'], true);
                     }
@@ -175,6 +185,9 @@ function replaceJsonCell($cell)
             $subcells[$i]['images'] = json_decode($subcells[$i]['images'], true);
             if (is_array($subcells[$i]['images'])) {
                 for ($sii = 0; $sii < sizeof($subcells[$i]['images']); $sii++) {
+                    if (!empty($subcells[$i]['images'][$sii]['recv'])) {
+                        $subcells[$i]['images'][$sii]['recv'] = json_decode($subcells[$i]['images'][$sii]['recv']);
+                    }
                     if (!empty($subcells[$i]['images'][$sii]['send'])) {
                         $subcells[$i]['images'][$sii]['send'] = json_decode($subcells[$i]['images'][$sii]['send']);
                     }
