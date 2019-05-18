@@ -20,7 +20,7 @@ function getSubCellFiled()
 
 function getPageCellFiled()
 {
-    return ['a.cellId', 'a.x', 'a.y', 'a.width', 'a.height', 'b.description', 'b.themeId', 'b.celltypeId',
+    return ['a.cellId', 'a.x', 'a.y', 'b.width', 'b.height', 'b.description', 'b.themeId', 'b.celltypeId',
         'b.resId', 'b.backColor', 'b.filterColor', 'b.recv', 'b.send', 'b.texts', 'b.images', 'b.pages',
         'b.remark', 'c.celltype'];
 }

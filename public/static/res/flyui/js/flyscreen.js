@@ -80,13 +80,14 @@ var childtexts = function (cell) {
         for (var i = cell.texts.length - 1; i >= 0; i--) {
             var textBean = cell.texts[i];
             if (isTextEmpty(textBean.text)) continue;
-            text_divs[count] = $('<div></div>');
-            text_divs[count].css('position', 'absolute');
-            text_divs[count].css('text-align', 'center');
+            text_divs[count] = $('<div style="position:absolute;' +
+                'margin: '+textBean.top+'px '+textBean.right+'px '+textBean.bottom+'px '+textBean.left+'px '+'"></div>');
+            var height = (cell.height - textBean.bottom) - textBean.top;
             text_divs[count].css('width', cell.width + 'px');
+            text_divs[count].css('line-height', height + 'px');
             text_divs[count].css('font-size', textBean.textSize + 'px');
             text_divs[count].css('color', textBean.textColor);
-            text_divs[count].css('marginTop', (cell.height - 48) + 'px');
+            text_divs[count].css('text-align', 'center');
             text_divs[count].get(0).innerHTML = isTextEmpty(textBean.text.zh_rCN) ? "" : textBean.text.zh_rCN;
             if (!is_settext) {
                 is_settext = !isTextEmpty(textBean.text.zh_rCN);
