@@ -24,7 +24,7 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-default" onclick="onCancel()">取消</button>
         <button type="reset" class="btn btn-default">重置</button>
-        <button type="button" class="btn btn-primary" onclick="postForm({$id})">提交</button>
+        <button type="button" class="btn btn-primary" onclick="postForm('{$id}')">提交</button>
     </div>
 </form>
 <!-- loading -->
@@ -221,7 +221,7 @@
             '                   </div>' +
             '                   <div style="margin:2px 2px 2px 2px;height:30px;float:left;' + display + '">' +
             '                       组件类型:' +
-            '                       <select name="' + num + '_celltypeId" style="height:30px;border:solid;border-width:1px;border-color:#000000;">' +
+            '                       <select id="' + num + '_celltype" name="' + num + '_celltypeId" style="height:30px;border:solid;border-width:1px;border-color:#000000;">' +
             '                          {volist name="celltypes" id="celltype" key="k"}' +
             '                           <option value="{$celltype.celltypeId}" ' + isSelect("{$celltype.celltypeId}", cell.celltypeId) + '>{$celltype.celltypeName}</option>' +
             '                          {/volist}' +
@@ -272,13 +272,13 @@
             '               </div>' +
             '               <div class="col-sm-12" style="height:392px;margin:10px 0px 0px 50px;padding:2px 2px 2px 2px;border:solid;border-width:1px;border-color:#000000;">' +
             '                   <ul id="otherTab" class="nav nav-tabs">' +
-            '                       <li class="active"><a href="#other_1" data-toggle="tab">操作说明</a></li>' +
+            '                       <li class="active"><a href="#other_1" data-toggle="tab">控件说明</a></li>' +
             '                       <li><a href="#other_2" data-toggle="tab">控件预览</a></li>' +
             '                   </ul>' +
             '                   <div id ="otherContent' + num + '" class="tab-content">' +
             '                       <div class="tab-pane fade in active" style="margin: 20px;" id="other_1">' +
             '                       </div>' +
-            '                       <div class="tab-pane fade in" style="margin: 20px;" id="other_2">' +
+            '                       <div class="tab-pane fade in" style="text-align:center;line-height:300px;margin: 20px;" id="other_2">' +
             '                           功能开发中......' +
             '                       </div>' +
             '                   </div>' +
@@ -322,6 +322,13 @@
                 addImage(num, j, cell.images[j]);
             }
         }
+        if(num===0){
+            refreshCelltypeRemark(cell.celltypeId);
+            $("#0_celltype").change(function(){
+                var id = $("#0_celltype").val();
+                refreshCelltypeRemark(id);
+            });
+        }
         $('#cellDel_' + num).on("click", function (event) {
             $('#cellTab').get(0).removeChild(cellTab.get(0));
             $('#cellTab a:last').click();
@@ -332,6 +339,21 @@
         $('#' + num + "_recv").val(str1 == "null" ? "" : str1);
         var str2 = isTextEmpty(cell.send) ? cell.send : JSON.stringify(cell.send);
         $('#' + num + "_send").val(str2 == "null" ? "" : str2);
+    }
+
+    function refreshCelltypeRemark(id) {
+        $.ajax({
+            type: "GET",
+            url: "{:url('/api/celltype')}?id="+id,
+            success: function (data) {
+                var obj = JSON.parse(data);
+                if (obj.code === 0) {
+                    $("#other_1").get(0).innerHTML=obj.data.remark;
+                } else {
+                    alert(obj.msg);
+                }
+            }
+        });
     }
 
     function addText(num, subnum, text) {
@@ -651,5 +673,6 @@
         height: "480px",
         inputIds: ["en", "zh_rCN", "zh_rTW", "ru", "el", "pl", "tr", "ar", "fa", "ro", "fr", "hu", "it", "th", "de", "uk", "es", "pt"]
     });
+
 
 </script>

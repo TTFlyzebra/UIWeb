@@ -73,13 +73,24 @@ class BaseRestful
                 }else{
                     $db->field($field);
                 }
-                $tables = $db->select();
-                if ($request->isAjax()) {
-                    $resultdata['total'] = $db->where('status',1)->count();
-                    $resultdata['rows'] = $tables;
-                    echo json_encode($resultdata);
-                } else {
-                    echo json_encode($tables);
+                if ($request->has('id', 'get')) {
+                    $item = $db->where($tableName.'Id', $_GET['id'])->find();
+                    if ($item) {
+                        echo retJsonMsg("find ok!", 0, $item);
+                    } else {
+                        echo retJsonMsg('find failed!', -1);
+                    }
+                }else {
+                    $tables = $db->select();
+                    if ($request->isAjax()) {
+                        $resultdata['total'] = $db->where('status', 1)->count();
+                        $resultdata['rows'] = $tables;
+                        $resultdata['msg'] = "success!";
+                        $resultdata['code'] = 0;
+                        echo json_encode($resultdata);
+                    } else {
+                        echo retJsonMsg($tables);
+                    }
                 }
             }
         } catch (Exception $e) {
