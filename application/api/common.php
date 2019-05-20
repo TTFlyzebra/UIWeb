@@ -194,6 +194,7 @@ function replaceJsonCell($cell)
                 }
             }
             $subcells[$i]['pages'] = json_decode($subcells[$i]['pages'], true);
+            $subcells[$i]['recv'] = json_decode($subcells[$i]['recv']);
             $subcells[$i]['send'] = json_decode($subcells[$i]['send']);
         }
         $cell['subCells'] = $subcells;

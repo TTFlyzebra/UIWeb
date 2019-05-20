@@ -35,13 +35,19 @@
 </div>
 <!--事件编辑-->
 <div id="recvDialog" class="FlyJsonEdit">
-    <div style="margin:4px;padding:4px;width:calc(100% - 8px);;height: 130px;border:solid;border-width:1px;border-color:#AAAAAA;">
+    <div style="margin:4px;padding:4px;width:calc(100% - 8px);;height: 230px;border:solid;border-width:1px;border-color:#AAAAAA;">
         <label style="padding:9px;width: 100%;height:30px;">数据设置</label>
         <div style="margin:4px;height:30px;width:calc(100% - 8px);float: left">
-            ID：&ensp;&ensp;<input id="recvId" style="width:calc(100% - 80px);height:30px;" type="text">
+            数据ID：&ensp;&ensp;<input id="recvId" style="width:calc(100% - 80px);height:30px;" type="text">
         </div>
         <div style="margin:4px;height:30px;width:calc(100% - 8px);float: left">
-            数据：<input id="recvContent" style="width:calc(100% - 80px);height:30px;" type="text">
+            显示控件：<input id="visibleContent" style="width:calc(100% - 80px);height:30px;" type="text">
+        </div>
+        <div style="margin:4px;height:30px;width:calc(100% - 8px);float: left">
+            隐藏控件：<input id="disVisibleContent" style="width:calc(100% - 80px);height:30px;" type="text">
+        </div>
+        <div style="margin:4px;height:30px;width:calc(100% - 8px);float: left">
+            其它定义：<input id="recvContent" style="width:calc(100% - 80px);height:30px;" type="text">
         </div>
     </div>
 </div>
@@ -219,7 +225,7 @@
             '                          {/volist}' +
             '                       </select>' +
             '                   </div>' +
-            '                   <div style="margin:2px 2px 2px 2px;height:30px;float:left;' + display + '">' +
+            '                   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
             '                       组件类型:' +
             '                       <select id="' + num + '_celltype" name="' + num + '_celltypeId" style="height:30px;border:solid;border-width:1px;border-color:#000000;">' +
             '                          {volist name="celltypes" id="celltype" key="k"}' +
@@ -232,22 +238,22 @@
             '                       <input name="' + num + '_resId" style="width:60px;height:30px;" type="text" ' +
             '                              value="' + verify(cell.resId) + '" placeholder="">' +
             '                   </div>' +
-            '                   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '                   <div style="margin:2px 2px 2px 2px;height:30px;float:left;' + display + '">' +
             '                       组件宽度:' +
             '                       <input name="' + num + '_width" id="' + num + '_width" style="width:95px;height:30px;" type="text" ' +
             '                              value="' + verify(cell.width) + '" placeholder="">' +
             '                   </div>' +
-            '                   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '                   <div style="margin:2px 2px 2px 2px;height:30px;float:left;' + display + '">' +
             '                       组件高度:' +
             '                       <input name="' + num + '_height" id="' + num + '_height" style="width:95px;height:30px;" type="text" ' +
             '                              value="' + verify(cell.height) + '" placeholder="">' +
             '                   </div>' +
-            '                   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '                   <div style="margin:2px 2px 2px 2px;height:30px;float:left;' + display + '">' +
             '                       背景颜色:' +
             '                       <input name="' + num + '_backColor" style="width:95px;height:30px;" type="text" ' +
             '                              value="' + verify(cell.backColor) + '" placeholder="#FFFFFFFF">' +
             '                   </div>' +
-            '                   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '                   <div style="margin:2px 2px 2px 2px;height:30px;float:left;' + display + '">' +
             '                       过滤颜色:' +
             '                       <input name="' + num + '_filterColor" style="width:95px;height:30px;" type="text" ' +
             '                              value="' + verify(cell.filterColor) + '" placeholder="#FFFFFFFF">' +
@@ -258,7 +264,7 @@
             '                              value="' + verify(cell.recv) + '" placeholder=""'+
             '                              onclick="openrecvDialog(' + 0 + ',' + num + ')" readonly>' +
             '                   </div>' +
-            '                   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
+            '                   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;' + display + '">' +
             '                       点击事件:' +
             '                       <input id="' + num + '_send" name="' + num + '_send" style="width:calc(100% - 80px);height:30px;" type="text" ' +
             '                              value="' + verify(cell.send) + '" placeholder=""' +
@@ -349,8 +355,6 @@
                 var obj = JSON.parse(data);
                 if (obj.code === 0) {
                     $("#other_1").get(0).innerHTML=obj.data.remark;
-                } else {
-                    alert(obj.msg);
                 }
             }
         });
@@ -656,8 +660,8 @@
     $('#recvDialog').flyjsonedit({
         title: "接受数据",
         width: "600px",
-        height: "280px",
-        inputIds: ["recvId", "recvContent"]
+        height: "380px",
+        inputIds: ["recvId", "visibleContent", "disVisibleContent", "recvContent"]
     });
 
     $('#sendDialog').flyjsonedit({
