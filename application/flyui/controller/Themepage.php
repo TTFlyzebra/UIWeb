@@ -3,16 +3,16 @@
 namespace app\flyui\controller;
 
 use app\auth\controller\Auth;
-use think\Config;
 use think\Db;
 use think\Request;
-use think\Session;
 
 class Themepage extends Auth
 {
     public function index()
     {
         $request = Request::instance();
+        $pagedatas = [];
+        $pageIds = [];
         if ($request->has('id', 'get')) {
             $theme = Db::name('theme')->where('themeId', $_GET['id'])->find();
             $pagedatas = Db::name('themepage')
@@ -33,8 +33,6 @@ class Themepage extends Auth
                 "screenHeight" => 600,
                 "themeName" => "TEST"
             ];
-            $pagedatas = [];
-            $pageIds = [];
         }
         $pages = Db::name('page')->alias('a')
             ->where('a.status', 1)
