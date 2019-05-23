@@ -13,20 +13,11 @@ class Themepage extends Auth
     public function index()
     {
         $request = Request::instance();
-        $theme['themeId'] = -1;
-        $theme['screenWidth'] = 1024;
-        $theme['screenHeight'] = 600;
-        $theme['themeName'] = "";
-        $pages = null;
-        $pagedatas = null;
-        $pageIds = array();
         if ($request->has('id', 'get')) {
-            $db = Db::name('page');
             $theme = Db::name('theme')->where('themeId', $_GET['id'])->find();
-            $pages = $db->where('status', 1)->select();
             $pagedatas = Db::name('themepage')
-                ->where('themeId', (int)$_GET['id'])
                 ->alias('a')
+                ->where('a.themeId', (int)$_GET['id'])
                 ->join("fly_page b", "a.pageId=b.pageId")
                 ->field('b.pageId,b.pageName,width,height')
                 ->select();
@@ -36,15 +27,23 @@ class Themepage extends Auth
                 }
             }
         } else {
-            $theme['themeId'] = -1;
-            $theme['screenWidth'] = 1024;
-            $theme['screenHeight'] = 600;
-            $theme['themeName'] = "";
-            $pages = null;
-            $pagedatas = null;
+            $theme = [
+                'themeId' => "",
+                "screenWidth" => 1024,
+                "screenHeight" => 600,
+                "themeName" => "TEST"
+            ];
+            $pagedatas = [];
+            $pageIds = [];
         }
-        $this->assign('list1', $pages);
+        $pages = Db::name('page')->alias('a')
+            ->where('a.status', 1)
+            ->join("fly_theme b", "a.themeId=b.themeId")
+            ->field(['a.pageId', 'a.pageName', 'a.themeId', 'a.imageurl', 'a.backcolor', 'a.width', 'a.height',
+                'a.remark', 'a.edittime', 'b.themeName'])
+            ->select();
         $this->assign("item", $theme);
+        $this->assign('list1', $pages);
         $this->assign('list2', $pagedatas);
         $this->assign('pageIds', $pageIds);
         return $this->fetch();
@@ -52,47 +51,24 @@ class Themepage extends Auth
 
     public function toppage()
     {
-        $db = Db::name('page');
-        $pages = $db->where('status', 2)->select();
-        $this->assign('list', $pages);
-
         $request = Request::instance();
         if ($request->has('id', 'get')) {
-            $theme = Db::name('theme')
+            $item = Db::name('theme')
                 ->where('themeId', $_GET['id'])
                 ->field('userid,ip,edittime', true)
                 ->find();
-            if (empty($theme['topPageId'])) {
-                $page = [];
-                $page['pageName'] = 'TOP_PAGE';
-                $page['status'] = 2;
-                $page['width'] = $theme['screenWidth'];
-                $page['height'] = $theme['screenHeight'];
-                $page['userid'] = Session::get('userid');
-                $page['ip'] = $request->ip();
-                $result1 = Db::name('page')->insert($page, false, true);
-                if ($result1) {
-                    $page['pageId'] = $result1;
-                    saveLog(Config::get('event')['add'], 'page', $page);
-                    $theme['topPageId'] = $result1;
-                    $result2 = Db::name('theme')->update($theme);
-                    if ($result2) {
-                        saveLog(Config::get('event')['edit'], 'theme', $theme);
-                    }
-                    $page['themeName'] = $theme['themeName'];
-                    $this->assign('item', $page);
-                    return $this->fetch();
-                } else {
-                    echo retJsonMsg('add failed', -1, $result1);
-                }
-            } else {
-                $item = Db::name('page')->where('pageId', $theme['topPageId'])->where('status', 2)->find();
-                $item['themeName'] = $theme['themeName'];
-                $this->assign('item', $item);
-                return $this->fetch();
-            }
         } else {
-            echo retJsonMsg('param error', -1);
+            $item = [
+                'themeId' => "",
+                "pageName" => "",
+                "imageurl" => "",
+                "backcolor" => "",
+                "screenWidth" => 1024,
+                "screenHeight" => 600,
+                "themeName" => "TEST"
+            ];
         }
+        $this->assign('item', $item);
+        return $this->fetch();
     }
 }

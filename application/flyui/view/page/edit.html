@@ -18,6 +18,20 @@
     </div>
     <div class="modal-body">
         <div class="form-group">
+            <label for="pageName" class="col-sm-1 control-label">关联模板</label>
+            <div class="col-sm-2">
+                <select name="themeId" style="height:30px;border:solid;border-width:1px;border-color:#000000;">
+                    {volist name="themes" id="theme" key="k"}
+                    {if condition="$item['themeId'] eq $theme['themeId']"}
+                    <option value="{$theme.themeId}" selected="selected">{$theme.themeName}</option>
+                    {else/}
+                    <option value="{$theme.themeId}">{$theme.themeName}</option>
+                    {/if}
+                    {/volist}
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
             <label for="pageName" class="col-sm-1 control-label">页面名称</label>
             <div class="col-sm-5">
                 <input type="text" class="form-control" name="pageName" id="pageName" value="{$item.pageName}"

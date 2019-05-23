@@ -47,7 +47,7 @@
             隐藏控件：<input id="disVisibleContent" style="width:calc(100% - 80px);height:30px;" type="text">
         </div>
         <div style="margin:4px;height:30px;width:calc(100% - 8px);float: left">
-            其它定义：<input id="recvContent" style="width:calc(100% - 80px);height:30px;" type="text">
+            内容格式：<input id="recvContent" style="width:calc(100% - 80px);height:30px;" type="text">
         </div>
     </div>
 </div>
@@ -463,7 +463,7 @@
         if (image === undefined) {
             image = {
                 url: "", width: "", height: "", filterColor: "", left: "", top: "", right: "", bottom: "",
-                recv: null, send: null, scaleType: 0, newcreate: true
+                recv: null, send: null, shapeType:0, scaleType: 0, newcreate: true
             };
         }
         num = verify(num);
@@ -479,6 +479,14 @@
             '       过滤颜色:' +
             '       <input name="' + num + '_imageFilter[]" style="width:95px;height:30px;" type="text" ' +
             '              value="' + verify(image.filterColor) + '" placeholder="#FF0000FF">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       图片形状:' +
+            '       <select name="' + num + '_shapeType[]" style="height:30px;border:solid;border-width:1px;border-color:#000000;">' +
+            '           <option value="0"' + isSelect(0, verify(image.shapeType)) + '>正方形</option>' +
+            '           <option value="1"' + isSelect(1, verify(image.shapeType)) + '>圆形</option>' +
+            '           <option value="2"' + isSelect(2, verify(image.shapeType)) + '>六边形</option>' +
+            '       </select>' +
             '   </div>' +
             '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
             '       图片位置:&nbsp&nbsp&nbsp&nbsp;左' +
@@ -603,8 +611,8 @@
                 var obj = JSON.parse(data);
                 if (obj.code === 0) {
                     if (id > 0) {
-                        refreshCell(id);
-                        // window.history.back();
+                        // refreshCell(id);
+                        window.history.back();
                     } else {
                         window.history.back();
                     }

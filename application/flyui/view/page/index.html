@@ -70,15 +70,18 @@
                 columns: [{
                     checkbox: true
                 }, {
+                    field: 'themeName',
+                    title: '关联模板',
+                    halign: "center",
+                    formatter: function (value, row, index) {
+                        return '<a  href="{:url(\'/flyui/page/edit\')}?id=' + row.pageId + '">'+value+'</a>';
+                    }
+                }, {
                     field: 'pageName',
                     title: '页面名称',
                     halign: "center",
                     formatter: function (value, row, index) {
-                        if(!isTextEmpty(row.themeName)){
-                            return "[" + row.themeName + "]" + value;
-                        }else{
-                            return value;
-                        }
+                        return '<a  href="{:url(\'/flyui/page/edit\')}?id=' + row.pageId + '">'+value+'</a>';
                     }
                 }, {
                     field: 'width',
@@ -86,7 +89,7 @@
                     halign: "center",
                     align: 'center',
                     formatter: function (value, row, index) {
-                        return value + "X" + row.height;
+                        return '<a  href="{:url(\'/flyui/screen\')}?id=' + row.pageId + '">'+value + "X" + row.height+'</a>';
                     }
                 }, {
                     field: 'pageId',
@@ -106,10 +109,6 @@
                             '<img  style="max-width: 72px;max-height:56px;width: auto;height: auto" src="' + value + '">' +
                             '</div>';
                     }
-                }, {
-                    field: 'remark',
-                    title: '备注',
-                    halign: "center"
                 }, {
                     field: 'edittime',
                     title: '修改时间',
@@ -148,7 +147,7 @@
                 success: function (data) {
                     var obj = JSON.parse(data);
                     if (obj.code === 0) {
-                        window.history.back();
+                        $('#flytable').bootstrapTable('refresh');
                     } else {
                         alert(obj.msg);
                     }
@@ -157,7 +156,7 @@
         }
     });
 
-    function isTextEmpty(obj){
+    function isTextEmpty(obj) {
         return typeof obj == "undefined" || obj == null || obj === "";
     }
 </script>

@@ -33,7 +33,7 @@ class App
             $themeName = $request->param('appname');
         }
 
-        $themeName = "Launcher-AP1";
+        $themeName = "Launcher-AP3";
 
         $theme = Db::name('theme')
             ->where('themeName', $themeName)
@@ -44,15 +44,12 @@ class App
             return;
         }
         $result = $theme;
-        unset($result['topPageId']);
         //获取topPage
-        if (!empty($theme['topPageId'])) {
-            $result['topPage'] = getPageBean($theme['topPageId']);
-        }
+        $result['topPage'] = getPageBean($theme['themeId'], true, "themetopcell");
         //获取pageList
         $pageList = Db::name('themepage')
-            ->where('themeId', $theme['themeId'])
             ->alias('a')
+            ->where('a.themeId', $theme['themeId'])
             ->join("fly_page b", "a.pageId=b.pageId")
             ->field('b.pageId,b.pageName,width,height')
             ->select();

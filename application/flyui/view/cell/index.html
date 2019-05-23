@@ -18,6 +18,9 @@
     <button id="btn_delete" type="button" class="btn btn-default">
         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
     </button>
+    <button id="btn_copy" type="button" class="btn btn-default">
+        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>复制
+    </button>
 </div>
 <table id="flytable"></table>
 </body>
@@ -161,6 +164,30 @@
             });
         }
     });
+
+    $('#btn_copy').on("click", function (event) {
+        var a = $('#flytable').bootstrapTable('getSelections');
+        if(a.length>0) {
+            $.ajax({
+                type: "POST",
+                url: "{:url('/flyui/cell/copy')}",
+                data: {id:a[0].cellId},
+                error: function (request) {
+                    alert("error code:" + request.readyState);
+                },
+                success: function (data) {
+                    console.log(data);
+                    var obj = JSON.parse(data);
+                    if (obj.code === 0) {
+                        $('#flytable').bootstrapTable('refresh');
+                    } else {
+                        alert(obj.msg);
+                    }
+                }
+            });
+        }
+    });
+
     function isTextEmpty(obj) {
         return typeof obj == "undefined" || obj == null || obj === "";
     }

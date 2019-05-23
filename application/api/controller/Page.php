@@ -6,7 +6,15 @@ class Page extends BaseRestful
 {
     public function index()
     {
-        $this->handle('page', 'edittime desc');
+        $joins = [
+            [
+                "fly_theme b",
+                "a.themeId=b.themeId",
+                'INNER'
+            ]
+        ];
+        $field = getPageFiled();
+        $this->handle('page', 'edittime desc', $joins, $field);
     }
 
 }

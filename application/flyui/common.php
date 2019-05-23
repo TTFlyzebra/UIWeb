@@ -61,4 +61,5 @@ function getGravity(){
         return $gravity;
     }
     return null;
+
 }

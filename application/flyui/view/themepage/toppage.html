@@ -10,7 +10,7 @@
 <body>
 <div class="flycontent">
     <div style="text-align: left;">
-        &nbsp;&nbsp;{$item.themeName}-顶部页面&nbsp;&nbsp;[{$item.width}X{$item.height}]
+        &nbsp;&nbsp;{$item.themeName}-顶部页面&nbsp;&nbsp;[{$item.screenWidth}X{$item.screenHeight}]
     </div>
     <div class="flyscreen"></div>
     <div class="flymenu"></div>
@@ -25,16 +25,16 @@
 <script type="text/javascript" src="__RES__/flyui/js/flyscreen.js"></script>
 <script type="text/javascript">
     $('.flyscreen').screen({
-        width: "{$item.width}",
-        height: "{$item.height}",
-        pageId: "{$item.pageId}",
-        url: "{:url('/api/pagecell')}",
+        width: "{$item.screenWidth}",
+        height: "{$item.screenHeight}",
+        pageId: "{$item.themeId}",
+        url: "{:url('/api/themetopcell')}",
         defimgurl: "__RES__/flyui/img/default_cellmenu.png"
     });
 
     $('.flymenu').menu({
         width: 380,
-        height: "{$item.height}",
+        height: "{$item.screenHeight}",
         url: "{:url('/api/cell')}",
         defimgurl: "__RES__/flyui/img/default_cellmenu.png",
         childw:120,

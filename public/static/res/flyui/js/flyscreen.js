@@ -83,7 +83,8 @@ var childtexts = function (cell) {
             text_divs[count] = $('<div style="position:absolute;' +
                 'margin: '+textBean.top+'px '+textBean.right+'px '+textBean.bottom+'px '+textBean.left+'px '+'"></div>');
             var height = (cell.height - textBean.bottom) - textBean.top;
-            text_divs[count].css('width', cell.width + 'px');
+            var width = (cell.width - textBean.right) - textBean.left;
+            text_divs[count].css('width', width + 'px');
             text_divs[count].css('line-height', height + 'px');
             text_divs[count].css('font-size', textBean.textSize + 'px');
             text_divs[count].css('color', textBean.textColor);
@@ -95,16 +96,16 @@ var childtexts = function (cell) {
             count++;
         }
     }
-    if (!is_settext) {
-        text_divs[0] = $('<div></div>');
-        text_divs[0].css('position', 'absolute');
-        text_divs[0].css('text-align', 'center');
-        text_divs[0].css('width', cell.width + 'px');
-        text_divs[0].css('font-size', '24px');
-        text_divs[0].css('color', "#000000");
-        text_divs[0].css('marginTop', (cell.height / 2 - 18) + 'px');
-        text_divs[0].get(0).innerHTML = isTextEmpty(cell.description) ? "" : cell.description;
-    }
+    // if (!is_settext) {
+    //     text_divs[0] = $('<div></div>');
+    //     text_divs[0].css('position', 'absolute');
+    //     text_divs[0].css('text-align', 'center');
+    //     text_divs[0].css('width', cell.width + 'px');
+    //     text_divs[0].css('font-size', '24px');
+    //     text_divs[0].css('color', "#000000");
+    //     text_divs[0].css('marginTop', (cell.height / 2 - 18) + 'px');
+    //     text_divs[0].get(0).innerHTML = isTextEmpty(cell.description) ? "" : cell.description;
+    // }
     return text_divs;
 };
 

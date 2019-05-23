@@ -13,6 +13,8 @@ class Page extends Auth {
 
     public function edit()
     {
+        $themes = Db::name('theme')->where('status',1)->select();
+        $this->assign('themes', $themes);
         $this->assign('list',Db::name('theme')->select());
         $request = Request::instance();
         if ($request->has('id', 'get')) {
@@ -22,6 +24,7 @@ class Page extends Auth {
         if(empty($item)){
             $item = [
                 'pageId' => -1,
+                'themeId' => -1,
                 "pageName" => "",
                 "imageurl" => "",
                 "backcolor" => "",

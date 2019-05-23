@@ -56,7 +56,6 @@ class BaseRestful
                 }
             } elseif ($request->isGet()) {
                 $db = Db::name($tableName);
-                $db->where('status', 1);
                 if ($request->has('limit', 'get') && $request->has('offset', 'get')) {
                     $db->limit($_GET['offset'], $_GET['limit']);
                 }
@@ -65,10 +64,15 @@ class BaseRestful
                 }
                 if (!empty($joins)) {
                     $db->alias('a');
+                    $db->where('a.status', 1);
                     foreach ($joins as $v) {
                         $db->join($v[0], $v[1], $v[2]);
                     }
-                } if(empty($field)){
+                } else{
+                    $db->where('status', 1);
+                }
+
+                if(empty($field)){
                     $db->field('status,userid,ip', true);
                 }else{
                     $db->field($field);

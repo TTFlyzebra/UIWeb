@@ -25,9 +25,15 @@ function getPageCellFiled()
         'b.remark', 'c.celltype'];
 }
 
-function getPagecell($pageId)
+function getPageFiled()
 {
-    $pagedata = Db::name('pagecell')
+    return ['a.pageId', 'a.pageName', 'a.themeId', 'a.imageurl', 'a.backcolor', 'a.width', 'a.height',
+        'a.remark', 'a.edittime', 'b.themeName'];
+}
+
+function getPagecell($pageId, $tableName = 'pagecell')
+{
+    $pagedata = Db::name($tableName)
         ->where('pageId', $pageId)
         ->alias('a')
         ->join("fly_cell b", "a.cellId=b.cellId")
@@ -53,15 +59,15 @@ function getSubCells($cellId)
     return $subcells;
 }
 
-function getPageBean($pageId, $getsub = true)
+function getPageBean($pageId, $getsub = true, $tableName = 'pagecell')
 {
-    $cellList = getPagecell($pageId);
+    $cellList = getPagecell($pageId, $tableName);
     for ($n = 0; $n < sizeof($cellList); $n++) {
         if (!empty($cellList[$n]['cellpageId']) && $getsub) {
-            $cellList[$n]['cellpage'] = getPageBean($cellList[$n]['cellpageId'], false);
+            $cellList[$n]['cellpage'] = getPageBean($cellList[$n]['cellpageId'], false, $tableName);
         }
     }
-    $pageBean['pageId'] = $pageId;
+    $pageBean['id'] = $pageId;
     $pageBean['cellList'] = $cellList;
     return $pageBean;
 }
@@ -115,6 +121,7 @@ function getPostCell($data, $str = '0_')
             $images[$i]['right'] = (int)$data[$str . "imageRight"][$i];
             $images[$i]['bottom'] = (int)$data[$str . "imageBottom"][$i];
             $images[$i]['scaleType'] = (int)$data[$str . "scaleType"][$i];
+            $images[$i]['shapeType'] = (int)$data[$str . "shapeType"][$i];
             $images[$i]['recv'] = empty($data[$str . "imageRecv"][$i]) ? NULL : $data[$str . "imageRecv"][$i];
             $images[$i]['send'] = empty($data[$str . "imageSend"][$i]) ? NULL : $data[$str . "imageSend"][$i];
         }
@@ -150,16 +157,16 @@ function replaceJsonCell($cell)
     if (is_array($cell['images'])) {
         for ($ii = 0; $ii < sizeof($cell['images']); $ii++) {
             if (!empty($cell['images'][$ii]['recv'])) {
-                $cell['images'][$ii]['recv'] = json_decode($cell['images'][$ii]['recv']);
+                $cell['images'][$ii]['recv'] = json_decode($cell['images'][$ii]['recv'], true);
             }
             if (!empty($cell['images'][$ii]['send'])) {
-                $cell['images'][$ii]['send'] = json_decode($cell['images'][$ii]['send']);
+                $cell['images'][$ii]['send'] = json_decode($cell['images'][$ii]['send'], true);
             }
         }
     }
-    $cell['pages'] = json_decode($cell['pages']);
-    $cell['recv'] = json_decode($cell['recv']);
-    $cell['send'] = json_decode($cell['send']);
+    $cell['pages'] = json_decode($cell['pages'], true);
+    $cell['recv'] = json_decode($cell['recv'], true);
+    $cell['send'] = json_decode($cell['send'], true);
     $db = Db::name('subcell');
     $db->alias('a');
     $db->join("fly_celltype b", "a.celltypeId=b.celltypeId", 'INNER');
@@ -186,25 +193,25 @@ function replaceJsonCell($cell)
             if (is_array($subcells[$i]['images'])) {
                 for ($sii = 0; $sii < sizeof($subcells[$i]['images']); $sii++) {
                     if (!empty($subcells[$i]['images'][$sii]['recv'])) {
-                        $subcells[$i]['images'][$sii]['recv'] = json_decode($subcells[$i]['images'][$sii]['recv']);
+                        $subcells[$i]['images'][$sii]['recv'] = json_decode($subcells[$i]['images'][$sii]['recv'], true);
                     }
                     if (!empty($subcells[$i]['images'][$sii]['send'])) {
-                        $subcells[$i]['images'][$sii]['send'] = json_decode($subcells[$i]['images'][$sii]['send']);
+                        $subcells[$i]['images'][$sii]['send'] = json_decode($subcells[$i]['images'][$sii]['send'], true);
                     }
                 }
             }
             $subcells[$i]['pages'] = json_decode($subcells[$i]['pages'], true);
-            $subcells[$i]['recv'] = json_decode($subcells[$i]['recv']);
-            $subcells[$i]['send'] = json_decode($subcells[$i]['send']);
+            $subcells[$i]['recv'] = json_decode($subcells[$i]['recv'], true);
+            $subcells[$i]['send'] = json_decode($subcells[$i]['send'], true);
         }
         $cell['subCells'] = $subcells;
     }
     return $cell;
 }
 
-function getAllPagecell($pageId)
+function getAllPagecell($pageId, $tabaName = 'pagecell')
 {
-    $pagedata = Db::name('pagecell')
+    $pagedata = Db::name($tabaName)
         ->where('pageId', $pageId)
         ->alias('a')
         ->join("fly_cell b", "a.cellId=b.cellId")

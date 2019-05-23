@@ -69,26 +69,18 @@
                 }, {
                     field: 'themeName',
                     title: '模板名称',
-                    halign: "center"
+                    halign: "center",
+                    formatter: function (value, row, index) {
+                        return '<a  href="{:url(\'/flyui/theme/edit\')}?id=' + row.themeId + '">' + value + '</a>';
+                    }
                 }, {
                     field: 'screenWidth',
                     title: '分辨率',
                     halign: "center",
                     align: 'center',
                     formatter: function (value, row, index) {
-                        return value + "X" + row.screenHeight;
-                    }
-                }, {
-                    field: 'topPageId',
-                    title: '顶部页面',
-                    halign: "center",
-                    align: 'center',
-                    formatter: function (value, row, index) {
-                        if (isTextEmpty(value)) {
-                            return '<a  href="{:url(\'/flyui/themepage/toppage\')}?id=' + row.themeId + '">[添加页面]</a>';
-                        } else {
-                            return '<a  href="{:url(\'/flyui/themepage/toppage\')}?id=' + row.themeId + '">[编辑页面]</a>';
-                        }
+                        var v = value + "X" + row.screenHeight;
+                        return '<a  href="{:url(\'/flyui/theme/edit\')}?id=' + row.themeId + '">' + v + '</a>';
                     }
                 }, {
                     field: 'themePages',
@@ -111,6 +103,14 @@
                         return '<div style="display: flex;align-items:center;justify-content:center;height: 56px">' +
                             '<img  style="max-width: 72px;max-height:56px;width: auto;height: auto" src="' + value + '">' +
                             '</div>';
+                    }
+                }, {
+                    field: 'themeId',
+                    title: '顶部页面',
+                    halign: "center",
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        return '<a  href="{:url(\'/flyui/themepage/toppage\')}?id=' + row.themeId + '">[编辑页面]</a>';
                     }
                 }, {
                     field: 'edittime',

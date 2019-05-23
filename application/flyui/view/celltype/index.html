@@ -77,11 +77,17 @@
                     field: 'celltype',
                     title: '类型标识',
                     halign: "center",
-                    align: "center"
+                    align: "center",
+                    formatter: function (value, row, index) {
+                        return '<a  href="{:url(\'/flyui/celltype/edit\')}?id=' + row.celltypeId + '">'+value+'</a>';
+                    }
                 }, {
                     field: 'celltypeName',
                     title: '类型名称',
-                    halign: "center"
+                    halign: "center",
+                    formatter: function (value, row, index) {
+                        return '<a  href="{:url(\'/flyui/celltype/edit\')}?id=' + row.celltypeId + '">'+value+'</a>';
+                    }
                 }, {
                     field: 'imageurl',
                     title: '图片示例',
@@ -93,11 +99,7 @@
                             '</div>';
                     }
                 }, {
-                    field: 'extend',
-                    title: '扩展属性',
-                    halign: "center"
-                }, {
-                    field: 'remark',
+                    field: 'description',
                     title: '备注',
                     halign: "center"
                 }, {
