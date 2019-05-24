@@ -32,7 +32,7 @@ class Theme extends BaseRestful
                 }
 
                 if (request()->isAjax()) {
-                    $resultdata['total'] = $db->count();
+                    $resultdata['total'] = $db->where('status',1)->count();
                     $resultdata['rows'] = $celltypes;
                     echo json_encode($resultdata);
                 } else {
