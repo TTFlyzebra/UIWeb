@@ -36,7 +36,7 @@
             var imageSize_div = $('<div style="width:' + options.width + ';">');
             var imageWidth_div = $(
                 '<div style="margin:2px 0px 2px 0px;width:25%;height:30px;float: left;">' +
-                '   <span style="width:80px;line-height:30px;vertical-align:middle;font-size: 15px">图片高度：</span>\n' +
+                '   <span style="width:80px;line-height:30px;vertical-align:middle;font-size: 15px">图片宽度：</span>\n' +
                 '</div>');
             var imageWidth = $('<input name="' + options.num + '_imageWidth[]" value="' + options.imageWidth +
                 '"  style="width: calc(100% - 90px);height: 30px;border-width: 1px;border-color: #EFEFEF;" type="text">');

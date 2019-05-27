@@ -33,7 +33,7 @@ class App
             $themeName = $request->param('appname');
         }
 
-        $themeName = "TEST";
+        $themeName = "Launcher-AP7";
 
         $theme = Db::name('theme')
             ->where('themeName', $themeName)
