@@ -95,6 +95,16 @@
                         }
                     }
                 }, {
+                    field: 'exampleurl',
+                    title: '展示图片',
+                    halign: "center",
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        return '<div style="display: flex;align-items:center;justify-content:center;height: 56px">' +
+                            '<img  style="max-width: 72px;max-height:56px;width: auto;height: auto" src="' + value + '">' +
+                            '</div>';
+                    }
+                }, {
                     field: 'imageurl',
                     title: '背景图片',
                     halign: "center",

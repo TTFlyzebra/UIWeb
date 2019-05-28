@@ -30,6 +30,7 @@ class Theme extends Auth {
                 "right" => "",
                 "bottom" => "",
                 "imageurl" => "",
+                "exampleurl" => "",
                 "backcolor" => "",
                 "isMirror" =>"",
                 "animType"=>0,

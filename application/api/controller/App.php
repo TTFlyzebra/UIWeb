@@ -29,11 +29,10 @@ class App
         } else {
             $themeName = "Launcher-AP1";
         }
-        if ($request->has('appname', 'get')) {
-            $themeName = $request->param('appname');
+        if ($request->has('themeName', 'get')) {
+            $str = $request->param('themeName');
+            if(!empty($str)) $themeName = $str;
         }
-
-        $themeName = "Launcher-AP7";
 
         $theme = Db::name('theme')
             ->where('themeName', $themeName)
