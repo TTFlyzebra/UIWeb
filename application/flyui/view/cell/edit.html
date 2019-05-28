@@ -36,9 +36,12 @@
 <!--事件编辑-->
 <div id="recvDialog" class="FlyJsonEdit">
     <div style="margin:4px;padding:4px;width:calc(100% - 8px);;height: 230px;border:solid;border-width:1px;border-color:#AAAAAA;">
-        <label style="padding:9px;width: 100%;height:30px;">数据设置</label>
+        <label style="padding:9px;width: 100%;height:30px;">常用设置</label>
         <div style="margin:4px;height:30px;width:calc(100% - 8px);float: left">
-            数据ID：&ensp;&ensp;<input id="recvId" style="width:calc(100% - 80px);height:30px;" type="text">
+            事件ID：&ensp;&ensp;<input id="recvId" style="width:calc(100% - 80px);height:30px;" type="text">
+        </div>
+        <div style="margin:4px;height:30px;width:calc(100% - 8px);float: left">
+            默认数据：<input id="recvContent" style="width:calc(100% - 80px);height:30px;" type="text">
         </div>
         <div style="margin:4px;height:30px;width:calc(100% - 8px);float: left">
             显示控件：<input id="visibleContent" style="width:calc(100% - 80px);height:30px;" type="text">
@@ -46,8 +49,17 @@
         <div style="margin:4px;height:30px;width:calc(100% - 8px);float: left">
             隐藏控件：<input id="disVisibleContent" style="width:calc(100% - 80px);height:30px;" type="text">
         </div>
+    </div>
+    <div style="margin:4px;padding:4px;width:calc(100% - 8px);;height: 160px;border:solid;border-width:1px;border-color:#AAAAAA;">
+        <label style="padding:9px;width: 100%;height:30px;">动画设置</label>
         <div style="margin:4px;height:30px;width:calc(100% - 8px);float: left">
-            内容格式：<input id="recvContent" style="width:calc(100% - 80px);height:30px;" type="text">
+            事件ID：&ensp;&ensp;<input id="animId" style="width:calc(100% - 80px);height:30px;" type="text">
+        </div>
+        <div style="margin:4px;height:30px;width:calc(100% - 8px);float: left">
+            播放动画：<input id="startAnim" style="width:calc(100% - 80px);height:30px;" type="text">
+        </div>
+        <div style="margin:4px;height:30px;width:calc(100% - 8px);float: left">
+            暂停动画：<input id="stopAnim" style="width:calc(100% - 80px);height:30px;" type="text">
         </div>
     </div>
 </div>
@@ -261,7 +273,7 @@
             '                   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
             '                       接收数据:' +
             '                       <input id="' + num + '_recv" name="' + num + '_recv" style="width:calc(100% - 80px);height:30px;" type="text" ' +
-            '                              value="' + verify(cell.recv) + '" placeholder=""'+
+            '                              value="' + verify(cell.recv) + '" placeholder=""' +
             '                              onclick="openrecvDialog(' + 0 + ',' + num + ')" readonly>' +
             '                   </div>' +
             '                   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;' + display + '">' +
@@ -307,6 +319,14 @@
             '                   <div id ="imageTabContent' + num + '" class="tab-content">' +
             '                   </div>' +
             '               </div>' +
+            '               <div class="col-sm-12" style="margin:10px 0px 0px 50px;padding:2px 2px 2px 2px;border:solid;border-width:1px;border-color:#000000;">' +
+            '                   <ul id="pageTab' + num + '" class="nav nav-tabs">' +
+            '                       <li><a style="font-weight:bold;color: #000000">图层</a></li>' +
+            '                       <li style="float:right"><button type="button" onclick="addNewPage(' + num + ');" style="width:36px;line-height: 30px;float: right">╋</button></li>' +
+            '                   </ul>' +
+            '                   <div id ="pageTabContent' + num + '" class="tab-content">' +
+            '                   </div>' +
+            '               </div>' +
             '            </div>' +
             '        </div>' +
             '    </div>' +
@@ -328,9 +348,9 @@
                 addImage(num, j, cell.images[j]);
             }
         }
-        if(num===0){
+        if (num === 0) {
             refreshCelltypeRemark(cell.celltypeId);
-            $("#0_celltype").change(function(){
+            $("#0_celltype").change(function () {
                 var id = $("#0_celltype").val();
                 refreshCelltypeRemark(id);
             });
@@ -350,11 +370,11 @@
     function refreshCelltypeRemark(id) {
         $.ajax({
             type: "GET",
-            url: "{:url('/api/celltype')}?id="+id,
+            url: "{:url('/api/celltype')}?id=" + id,
             success: function (data) {
                 var obj = JSON.parse(data);
                 if (obj.code === 0) {
-                    $("#other_1").get(0).innerHTML=obj.data.remark;
+                    $("#other_1").get(0).innerHTML = obj.data.remark;
                 }
             }
         });
@@ -424,6 +444,8 @@
             '           <option value="0"' + isSelect(0, verify(text.gravity)) + '>居中对齐</option>' +
             '           <option value="1"' + isSelect(1, verify(text.gravity)) + '>左边对齐</option>' +
             '           <option value="2"' + isSelect(2, verify(text.gravity)) + '>右边对齐</option>' +
+            '           <option value="3"' + isSelect(3, verify(text.gravity)) + '>左中对齐</option>' +
+            '           <option value="4"' + isSelect(4, verify(text.gravity)) + '>右中对齐</option>' +
             '       </select>' +
             '   </div>' +
             '   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
@@ -463,7 +485,7 @@
         if (image === undefined) {
             image = {
                 url: "", width: "", height: "", filterColor: "", left: "", top: "", right: "", bottom: "",
-                recv: null, send: null, shapeType:0, scaleType: 0, newcreate: true
+                recv: null, send: null, shapeType: 0, scaleType: 0, newcreate: true
             };
         }
         num = verify(num);
@@ -513,8 +535,9 @@
             '       <select name="' + num + '_scaleType[]" style="height:30px;border:solid;border-width:1px;border-color:#000000;">' +
             '           <option value="0"' + isSelect(0, verify(image.scaleType)) + '>FitXY</option>' +
             '           <option value="1"' + isSelect(1, verify(image.scaleType)) + '>FitCenter</option>' +
-            '           <option value="2"' + isSelect(2, verify(image.scaleType)) + '>CenrerCrop</option>' +
-            '           <option value="3"' + isSelect(3, verify(image.scaleType)) + '>CenrerInside</option>' +
+            '           <option value="2"' + isSelect(2, verify(image.scaleType)) + '>Center</option>' +
+            '           <option value="3"' + isSelect(3, verify(image.scaleType)) + '>CenrerCrop</option>' +
+            '           <option value="4"' + isSelect(4, verify(image.scaleType)) + '>CenrerInside</option>' +
             '       </select>' +
             '   </div>' +
             '   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
@@ -596,7 +619,7 @@
         window.history.back();
     }
 
-    function postForm(id) {
+    function postForm(id, noRefresh) {
         $('#loadingDialog').fadeIn(100);
         $.ajax({
             type: id > 0 ? "PUT" : "POST",
@@ -610,17 +633,16 @@
                 $('#loadingDialog').fadeOut(100);
                 var obj = JSON.parse(data);
                 if (obj.code === 0) {
-                    if (id > 0) {
+                    if (true === noRefresh) {
                         // refreshCell(id);
-                        window.history.back();
-                    } else {
+                    }else{
                         window.history.back();
                     }
                 } else {
                     alert(obj.msg);
                 }
             }
-        });
+        })
     }
 
     function refreshCell(id) {
@@ -668,8 +690,12 @@
     $('#recvDialog').flyjsonedit({
         title: "接受数据",
         width: "600px",
-        height: "380px",
-        inputIds: ["recvId", "visibleContent", "disVisibleContent", "recvContent"]
+        height: "520px",
+        inputIds: ["recvId", "visibleContent", "disVisibleContent", "recvContent","anmiId", "startAnim", "stopAnim" ],
+    }).bind("confirm", function (e, data) {
+        if ("{$id}" > 0) {
+            postForm('{$id}', true);
+        }
     });
 
     $('#sendDialog').flyjsonedit({
@@ -677,6 +703,10 @@
         width: "600px",
         height: "480px",
         inputIds: ["eventId", "eventContent", "packName", "className", "intent", "flyAction"]
+    }).bind("confirm", function (e, data) {
+        if ("{$id}" > 0) {
+            postForm('{$id}', true);
+        }
     });
 
     $('#languageDialog').flyjsonedit({
@@ -684,6 +714,10 @@
         width: "800px",
         height: "480px",
         inputIds: ["en", "zh_rCN", "zh_rTW", "ru", "el", "pl", "tr", "ar", "fa", "ro", "fr", "hu", "it", "th", "de", "uk", "es", "pt"]
+    }).bind("confirm", function (e, data) {
+        if ("{$id}" > 0) {
+            postForm('{$id}', true);
+        }
     });
 
 
