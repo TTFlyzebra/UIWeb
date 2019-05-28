@@ -50,7 +50,7 @@ class Cell extends BaseRestful
                     }
                     $maincell['cellId'] = $result;
                     saveLog(Config::get('event')['add'], $tableName, $maincell);
-                    echo retJsonMsg();
+                    echo retJsonMsg("success!", 0, $result);
                 } else {
                     saveLog(Config::get('event')['error'], $tableName, $maincell);
                     echo retJsonMsg('add failed', -1, $result);
@@ -108,7 +108,7 @@ class Cell extends BaseRestful
                             }
                         }
                     }
-                }else{
+                } else {
                     $subdel = Db::name('subcell')->where('cellId', $maincell['cellId'])->delete();
                     if ($subdel) {
                         saveLog(Config::get('event')['del'], "subcell", $subdel);
@@ -119,7 +119,7 @@ class Cell extends BaseRestful
                 $result = Db::name($tableName)->update($maincell);
                 if ($result >= 0) {
                     saveLog(Config::get('event')['edit'], $tableName, $maincell);
-                    echo retJsonMsg();
+                    echo retJsonMsg("success!",0,$maincell['cellId']);
                 } else {
                     saveLog(Config::get('event')['error'], $tableName, $maincell);
                     echo retJsonMsg('edit failed', -1, $result);
