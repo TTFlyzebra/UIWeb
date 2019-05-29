@@ -110,19 +110,18 @@ var childtexts = function (cell) {
 };
 
 var childposion = function (cell, cell_div, bshow) {
-    var position_div = $('<div class="position"></div>');
+    var position_div = $('<div class="position" style="border:solid;border-width:1px;border-color:#707F00;"></div>');
     var size_div = $('<div style="position: absolute;">' + cell.width + '-' + cell.height + '</div>');
     size_div.css('text-align', 'right');
     size_div.css('top', cell.height - 28);
     size_div.css('width', cell.width - 4);
     size_div.css('height', 24);
-    size_div.css('color', '#FF00FF');
-    var positiontext = $('<div id="position" style=" position: absolute;padding-left: 2px;text-align: left;color: #FF00FF;"></div>');
+    size_div.css('color', '#FF0000');
+    var positiontext = $('<div id="position" style=" position: absolute;padding-left: 2px;text-align: left; background-color: rgba(0,0,0,0.3);;color: #FFFFFF;"></div>');
     positiontext.css('white-space', 'nowrap')
     positiontext.css('text-align', 'left');
     positiontext.css('minwidth', 100);
     positiontext.css('height', 24);
-    positiontext.css('color', '#FF00FF');
     var arrow_up = $('<div style="opacity:0.5;position: absolute;left:0;right:0;top: -40px;bottom: 40px;width: 24px;height: 24px;margin: auto;' +
         'border-bottom: 24px solid #FFB800;border-left: 24px solid transparent;border-right: 24px solid transparent;"></div>');
 
@@ -210,8 +209,8 @@ var _delete = function (cell, bshow) {
         pageId: undefined,
         url: undefined,
         defimgurl: "",
-        showdelete: $('.showdelete').prop('checked'),
-        showadjust: $('.showadjust').prop('checked'),
+        showdelete: true,
+        showadjust: true,
         moveevent: true
     };
 
@@ -478,7 +477,7 @@ var _delete = function (cell, bshow) {
         var scalew = cell.width / (this.options.childw - 4);
         var scaleh = cell.height / (this.options.childh - 4);
         var scale = scalew > scaleh ? scalew : scaleh;
-        var menucell_div = $('<div style=" position:relative;float:left;text-align:center;' +
+        var menucell_div = $('<div style="position:relative;float:left;text-align:center;' +
             'width:' + this.options.childw + 'px;height:' + this.options.childh + 'px;' +
             'border:solid;border-width:1px;border-color:#707F00;"></div>');
         menucell_div.css('width', this.options.childw + 'px');

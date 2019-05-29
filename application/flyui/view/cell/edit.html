@@ -170,7 +170,7 @@
         </div>
     </div>
 </div>
-<!--事件编辑-->
+<!--组件图层编辑 -->
 <div id="cellPageDialog" class="FlyJsonEdit">
     <div class="flycontent">
         <div class="flyscreen"></div>
@@ -743,6 +743,10 @@
 
     function openPageEditDialog(pageId,num,subnum) {
         $('.flyscreen').screen("refresh", pageId);
+        $('.showdelete').prop("checked", true);
+        $('.showadjust').prop("checked", true);
+        $('.flyscreen').screen("showdelete", true);
+        $('.flyscreen').screen("showadjust", true);
         $('#cellPageDialog').flyjsonedit("show");
     }
 
