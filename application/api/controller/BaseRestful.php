@@ -27,8 +27,8 @@ class BaseRestful
                 $table['userid'] = Session::get('userid');
                 $result = Db::name($tableName)->insert($table, false, true);
                 if ($result) {
-                    echo retJsonMsg();
                     $table[$tableName . 'Id'] = $result;
+                    echo retJsonMsg("success!",0,$table);
                     saveLog(Config::get('event')['add'], $tableName, $table);
                 } else {
                     echo retJsonMsg('add failed', -1, $result);

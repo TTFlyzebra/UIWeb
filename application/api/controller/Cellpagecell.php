@@ -5,7 +5,7 @@ namespace app\api\controller;
 use think\Db;
 use think\Request;
 
-class Themetopcell
+class Cellpagecell
 {
     public function index()
     {
@@ -14,7 +14,7 @@ class Themetopcell
             if ($request->has('pageId', 'post') && $request->has('jsondata', 'post')) {
                 $pageId = (int)$_POST['pageId'];
                 $jsondata = $_POST['jsondata'];
-                $db = Db::name("themetopcell");
+                $db = Db::name("cellpagecell");
                 $db->where('pageId', $pageId)->delete();
                 $topcells = json_decode($jsondata, true);
                 $count = count($topcells);
@@ -33,7 +33,7 @@ class Themetopcell
             }
         } elseif ($request->isGet()) {
             if ($request->has('pageId', 'get')) {
-                $pagedata = getAllPagecell((int)$_GET['pageId'],'themetopcell');
+                $pagedata = getAllPagecell((int)$_GET['pageId'],'cellpagecell');
                 for ($pi = 0; $pi < sizeof($pagedata); $pi++) {
                     $pagedata[$pi] = replaceJsonCell($pagedata[$pi]);
                 }

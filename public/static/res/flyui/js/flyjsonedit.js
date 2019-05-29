@@ -15,6 +15,7 @@
         jsonInput: undefined,
         width: "50%",
         height: "70%",
+        confirm:true,
         inputs: undefined
     };
 
@@ -37,32 +38,34 @@
         var closeDialog = $('<button type="button" style="width:36px;line-height: 30px;float: right">╳</button>');
         var title = $('<div class="modal-header"><h4 class="modal-title">' + options.title + '</h4></div>');
         var footer = $('<div class="modal-footer"></div>');
-        var button = $('<button type="button" class="btn btn-primary">确定</button>');
-        footer.append(button);
+        if(options.confirm) {
+            var button = $('<button type="button" class="btn btn-primary">确定</button>');
+            button.on('click', function (event) {
+                if (options.inputIds !== undefined && options.inputIds.length > 0) {
+                    var obj = {};
+                    for (var i = 0; i < options.inputIds.length; i++) {
+                        var value = $('#' + options.inputIds[i]).val();
+                        if (!isTextEmpty(value)) {
+                            obj[options.inputIds[i]] = value;
+                        }
+                    }
+                    var jsonStr = JSON.stringify(obj);
+                    if (jsonStr == "{}") {
+                        options.jsonInput.val("");
+                    } else {
+                        options.jsonInput.val(JSON.stringify(obj));
+                    }
+
+                }
+                self.trigger("confirm", options.jsonInput);
+                self.fadeOut(100);
+            });
+            footer.append(button);
+        }
         self.prepend(title.get(0))
         self.prepend(closeDialog.get(0));
         self.append(footer.get(0));
         closeDialog.on("click", function (event) {
-            self.fadeOut(100);
-        });
-        button.on('click', function (event) {
-            if (options.inputIds !== undefined && options.inputIds.length > 0) {
-                var obj = {};
-                for (var i = 0; i < options.inputIds.length; i++) {
-                    var value = $('#' + options.inputIds[i]).val();
-                    if (!isTextEmpty(value)) {
-                        obj[options.inputIds[i]] = value;
-                    }
-                }
-                var jsonStr = JSON.stringify(obj);
-                if (jsonStr == "{}") {
-                    options.jsonInput.val("");
-                } else {
-                    options.jsonInput.val(JSON.stringify(obj));
-                }
-
-            }
-            self.trigger("confirm", options.jsonInput);
             self.fadeOut(100);
         });
 

@@ -10,6 +10,7 @@
 <script type="text/javascript" src="__RES__/common/js/bootstrap-table-zh-CN.min.js"></script>
 <script type="text/javascript" src="__RES__/flyui/js/flyimage.js"></script>
 <script type="text/javascript" src="__RES__/flyui/js/flyjsonedit.js"></script>
+<script type="text/javascript" src="__RES__/flyui/js/flyscreen.js"></script>
 <body>
 <div class="modal-header">
     <h4 class="modal-title" id="myModalLabel">{if condition="$id gt 0"}修改组件{else/}添加组件{/if}</h4>
@@ -24,7 +25,9 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-default" onclick="onCancel()">取消</button>
         <button type="reset" class="btn btn-default">重置</button>
+        <button type="button" class="btn btn-default" onclick="saveForm('{$id}')">保存</button>
         <button type="button" class="btn btn-primary" onclick="postForm('{$id}')">提交</button>
+        <button type="submit" class="btn btn-primary">测试</button>
     </div>
 </form>
 <!-- loading -->
@@ -167,12 +170,26 @@
         </div>
     </div>
 </div>
+<!--事件编辑-->
+<div id="cellPageDialog" class="FlyJsonEdit">
+    <div class="flycontent">
+        <div class="flyscreen"></div>
+        <div class="flymenu"></div>
+        <div class="flycontrl">
+            <label>显示删除</label><input class="showdelete" type="checkbox" checked="checked">
+            <label>位置微调</label><input class="showadjust" type="checkbox" checked="checked">
+            <button type="button" class="screenrefresh" class="btn btn-lg">重新加载</button>
+            <button type="button" class="screensave" class="btn btn-lg">保存设置</button>
+        </div>
+    </div>
+</div>
 </body>
 </html>
 <script type="text/javascript">
     cellnum = 0;
     imagesNum = [];
     textsNum = [];
+    pagesNum = [];
 
     function isTextEmpty(obj) {
         return typeof obj == "undefined" || obj == null || obj === "";
@@ -322,7 +339,7 @@
             '               <div class="col-sm-12" style="margin:10px 0px 0px 50px;padding:2px 2px 2px 2px;border:solid;border-width:1px;border-color:#000000;">' +
             '                   <ul id="pageTab' + num + '" class="nav nav-tabs">' +
             '                       <li><a style="font-weight:bold;color: #000000">图层</a></li>' +
-            '                       <li style="float:right"><button type="button" onclick="addNewPage(' + num + ');" style="width:36px;line-height: 30px;float: right">╋</button></li>' +
+            '                       <li style="float:right"><button type="button" onclick="addNewPage(' + num + ',' + cell.subcellId + ');" style="width:36px;line-height: 30px;float: right">╋</button></li>' +
             '                   </ul>' +
             '                   <div id ="pageTabContent' + num + '" class="tab-content">' +
             '                   </div>' +
@@ -340,12 +357,17 @@
 
         textsNum[num] = (cell.texts === null || cell.texts === undefined) ? 0 : cell.texts.length;
         imagesNum[num] = (cell.images === null || cell.images === undefined) ? 0 : cell.images.length;
+        pagesNum[num] = (cell.pages === null || cell.pages === undefined) ? 0 : cell.pages.length;
         if (!cell.newcreate) {
             for (var i = 0; i < textsNum[num]; i++) {
                 addText(num, i, cell.texts[i]);
             }
             for (var j = 0; j < imagesNum[num]; j++) {
                 addImage(num, j, cell.images[j]);
+            }
+
+            for (var k = 0; k < pagesNum[num]; k++) {
+                addPage(num, k, cell.pages[k]);
             }
         }
         if (num === 0) {
@@ -570,6 +592,76 @@
         $('#' + num + '_' + subnum + '_imageSend').val(str2 == "null" ? "" : str2);
     }
 
+    function addPage(num, subnum, page) {
+        if (page === undefined) {
+            page = {
+                pageId: "", cellId: "", backColor: "", width: "", height: "", recv: null, send: null, newcreate: true
+            }
+        }
+        num = verify(num);
+        var pageTab = $('<li><a href="#page_' + num + '_' + subnum + '" data-toggle="tab">' + subnum + '</a></li>');
+        var pageTabContent = $(
+            '<div class="tab-pane fade in" id="page_' + num + '_' + subnum + '">' +
+            '   <input type="hidden" name="' + num + '_pagePageId[]" value="' + page.pageId + '">' +
+            '   <button  id="pageDel_' + num + '_' + subnum + '" type="button" style="width:36px;line-height: 30px;float: right">╳</button>' +
+            '   <button  onclick="openPageEditDialog('+page.pageId+ ',' + num + ',' + subnum + ')" type="button" style="width:36px;line-height: 30px;float: right">E</button>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       图层颜色:' +
+            '       <input name="' + num + '_pageBackColor[]" style="width:95px;height:30px;" type="text" ' +
+            '              value="' + verify(page.backColor) + '" placeholder="#FF0000FF">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       图层宽度' +
+            '       <input id="'+num+'_'+subnum+'_pageWidth" name="' + num + '_pageWidth[]" style="width:80px;height:30px;" type="text" ' +
+            '              value="' + verify(page.width) + '" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;height:30px;float:left;">' +
+            '       图层高度' +
+            '       <input id="'+num+'_'+subnum+'_pageHeight"name="' + num + '_pageHeight[]" style="width:80px;height:30px;" type="text" ' +
+            '              value="' + verify(page.height) + '" placeholder="">' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
+            '       接收数据:' +
+            '       <input id="' + num + '_' + subnum + '_pageRecv" name="' + num + '_pageRecv[]" style="width:calc(100% - 80px);height:30px;" type="text" ' +
+            '              value="' + verify(page.recv) + '" placeholder=""' +
+            '              onclick="openrecvDialog(' + 3 + ',' + num + ',' + subnum + ')" readonly>' +
+            '   </div>' +
+            '   <div style="margin:2px 2px 2px 2px;width:calc(50% - 4px);height:30px;float:left;">' +
+            '       点击事件:' +
+            '       <input id="' + num + '_' + subnum + '_pageSend" name="' + num + '_pageSend[]" style="width:calc(100% - 80px);height:30px;" type="text" ' +
+            '              value="' + verify(page.send) + '" placeholder=""' +
+            '              onclick="opensendDialog(' + 3 + ',' + num + ',' + subnum + ')" readonly>' +
+            '   </div>' +
+            '</div>');
+        $('#pageTab' + num).get(0).append(pageTab.get(0));
+        $('#pageTabContent' + num).get(0).append(pageTabContent.get(0));
+        if (page.newcreate || subnum === 0) {
+            $('#pageTab' + num + ' a:last').click();
+        }
+        $('#pageDel_' + num + '_' + subnum).on("click", function (event) {
+            $.ajax({
+                type: "DELETE",
+                url: "{:url('/api/cellpage')}",
+                data: {pageId: page.pageId},
+                success: function (data) {
+                    $('#loadingDialog').fadeOut(100);
+                    var obj = JSON.parse(data);
+                    if (obj.code === 0) {
+                        $('#pageTab' + num).get(0).removeChild(pageTab.get(0));
+                        $('#pageTab' + num + ' a:last').click();
+                        $('#pageTabContent' + num).get(0).removeChild(pageTabContent.get(0));
+                    } else {
+                        alert(obj.msg);
+                    }
+                }
+            });
+        });
+        var str1 = isTextEmpty(page.recv) ? page.recv : JSON.stringify(page.recv);
+        $('#' + num + '_' + subnum + '_pageRecv').val(str1 == "null" ? "" : str1);
+        var str2 = isTextEmpty(page.send) ? page.send : JSON.stringify(page.send);
+        $('#' + num + '_' + subnum + '_pageSend').val(str2 == "null" ? "" : str2);
+    }
+
     function refreshFlyImage() {
         $('.FlyImageInput').flyinput({
             ajaxurl: "{:url('/api/imagefile')}",
@@ -600,13 +692,47 @@
         imagesNum[num]++;
     }
 
+    function addNewPage(num, subcellId) {
+        if (undefined === subcellId) {
+            if (num > 0) {
+                return;
+            }
+            subcellId = 0;
+        }
+        $.ajax({
+            type: "POST",
+            url: "{:url('/api/cellpage')}",
+            data: {cellId: "{$id}", subcellId: subcellId},
+            success: function (data) {
+                $('#loadingDialog').fadeOut(100);
+                var obj = JSON.parse(data);
+                if (obj.code === 0) {
+                    obj.data.pageId = obj.data.cellpageId;
+                    obj.data.width = $('#0_width').val();
+                    obj.data.height = $('#0_height').val();
+                    obj.data.newcreate = true;
+                    addPage(num, pagesNum[num], obj.data);
+                    pagesNum[num]++;
+                } else {
+                    alert(obj.msg);
+                }
+            }
+        })
+    }
+
     function openrecvDialog(type, num, subnum) {
-        var jsonInput = type === 0 ? $('#' + num + '_recv') : type === 1 ? $('#' + num + '_' + subnum + '_textRecv') : $('#' + num + '_' + subnum + '_imageRecv');
+        var jsonInput = type === 0 ? $('#' + num + '_recv') :
+            type === 1 ? $('#' + num + '_' + subnum + '_textRecv') :
+                type === 2 ? $('#' + num + '_' + subnum + '_imageRecv') :
+                    $('#' + num + '_' + subnum + '_pageRecv');
         $('#recvDialog').flyjsonedit("show", jsonInput, jsonInput.val());
     }
 
     function opensendDialog(type, num, subnum) {
-        var jsonInput = type === 0 ? $('#' + num + '_send') : type === 1 ? $('#' + num + '_' + subnum + '_textSend') : $('#' + num + '_' + subnum + '_imageSend');
+        var jsonInput = type === 0 ? $('#' + num + '_send') :
+            type === 1 ? $('#' + num + '_' + subnum + '_textSend') :
+                type === 2 ? $('#' + num + '_' + subnum + '_imageSend') :
+                    $('#' + num + '_' + subnum + '_pageSend');
         $('#sendDialog').flyjsonedit("show", jsonInput, jsonInput.val());
     }
 
@@ -615,8 +741,35 @@
         $('#languageDialog').flyjsonedit("show", jsonInput, jsonInput.val());
     }
 
+    function openPageEditDialog(pageId,num,subnum) {
+        $('.flyscreen').screen("refresh", pageId);
+        $('#cellPageDialog').flyjsonedit("show");
+    }
+
     function onCancel() {
         window.history.back();
+    }
+
+    function saveForm(id) {
+        $('#loadingDialog').fadeIn(100);
+        $.ajax({
+            type: id > 0 ? "PUT" : "POST",
+            url: "{:url('/api/cell')}",
+            data: $('#flyform').serialize(),
+            error: function (request) {
+                $('#loadingDialog').fadeOut(100);
+                alert("error code:" + request.readyState);
+            },
+            success: function (data) {
+                $('#loadingDialog').fadeOut(100);
+                var obj = JSON.parse(data);
+                if (obj.code === 0) {
+                    refreshCell(id);
+                } else {
+                    alert(obj.msg);
+                }
+            }
+        })
     }
 
     function postForm(id, noRefresh) {
@@ -635,7 +788,7 @@
                 if (obj.code === 0) {
                     if (true === noRefresh) {
                         // refreshCell(id);
-                    }else{
+                    } else {
                         window.history.back();
                     }
                 } else {
@@ -649,6 +802,7 @@
         cellnum = 0;
         imagesNum = [];
         textsNum = [];
+        pagesNum = [];
         $('#cellTab').get(0).innerHTML =
             '<li style="float:right;">' +
             '   <button type="button" onclick="addNewCell();" style="width:36px;line-height: 30px;float: right">╋</button>' +
@@ -691,7 +845,7 @@
         title: "接受数据",
         width: "600px",
         height: "520px",
-        inputIds: ["recvId", "visibleContent", "disVisibleContent", "recvContent","anmiId", "startAnim", "stopAnim" ],
+        inputIds: ["recvId", "visibleContent", "disVisibleContent", "recvContent", "anmiId", "startAnim", "stopAnim"],
     }).bind("confirm", function (e, data) {
         if ("{$id}" > 0) {
             postForm('{$id}', true);
@@ -719,6 +873,30 @@
             postForm('{$id}', true);
         }
     });
+
+    $('.flyscreen').screen({
+        width: 1024,
+        height: 600,
+        url: "{:url('/api/cellpagecell')}",
+        defimgurl: "__RES__/flyui/img/default_cellmenu.png"
+    });
+
+    $('.flymenu').menu({
+        width: 380,
+        height: 600,
+        url: "{:url('/api/cell')}",
+        defimgurl: "__RES__/flyui/img/default_cellmenu.png",
+        childw:120,
+        childh:120
+    });
+
+    $('#cellPageDialog').flyjsonedit({
+        title: "图层编辑",
+        width: "100%",
+        height: "100%",
+        confirm:true
+    });
+
 
 
 </script>

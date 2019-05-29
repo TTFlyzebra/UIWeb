@@ -129,8 +129,19 @@ function getPostCell($data, $str = '0_')
     } else {
         $cell["images"] = "[]";
     }
-    $pages = [];
-    $cell["pages"] = json_encode($pages);
+    if (isset($data[$str . "pagePageId"]) && !empty($data[$str . "pagePageId"])) {
+        for ($i = 0; $i < sizeof($data[$str . "pagePageId"]); $i++) {
+            $pages[$i]['pageId'] = (int)$data[$str . "pagePageId"][$i];
+            $pages[$i]['width'] = (int)$data[$str . "pageWidth"][$i];
+            $pages[$i]['height'] = (int)$data[$str . "pageHeight"][$i];
+            $pages[$i]['recv'] = $data[$str . "pageRecv"][$i];
+            $pages[$i]['send'] = $data[$str . "pageSend"][$i];
+            $pages[$i]['backColor'] = $data[$str . "pageBackColor"][$i];
+        }
+        $cell["pages"] = json_encode($pages);
+    } else {
+        $cell["pages"] = "[]";
+    }
     $cell["remark"] = $data[$str . "remark"];
     $cell['userid'] = Session::get('userid');
     $cell['ip'] = request()->ip();
@@ -165,6 +176,24 @@ function replaceJsonCell($cell)
         }
     }
     $cell['pages'] = json_decode($cell['pages'], true);
+    if (is_array($cell['pages'])) {
+        for ($si = 0; $si < sizeof($cell['pages']); $si++) {
+            if (!empty($cell['pages'][$si]['recv'])) {
+                $cell['pages'][$si]['recv'] = json_decode($cell['pages'][$si]['recv'], true);
+            }
+            if (!empty($cell['pages'][$si]['send'])) {
+                $cell['pages'][$si]['send'] = json_decode($cell['pages'][$si]['send'], true);
+            }
+        }
+    }
+//    $pages = Db::name('cellpage')
+//        ->where('cellId', $cell['cellId'])
+//        ->where('subcellid', 0)
+//        ->where('status',1)
+//        ->field('ip,userid,edittime', true)
+//        ->select();
+//    $cell['pages'] = $pages;
+
     $cell['recv'] = json_decode($cell['recv'], true);
     $cell['send'] = json_decode($cell['send'], true);
     $db = Db::name('subcell');
@@ -201,6 +230,23 @@ function replaceJsonCell($cell)
                 }
             }
             $subcells[$i]['pages'] = json_decode($subcells[$i]['pages'], true);
+            if (is_array($subcells[$i]['pages'])) {
+                for ($sii = 0; $sii < sizeof($subcells[$i]['pages']); $sii++) {
+                    if (!empty($subcells[$i]['pages'][$sii]['recv'])) {
+                        $subcells[$i]['pages'][$sii]['recv'] = json_decode($subcells[$i]['pages'][$sii]['recv'], true);
+                    }
+                    if (!empty($subcells[$i]['pages'][$sii]['send'])) {
+                        $subcells[$i]['pages'][$sii]['send'] = json_decode($subcells[$i]['pages'][$sii]['send'], true);
+                    }
+                }
+            }
+            $subpages = Db::name('cellpage')
+                ->where('cellId', $cell['cellId'])
+                ->where('subcellid', $subcells[$i]['subcellId'])
+                ->where('status',1)
+                ->field('ip,userid,edittime', true)
+                ->select();
+            $subcells[$i]['pages'] = $subpages;
             $subcells[$i]['recv'] = json_decode($subcells[$i]['recv'], true);
             $subcells[$i]['send'] = json_decode($subcells[$i]['send'], true);
         }

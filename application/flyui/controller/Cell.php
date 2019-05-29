@@ -50,4 +50,36 @@ class Cell extends Auth
         }
     }
 
+    public function cellpage(){
+        $request = Request::instance();
+        if ($request->has('id', 'get')) {
+            $item = Db::name('page')
+                ->alias('a')
+                ->where('a.pageId', $_GET['id'])
+                ->where('a.status', 1)
+                ->join("fly_theme b", "a.themeId=b.themeId")
+                ->field(['a.pageId', 'a.pageName', 'a.themeId', 'a.imageurl', 'a.backcolor', 'a.width', 'a.height',
+                    'a.remark', 'a.edittime', 'b.themeName'])
+                ->find();
+            $item['pageId'] =  $_GET['id'];
+        } else {
+            $item = [
+                'pageId' => "",
+                "backcolor" => "",
+                "width" => 512,
+                "height" => 60,
+            ];
+        }
+        $item['themeName'] =  "CELL PAGE";
+        $item['pageName'] =  "Layout";
+        if ($request->has('width', 'get')){
+            $item['width'] =  1024;
+        }
+        if ($request->has('height', 'get')){
+            $item['height'] =  600;
+        }
+        $this->assign('item', $item);
+        return $this->fetch();
+    }
+
 }

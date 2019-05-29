@@ -268,11 +268,6 @@ var _delete = function (cell, bshow) {
     };
 
     FlyScreen.prototype.initcss = function () {
-        $(document.body).css("font-size", "20px");
-        $(document.body).css("-webkit-user-select", "none");
-        $(document.body).css("-moz-user-select", "none");
-        $(document.body).css("-ms-user-select", "none");
-        $(document.body).css("user-select", "none");
         this.$srceen.css("position", "relative");
         this.$srceen.css("float", "left");
         this.$srceen.css("overflow", "auto");
@@ -280,6 +275,11 @@ var _delete = function (cell, bshow) {
         this.$srceen.css("width", this.options.width);
         this.$srceen.css("height", this.options.height);
         var flycontent = $('.flycontent');
+        flycontent.css("-webkit-user-select", "none");
+        flycontent.css("-moz-user-select", "none");
+        flycontent.css("-ms-user-select", "none");
+        flycontent.css("user-select", "none");
+        flycontent.css("font-size", "20px");
         flycontent.css("margin", "auto");
         flycontent.css("background", "lightsteelblue");
         flycontent.css("width", this.options.width);
@@ -312,6 +312,8 @@ var _delete = function (cell, bshow) {
     FlyScreen.prototype.refresh = function (id) {
         if (!id) {
             id = this.options.pageId;
+        }else{
+            this.options.pageId = id;
         }
         var self = this;
         var screen = this.$srceen;
@@ -559,14 +561,15 @@ var _delete = function (cell, bshow) {
     };
 
     FlyMenu.prototype.initevent = function () {
-        $(document).on('mousemove', function (event) {
+        $('.flycontent').on('mousemove', function (event) {
             if (addMenuCell) {
                 if (bodyMoveDiv === null) {
                     bodyMoveDiv = createCellDiv(addMenuCell);
-                    document.body.appendChild(bodyMoveDiv);
+                    $('.flycontent').get(0).appendChild(bodyMoveDiv);
                 }
                 bodyMoveDiv.style.left = (event.clientX - addMenuCell.width / 2) + 'px';
                 bodyMoveDiv.style.top = (event.clientY - addMenuCell.height / 2) + 'px';
+                console.log("pageX="+event.pageX+",screenX="+event.screenX+',offsetX='+event.offsetX);
             }
         }).on('mouseleave', function (event) {
             if (bodyMoveDiv) {
