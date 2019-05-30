@@ -134,9 +134,9 @@ function getPostCell($data, $str = '0_')
             $pages[$i]['pageId'] = (int)$data[$str . "pagePageId"][$i];
             $pages[$i]['width'] = (int)$data[$str . "pageWidth"][$i];
             $pages[$i]['height'] = (int)$data[$str . "pageHeight"][$i];
-            $pages[$i]['recv'] = $data[$str . "pageRecv"][$i];
-            $pages[$i]['send'] = $data[$str . "pageSend"][$i];
             $pages[$i]['backColor'] = $data[$str . "pageBackColor"][$i];
+            $pages[$i]['recv'] = empty($data[$str . "pageRecv"][$i]) ? NULL : $data[$str . "pageRecv"][$i];
+            $pages[$i]['send'] = empty($data[$str . "pageSend"][$i]) ? NULL : $data[$str . "pageSend"][$i];
         }
         $cell["pages"] = json_encode($pages);
     } else {
@@ -178,6 +178,8 @@ function replaceJsonCell($cell)
     $cell['pages'] = json_decode($cell['pages'], true);
     if (is_array($cell['pages'])) {
         for ($si = 0; $si < sizeof($cell['pages']); $si++) {
+            $cell['pages'][$si]['cellList'] = getPagecell($cell['pages'][$si]['pageId'],'cellpagecell');
+
             if (!empty($cell['pages'][$si]['recv'])) {
                 $cell['pages'][$si]['recv'] = json_decode($cell['pages'][$si]['recv'], true);
             }
@@ -232,6 +234,7 @@ function replaceJsonCell($cell)
             $subcells[$i]['pages'] = json_decode($subcells[$i]['pages'], true);
             if (is_array($subcells[$i]['pages'])) {
                 for ($sii = 0; $sii < sizeof($subcells[$i]['pages']); $sii++) {
+                    $subcells[$i]['pages'][$sii]['cellList'] = getPagecell($subcells[$i]['pages'][$sii]['pageId'],'cellpagecell');
                     if (!empty($subcells[$i]['pages'][$sii]['recv'])) {
                         $subcells[$i]['pages'][$sii]['recv'] = json_decode($subcells[$i]['pages'][$sii]['recv'], true);
                     }
