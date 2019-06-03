@@ -38,6 +38,7 @@ class Cell extends Auth
             $cell['description'] = 'new_'.$cell['description'];
             $cell['userid'] = Session::get('userid');
             $cell['ip'] = request()->ip();
+            $cell['pages'] = '[]';
             unset($cell['cellId']);
             $result = Db::name('cell')->insert($cell);
             if($result){

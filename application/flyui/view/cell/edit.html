@@ -59,7 +59,7 @@
             播放动画：<input id="startAnim" style="width:calc(100% - 80px);height:30px;" type="text">
         </div>
         <div style="margin:4px;height:30px;width:calc(100% - 8px);float: left">
-            暂停动画：<input id="stopAnim" style="width:calc(100% - 80px);height:30px;" type="text">
+            动画类型：<input id="animType" style="width:calc(100% - 80px);height:30px;" type="text">
         </div>
     </div>
     <div style="margin:4px;padding:4px;width:calc(100% - 8px);;height: 50px;border:solid;border-width:1px;border-color:#AAAAAA;">
@@ -851,7 +851,7 @@
         title: "接受数据",
         width: "600px",
         height: "520px",
-        inputIds: ["recvId", "visibleContent", "disVisibleContent", "keyId", "anmiId", "startAnim", "stopAnim"],
+        inputIds: ["recvId", "visibleContent", "disVisibleContent", "keyId", "animId", "startAnim", "stopAnim"],
     }).bind("confirm", function (e, data) {
         if ("{$id}" > 0) {
             postForm('{$id}', true);
