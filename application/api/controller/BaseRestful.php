@@ -15,7 +15,7 @@ use think\Exception;
 use think\Request;
 use think\Session;
 
-class BaseRestful
+class BaseRestful extends Base
 {
     public function handle($tableName, $order = null, $joins = null, $field = null)
     {

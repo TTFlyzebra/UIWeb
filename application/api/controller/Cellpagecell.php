@@ -5,7 +5,7 @@ namespace app\api\controller;
 use think\Db;
 use think\Request;
 
-class Cellpagecell
+class Cellpagecell extends BaseRestful
 {
     public function index()
     {

@@ -5,7 +5,7 @@ namespace app\api\controller;
 use think\Db;
 use think\Request;
 
-class App
+class App extends BaseRestful
 {
     public function index()
     {

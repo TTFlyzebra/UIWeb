@@ -5,7 +5,7 @@ namespace app\api\controller;
 use think\Db;
 use think\Request;
 
-class Themetopcell
+class Themetopcell extends BaseRestful
 {
     public function index()
     {

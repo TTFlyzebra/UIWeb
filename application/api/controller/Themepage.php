@@ -5,7 +5,7 @@ namespace app\api\controller;
 use think\Db;
 use think\Request;
 
-class Themepage
+class Themepage extends BaseRestful
 {
     public function index()
     {

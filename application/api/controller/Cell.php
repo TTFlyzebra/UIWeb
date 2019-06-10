@@ -11,7 +11,7 @@ class Cell extends BaseRestful
     public function index()
     {
         $tableName = 'cell';
-        $order = 'uptime desc';
+        $order = 'cellId desc';
         $joins = [
             [
                 "fly_celltype b",
@@ -186,9 +186,6 @@ class Cell extends BaseRestful
                     echo retJsonMsg('error!', -1, $cells);
                 }
             }
-
         }
-
     }
-
 }

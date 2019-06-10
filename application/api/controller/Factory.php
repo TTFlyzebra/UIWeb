@@ -4,7 +4,7 @@ namespace app\api\controller;
 
 use think\exception\ErrorException;
 
-class Factory
+class Factory extends BaseRestful
 {
     public function index()
     {

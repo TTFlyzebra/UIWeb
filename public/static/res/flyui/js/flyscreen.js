@@ -95,17 +95,16 @@ var childtexts = function (cell) {
             }
             count++;
         }
+    }else {
+        text_divs[0] = $('<div></div>');
+        text_divs[0].css('position', 'absolute');
+        text_divs[0].css('text-align', 'center');
+        text_divs[0].css('width', cell.width + 'px');
+        text_divs[0].css('font-size', '24px');
+        text_divs[0].css('color', "#000000");
+        text_divs[0].css('marginTop', (cell.height / 2 - 18) + 'px');
+        text_divs[0].get(0).innerHTML = isTextEmpty(cell.description) ? "" : cell.description;
     }
-    // if (!is_settext) {
-    //     text_divs[0] = $('<div></div>');
-    //     text_divs[0].css('position', 'absolute');
-    //     text_divs[0].css('text-align', 'center');
-    //     text_divs[0].css('width', cell.width + 'px');
-    //     text_divs[0].css('font-size', '24px');
-    //     text_divs[0].css('color', "#000000");
-    //     text_divs[0].css('marginTop', (cell.height / 2 - 18) + 'px');
-    //     text_divs[0].get(0).innerHTML = isTextEmpty(cell.description) ? "" : cell.description;
-    // }
     return text_divs;
 };
 
