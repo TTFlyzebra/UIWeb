@@ -1,6 +1,6 @@
 <?php
 
-namespace app\api\controller;
+namespace app\flyuiapi\controller;
 
 
 class Celltype extends BaseRestful
