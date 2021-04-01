@@ -10,7 +10,7 @@
 <script type="text/javascript" src="__RES__/news/js/flyinput.js"></script>
 <body>
 <form class="form-horizontal" name="aboutform" id="aboutform" method="post" role="form"
-      action="{:url('/api/about')}"
+      action="{:url('/homeapi/about')}"
       enctype="multipart/form-data">
     <div class="modal-header">
         <h4 class="modal-title" id="">修改公司介绍</h4>
@@ -41,8 +41,8 @@
 </html>
 
 <script type="text/javascript">
-    var abouturl = "{:url('/api/about')}";
-    var upimageurl2 = "{:url('/api/imagefile')}";
+    var abouturl = "{:url('/homeapi/about')}";
+    var upimageurl2 = "{:url('/homeapi/imagefile')}";
     var imageurl1 = $('#imageurl').val();
 
     //POST提交数据

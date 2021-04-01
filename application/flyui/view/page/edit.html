@@ -11,7 +11,7 @@
 <body>
 
 <form class="form-horizontal" name="celltypeform" id="celltypeform" method="post" role="form"
-      action="{:url('/api/page')}"
+      action="{:url('/flyuiapi/page')}"
       enctype="multipart/form-data">
     <div class="modal-header">
         <h4 class="modal-title" id="myModalLabel">{if condition="$item['pageId'] gt 0"}修改页面{else/}添加页面{/if}</h4>
@@ -82,7 +82,7 @@
 </html>
 
 <script type="text/javascript">
-    var pageurl = "{:url('/api/page')}";
+    var pageurl = "{:url('/flyuiapi/page')}";
 
     //POST提交数据
     function postform() {
@@ -109,7 +109,7 @@
     }
 
     $('.FlyImageInput').flyinput({
-        ajaxurl: "{:url('/api/imagefile')}",
+        ajaxurl: "{:url('/flyuiapi/imagefile')}",
         postData: false,
         width: "100%",
         height: "300px"

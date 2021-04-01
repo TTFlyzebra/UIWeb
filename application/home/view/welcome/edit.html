@@ -10,7 +10,7 @@
 <script type="text/javascript" src="__RES__/news/js/flyinput.js"></script>
 <body>
 <form class="form-horizontal" name="welcomeform" id="welcomeform" method="post" role="form"
-      action="{:url('/api/welcome')}"
+      action="{:url('/homeapi/welcome')}"
       enctype="multipart/form-data">
     <div class="modal-header">
         <h4 class="modal-title" id="">修改轮播图片</h4>
@@ -55,8 +55,8 @@
 </html>
 
 <script type="text/javascript">
-    var welcomeurl = "{:url('/api/welcome')}";
-    var upimageurl = "{:url('/api/imagefile')}";
+    var welcomeurl = "{:url('/homeapi/welcome')}";
+    var upimageurl = "{:url('/homeapi/imagefile')}";
     var imageurl = $('#imageurl').val();
     //POST提交数据
     function postwelcome() {

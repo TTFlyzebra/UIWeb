@@ -34,7 +34,7 @@
         //初始化Table
         oTableInit.Init = function () {
             $('#flytable').bootstrapTable({
-                url: "{:url('/api/about')}",     //请求后台的URL（*）
+                url: "{:url('/homeapi/about')}",     //请求后台的URL（*）
                 method: 'get',                      //请求方式（*）
                 dataType: 'json',
                 toolbar: '#toolbar',                //工具按钮用哪个容器
@@ -106,7 +106,7 @@
         for (var i = 0; i < a.length; i++) {
             $.ajax({
                 type: "DELETE",
-                url: "{:url('/api/about')}",
+                url: "{:url('/homeapi/about')}",
                 data: {
                     aboutId: a[i].aboutId
                 },

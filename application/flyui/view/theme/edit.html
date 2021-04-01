@@ -10,7 +10,7 @@
 <script type="text/javascript" src="__RES__/flyui/js/flyimage.js"></script>
 <body>
 <form class="form-horizontal" name="themeform" id="themeform" method="post" role="form"
-      action="{:url('/api/theme')}"
+      action="{:url('/flyuiapi/theme')}"
       enctype="multipart/form-data">
     <div class="modal-header">
         <h4 class="modal-title" id="myModalLabel">{if condition="$item['themeId'] gt 0"}修改模板{else/}添加模板{/if}</h4>
@@ -111,7 +111,7 @@
 </html>
 
 <script type="text/javascript">
-    var themeurl = "{:url('/api/theme')}";
+    var themeurl = "{:url('/flyuiapi/theme')}";
 
     if ('{$item.isMirror}' === '1') {
         $('#checkMirror').prop("checked", true);
@@ -151,7 +151,7 @@
 
 
     $('#flyimage1').flyinput({
-        ajaxurl: "{:url('/api/imagefile')}",
+        ajaxurl: "{:url('/flyuiapi/imagefile')}",
         postData: false,
         width: "100%",
         height: "300px"
@@ -162,7 +162,7 @@
     });
 
     $('#flyimage2').flyinput({
-        ajaxurl: "{:url('/api/imagefile')}",
+        ajaxurl: "{:url('/flyuiapi/imagefile')}",
         postData: false,
         width: "100%",
         height: "300px"

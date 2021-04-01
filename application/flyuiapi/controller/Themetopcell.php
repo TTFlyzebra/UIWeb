@@ -1,11 +1,11 @@
 <?php
 
-namespace app\api\controller;
+namespace app\flyuiapi\controller;
 
 use think\Db;
 use think\Request;
 
-class Cellpagecell extends BaseRestful
+class Themetopcell extends BaseRestful
 {
     public function index()
     {
@@ -14,7 +14,7 @@ class Cellpagecell extends BaseRestful
             if ($request->has('pageId', 'post') && $request->has('jsondata', 'post')) {
                 $pageId = (int)$_POST['pageId'];
                 $jsondata = $_POST['jsondata'];
-                $db = Db::name("cellpagecell");
+                $db = Db::name("themetopcell");
                 $db->where('pageId', $pageId)->delete();
                 $topcells = json_decode($jsondata, true);
                 $count = count($topcells);
@@ -33,7 +33,7 @@ class Cellpagecell extends BaseRestful
             }
         } elseif ($request->isGet()) {
             if ($request->has('pageId', 'get')) {
-                $pagedata = getAllPagecell((int)$_GET['pageId'],'cellpagecell');
+                $pagedata = getAllPagecell((int)$_GET['pageId'],'themetopcell');
                 for ($pi = 0; $pi < sizeof($pagedata); $pi++) {
                     $pagedata[$pi] = replaceJsonCell($pagedata[$pi]);
                 }

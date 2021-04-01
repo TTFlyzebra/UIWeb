@@ -1,6 +1,6 @@
 <?php
 
-namespace app\api\controller;
+namespace app\homeapi\controller;
 
 
 class History extends BaseRestful

@@ -10,7 +10,7 @@
 <script type="text/javascript" src="__RES__/news/js/flyinput.js"></script>
 <body>
 <form class="form-horizontal" name="newsform" id="newsform" method="post" role="form"
-      action="{:url('/api/news')}"
+      action="{:url('/homeapi/news')}"
       enctype="multipart/form-data">
     <div class="modal-header">
         <h4 class="modal-title" id="">新增新闻</h4>
@@ -53,8 +53,8 @@
 </html>
 
 <script type="text/javascript">
-    var newsurl = "{:url('/api/news')}";
-    var upimageurl = "{:url('/api/imagefile')}";
+    var newsurl = "{:url('/homeapi/news')}";
+    var upimageurl = "{:url('/homeapi/imagefile')}";
 
     //POST提交数据
     function postnews() {

@@ -19,7 +19,7 @@
     </div>
     <div class="flyscreen"></div>
     <div class="flypage">
-        <form class="form-horizontal" name="celltypeform" method="post" role="form" action="{:url('/api/cell')}" enctype="multipart/form-data">
+        <form class="form-horizontal" name="celltypeform" method="post" role="form" action="{:url('/flyuiapi/cell')}" enctype="multipart/form-data">
             <div class="modal-header">
                 <h3 class="modal-title">选择关联页面</h3>
             </div>
@@ -49,7 +49,7 @@
     $('.flyscreen').screen({
         width: "{$item.screenWidth}",
         height: "{$item.screenHeight}",
-        url: "{:url('/api/pagecell')}",
+        url: "{:url('/flyuiapi/pagecell')}",
         defimgurl: "__RES__/flyui/img/default_cellmenu.png",
         showdelete:false,
         showadjust:false,
@@ -60,9 +60,9 @@
     $('.flypage').menu({
         width: 380,
         height: "{$item.screenHeight}",
-        url: "{:url('/api/themepage')}"
+        url: "{:url('/flyuiapi/themepage')}"
     });
-    var themepageurl = "{:url('/api/themepage')}";
+    var themepageurl = "{:url('/flyuiapi/themepage')}";
 
     $('#pageTab a').click(function () {
         pageId = $(this).attr('href');

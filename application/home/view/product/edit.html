@@ -10,7 +10,7 @@
 <script type="text/javascript" src="__RES__/news/js/flyinput.js"></script>
 <body>
 <form class="form-horizontal" name="productform" id="productform" method="post" role="form"
-      action="{:url('/api/product')}"
+      action="{:url('/homeapi/product')}"
       enctype="multipart/form-data">
     <div class="modal-header">
         <h4 class="modal-title" id="">修改产品</h4>
@@ -55,8 +55,8 @@
 </html>
 
 <script type="text/javascript">
-    var producturl = "{:url('/api/product')}";
-    var upimageurl = "{:url('/api/imagefile')}";
+    var producturl = "{:url('/homeapi/product')}";
+    var upimageurl = "{:url('/homeapi/imagefile')}";
     var iconurl = $('#iconurl').val();
     var imageurl = $('#imageurl').val();
 

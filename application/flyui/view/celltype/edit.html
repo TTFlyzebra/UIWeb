@@ -10,7 +10,7 @@
 <script type="text/javascript" src="__RES__/flyui/js/flyimage.js"></script>
 <body>
 <form class="form-horizontal" name="celltypeform" id="celltypeform" method="post" role="form"
-      action="{:url('/api/celltype')}"
+      action="{:url('/flyuiapi/celltype')}"
       enctype="multipart/form-data">
     <div class="modal-header">
         <h4 class="modal-title" id="myModalLabel">{if condition="$item['celltypeId'] gt 0"}修改组件类型{else/}添加组件类型{/if}</h4>
@@ -68,7 +68,7 @@
 </html>
 
 <script type="text/javascript">
-    var celltypeurl = "{:url('/api/celltype')}";
+    var celltypeurl = "{:url('/flyuiapi/celltype')}";
 
     //POST提交数据
     function postform() {
@@ -101,7 +101,7 @@
     }
 
     $('.FlyImageInput').flyinput({
-        ajaxurl: "{:url('/api/imagefile')}",
+        ajaxurl: "{:url('/flyuiapi/imagefile')}",
         postData: false,
         width: "100%",
             height: "300px"

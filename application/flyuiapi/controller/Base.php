@@ -24,7 +24,7 @@
 //// 		如果是超级用户，显示所有菜单
 //        $this->super=$_SESSION [C ( 'ADMIN_AUTH_KEY' )]!=null;
 //        $this->display ( "Auth/index" );
-namespace app\api\controller;
+namespace app\flyuiapi\controller;
 
 use think\Controller;
 use think\Request;

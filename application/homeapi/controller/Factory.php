@@ -1,6 +1,6 @@
 <?php
 
-namespace app\api\controller;
+namespace app\homeapi\controller;
 
 use think\exception\ErrorException;
 
