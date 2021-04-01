@@ -54,7 +54,7 @@ return [
         'view'       => ['index/index'],
     ],
 
-    'flyui'     => [
+    'homeapi'     => [
         '__file__'   => ['common.php'],
         '__dir__'    => ['controller',  'view'],
         'controller' => ['Index'],
@@ -62,7 +62,7 @@ return [
         'view'       => ['index/index'],
     ],
 
-    'homeapi'     => [
+    'flyui'     => [
         '__file__'   => ['common.php'],
         '__dir__'    => ['controller',  'view'],
         'controller' => ['Index'],
@@ -79,6 +79,14 @@ return [
     ],
 
     'fota'     => [
+        '__file__'   => ['common.php'],
+        '__dir__'    => ['controller',  'view'],
+        'controller' => ['Index'],
+        'model'      => [],
+        'view'       => ['index/index'],
+    ],
+
+    'fotaapi'     => [
         '__file__'   => ['common.php'],
         '__dir__'    => ['controller',  'view'],
         'controller' => ['Index'],
