@@ -16,49 +16,73 @@ return [
     // 定义demo模块的自动生成 （按照实际定义的文件名生成）
     'api'     => [
         '__file__'   => ['common.php'],
-        '__dir__'    => ['behavior', 'controller', 'model', 'view'],
-        'controller' => ['Index', 'Test', 'UserType'],
-        'model'      => ['User', 'UserType'],
+        '__dir__'    => ['controller',  'view'],
+        'controller' => ['Index'],
+        'model'      => [],
         'view'       => ['index/index'],
     ],
     // 其他更多的模块定义
     'admin'     => [
         '__file__'   => ['common.php'],
-        '__dir__'    => ['behavior', 'controller', 'model', 'view'],
-        'controller' => ['Index', 'Test', 'UserType'],
-        'model'      => ['User', 'UserType'],
+        '__dir__'    => ['controller',  'view'],
+        'controller' => ['Index'],
+        'model'      => [],
         'view'       => ['index/index'],
     ],
 
     'index'     => [
         '__file__'   => ['common.php'],
-        '__dir__'    => ['behavior', 'controller', 'model', 'view'],
-        'controller' => ['Index', 'Test', 'UserType'],
-        'model'      => ['User', 'UserType'],
+        '__dir__'    => ['controller',  'view'],
+        'controller' => ['Index'],
+        'model'      => [],
         'view'       => ['index/index'],
     ],
 
     'auth'     => [
         '__file__'   => ['common.php'],
-        '__dir__'    => ['behavior', 'controller', 'model', 'view'],
-        'controller' => ['Index', 'Test', 'UserType'],
-        'model'      => ['User', 'UserType'],
+        '__dir__'    => ['controller',  'view'],
+        'controller' => ['Index'],
+        'model'      => [],
         'view'       => ['index/index'],
     ],
 
     'home'     => [
         '__file__'   => ['common.php'],
-        '__dir__'    => ['behavior', 'controller', 'model', 'view'],
-        'controller' => ['Index', 'Test', 'UserType'],
-        'model'      => ['User', 'UserType'],
+        '__dir__'    => ['controller',  'view'],
+        'controller' => ['Index'],
+        'model'      => [],
         'view'       => ['index/index'],
     ],
 
     'flyui'     => [
         '__file__'   => ['common.php'],
-        '__dir__'    => ['behavior', 'controller', 'model', 'view'],
-        'controller' => ['Index', 'Test', 'UserType'],
-        'model'      => ['User', 'UserType'],
+        '__dir__'    => ['controller',  'view'],
+        'controller' => ['Index'],
+        'model'      => [],
+        'view'       => ['index/index'],
+    ],
+
+    'homeapi'     => [
+        '__file__'   => ['common.php'],
+        '__dir__'    => ['controller',  'view'],
+        'controller' => ['Index'],
+        'model'      => [],
+        'view'       => ['index/index'],
+    ],
+
+    'flyuiapi'     => [
+        '__file__'   => ['common.php'],
+        '__dir__'    => ['controller',  'view'],
+        'controller' => ['Index'],
+        'model'      => [],
+        'view'       => ['index/index'],
+    ],
+
+    'fota'     => [
+        '__file__'   => ['common.php'],
+        '__dir__'    => ['controller',  'view'],
+        'controller' => ['Index'],
+        'model'      => [],
         'view'       => ['index/index'],
     ],
 ];

@@ -20,6 +20,6 @@ define('APP_DEBUG', true);
 
 require __DIR__ . '/thinkphp/start.php';
 
-//$build = include './build.php';
+$build = include './build.php';
 // 运行自动生成
-//\think\Build::run($build);
+\think\Build::run($build);
