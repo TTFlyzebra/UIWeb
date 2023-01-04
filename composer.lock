@@ -4,90 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2d2c478145e6dfbd2ead9d18c64d844f",
+    "content-hash": "b403fe6429dcf5037653feb2129c99bc",
     "packages": [
         {
-            "name": "gmars/tp5-nestedsets",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/gmars/tp5-nestedsets.git",
-                "reference": "2955cee8068f5518afee0c75f034b0e3440f7cc7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/gmars/tp5-nestedsets/zipball/2955cee8068f5518afee0c75f034b0e3440f7cc7",
-                "reference": "2955cee8068f5518afee0c75f034b0e3440f7cc7",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "gmars\\nestedsets\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "weiyongqiang",
-                    "email": "hayixia606@163.com"
-                }
-            ],
-            "description": "此扩展是thinkPHP5的nestendsets的扩展。能够方便的在项目中来管理有层级关系的数据结构。该扩展在算法上部分参考了Willfred di Vampo的nestedsets，实现了数据的插入，移动，删除，遍历等功能。",
-            "time": "2018-05-17T02:27:20+00:00"
-        },
-        {
-            "name": "gmars/tp5-rbac",
-            "version": "v1.3.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/gmars/tp5-rbac.git",
-                "reference": "1147a8b510caa905ac88ddca3d8278b8e25696fd"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/gmars/tp5-rbac/zipball/1147a8b510caa905ac88ddca3d8278b8e25696fd",
-                "reference": "1147a8b510caa905ac88ddca3d8278b8e25696fd",
-                "shasum": ""
-            },
-            "require": {
-                "gmars/tp5-nestedsets": "dev-master",
-                "topthink/think-migration": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "gmars\\rbac\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "weiyongqiang",
-                    "email": "hayixia606@163.com"
-                }
-            ],
-            "description": "这个扩展是基于thinkPHP5框架的RBAC权限验证的扩展。使用本扩展能够快速的将RBAC权限控制器模块引入到自己的系统中。原则上本模块适合于任何PHP框架但是由于使用了thinkPHP5的特性所以使用composer安装到其他框架时需要做相应的修改。模块所需要的扩展库可以通过thinkPHP5的migration来做数据迁移。",
-            "time": "2018-08-16T07:49:36+00:00"
-        },
-        {
             "name": "topthink/framework",
-            "version": "v5.0.24",
+            "version": "v5.0.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/framework.git",
-                "reference": "c255c22b2f5fa30f320ecf6c1d29f7740eb3e8be"
+                "reference": "643c58ed1bd22a2823ce5e95b3b68a5075f9087c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/framework/zipball/c255c22b2f5fa30f320ecf6c1d29f7740eb3e8be",
-                "reference": "c255c22b2f5fa30f320ecf6c1d29f7740eb3e8be",
+                "url": "https://api.github.com/repos/top-think/framework/zipball/643c58ed1bd22a2823ce5e95b3b68a5075f9087c",
+                "reference": "643c58ed1bd22a2823ce5e95b3b68a5075f9087c",
                 "shasum": ""
             },
             "require": {
@@ -125,7 +55,11 @@
                 "orm",
                 "thinkphp"
             ],
-            "time": "2019-01-11T08:04:58+00:00"
+            "support": {
+                "issues": "https://github.com/top-think/framework/issues",
+                "source": "https://github.com/top-think/framework/tree/v5.0.25"
+            },
+            "time": "2022-10-25T14:59:38+00:00"
         },
         {
             "name": "topthink/think-captcha",
@@ -169,23 +103,23 @@
         },
         {
             "name": "topthink/think-installer",
-            "version": "v1.0.12",
+            "version": "v1.0.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-installer.git",
-                "reference": "1be326e68f63de4e95977ed50f46ae75f017556d"
+                "reference": "eae1740ac264a55c06134b6685dfb9f837d004d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-installer/zipball/1be326e68f63de4e95977ed50f46ae75f017556d",
-                "reference": "1be326e68f63de4e95977ed50f46ae75f017556d",
+                "url": "https://api.github.com/repos/top-think/think-installer/zipball/eae1740ac264a55c06134b6685dfb9f837d004d1",
+                "reference": "eae1740ac264a55c06134b6685dfb9f837d004d1",
                 "shasum": ""
             },
             "require": {
-                "composer-plugin-api": "^1.0"
+                "composer-plugin-api": "^1.0||^2.0"
             },
             "require-dev": {
-                "composer/composer": "1.0.*@dev"
+                "composer/composer": "^1.0||^2.0"
             },
             "type": "composer-plugin",
             "extra": {
@@ -206,54 +140,17 @@
                     "email": "448901948@qq.com"
                 }
             ],
-            "time": "2017-05-27T06:58:09+00:00"
-        },
-        {
-            "name": "topthink/think-migration",
-            "version": "v1.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/top-think/think-migration.git",
-                "reference": "8e489f8d38a39876690c0e00fcf9a54ae92c4d3d"
+            "support": {
+                "issues": "https://github.com/top-think/think-installer/issues",
+                "source": "https://github.com/top-think/think-installer/tree/v1.0.14"
             },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-migration/zipball/8e489f8d38a39876690c0e00fcf9a54ae92c4d3d",
-                "reference": "8e489f8d38a39876690c0e00fcf9a54ae92c4d3d",
-                "shasum": ""
-            },
-            "require-dev": {
-                "topthink/framework": "^5.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Phinx\\": "phinx/src/Phinx",
-                    "think\\migration\\": "src"
-                },
-                "files": [
-                    "src/config.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "yunwuxin",
-                    "email": "448901948@qq.com"
-                }
-            ],
-            "time": "2017-03-31T06:33:23+00:00"
+            "time": "2021-03-25T08:34:02+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "gmars/tp5-nestedsets": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
@@ -261,5 +158,6 @@
         "ext-json": "*",
         "ext-mbstring": "*"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
 }
